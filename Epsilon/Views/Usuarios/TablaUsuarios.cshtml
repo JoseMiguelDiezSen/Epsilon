@@ -1,0 +1,78 @@
+﻿@using Epsilon.ViewModels
+
+@model IEnumerable<ViewUsuario>
+
+<table class="table-dark" style="border: 1px solid gainsboro; margin-top:50px !important;">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center" width="1%">#</th>
+            @*<th scope="col">IDUSUARIO</th>*@
+            <th scope="col">NOMBRE</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">TELEFONO</th>
+            <th scope="col">F.ALTA</th>
+            <th scope="col">ACCIONES</th>
+        </tr>
+    </thead>
+
+    <tbody id="idBodyTable">
+
+        @if (Model.Count() > 0)
+        {
+            foreach (var usuario in Model)
+            {
+                <tr id="idFilaPeriodo_" class="text-center">
+                    <td class="text-center">
+                         <span class="fa fa-user"></span>
+                    </td>
+                    @* <td> @usuario.IdUsuario.ToString()</td> *@
+                    <td> @usuario.Nombre?.ToString()</td>
+                    <td> @usuario.Email?.ToString()</td>
+                    <td> @usuario.Telefono.ToString()</td>
+                    <td> @usuario.FechaAlta.ToShortDateString()</td>
+                    
+                   @*  @if (DateTime.Now.Year == usuario.FechaAlta.Year)
+                    { *@
+                        <td>
+                            <div aria-label="Basic Example">
+
+                                <a class="btn btn-sm btn-outline-dark" id="btnEditar" onclick="jqGetModalModifyUser('Usuarios/ModalModificarUsuario/@usuario.IdUsuario','Modificar Periodo de Planificacion','modificarPeriodo',@usuario.IdUsuario)">
+                                <span class="fa fa-pencil"> </span>
+                                </a>
+
+                                <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeleteUser('Usuarios/EliminarUsuario/@usuario.IdUsuario','Eliminar Usuario','modificarPeriodo',@usuario.IdUsuario)">
+                                <span class="fa fa-circle-xmark"> </span>
+                                </button>
+
+                            </div>
+                        </td>
+                    @* }
+
+                    @if (DateTime.Now.Year != usuario.FechaAlta.Year)
+                    { *@
+                  @*       <td>
+                            <div class="btn-group" role="group" aria-label="Basic Example">
+
+                                <a class="btn btn-sm btn-outline-dark" id="btnEditar" onclick="jqGetModalModifyUser('Usuarios/ModalModificarPeriodo/@usuario.IdUsuario','Modificar Periodo de Planificacion','modificarPeriodo',@usuario.IdUsuario)">
+                                    <img id="iconoEditarPeriodo" src="~/media/logoJSMGrandeBlanco.png" alt="Editar" title="Editar Periodo" />
+                                </a>
+
+                                <a class="btn btn-sm btn-outline-dark" id="btnEliminar" onclick="jqGetModalDeleteUser('Usuarios/EliminarPeriodo/@usuario.IdUsuario','Modificar Periodo de Planificacion','modificarPeriodo',@usuario.IdUsuario)">
+                                    <img id="iconoEliminarPeriodo" src="~/media/logoJSMGrandeBlanco.png" alt="Editar" title="Editar Periodo" />
+                                </a>
+                            </div>
+                        </td>
+                    } *@
+                </tr>
+            }
+        } else
+        {
+            <tr>
+                <td colspan="7" class="text-center">
+                    <span class="text-black-50 m-2">(No hay resultados que mostrar)</span>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

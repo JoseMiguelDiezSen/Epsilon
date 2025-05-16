@@ -1,0 +1,31 @@
+﻿@using Epsilon.ViewModels
+@model ViewFormAgregarPeriodo
+
+
+<form id="idAddPeriodo_Form" method="post" asp-action="EliminarPeriodo" onsubmit="return jqPostRemovePeriodo(this);">
+
+    <input type="hidden" name="IdPeriodo" id="IdPeriodo" value="@Model.IdPeriodo"/>
+
+    <div class="form-group row md-1">
+        <div class="col-md-11 m-2">
+            <label for="txtEjercicio" class="col-md-10 col-form-label">Ejercicio</label>
+            <input type="text" id="txtEjercicio" asp-for="Ejercicio" name="Ejercicio" maxlength="75" class="form-control float-label" value="Año de planificacion" text="Año de planificacion" />
+        </div>
+    </div>
+
+    <div class="form-group row md-1">
+        <div class="col-md-11 m-2">
+            <label for="txtInicioPeriodo" class="col-md-10 col-form-label">Inicio Periodo</label>
+            <input type="date" />
+        </div>
+    </div>
+
+    <div class="form-group row md-1">
+        <div class="col-md-11 m-2">
+            <label for="txtFinalPeriodo" class="col-md-10 col-form-label">Inicio Periodo</label>
+            <input type="date" />
+        </div>
+    </div>
+
+    <button id="btnEliminarPeriodo" type="submit" class="btn btn-primary m-2">Aceptar</button>
+</form>

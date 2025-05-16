@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Epsilon</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Epsilon.styles.css" asp-append-version="true" />
+
+
+    <!-- Enlaces a los archivos .css y .js del panel fijo lateral derecho -->
+@* 
+ <script src="~/js/switch/theamswitcher.js"></script>
+    <link href="~/js/switch/themeswitch.css" rel="stylesheet" /> *@
+
+    @RenderSection("Styles", required: false)
+    @RenderSection("Modals", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-color:grey !important">
+
+            <div class="container-fluid" style="background-color:grey">
+
+
+                <a class="navbar-brand" asp-controller="home" asp-action="index">
+
+                    <img src="~/media/epsilon.png" width="20" height="20" />
+                </a>
+
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Epsilon</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" style="background-color:gainsboro">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                                <span class="fa fa-home"></span>  Inicio</a>
+                        </li>
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                            
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">
+                                <span class="fa fa-user"></span>  Usuarios
+                            </a>
+                              
+                                
+                            
+                        </li>
+                      @*   <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="PlanificacionPeriodos" asp-action="Index">Periodos</a>
+                        </li> *@
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Medicos" asp-action="Index">
+
+                                <span class="fa-solid fa-user-doctor"></span>  Medicos
+                            </a>
+                        </li>
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Pacientes" asp-action="Index">
+                         
+                                <span class="fa-solid fa-user-injured"></span>   Pacientes</a>
+                        </li>
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                            
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Clinicas" asp-action="Index">
+                                <span class="fa-solid fa-hospital"></span>  Clinicas</a>
+                        </li>
+
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" >
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Citas" asp-action="Index">
+                                <span class="fa-solid fa-file-circle-check"></span>   Citas</a>
+                        </li>
+
+
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Agenda" asp-action="Index">
+                                <span class="fa fa-calendar"></span>  Agenda
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Tratamientos" asp-action="Index">
+                                <span class="fa-solid fa-file-medical"></span>  Tratamientos
+                            </a>
+                        </li>
+
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" >
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Facturacion" asp-action="Index">
+                                <span class="fa-solid fa-sack-dollar"></span>  Facturacion</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+
+     @*    <div id="secectionBox">
+
+            <div id="themeContainer" style="border:1px solid yellow;">
+
+                <!--Boton para cerrar el panel -->
+                <div id="hideme" class="themeTitle" style="cursor: pointer;">CERRAR </div>
+
+                <!-- Seccion (1) : DATOS USUARIO -->
+                <div class="themeName" style="margin-bottom:15px;">&#11088; JMD SOFTWARE &#11088;</div>
+
+                <!-- Video -->
+                <video style="width:100%;height:99px;background-position: center;" autoplay muted loop>
+                    <source src="Videos/Motion.mp4" type="video/mp4" />
+                </video>
+
+                <!-- Datos del usuario -->
+                <div style="margin-top:-95px; line-height: 1em;">
+                    <asp:Label runat="server" ID="lblNombre" Font-Size="9pt"></asp:Label><br />
+                    <asp:Label runat="server" ID="lblEmail" Font-Size="9pt"></asp:Label><br />
+                    <asp:Label runat="server" ID="lblTelefono" Font-Size="9pt"></asp:Label><br />
+                    <asp:Label runat="server" ID="lblFechaAlta" Font-Size="9pt"></asp:Label><br />
+                    <asp:Label runat="server" ID="lblRutaFoto" Font-Size="9pt"></asp:Label>
+                    <br />
+                </div>
+
+                <br />
+
+                <!-- Seccion (2) : MENU OPCIONES -->
+                <div class="themeName" style="margin-bottom:10px;">&#128295; AJUSTES &#128295;</div>
+
+                <!-- Opciones Panel Lateral -->
+                <ul style="text-align:left;margin-left:5px;font-size:9pt;list-style-type: square;color:yellow;">
+                    <li><a href="AjustesUsuario.aspx">Mi Perfil</a></li>
+                    <li><a href="Usuarios.aspx">Usuarios</a></li>
+                    <li><a href="Pruebas.aspx">Pruebas JS</a></li>
+                    <li><a href="PruebasjQuery.aspx">Pruebas jQuery</a></li>
+                    <li><a href="Bootstrap.aspx">Bootstrap</a></li>
+                    <!--<li><a href="EmojiIcons.aspx">Emojis</a></li>-->
+                    <li><a href="ControlesEspeciales.aspx">Controles Especiales</a></li>
+                    <li><a href="Login.aspx" onclick="CerrarSesion">Cerrar Sesion</a></li>
+                </ul>
+
+                <!-- Seccion (3) : PERSONALIZACION -->
+                <div class="themeName">PERSONALIZACION</div>
+
+                <p style="font-size: 9pt; font-family: arial; color: grey;">
+                    Selecciona desde aquí el color de esta web a tu gusto.
+                </p>
+
+                <!-- Desplegable de seleccion del color -->
+                <select onchange="changeTheme()" id="option" style="border-radius: 5px; margin-bottom: 10px; width: 80%; background-color: teal;">
+                    <option>WHITE</option>
+                    <option selected="selected">GREY</option>
+                    <option>ORANGE</option>
+                    <option>SKYBLUE</option>
+                    <option>YELLOW</option>
+                    <option>RED</option>
+                    <option>GOLD</option>
+                    <option>PINK</option>
+                    <option>GREEN</option>
+                </select>
+
+                <br />
+                <br />
+
+            </div>
+            <!--Fin 'secectionBox'-->
+        </div> *@
+
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-center" style="border-top:1px solid black;">
+        <div class="container">
+            &copy; 2025 - Epsilon - BY
+
+           
+
+                <img src="~/media/JMDnegro.png" alt="" height="25px" width="50px" />
+
+        
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+<style>
+     .nav-item:hover {
+ background-color:grey;
+     }
+
+</style>
