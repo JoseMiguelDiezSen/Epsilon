@@ -1,7 +1,9 @@
 ﻿@using Epsilon.ViewModels
 @model ViewFormAgregarUsuario
 
-<form id="addUser" method="post" asp-action="AgregarUsuario" name="addUser" onsubmit="return jqPostAddUser(this);" style="border:1px solid gainsboro;padding:10px">
+@* <input type="hidden" name="IdUsuario" id="IdUsuario" value="@Model.IdUsuario" /> *@
+<form id="idUpdatePeriodo_Form" method="post" asp-action="ModificarUsuario" onsubmit="return jqPostUpdateUser(this);">
+
 
     <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
         <img src="~/media/JMDnegro.png" alt="" height="100px" width="200px" />
@@ -42,7 +44,7 @@
                     <option>Opción 2</option>
                     <option>Opción 3</option>
                 </select>
-            </div> 
+            </div>
 
 
             <div class="mb-3">
@@ -95,6 +97,5 @@
             <button id="btnAddUser" type="button" class="btn btn-outline-danger m-2"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
         </div>
     </div>
+
 </form>
-
-

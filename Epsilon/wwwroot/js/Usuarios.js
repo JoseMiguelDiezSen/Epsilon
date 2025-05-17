@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
 
+    
+
     jqCheckAddPeriodo = () => {
 
         const date = new Date();
@@ -85,8 +87,11 @@
                 // Inserta la vista en el modal como HTML
                 $('#addUserModal .modal-body').html(response.data);
 
-             
-                
+                // Esperar un pequeño tiempo para asegurar que el contenido se inserte completamente
+                setTimeout(function () {
+                    $("#addUserModal").validate();
+                }, 200); 
+
                 // Abre el modal (Bootstrap 4)
                 //$('#addUserModal').modal('show');
 
@@ -107,31 +112,32 @@
        
     }
 
-    $('#addUser').validate({
+    $("#addUserModal").validate({
         rules: {
             Nombre: {
                 required: true,
-                maxLenght: 60,
-                minLenght: 2,
+                maxlength: 60, // Corrección
+                minlength: 2   // Corrección
             },
             Password: {
                 required: true,
-                maxLenght: 100,
-                minLenght: 6,
+                maxlength: 100, // Corrección
+                minlength: 6   // Corrección
             }
         },
         messages: {
             Nombre: {
-                required: "El nomnbre es obligatorio",
-                max: "El tamaño maximo del nombre son 10 caracteres"
+                required: "El nombre es obligatorio",
+                maxlength: "El tamaño máximo del nombre es de 60 caracteres", // Corrección
+                minlength: "El nombre debe tener al menos 2 caracteres" // Corrección
             },
             Password: {
-                required: "El nomnbre es obligatorio",
-                max: "El tamaño maximo del nombre son 10 caracteres"
+                required: "La contraseña es obligatoria", // Corrección
+                maxlength: "El tamaño máximo de la contraseña es de 100 caracteres", // Corrección
+                minlength: "La contraseña debe tener al menos 6 caracteres" // Corrección
             }
         }
     });
-
 
 
     jqPostAddUser = (form) => {
@@ -171,50 +177,58 @@
         }
     }
 
-    /* Funcion para actualizar un usuario */
-    jqUpdateUser = (form) => {
+    /* Funcion GET para actualizar un usuario */
+    jqGetModalUpdateUser = (idUsuario) => {
         try {
             $.ajax({
                 type: "GET",
-                url: url,
-                data: id,
+                url: "Usuarios/ModalModificarUsuario",
+                data: { idUsuario: idUsuario },
                 contenType: false,
                 proccessData: false,
+                success: function (response) {
+                    document.querySelector(".modal-title").textContent = "Modificar Usuario";
+                    // Inserta la vista en el modal como HTML
+                    $('#updateUserModal .modal-body').html(response.data);
+                    // Abre el modal (Bootstrap 4)
+                    //$('#updateUserModal').modal('show');
 
+                    // Abre el modal (Bootstrap 5)
+                    let modal = new bootstrap.Modal(document.getElementById('updateUserModal'));
+                    modal.show();
+                },
+                error: function () {
+
+                }
             })
-
         }
-
         catch (ex) {
-
-
         }
-
     }
 
     /* Funcion para eliminar un usuario */
-    jqRemoveUser = (form) => {
-        if (window.confirm("¿Desea realmente eliminar este uruario?")) {
-
-            var idUsuario = $('#idUsuario').val();
+    jqGetModalDeleteUser = (idUsuario) => {
 
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: 'Usuarios/EliminarUsuario',
                 data: idUsuario,
                 contenType: false,
                 proccessData: false,
                 success: function (response) {
+                    document.querySelector(".modal-title").textContent = "Eliminar Usuario";
+                    // Inserta la vista en el modal como HTML
+                    $('#deleteUserModal .modal-body').html(response.data);
+                    // Abre el modal (Bootstrap 4)
+                    //$('#updateUserModal').modal('show');
 
-
-
+                    // Abre el modal (Bootstrap 5)
+                    let modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+                    modal.show();
                 },
                 error: function (response) {
                     alert("No se pudo realizar la operacion");
                 }
             })
-
-        }
     }
-
 });

@@ -150,19 +150,28 @@ namespace Epsilon.Controllers
         #region ModificarUsuario
 
         [HttpGet, AjaxOnly]
-        public async Task<ActionResult> ModalModificarUsuarioAsync(long id)
+        public async Task<ActionResult> ModalModificarUsuarioAsync(int idUsuario)
         {
-            Usuario periodo = new Usuario();
-            periodo = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == id).First();
+            JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
 
+            Usuario usuario = new Usuario();
+
+            //Obtenemos el usuario
+            usuario = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == idUsuario).First();
+
+            //Obtenmos los datos del usuario
             ViewFormAgregarUsuario vmModificarUsuario = new ViewFormAgregarUsuario();
-            vmModificarUsuario.Nombre = periodo.Nombre;
-            vmModificarUsuario.Password = periodo.Password;
-            vmModificarUsuario.Email = periodo.Email;
-            vmModificarUsuario.FechaAlta = periodo.FechaAlta;
-            vmModificarUsuario.Telefono = periodo.Telefono;
-            vmModificarUsuario.RutaFoto = periodo.RutaFoto;
-            return PartialView("FormModificarUsuario", vmModificarUsuario);
+            vmModificarUsuario.Nombre = usuario.Nombre;
+            vmModificarUsuario.Password = usuario.Password;
+            vmModificarUsuario.Email = usuario.Email;
+            vmModificarUsuario.FechaAlta = usuario.FechaAlta; ;
+            vmModificarUsuario.Telefono = usuario.Telefono;
+            vmModificarUsuario.RutaFoto = usuario.RutaFoto;
+
+            //Mostrar Modal
+            string data = await _razorRenderService.ToStringAsync("FormUpdateUser", vmModificarUsuario);
+            jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
+            return new JsonResult(jsonResponse);
         }
 
         /// <summary>
@@ -171,7 +180,7 @@ namespace Epsilon.Controllers
         /// <param name="vmperiodo"></param>
         /// <returns></returns>
         [HttpPost, AjaxOnly]
-        public async Task<JsonResult> ModificarPeriodoAsync(ViewFormAgregarUsuario vmUsuario)
+        public async Task<JsonResult> ModificarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
@@ -207,16 +216,26 @@ namespace Epsilon.Controllers
         /// </summary>
         /// <param name="id"> Identificador del usuario a eliminar </param>
         /// <returns></returns>
-        [HttpPost, AjaxOnly]
-        public async Task<JsonResult> EliminarUsuarioAsync(long id)
+        [HttpGet, AjaxOnly]
+        public async Task<JsonResult> EliminarUsuarioAsync(long idUsuario)
         {
             JsonResponse response = new JsonResponse("200", "Ok");
             try
             {
-                Usuario usuario = new Usuario();
-                usuario = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == id).First();
-                _gestionUsuarios.DeleteUser(usuario.IdUsuario);
-                response.Data = "Usuario eliminado correctamente";
+                //Usuario usuario = new Usuario();
+                //usuario = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == id).First();
+                //_gestionUsuarios.DeleteUser(usuario.IdUsuario);
+                //response.Data = "Usuario eliminado correctamente";
+                JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+                ViewFormAgregarUsuario vmAgregarUsuario = new ViewFormAgregarUsuario();
+                vmAgregarUsuario.FechaAlta = DateTime.Now;
+                string data = await _razorRenderService.ToStringAsync("FormDeleteUser", vmAgregarUsuario);
+                jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
+                return new JsonResult(jsonResponse);
+
+
+
+
             }
             catch (Exception ex)
             {

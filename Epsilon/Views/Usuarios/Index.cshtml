@@ -94,7 +94,7 @@
 
 @section Scripts {
     <script src="~/js/Usuarios.js" asp-append-version="true"></script>
-    <script src="~/site/Paginador.js" asp-append-version="true"></script>
+@*     <script src="~/site/Paginador.js" asp-append-version="true"></script> *@
     <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusisive/jquery/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
 }
@@ -106,7 +106,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"></h5>
+                    <h5 class="modal-title text-center"></h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -117,36 +117,38 @@
     </div>
 
 
-    <div class="modal fade" tabindex="1" role="dialog" data-backdrop="static" data-keyboard="false" id="updateUserModal">
+    @* Modal modificar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="updateUserModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"></h5>
+                    <h5 class="modal-title text-center"></h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">x</span>
-                </button>
-            </div>
-            <div class="modal-body">
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" tabindex="1" role="dialog" data-backdrop="static" data-keyboard="false" id="deleteUserModal">
+    @* Modal eliminar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="deleteUserModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"></h5>
+                    <h5 class="modal-title text-center"></h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">x</span>
-                </button>
-            </div>
-            <div class="modal-body">
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
             </div>
         </div>
     </div>
 
+
+ 
 }
 
 
