@@ -1,19 +1,15 @@
-﻿$(document).ready(function () {
-
-        (function ($) {
-            $.fn.paginador = function (options) {
+﻿(function (jQuery) {
+    jQuery.fn.paginador = function (options) {
                 var defaults = {
                     Formulario: 'idFormularioFiltros',
                     PaginaActual: 'idPagina',
-                    RegistrosPorPagina: 'idRegistrosRR',
+                    RegistrosPorPagina: 'RegistrosPorPagina',
                     RegistrosPaginaActual: 'idRegistrosPP',
                     ClassButtons: 'disabled'
-
                 };
                 var settings = $.extend({}, defaults, options);
 
-                // private variables
-                // var idPaginador = this[0].getAttribute('id');
+           
                 var $Paginador = $(this[0]);
                 if ($Paginador.length < 1) {
                     throw 'No se pudo asociar el Paginador.';
@@ -21,8 +17,6 @@
                     console.log('Este plugin está diseñado para funcionar sólo con elementos DIV.');
                 }
 
-                // var idBtnSiguiente = $Paginador.children('.PaginaSiguiente')[0].getAttribute('id');
-                // var idBtnAnterior = $Paginador.children('.PaginaAnterior')[0].getAttribute('id');
                 var $BtnSiguiente = $($Paginador.children('.PaginaSiguiente')[0]);
                 if ($BtnSiguiente.length < 1) {
                     console.log('No se encuentra el elemento con la clase PaginaSiguiente.');
@@ -33,7 +27,6 @@
                     console.log('No se encuentra el elemento con la clase PaginaAnterior.');
                 }
 
-                // var idTextoPagina = $Paginador.children('.TextoPaginacion')[0].getAttribute('id');
                 var $TextoPagina = $($Paginador.children('.TextoPaginacion')[0]);
                 if ($TextoPagina.length < 1) {
                     console.log('No se encuentra elemento con la clase TextoPaginacion.');
@@ -43,7 +36,6 @@
                 if ($Formulario.length < 1) {
                     console.log('No se encuentra elemento con id:' + settings.Formulario);
                 }
-
 
                 var $Pagina = $('#' + settings.PaginaActual);
                 if ($Pagina.length < 1) {
@@ -62,7 +54,6 @@
 
                 var classBtns = settings.ClassButtons;
 
-                // public methods 
                 this.prepara = function () {
                     this.actualiza();
                     return this;
@@ -112,11 +103,8 @@
                 this.actualiza = function () {
                     try {
                         $Paginador.addClass('visually-hidden');
-
                         $BtnSiguiente.addClass(classBtns);
                         $BtnAnterior.addClass(classBtns);
-
-
                         if ($Pagina.val() > 1) {
                             $BtnAnterior.removeClass(classBtns);
                             $Paginador.removeClass('visually-hidden');
@@ -136,7 +124,6 @@
                     }
                     return this;
                 }
-
                 this.destroy = function () {
                     try {
                         $Paginador.addClass('visually-hidden');
@@ -153,6 +140,3 @@
             }
         })(jQuery);
 
-
- 
-});

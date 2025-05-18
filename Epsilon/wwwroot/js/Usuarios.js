@@ -27,21 +27,16 @@
     }
 
   
-        //if (typeof $.fn.paginador !== 'undefined') { // Verifica si la función existe
-        //    if (window.PaginadorPrincipal == undefined) {
-        //        $("#RegistrosPaginaActual").val($('#idBodyTable tr').length);
-        //        window.PaginadorPrincipal = $('#idPaginadorPrincipal').paginador({
-        //            Formulario: 'id_Form',
-        //            PaginaActual: 'PaginaActual',
-        //            RegistrosPorPagina: 'RegistrosPorPagina',
-        //            RegistrosPaginaActual: 'RegistrosPaginaActual',
-        //            ClassButtons: 'visually-hidden'
-        //        });
-        //    }
-        //} else {
-        //    console.error("El plugin paginador no está disponible. Verifica que se haya cargado correctamente.");
-        //}
-    
+    if (window.PaginadorPrincipal == undefined) {
+        $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
+        window.PaginadorPrincipal = jQuery('#idPaginadorPrincipal').paginador({
+            Formulario: 'id_Form',
+            PaginaActual: 'PaginaActual',
+            RegistrosPorPagina: 'RegistrosPorPagina',
+            RegistrosPaginaActual: 'RegistrosPaginaActual',
+            ClassButtons: 'visually-hidden'
+        });
+    }
 
     /* Funcion para el filtrado de usuarios */
     jqPostFiltrar = (ev, form) => {

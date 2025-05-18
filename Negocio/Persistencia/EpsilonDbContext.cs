@@ -59,9 +59,9 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Medico>().Property(m => m.Foto);
 
             //TABLA PACIENTES
-            //modelBuilder.Entity<Paciente>().HasKey(m => m.IdMedico);
-            //modelBuilder.Entity<Paciente>().Property(m => m.IdMedico);
-            //modelBuilder.Entity<Paciente>().Property(m => m.NombreMedico);
+            modelBuilder.Entity<Paciente>().HasKey(m => m.IdPaciente);
+            modelBuilder.Entity<Paciente>().Property(m => m.IdPaciente);
+            modelBuilder.Entity<Paciente>().Property(m => m.NombrePaciente);
             //modelBuilder.Entity<Paciente>().Property(m => m.DNI);
             //modelBuilder.Entity<Paciente>().Property(m => m.NumeroColegiado);
             //modelBuilder.Entity<Paciente>().Property(m => m.Especialidad);
@@ -73,14 +73,14 @@ namespace Negocio.Persistencia
             //modelBuilder.Entity<Paciente>().Property(m => m.Foto);
 
             //TABLA CLINICAS
-            //modelBuilder.Entity<Clinicas>().HasKey(m => m.IdClinica);
-            //modelBuilder.Entity<Clinicas>().Property(m => m.IdClinica);
-            //modelBuilder.Entity<Clinicas>().Property(m => m.NombreClinica);
-            //modelBuilder.Entity<Clinicas>().Property(m => m.DireccionClinica);
-            //modelBuilder.Entity<Clinicas>().Property(m => m.LocalidadClinica);
-            //modelBuilder.Entity<Clinicas>().Property(m => m.TelefonoClinica);
-            //modelBuilder.Entity<Clinicas>().Property(m => m.EMailClinica);
-            //modelBuilder.Entity<Clinicas>().Property(m => m.DirectorClinica);
+            modelBuilder.Entity<Clinica>().HasKey(m => m.IdClinica);
+            modelBuilder.Entity<Clinica>().Property(m => m.IdClinica);
+            modelBuilder.Entity<Clinica>().Property(m => m.NombreClinica);
+            modelBuilder.Entity<Clinica>().Property(m => m.DireccionClinica);
+            modelBuilder.Entity<Clinica>().Property(m => m.LocalidadClinica);
+            modelBuilder.Entity<Clinica>().Property(m => m.TelefonoClinica);
+            modelBuilder.Entity<Clinica>().Property(m => m.EMailClinica);
+            modelBuilder.Entity<Clinica>().Property(m => m.DirectorClinica);
 
             //TABLA CITAS
             //modelBuilder.Entity<Citas>().HasKey(m => m.IdMedico);
@@ -95,7 +95,7 @@ namespace Negocio.Persistencia
             //modelBuilder.Entity<Citas>().Property(m => m.Activo);
             //modelBuilder.Entity<Citas>().Property(m => m.Observaviones);
             //modelBuilder.Entity<Citas>().Property(m => m.Foto);
-                          
+
             //TABLA AGENDA
             //modelBuilder.Entity<Medicos>().HasKey(m => m.IdMedico);
             //modelBuilder.Entity<Medicos>().Property(m => m.IdMedico);
@@ -109,6 +109,8 @@ namespace Negocio.Persistencia
             //modelBuilder.Entity<Medicos>().Property(m => m.Activo);
             //modelBuilder.Entity<Medicos>().Property(m => m.Observaviones);
             //modelBuilder.Entity<Medicos>().Property(m => m.Foto);
+
+
 
             //TABLA TRATAMIENTOS
             //modelBuilder.Entity<Tratamiento>().HasKey(m => m.IdMedico);
