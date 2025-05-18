@@ -132,7 +132,9 @@ namespace Epsilon.Controllers
                     Email = vmUsuario.Email,
                     FechaAlta = vmUsuario.FechaAlta,
                     Telefono = vmUsuario.Telefono,
-                    RutaFoto = vmUsuario.RutaFoto
+                    RutaFoto = vmUsuario.RutaFoto,
+                    Activo = vmUsuario.Activo,
+
                 };
 
                 _gestionUsuarios.AddUser(usuario);
@@ -159,7 +161,7 @@ namespace Epsilon.Controllers
             //Obtenemos el usuario
             usuario = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == idUsuario).First();
 
-            //Obtenmos los datos del usuario
+            //Obtenmos los datos del usuario para mostrarlos
             ViewFormAgregarUsuario vmModificarUsuario = new ViewFormAgregarUsuario();
             vmModificarUsuario.Nombre = usuario.Nombre;
             vmModificarUsuario.Password = usuario.Password;
@@ -167,6 +169,7 @@ namespace Epsilon.Controllers
             vmModificarUsuario.FechaAlta = usuario.FechaAlta; ;
             vmModificarUsuario.Telefono = usuario.Telefono;
             vmModificarUsuario.RutaFoto = usuario.RutaFoto;
+            vmModificarUsuario.Activo = usuario.Activo;
 
             //Mostrar Modal
             string data = await _razorRenderService.ToStringAsync("FormUpdateUser", vmModificarUsuario);
@@ -184,8 +187,6 @@ namespace Epsilon.Controllers
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
-            var periodo = _gestionUsuarios.GetUser(1);
-
             try
             {
                 Usuario usuario = new Usuario()
@@ -194,7 +195,9 @@ namespace Epsilon.Controllers
                     Password = vmUsuario.Password,
                     Email = vmUsuario.Email,
                     Telefono = vmUsuario.Telefono,
-                    FechaAlta = DateTime.Now
+                    FechaAlta = DateTime.Now,
+                    Activo = vmUsuario.Activo,
+
                 };
 
                 var res = _gestionUsuarios.UpdateUser(usuario);
@@ -222,20 +225,13 @@ namespace Epsilon.Controllers
             JsonResponse response = new JsonResponse("200", "Ok");
             try
             {
-                //Usuario usuario = new Usuario();
-                //usuario = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == id).First();
-                //_gestionUsuarios.DeleteUser(usuario.IdUsuario);
-                //response.Data = "Usuario eliminado correctamente";
+                Usuario usuario = _gestionUsuarios.Context.Usuarios.Where(u => u.IdUsuario == idUsuario).First();
                 JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
                 ViewFormAgregarUsuario vmAgregarUsuario = new ViewFormAgregarUsuario();
-                vmAgregarUsuario.FechaAlta = DateTime.Now;
+                vmAgregarUsuario.Nombre =  usuario.Nombre;
                 string data = await _razorRenderService.ToStringAsync("FormDeleteUser", vmAgregarUsuario);
                 jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
                 return new JsonResult(jsonResponse);
-
-
-
-
             }
             catch (Exception ex)
             {

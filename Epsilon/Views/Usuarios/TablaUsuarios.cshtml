@@ -2,7 +2,7 @@
 
 @model IEnumerable<ViewUsuario>
 
-<table class="table" style="border: 1px solid gainsboro; margin-top:50px !important;">
+<table class="table table-striped table-hover table-dark" style="border: 1px solid gainsboro; margin-top:50px !important;">
     <thead>
         <tr>
             <th scope="col" class="text-center" width="1%">#</th>
@@ -36,11 +36,11 @@
                         <td>
                             <div aria-label="Basic Example">
 
-                            <a class="btn btn-sm btn-outline-dark" id="btnEditar" onclick="jqGetModalUpdateUser(@usuario.IdUsuario)">
+                            <a class="btn btn-sm btn-outline-light" id="btnEditar" onclick="jqGetModalUpdateUser(@usuario.IdUsuario)">
                                 <span class="fa fa-pencil"> </span>
                                 </a>
 
-                                <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeleteUser(@usuario.IdUsuario)">
+                                <button class="btn btn-sm btn-outline-light" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeleteUser(@usuario.IdUsuario)">
                                 <span class="fa fa-circle-xmark"> </span>
                                 </button>
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Epsilon.ViewModels
@@ -26,5 +27,9 @@ namespace Epsilon.ViewModels
 
         [BindProperty]
         public string? RutaFoto { get; set; }
+
+        public bool Activo { get; set; }
+
+        //public SelectList? TurnoDeTrabajo { get; set; }
     }
 }

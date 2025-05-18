@@ -22,51 +22,52 @@
 }
 
 <form id="id_Form" method="post" asp-action="FiltrarUsuarios" onsubmit="return jqPostFiltrar(event, this)">
-    <h4>Filtros</h4>
+    <h4>Busqueda de Usuarios</h4>
     <div class="form-group row">
 
-
-        <div class="col-sm-3" style="padding-left:50px;">
-            <span class="has-float-label">
-                <label for="txtEjercicio">Nombre</label>
-                <input type="text" id="txtNombre" placeholder="Nombre" asp-for="Nombre" name="Nombre" ToolTip="Introduce el nombre del usuario." maxlength="75" class="form-control float_label" />
-            </span>
+        <div class="col-md-3">
+            <label class="form-label">Nombre</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" class="form-control" placeholder="Ingrese su nombre">
+            </div>
         </div>
 
-        <div class="col-sm-3">
-            <span class="has-float-label">
-                <label for="txtEmail">Email</label>
-                <input type="text" id="txtEmail" placeholder="E-Mail" asp-for="Email" name="Email" ToolTip="Introduzca un E-Mail estimado." maxlength="9" class="form-control float_label" />
-            </span>
+        <div class="col-md-3">
+            <label class="form-label">Correo Electrónico</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <input type="email" class="form-control" placeholder="Ingrese su correo">
+            </div>
         </div>
 
-        <div class="col-md-2">
-            <span class="has-float-label">
-                <label for="txtEjercicio">Telefono</label>
-                <input type="text" id="txtTelefono" placeholder="Telefono" asp-for="Telefono" name="Telefono" ToolTip="Introduzca un Telefono." maxlength="9" class="form-control float_label" value="" />
-            </span>
+        <div class="col-md-3">
+            <label class="form-label">Teléfono</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                <input type="text" class="form-control" placeholder="Ingrese su número de teléfono">
+            </div>
         </div>
 
-        <div class="col-md-2">
-            <span class="has-float-label">
-                <label for="txtEjercicio">Fecha Alta</label>
-                <input type="date" id="txtFechaAlta" placeholder="Ejecutado" asp-for="FechaAlta" name="Ejecutado" ToolTip="Introduzca coste Ejecutado." maxlength="9" class="form-control float_label" />
-            </span>
+        <div class="col-md-3">
+            <label class="form-label">Fecha de Alta</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                <input type="date" asp-for="FechaAlta" class="form-control">
+            </div>
         </div>
-        <div class="col-md-2" style="margin-top:28px;">
-            <label for="txtEjercicio"></label>
-            <button type="submit" class="btn btn-sm btn-outline-dark" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;})">
+    
+        <div class="col-md-12 fa-pull-right" style="margin-top:28px;">
+            <label for="lblBuscar"></label>
+            <button type="submit" class="btn btn-sm btn-outline-dark fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
                 <span class="fa fa-search"></span>
             </button>
         </div>
     </div>
 
-
-      
-@*     <input type="hidden" asp-for="PaginaActual" id="PaginaActual" />
+    <input type="hidden" asp-for="PaginaActual" id="PaginaActual" />
     <input type="hidden" asp-for="RegistrosPorPagina" id="RegistroPorPagina" />
-    <input type="hidden" name="RegistrosPaginaActual" id="RegistrosPaginaActual" value="@Model.Nombre?.Count()" />
-    *@
+    <input type="hidden" name="RegistrosPaginaActual" id="RegistrosPaginaActual" value="@Model.Nombre?.Count()" />   
 </form>
 
 <hr />
@@ -94,19 +95,18 @@
 
 @section Scripts {
     <script src="~/js/Usuarios.js" asp-append-version="true"></script>
-@*     <script src="~/site/Paginador.js" asp-append-version="true"></script> *@
+    <script src="~/js/Paginador.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusisive/jquery/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
 }
 
 @section Modals {
-
     @* Modal agregar usuario *@
-    <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="addUserModal">
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="addUserModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center"></h5>
+                    <h5 class="modal-title text-center">Alta Usuario</h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -116,13 +116,12 @@
         </div>
     </div>
 
-
     @* Modal modificar usuario *@
-    <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="updateUserModal">
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="updateUserModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center"></h5>
+                    <h5 class="modal-title text-center">Modificar datos del Usuario</h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -133,11 +132,11 @@
     </div>
 
     @* Modal eliminar usuario *@
-    <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="deleteUserModal">
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="deleteUserModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center"></h5>
+                    <h5 class="modal-title text-center">Eliminar usuario</h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -145,10 +144,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
- 
+    </div> 
 }
 
 

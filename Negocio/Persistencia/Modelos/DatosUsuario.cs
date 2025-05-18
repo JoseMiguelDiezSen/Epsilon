@@ -1,4 +1,5 @@
-﻿using Negocio.Persistencia.Modelos.Comun;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Negocio.Persistencia.Modelos.Comun;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -32,5 +33,9 @@ namespace Negocio.Persistencia.Modelos
 
         /// <summary> Obtiene o establece la foto del usuario. </summary>
         public string? RutaFoto { get; set; }
+
+        public bool Activo { get; set; }
+
+        //public SelectList? TurnoDeTrabajo { get; set; }
     }
 }

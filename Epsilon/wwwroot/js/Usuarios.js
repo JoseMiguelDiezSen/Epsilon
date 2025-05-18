@@ -26,16 +26,22 @@
         }
     }
 
-    //if (window.PaginadorPrincipal == undefined) {
-    //    $("#RegistrosPaginaActual").val($('idBodyTable tr').length);
-    //    window.PaginadorPrincipal = $('#idPaginadorPrincipal').paginador({
-    //        Formulario: 'id_Form',
-    //        PaginaActual: 'PaginaActual',
-    //        RegistrosPorPagina: 'RegistrosPorPagina',
-    //        RegistrosPaginaActual: 'RegistrosPaginaActual',
-    //        ClassButtons: 'visually-hidden'
-    //    });
-    //}
+  
+        //if (typeof $.fn.paginador !== 'undefined') { // Verifica si la función existe
+        //    if (window.PaginadorPrincipal == undefined) {
+        //        $("#RegistrosPaginaActual").val($('#idBodyTable tr').length);
+        //        window.PaginadorPrincipal = $('#idPaginadorPrincipal').paginador({
+        //            Formulario: 'id_Form',
+        //            PaginaActual: 'PaginaActual',
+        //            RegistrosPorPagina: 'RegistrosPorPagina',
+        //            RegistrosPaginaActual: 'RegistrosPaginaActual',
+        //            ClassButtons: 'visually-hidden'
+        //        });
+        //    }
+        //} else {
+        //    console.error("El plugin paginador no está disponible. Verifica que se haya cargado correctamente.");
+        //}
+    
 
     /* Funcion para el filtrado de usuarios */
     jqPostFiltrar = (ev, form) => {
@@ -83,7 +89,7 @@
             contentType: false,
             processData: false,
             success: function (response) {
-                document.querySelector(".modal-title").textContent = "Alta Usuario";
+              
                 // Inserta la vista en el modal como HTML
                 $('#addUserModal .modal-body').html(response.data);
 
@@ -169,6 +175,8 @@
 
                     //var pagina = $('#PaginaActual').val();
                     //PaginadorPrincipal.irPagina(pagina);
+
+                    //idResultadosFiltro
                 }
             })
             return false;
@@ -187,7 +195,7 @@
                 contenType: false,
                 proccessData: false,
                 success: function (response) {
-                    document.querySelector(".modal-title").textContent = "Modificar Usuario";
+                    //document.querySelector(".modal-title").textContent = "Modificar Usuario";
                     // Inserta la vista en el modal como HTML
                     $('#updateUserModal .modal-body').html(response.data);
                     // Abre el modal (Bootstrap 4)
@@ -209,10 +217,10 @@
     /* Funcion para eliminar un usuario */
     jqGetModalDeleteUser = (idUsuario) => {
 
-            $.ajax({
-                type: "GET",
-                url: 'Usuarios/EliminarUsuario',
-                data: idUsuario,
+        $.ajax({
+            type: "GET",
+            url: 'Usuarios/EliminarUsuario',
+            data: { idUsuario: idUsuario },
                 contenType: false,
                 proccessData: false,
                 success: function (response) {

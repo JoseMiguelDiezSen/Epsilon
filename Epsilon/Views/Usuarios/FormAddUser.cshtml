@@ -27,28 +27,33 @@
                 </div>
             </div>
 
-
             @* FECHA ALTA *@
             <div class="mb-3">
-                <label class="form-label"> Fecha de Alta</label>
-                <input type="date" asp-for="FechaAlta" class="form-control">
+                <label class="form-label">Fecha de Alta</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                    <input type="date" asp-for="FechaAlta" class="form-control">
+                </div>
             </div>
 
-
+            @* TURNO DE TRABAJO *@
             <div class="mb-3">
-                <label class="form-label"><i class="fas fa-list"></i> Seleccione una opción</label>
-                <select class="form-select">
-                    <option>Opción 1</option>
-                    <option>Opción 2</option>
-                    <option>Opción 3</option>
-                </select>
-            </div> 
+                <label class="form-label">Turno de Trabajo</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-list-ul"></i></span>
+                    <select class="form-select">
+                        <option>Opción 1</option>
+                        <option>Opción 2</option>
+                        <option>Opción 3</option>
+                    </select>
+                </div>
+            </div>
 
-
+            @* ACTIVO *@
             <div class="mb-3">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label">Acepto los términos y condiciones</label>
+                    <label class="form-check-label">Activo</label>
                 </div>
             </div>
         </div>
@@ -84,8 +89,11 @@
 
             @* FOTO DE PERFIL *@
             <div class="mb-3">
-                <label class="form-label"><i class="fas fa-upload"></i> Foto de perfil</label>
-                <input type="file" class="form-control">
+                <label class="form-label">Foto de perfil</label>
+                <div class="input-group">
+                    <input type="file" class="form-control">
+                    <span class="input-group-text"><i class="fas fa-upload"></i></span>
+                </div>
             </div>
         </div>
 

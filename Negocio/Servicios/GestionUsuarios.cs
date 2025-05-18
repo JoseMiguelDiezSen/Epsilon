@@ -81,7 +81,7 @@ namespace Negocio.Servicios
             return usuarioActualizado;
         }
 
-        public Usuario GetUser(int idUsuario)
+        public Usuario GetUser(long idUsuario)
         {
             // Opcion 1
             var usuario = Context.Usuarios.Where(u => u.IdUsuario == idUsuario).First();

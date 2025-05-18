@@ -13,7 +13,7 @@ namespace Negocio.Servicios
         //IQueryable <Usuario> GetAllUsers();
 
         /// <summary> Obtener un usuario. </summary>
-        Usuario GetUser(int idUsuario);
+        Usuario GetUser(long idUsuario);
 
         /// <summary> Agregar un usuario. </summary>
         Usuario AddUser(Usuario usuario);

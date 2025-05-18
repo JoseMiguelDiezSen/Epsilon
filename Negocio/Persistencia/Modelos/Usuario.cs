@@ -1,4 +1,5 @@
-﻿using Negocio.Persistencia.Modelos.Comun;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Negocio.Persistencia.Modelos.Comun;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,6 +25,10 @@ namespace Negocio.Persistencia.Modelos
         public int Telefono { get; set; }
 
         public string? RutaFoto { get; set; }
+
+        public bool Activo { get; set; }
+
+     //   public SelectList? TurnoDeTrabajo { get; set; }
     }
 }
 
