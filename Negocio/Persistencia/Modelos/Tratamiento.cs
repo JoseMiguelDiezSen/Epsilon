@@ -13,5 +13,11 @@ namespace Negocio.Persistencia.Modelos
     {
         [Key]
         public int IdTratamiento { get; set; }
+
+        [Required]
+        public string? NombreTratamiento { get; set; }
+
+
+        public float Precio { get; set; }
     }
 }

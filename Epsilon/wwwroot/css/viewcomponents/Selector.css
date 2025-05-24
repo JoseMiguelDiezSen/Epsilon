@@ -1,2 +1,56 @@
-﻿body {
+﻿.vc-selector-edicion td, th {
+    padding: 4px 4px !important;
+    font-size: 12px !important;
+    line-height: 20px !important;
+}
+
+.vc-selector-edicion .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):not(.dx-row-removed) > td {
+    background-color: orange;
+    color: unset;
+}
+
+.vc-selector-edicion .dx-editor-cell .dx-texteditor .dx-texteditor-input {
+    background: rgba(255,255,255,0) !important;
+    font-size: 11px !important;
+    height: 28px !important;
+    line-height: 28px !important;
+    padding-left: 38px !important;
+    padding-right: 0px !important;
+    margin-top: 0 !important;
+}
+
+.vc-selector-edicion .custom-selected-row {
+    background-color: rgb(133, 153, 193, 0.82) !important;
+    color: rgba(0, 0, 0, .87) !important;
+    top: 0px;
+}
+
+.vc-selector-edicion .hr-styles-ediciones {
+    padding-top: 5px;
+    /* background: rgb(178, 201, 215) !important; */
+    background-color: #ddc49e;
+    /* background-color: #f8f9fa; */
+    height: 54px;
+    border: 2px solid silver;
+    border-style: inset;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.vc-selector-edicion .btn-group-sm > .btn, .btn-sm {
+    padding: .0rem .5rem !important;
+}
+
+.vc-selector-edicion .grid-selector-container {
+    position: absolute;
+    z-index: 500;
+    top: 54px;
+    width: 100%;
+    background-color: white;
+    border-right: 1px inset rgb(213, 213, 213);
+    border-bottom: 3px inset rgb(213, 213, 213);
+    border-left: 2px inset rgb(213, 213, 213);
+    padding: 0px 5px 5px;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
 }

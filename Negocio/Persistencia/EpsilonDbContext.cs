@@ -1,14 +1,7 @@
-﻿using Negocio.Persistencia.Modelos;
-using Negocio.Persistencia.Modelos.Comun;
-using Negocio.Persistencia.Extensiones;
-using System.Reflection;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using FluentValidation.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Mvc;
-using System.Web.Mvc;
-using System.Data.SqlClient;
+using Negocio.Persistencia.Extensiones;
+using Negocio.Persistencia.Modelos;
 
 
 namespace Negocio.Persistencia
@@ -111,21 +104,11 @@ namespace Negocio.Persistencia
             //modelBuilder.Entity<Medicos>().Property(m => m.Observaviones);
             //modelBuilder.Entity<Medicos>().Property(m => m.Foto);
 
-
-
             //TABLA TRATAMIENTOS
-            //modelBuilder.Entity<Tratamiento>().HasKey(m => m.IdMedico);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.IdMedico);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.NombreMedico);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.DNI);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.NumeroColegiado);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.Especialidad);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.Telefono);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.EMail);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.FechaContratacion);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.Activo);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.Observaviones);
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.Foto);
+            modelBuilder.Entity<Tratamiento>().HasKey(m => m.IdTratamiento);
+            modelBuilder.Entity<Tratamiento>().Property(m => m.IdTratamiento);
+            modelBuilder.Entity<Tratamiento>().Property(m => m.NombreTratamiento);
+            modelBuilder.Entity<Tratamiento>().Property(m => m.Precio);
 
             //TABLA FACTURACION
             //modelBuilder.Entity<Medicos>().HasKey(m => m.IdMedico);

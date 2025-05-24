@@ -7,13 +7,13 @@
 <div class="text-center">
     <div class="pull-left">
         <a class="btn btn btn-link btn-sm" href="./" title="Volver a Inicio">
-            <span class="fa fa arrow-circle-left text-black-50" style="font-size:2em;"></span>
+            <span class="fa arrow-circle-left text-black-50" style="font-size:2em;"></span>
         </a>
     </div>
     <h2>
-        <a href="https://www.google.com" target="_blank" style="color:black;text-decoration:none; padding-right:60px;">
+    
             <font size="5">Gestion de Usuarios</font>
-        </a>
+      
     </h2>
 </div>
 
@@ -64,10 +64,10 @@
             </button>
         </div>
     </div>
-
+@* 
     <input type="hidden" asp-for="PaginaActual" id="PaginaActual" />
     <input type="hidden" asp-for="RegistrosPorPagina" id="RegistrosPorPagina" />
-    <input type="hidden" name="RegistrosPaginaActual" id="RegistrosPaginaActual" value="@Model.Usuarios?.Count()" />   
+    <input type="hidden" name="RegistrosPaginaActual" id="RegistrosPaginaActual" value="@Model.Usuarios?.Count()" />    *@
 </form>
 
 <hr />
@@ -82,12 +82,12 @@
         await Html.RenderPartialAsync("TablaUsuarios", Model.Usuarios);
     }
 </div>
-
+@* 
 <div id="idPaginadorPrincipal" class="text-center m-1">
     <a class="btn btn-sm btn-outline-secondary PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">Anterior</a>
     <span class="m-2 TextoPaginacion">Página @Model.PaginaActual</span>
     <a class="btn btn-sm btn-outline-secondary PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">Siguiente</a>
-</div>
+</div> *@
 
 
 
@@ -97,9 +97,12 @@
 
 @section Scripts {
     <script src="~/js/Usuarios.js" asp-append-version="true"></script>
-    <script src="~/js/Paginador.js" asp-append-version="true"></script>
+@*     <script src="~/js/Paginador.js" asp-append-version="true"></script> *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation-unobtrusisive/jquery/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
 }
 
 @section Modals {

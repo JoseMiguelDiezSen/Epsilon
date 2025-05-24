@@ -1,8 +1,449 @@
-﻿
+﻿<h4> Tratamientos </h4>
 
-
-<h4> Tratamientos </h4>
-
+<button id="AddUser" type="button" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddUser()"><span class="fa fa-plus"></span> Nuevo <b>Usuario</b></button>
 
 
 
+@* Button - Tabs *@
+<div class="container mt-12" id="container">
+
+    <ul class="nav nav-tabs" id="miTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tabOdontologiaGeneral-tab" data-bs-toggle="tab" data-bs-target="#tabOdontologiaGeneral" type="button" role="tab" aria-controls="tabOdontologiaGeneral" aria-selected="true"><span class="fa fa-graduation-cap pull-left" style="margin-top:5px;"></span> Ortodoncia General </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tabOdontologiaPediatrica-tab" data-bs-toggle="tab" data-bs-target="#tabOdontologiaPediatrica" type="button" role="tab" aria-controls="tabOdontologiaPediatrica" aria-selected="true"><span class="fa fa-graduation-cap pull-left" style="margin-top:5px;"></span> Ortodoncia Pediadrica </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tabEndodoncia-tab" data-bs-toggle="tab" data-bs-target="#tabEndodoncia" type="button" role="tab" aria-controls="tabEndodoncia" aria-selected="false"><span class="fa fa-user" style="margin-top:5px;"></span> Endodoncia </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tabPeriodoncia-tab" data-bs-toggle="tab" data-bs-target="#tabPeriodoncia" type="button" role="tab" aria-controls="tabPeriodoncia" aria-selected="false"><span class="fa fa-users pull-left" style="margin-top:5px;"> </span> Periodoncia </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tabOrtodoncia-tab" data-bs-toggle="tab" data-bs-target="#tabOrtodoncia" type="button" role="tab" aria-controls="tabOrtodoncia" aria-selected="false"><span class="fa fa-users pull-left" style="margin-top:5px;"> </span> Ortodoncia </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tabPeriodoncia-tab" data-bs-toggle="tab" data-bs-target="#tabPeriodoncia" type="button" role="tab" aria-controls="tabPeriodoncia" aria-selected="false"><span class="fa fa-users pull-left" style="margin-top:5px;"> </span> Periodoncia </button>
+        </li>
+@* 
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tabPeriodoncia-tab" data-bs-toggle="tab" data-bs-target="#tabPeriodoncia" type="button" role="tab" aria-controls="tabPeriodoncia" aria-selected="false"><span class="fa fa-users pull-left" style="margin-top:5px;"> </span> Periodoncia </button>
+        </li> *@
+    </ul>
+
+    @* Content - Tabs *@
+    <div class="tab-content" id="myTabContent">
+
+        <div class="tab-pane fade show active" id="tabOdontologiaGeneral" role="tabpanel" arialabelledby="tab1-tab">
+
+            <table class="table table-secondary table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@example.com</td>
+                        <td>123456789</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>María López</td>
+                        <td>maria@example.com</td>
+                        <td>987654321</td>
+                    </tr>
+                </tbody>
+            </table>
+        
+        </div>
+
+        <div class="tab-pane fade show active" id="tabOdontologiaPediatrica" role="tabpanel" arialabelledby="tab1-tab">
+
+            <table class="table table-secondary table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@example.com</td>
+                        <td>123456789</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>María López</td>
+                        <td>maria@example.com</td>
+                        <td>987654321</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="tab-pane fade" id="tabEndodoncia" role="tabpanel" aria-labelledby="tab2-tab">
+
+            <table class="table table-secondary table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@example.com</td>
+                        <td>123456789</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>María López</td>
+                        <td>maria@example.com</td>
+                        <td>987654321</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="tab-pane fade" id="tabPeriodoncia" role="tabpanel" aria-labelledby="tab3-tab">
+
+            <table class="table table-secondary table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@example.com</td>
+                        <td>123456789</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>María López</td>
+                        <td>maria@example.com</td>
+                        <td>987654321</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="tab-pane fade" id="tabOrtodoncia" role="tabpanel" aria-labelledby="tab3-tab">
+
+            <table class="table table-secondary table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@example.com</td>
+                        <td>123456789</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>María López</td>
+                        <td>maria@example.com</td>
+                        <td>987654321</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="tab-pane fade" id="tabPeriodoncia" role="tabpanel" aria-labelledby="tab3-tab">
+
+            <table class="table table-secondary table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@example.com</td>
+                        <td>123456789</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>María López</td>
+                        <td>maria@example.com</td>
+                        <td>987654321</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+@*         <div class="tab-pane fade" id="tabPeriodoncia" role="tabpanel" aria-labelledby="tab3-tab">
+
+            <table class="table table-secondary table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@example.com</td>
+                        <td>123456789</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>María López</td>
+                        <td>maria@example.com</td>
+                        <td>987654321</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="tab-pane fade" id="tabPeriodoncia" role="tabpanel" aria-labelledby="tab3-tab">
+
+            <table class="table table-secondary table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@example.com</td>
+                        <td>123456789</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>María López</td>
+                        <td>maria@example.com</td>
+                        <td>987654321</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div> *@
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <script src="~/js/Tratamientos.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
+}
+
+@section Modals {
+    @* Modal agregar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="addTratamientoModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Alta Usuario</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal modificar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="updateUserModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Modificar datos del Usuario</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal eliminar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="deleteUserModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Eliminar usuario</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<style>
+
+
+/* ---------------------------------------------------------- */
+
+
+#detallesEdicion {
+        border: 1px solid gainsboro;
+        padding: 10px;
+        padding-bottom: 20px;
+}
+
+#detallesCurso {
+        border: 1px solid gainsboro;
+        padding: 10px;
+        padding-bottom: 20px;
+}
+
+/* ------------------------------------------ */
+/* Accordeon */
+.accordion {
+        background-color: #eee;
+        /* color: #444; */
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+.active, .accordion:hover {
+        background-color: #ccc;
+    }
+
+.panel {
+        padding: 0 18px;
+        display: none;
+        background-color: white;
+        overflow: hidden;
+    }
+
+.accordion:after {
+    content: '\02795';
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+    }
+
+.accordion.active:after {
+        content: "\2796";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* Hace mas ancho el grid */
+    #btnImportarAlumnos {
+        padding: 5px 10px 5px 10px !important;
+    }
+
+    #btnCancelarImportacion {
+        padding: 5px 10px 5px 10px !important;
+    }
+
+    /* Proceso Excel */
+    #modeloInsercionAlumnos {
+        width: 100%;
+        margin-bottom: 20px;
+        border: 1px solid gainsboro;
+    }
+
+        #modeloInsercionAlumnos:hover {
+            cursor: pointer;
+        }
+
+    #modalExcel {
+        min-width: 1390px !important;
+        margin-left: -5%;
+        margin-top: 60px;
+    }
+
+    #gridExcelAlumnos {
+        width: 1360px !important;
+    }
+
+
+
+</style>
+
+
+
+@section Styles {
+    <link href="~/css/Tratamientos.css" rel="stylesheet" />
+    <link href="~/css/viewcomponents/selectorediciones.css" rel="stylesheet" />
+}
+
+@* @section Scripts {
+    <script src="~/js/viewcomponents/SelectorEdiciones.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/ejecucionediciones.js"></script>
+} *@

@@ -1,5 +1,5 @@
 ﻿@using Epsilon.ViewModels
-@model ViewFormAgregarUsuario
+@model ViewFormAgregarTratamiento
 
 <form id="addUser1" method="post" asp-action="AgregarUsuario" name="addUser" onsubmit="return jqPostAddUser(this);" style="border:1px solid gainsboro;padding:10px">
 
@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <!-- Primera columna -->
-        @* NOMBRE *@
+        @* IDTRATAMIENTO *@
         <div class="col-md-6">
             <div class="mb-3">
                 <label class="form-label">Nombre</label>
@@ -18,92 +18,16 @@
                 </div>
             </div>
 
-            @* CORREO ELECTRONICO *@
+            @* NOMBRE TRATAMIENTO *@
             <div class="mb-3">
                 <label class="form-label">Correo Electrónico</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    <input type="email" class="form-control" placeholder="Ingrese su correo">
-                </div>
-            </div>
-
-            @* FECHA ALTA *@
-            <div class="mb-3">
-                <label class="form-label">Fecha de Alta</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
-                    <input type="date" asp-for="FechaAlta" class="form-control">
-                </div>
-            </div>
-
-            @* TURNO DE TRABAJO *@
-            <div class="mb-3">
-                <label class="form-label">Turno de Trabajo</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fa-solid fa-list-ul"></i></span>
-                    <select class="form-select">
-                        <option>Opción 1</option>
-                        <option>Opción 2</option>
-                        <option>Opción 3</option>
-                    </select>
-                </div>
-            </div>
-
-            @* ACTIVO *@
-            <div class="mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox">
-                    <label class="form-check-label">Activo</label>
+@*                     <select type="email" class="form-control" asp-items="@Model.NombreTratamiento"> *@
                 </div>
             </div>
         </div>
-        <!-- Segunda columna -->
-        <div class="col-md-6">
 
-            @* PASSWORD *@
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    <input type="password" id="password" class="form-control" placeholder="Ingrese su contraseña">
-                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                        <i class="fas fa-eye"></i> <!-- Ícono de ver -->
-                    </button>
-                </div>
-            </div>
-
-            @* TELEFONO *@
-            <div class="mb-3">
-                <label class="form-label">Teléfono</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                    <input type="text" class="form-control" placeholder="Ingrese su número de teléfono">
-                </div>
-            </div>
-
-            @* COMENTARIOS *@
-            <div class="mb-3">
-                <label class="form-label">Comentarios</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-comment"></i></span>
-                    <textarea class="form-control" rows="1" placeholder="Escriba sus comentarios"></textarea>
-                </div>
-            </div>
-
-            @* FOTO DE PERFIL *@
-            <div class="mb-3">
-                <label class="form-label">Foto de perfil</label>
-                <div class="input-group">
-                    @* <input type="file" id="foto" name="foto" accept="image/*"> *@
-                    <input id="file" name="file" type="file" class="form-control" accept=".xlsx, .xls">
-                    <span class="input-group-text"><i class="fas fa-upload"></i></span>
-                
-                    @* Validacion *@
-
-                </div>
-                <div id="errorMessage" style="color: red; display: none;">Por favor, suba un fichero en formato jpg.</div>
-            </div>
-        </div>
 
         @* BOTONES *@
         <div class="fa-pull-left">

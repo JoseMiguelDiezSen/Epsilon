@@ -4,5 +4,70 @@
 <h4> Medicos </h4>
 
 
+@{
+    ViewData["Title"] = "Formacion de Ediciones";
+}
+@{
+    // await Html.RenderPartialAsync("_MensajesOperaciones");
+    // await Html.RenderPartialAsync("_TituloPagina");
+}
+@* 
 
+<input type="hidden" asp-for="IdEdicion" id="IdEdicion" name="IdEdicion" value="@Model.IdEdicion" />
+<input type="hidden" asp-for="IdCurso" id="IdCurso" name="IdCurso" value="@Model.IdCurso" />
+
+ *@
+@* Vista parcial Detalle Cursos *@
+@* <div id="DetallesCursoEjecutado" style="display:none;">
+    @{
+        await Html.RenderPartialAsync("DetalleCursoEdicionSeleccionado", Model);
+    }
+</div> *@
+
+<br />
+
+@* Selector *@
+@* @await Component.InvokeAsync("SelectorCursoEdiciones", new { IdSelector = "miSelectorEdicion" })
+ *@
+<br />
+
+@* Vista parcial Detalle Ediciones *@
+@* <div id="DetallesEdicionEjecutado" style="display:none;">
+    @{
+        await Html.RenderPartialAsync("DetalleEdicionCursoSeleccionado", Model);
+    }
+</div> *@
+
+<br />
+
+@* Creación / Modificación / Eliminacion Edicion *@
+<button id="DeleteEdicion" style="padding:5px !important; margin-right:10px;display:none;" type="button" class="btn btn-sm btn-outline-primary pull-right" onclick="obtieneModalEliminarCurso()"><span class="fa fa-times"></span> Eliminar Edicion</button>
+<button id="ModifyEdicion" type="button" class="btn btn-sm btn-outline-primary pull-right" style="display:none;" onclick="obtieneModalModificarEdicion()"><span class="fa fa-pencil"></span> Modificar Edicion</button>
+<button id="AddEdicion" style="padding:5px !important;display:none;" type="button" class="btn btn-sm btn-outline-primary pull-right" onclick="obtieneModalAgregarEdicion()"><span class="fa fa-plus"></span> Nueva Edicion</button>
+
+<br />
+<br />
+
+<div class="text-center">
+    <p id="p"></p>
+    <p id="enlace"><a href="@Url.Action("Index","Home")" id="link"></a> Ir a inicio </p>
+</div>
+
+
+@section Styles {
+    <link href="~/css/ejecucionediciones.css" rel="stylesheet" />
+    <link href="~/css/viewcomponents/selectorediciones.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/js/viewcomponents/SelectorEdiciones.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/ejecucionediciones.js"></script>
+}
+
+@section modals {
+
+
+}
 
