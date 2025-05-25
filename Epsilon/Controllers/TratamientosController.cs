@@ -5,8 +5,10 @@ using Epsilon.Renders;
 using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
+
 
 
 namespace Epsilon.Controllers
@@ -14,7 +16,7 @@ namespace Epsilon.Controllers
     public class TratamientosController : AbstractSecurityController
     {
         private readonly IRazorRenderService _razorRenderService;
-        private IGestionUsuarios _gestionUsuarios;
+        private IGestionClinica _gestionClinica;
 
         /// <summary>
         /// Constructor d
@@ -22,9 +24,9 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public TratamientosController(ILogger<TratamientosController> logger, ISeguridad seguridad, IGestionUsuarios gestionUsuarios,IRazorRenderService renderService) : base(logger, seguridad)
+        public TratamientosController(ILogger<TratamientosController> logger, ISeguridad seguridad, IGestionClinica gestionclinica,IRazorRenderService renderService) : base(logger, seguridad)
         {
-            _gestionUsuarios = gestionUsuarios;
+            _gestionClinica = gestionclinica;
             _razorRenderService = renderService;
         }
 
@@ -41,12 +43,11 @@ namespace Epsilon.Controllers
         /// <returns></returns>
 
         [HttpGet, AjaxOnly]
-        public async Task<ActionResult> ModalAgregarUsuario()
+        public async Task<ActionResult> ModalAgregarTratamiento()
         {
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
             ViewFormAgregarTratamiento vmAgregarTratamiento = new ViewFormAgregarTratamiento();
-            vmAgregarTratamiento.IdTratamiento = 1;
-            //vmAgregarTratamiento.NombreTratamiento = new SelectList(nameOF(Tratamiento.IdTratamiento), Tratamiento.NombreTratamiento);
+            vmAgregarTratamiento.NombreTratamiento = new SelectList(_gestionClinica.Context.Tratamientos.ToList(), nameof(Tratamiento.IdTratamiento), nameof(Tratamiento.NombreTratamiento));
             string data = await _razorRenderService.ToStringAsync("FormAddTratamiento", vmAgregarTratamiento);
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
             return new JsonResult(jsonResponse);
@@ -60,25 +61,25 @@ namespace Epsilon.Controllers
         /// <param name="vmperiodo"></param>
         /// <returns></returns>
         [HttpPost, AjaxOnly]
-        public async Task<JsonResult> AgregarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
+        public async Task<JsonResult> AgregarTratamientoAsync(ViewFormAgregarTratamiento vmUsuario)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
             try
             {
-                Usuario usuario = new Usuario()
+                Tratamiento tratamiento = new Tratamiento()
                 {
-                    Nombre = vmUsuario.Nombre,
-                    Password = vmUsuario.Password,
-                    Email = vmUsuario.Email,
-                    FechaAlta = vmUsuario.FechaAlta,
-                    Telefono = vmUsuario.Telefono,
-                    RutaFoto = vmUsuario.RutaFoto,
-                    Activo = vmUsuario.Activo,
+                    //Nombre = vmUsuario.Nombre,
+                    //Password = vmUsuario.Password,
+                    //Email = vmUsuario.Email,
+                    //FechaAlta = vmUsuario.FechaAlta,
+                    //Telefono = vmUsuario.Telefono,
+                    //RutaFoto = vmUsuario.RutaFoto,
+                    //Activo = vmUsuario.Activo,
 
                 };
 
-                _gestionUsuarios.AddUser(usuario);
+                //_gestionClinica.AddTratamiento(tratamiento);
                 result = new JsonResult(new { StatusCode = 200, message = "Usuario agregado correctamente" });
             }
             catch (Exception ex)

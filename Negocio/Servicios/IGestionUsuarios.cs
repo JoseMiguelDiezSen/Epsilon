@@ -21,6 +21,7 @@ namespace Negocio.Servicios
         Usuario UpdateUser(Usuario usuario);
 
         bool DeleteUser(int idUsuario);
+
         IQueryable<DatosUsuario> GetDatosUsuario();
     }
 }

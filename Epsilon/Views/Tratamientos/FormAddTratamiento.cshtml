@@ -1,40 +1,28 @@
 ﻿@using Epsilon.ViewModels
 @model ViewFormAgregarTratamiento
 
-<form id="addUser1" method="post" asp-action="AgregarUsuario" name="addUser" onsubmit="return jqPostAddUser(this);" style="border:1px solid gainsboro;padding:10px">
+<form id="addTratamiento" method="post" asp-action="AgregarTratamiento" name="addTratamiento" onsubmit="return jqPostAddTratamiento(this);" style="border:1px solid gainsboro;padding:10px">
 
-    <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
-        <img src="~/media/deep.jpg" alt="" height="150px" width="150px" style="border-radius:100px;border:1px solid grey"/>
-    </div>
     <div class="row">
-        <!-- Primera columna -->
-        @* IDTRATAMIENTO *@
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" placeholder="Ingrese su nombre">
-                </div>
+
+        @* NOMBRE TRATAMIENTO *@
+        <div class="mb-3">
+            <label class="form-label">Tratamientos</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <select type="text" class="form-control" asp-for="IdTratamiento" asp-items="@Model.NombreTratamiento">
+                    <option value="">Selecciona un tratamiento</option>
+                </select>
             </div>
-
-            @* NOMBRE TRATAMIENTO *@
-            <div class="mb-3">
-                <label class="form-label">Correo Electrónico</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-@*                     <select type="email" class="form-control" asp-items="@Model.NombreTratamiento"> *@
-                </div>
-            </div>
-        </div>
-
-
-        @* BOTONES *@
-        <div class="fa-pull-left">
-            <button id="btnAddUser" type="submit" class="btn btn-outline-success m-2"><span class="fa fa-check"></span> Aceptar</button>
-            <button id="btnCancel" type="button" class="btn btn-outline-danger m-2"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
         </div>
     </div>
+
+    @* BOTONES *@
+    <div class="fa-pull-left">
+        <button id="btnAddUser" type="submit" class="btn btn-outline-success m-2"><span class="fa fa-check"></span> Aceptar</button>
+        <button id="btnCancel" type="button" class="btn btn-outline-danger m-2"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+    </div>
+
 </form>
 
 
@@ -44,7 +32,6 @@
     /* Validacion formato importacion fichero excel */
     #file {
         color: gray;
-
     }
 
         /* Color cuando el archivo se ha cargado correctamente */

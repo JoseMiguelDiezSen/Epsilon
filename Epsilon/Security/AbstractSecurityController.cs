@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Negocio.Servicios;
-using System.Security.Principal;
 
 namespace Calipso.Security
 {

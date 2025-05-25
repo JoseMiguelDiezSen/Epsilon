@@ -18,6 +18,6 @@ namespace Negocio.Persistencia.Modelos
         public string? NombreTratamiento { get; set; }
 
 
-        public float Precio { get; set; }
+        public int Precio { get; set; }
     }
 }

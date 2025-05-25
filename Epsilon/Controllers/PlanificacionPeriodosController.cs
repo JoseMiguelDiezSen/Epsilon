@@ -148,7 +148,7 @@ namespace Epsilon.Controllers
         public async Task<ActionResult> ModalModificarPeriodoAsync(long id)
         {
             PeriodoPlanificacion periodo = new PeriodoPlanificacion();
-            //periodo = _planificacion.Context.PeriodosPlanificacion.Where(x => x.IdPeriodo == id).First();
+            periodo = _planificacion.Context.PeriodosPlanificacion.Where(x => x.IdPeriodo == id).First();
 
             ViewFormAgregarPeriodo viewAgregarPeriodo = new ViewFormAgregarPeriodo();
             //viewAgregarPeriodo.Ejercicio = periodo.Ejercicio;
