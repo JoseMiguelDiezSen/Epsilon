@@ -195,6 +195,7 @@
                 // Abre el modal (Bootstrap 4)
                 //$('#updateUserModal').modal('show');
 
+
                 // Abre el modal (Bootstrap 5)
                 let modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
                 modal.show();
