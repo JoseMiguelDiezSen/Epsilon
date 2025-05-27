@@ -17,7 +17,5 @@ namespace Negocio.Persistencia.Modelos
         [Required]
         public string? NombreTratamiento { get; set; }
 
-
-        public int Precio { get; set; }
     }
 }

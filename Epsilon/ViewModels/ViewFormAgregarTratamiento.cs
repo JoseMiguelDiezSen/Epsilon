@@ -6,10 +6,8 @@ namespace Epsilon.ViewModels
     {
         public int IdTratamiento { get; set; }
 
-        //public string? NombreTratamiento { get; set; }
-
         public SelectList? NombreTratamiento { get; set; }
 
-        public int Precio { get; set; }
+
     }
 }

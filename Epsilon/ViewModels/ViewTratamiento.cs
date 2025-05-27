@@ -7,7 +7,7 @@ namespace Epsilon.ViewModels
     {
         public int IdTratamiento { get; set; }
 
-        public SelectList? NombreTratamiento { get; set; }
+        public SelectList? NombreTratamiento { get; set; } = new SelectList(Enumerable.Empty<string>());
 
         public int Precio { get; set; }
     }

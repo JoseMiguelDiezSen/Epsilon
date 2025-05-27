@@ -21,16 +21,14 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-color:grey !important;border-bottom-color:yellow">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-color:grey !important;border-bottom-color:yellow!important">
 
             <div class="container-fluid" style="background-color:grey">
 
-
+                @* IMAGEN APP *@
                 <a class="navbar-brand" asp-controller="home" asp-action="index">
-
                     <img src="~/media/epsilon.png" width="20" height="20" />
                 </a>
-
 
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Epsilon</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -39,58 +37,67 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" style="background-color:gainsboro">
                     <ul class="navbar-nav flex-grow-1">
+                        
+                        @* (1) HOME - INICIO *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
                                 <span class="fa fa-home"></span>  Inicio</a>
                         </li>
+
+                        @* (2) - USUARIOS *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;">
-                            
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">
                                 <span class="fa fa-user"></span>  Usuarios
                             </a>         
                         </li>
                    
+                        @* (3) - MEDICOS *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Medicos" asp-action="Index">
-
                                 <span class="fa-solid fa-user-doctor"></span>  Medicos
                             </a>
                         </li>
+
+                        @* (4) - PACIENTES *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Pacientes" asp-action="Index">
-                         
                                 <span class="fa-solid fa-user-injured"></span>   Pacientes</a>
                         </li>
+
+                        @* (5) - CLINICAS *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;">
-                            
                             <a class="nav-link text-dark" asp-area="" asp-controller="Clinicas" asp-action="Index">
                                 <span class="fa-solid fa-hospital"></span>  Clinicas</a>
                         </li>
 
+                        @* (6) - CITAS *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;" >
                             <a class="nav-link text-dark" asp-area="" asp-controller="Citas" asp-action="Index">
-                                <span class="fa-solid fa-file-circle-check"></span>   Citas</a>
+                                <span class="fa-solid fa-file-circle-check"></span> Citas</a>
                         </li>
 
-
+                        @* (7) - AGENDA *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Agenda" asp-action="Index">
                                 <span class="fa fa-calendar"></span>  Agenda
                             </a>
                         </li>
 
+                        @* (8) - TRATAMIENTOS *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Tratamientos" asp-action="Index">
                                 <span class="fa-solid fa-file-medical"></span>  Tratamientos
                             </a>
                         </li>
 
+                        @* (8) - RADIOLOGIA *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;">
                             <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">
                                 <span class="fa-solid fa-circle-radiation"></span>  Radiologia
                             </a>
                         </li>
 
+                        @* (9) - FACTURACION *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;" >
                             <a class="nav-link text-dark" asp-area="" asp-controller="Facturacion" asp-action="Index">
                                 <span class="fa-solid fa-sack-dollar"></span>  Facturacion</a>
@@ -178,15 +185,10 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-center" style="border-top:1px solid black;background-color:grey;border-top-color:yellow">
+    <footer class="border-top footer text-center" style="border-top:1px solid black;background-color:grey;border-top-color:yellow !important">
         <div class="container">
             &copy; 2025 - Epsilon - BY
-
-           
-
                 <img src="~/media/JMDnegro.png" alt="" height="25px" width="50px" />
-
-        
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Negocio.Persistencia.Extensiones;
 using Negocio.Persistencia.Modelos;
 
-
 namespace Negocio.Persistencia
 {
     public class EpsilonDbContext : DbContext
@@ -108,7 +107,7 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Tratamiento>().HasKey(m => m.IdTratamiento);
             modelBuilder.Entity<Tratamiento>().Property(m => m.IdTratamiento);
             modelBuilder.Entity<Tratamiento>().Property(m => m.NombreTratamiento);
-            modelBuilder.Entity<Tratamiento>().Property(m => m.Precio);
+            //modelBuilder.Entity<Tratamiento>().Property(m => m.Precio);
 
             //TABLA FACTURACION
             //modelBuilder.Entity<Medicos>().HasKey(m => m.IdMedico);
@@ -138,7 +137,6 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.Hasta);
             modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.PlanesAfectados);
             modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.Ejercicio);
-
             modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.Estimado);
             modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.Ejecutado);
             modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.FechaCreacion);
@@ -170,7 +168,7 @@ namespace Negocio.Persistencia
             #endregion
         }
 
-        #region COLECCION_TABLAS
+        #region COLECCIONES
 
         //Tabla usuarios
         public virtual DbSet<Modelos.Usuario> Usuarios { get; set; }

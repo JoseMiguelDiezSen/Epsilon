@@ -151,59 +151,59 @@
     }
 
     ///* Funcion GET para actualizar un usuario */
-    //jqGetModalUpdateUser = (idUsuario) => {
-    //    try {
-    //        $.ajax({
-    //            type: "GET",
-    //            url: "Usuarios/ModalModificarUsuario",
-    //            data: { idUsuario: idUsuario },
-    //            contenType: false,
-    //            proccessData: false,
-    //            success: function (response) {
-    //                //document.querySelector(".modal-title").textContent = "Modificar Usuario";
-    //                // Inserta la vista en el modal como HTML
-    //                $('#updateUserModal .modal-body').html(response.data);
-    //                // Abre el modal (Bootstrap 4)
-    //                //$('#updateUserModal').modal('show');
+    jqGetModalUpdateUser = (idUsuario) => {
+        try {
+            $.ajax({
+                type: "GET",
+                url: "Usuarios/ModalModificarUsuario",
+                data: { idUsuario: idUsuario },
+                contenType: false,
+                proccessData: false,
+                success: function (response) {
+                    //document.querySelector(".modal-title").textContent = "Modificar Usuario";
+                    // Inserta la vista en el modal como HTML
+                    $('#updateUserModal .modal-body').html(response.data);
+                    // Abre el modal (Bootstrap 4)
+                    //$('#updateUserModal').modal('show');
 
-    //                // Abre el modal (Bootstrap 5)
-    //                let modal = new bootstrap.Modal(document.getElementById('updateUserModal'));
-    //                modal.show();
-    //            },
-    //            error: function () {
+                    // Abre el modal (Bootstrap 5)
+                    let modal = new bootstrap.Modal(document.getElementById('updateUserModal'));
+                    modal.show();
+                },
+                error: function () {
 
-    //            }
-    //        })
-    //    }
-    //    catch (ex) {
-    //    }
-    //}
+                }
+            })
+        }
+        catch (ex) {
+        }
+    }
 
     ///* Funcion para eliminar un usuario */
-    //jqGetModalDeleteUser = (idUsuario) => {
+    jqGetModalDeleteUser = (idUsuario) => {
 
-    //    $.ajax({
-    //        type: "GET",
-    //        url: 'Usuarios/EliminarUsuario',
-    //        data: { idUsuario: idUsuario },
-    //        contenType: false,
-    //        proccessData: false,
-    //        success: function (response) {
-    //            document.querySelector(".modal-title").textContent = "Eliminar Usuario";
-    //            // Inserta la vista en el modal como HTML
-    //            $('#deleteUserModal .modal-body').html(response.data);
-    //            // Abre el modal (Bootstrap 4)
-    //            //$('#updateUserModal').modal('show');
+        $.ajax({
+            type: "GET",
+            url: 'Usuarios/EliminarUsuario',
+            data: { idUsuario: idUsuario },
+            contenType: false,
+            proccessData: false,
+            success: function (response) {
+                document.querySelector(".modal-title").textContent = "Eliminar Usuario";
+                // Inserta la vista en el modal como HTML
+                $('#deleteUserModal .modal-body').html(response.data);
+                // Abre el modal (Bootstrap 4)
+                //$('#updateUserModal').modal('show');
 
-    //            // Abre el modal (Bootstrap 5)
-    //            let modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
-    //            modal.show();
-    //        },
-    //        error: function (response) {
-    //            alert("No se pudo realizar la operacion");
-    //        }
-    //    })
-    //}
+                // Abre el modal (Bootstrap 5)
+                let modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+                modal.show();
+            },
+            error: function (response) {
+                alert("No se pudo realizar la operacion");
+            }
+        })
+    }
 
 
     /* Actualizacion detalles curso */

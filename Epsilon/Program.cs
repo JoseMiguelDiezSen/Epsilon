@@ -36,6 +36,14 @@ builder.Services.AddScoped<IRazorRenderService, RazorRenderService>();
 builder.Services.AddScoped<ISeguridad, Seguridad>();
 builder.Services.AddScoped<IPlanificacion, Planificacion>();
 builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
+builder.Services.AddScoped<IGestionClinica, GestionClinica>();
+
+
+//builder.Services.AddScoped<IGestionFinanciera, GestionFinanciera>();
+//builder.Services.AddScoped<IGestion, GestionClinica>();
+
+
+
 
 var app = builder.Build();
 
