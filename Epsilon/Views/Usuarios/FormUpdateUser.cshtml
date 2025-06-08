@@ -1,13 +1,11 @@
 ﻿@using Epsilon.ViewModels
 @model ViewFormAgregarUsuario
 
-@* <input type="hidden" name="IdUsuario" id="IdUsuario" value="@Model.IdUsuario" /> *@
-<form id="idUpdatePeriodo_Form" method="post" style="border:1px solid gainsboro;padding:10px" asp-action="ModificarUsuario" onsubmit="return jqPostUpdateUser(this);">
-
-
-    <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
-        <img src="~/media/deep.jpg" alt="" height="150px" width="150px" style="border-radius:100px;border:1px solid grey" />
-    </div>
+<form id="UpdateUser" method="post" style="border:1px solid gainsboro;padding:10px" asp-action="ModificarUsuario" onsubmit="return jqPostUpdateUser(this);">
+    <input type="hidden" name="IdUsuario" id="IdUsuario" asp-for="IdUsuario" value="@Model.IdUsuario" />
+     <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
+        <img src="~/media/deep.jpg" alt="" height="150px" width="150px" style="border-radius:100px;border:1px solid grey"/>
+    </div> 
     <div class="row">
         <!-- Primera columna -->
         @* NOMBRE *@
@@ -16,7 +14,7 @@
                 <label class="form-label">Nombre</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" placeholder="Ingrese su nombre" value="@Model.Nombre">
+                    <input type="text" class="form-control" asp-for="Nombre" name="Nombre" placeholder="Ingrese su nombre" value="@Model.Nombre">
                 </div>
             </div>
 
@@ -25,17 +23,16 @@
                 <label class="form-label">Correo Electrónico</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    <input type="email" class="form-control" placeholder="Ingrese su correo" value="@Model.Email">
+                    <input type="email" class="form-control" asp-for="Email" name="Email" placeholder="Ingrese su correo" value="@Model.Email">
                 </div>
             </div>
-
 
             @* FECHA ALTA *@
             <div class="mb-3">
                 <label class="form-label">Fecha de Alta</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
-                    <input type="date" asp-for="FechaAlta" class="form-control">
+                    <input type="date" asp-for="FechaAlta" name="FechaAlta" class="form-control">
                 </div>
             </div>
 
@@ -46,8 +43,6 @@
                     <span class="input-group-text"><i class="fa-solid fa-list-ul"></i></span>
                     <select class="form-select">
                         <option>Opción 1</option>
-                        <option>Opción 2</option>
-                        <option>Opción 3</option>
                     </select>
                 </div>
             </div>
@@ -65,10 +60,13 @@
 
             @* PASSWORD *@
             <div class="mb-3">
-                <label class="form-label">Contraseña</label>
+                <label class="form-label">Password</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    <input type="password" class="form-control" placeholder="Ingrese su contraseña" value="@Model.Password">
+                    <input type="password" id="password" asp-for="Password" class="form-control" placeholder="Ingrese su contraseña" value = "@Model.Password">
+                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                        <i class="fas fa-eye"></i> <!-- Ícono de ver -->
+                    </button>
                 </div>
             </div>
 
@@ -77,7 +75,7 @@
                 <label class="form-label">Teléfono</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                    <input type="text" class="form-control" placeholder="Ingrese su número de teléfono" value="@Model.Telefono">
+                    <input type="number" asp-for="Telefono" class="form-control" placeholder="Ingrese su número de teléfono" value="@Model.Telefono">
                 </div>
             </div>
 
@@ -103,8 +101,26 @@
         @* BOTONES *@
         <div class="fa-pull-left">
             <button id="btnAddUser" type="submit" class="btn btn-outline-success m-2"><span class="fa fa-check"></span> Aceptar</button>
-            <button id="btnAddUser" type="button" class="btn btn-outline-danger m-2"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+            <button id="btnCancel" type="button" class="btn btn-outline-danger m-2"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
         </div>
     </div>
 
 </form>
+
+
+<!-- Script : Ver / Ocultar pass -->
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        let passwordInput = document.getElementById("password");
+        let icon = this.querySelector("i");
+
+        // Alternar entre 'password' y 'text'
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.replace("fa-eye", "fa-eye-slash"); // Ícono de ocultar
+        } else {
+            passwordInput.type = "password";
+            icon.classList.replace("fa-eye-slash", "fa-eye"); // Ícono de mostrar
+        }
+    });
+</script>

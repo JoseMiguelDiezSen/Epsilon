@@ -6,6 +6,7 @@ using Epsilon.Models.Comun;
 using Epsilon.Renders;
 using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
@@ -107,13 +108,14 @@ namespace Epsilon.Controllers
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
             ViewFormAgregarUsuario vmAgregarUsuario = new ViewFormAgregarUsuario();
             vmAgregarUsuario.FechaAlta = DateTime.Now;
+            //vmAgregarUsuario.TurnoDeTrabajo = new SelectList(_gestionUsuarios.Context.Usuarios.ToList(), nameof(Usuario.IdUsuario), nameof(Usuario.TurnoDeTrabajo));
             string data = await _razorRenderService.ToStringAsync("FormAddUser", vmAgregarUsuario);
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
             return new JsonResult(jsonResponse);
         }
 
         /// <summary>
-        /// Método que contiene la funcionalidad de Añadir Periodos
+        /// Método que contiene la funcionalidad de Añadir Usuarios
         /// </summary>
         /// <param name="vmperiodo"></param>
         /// <returns></returns>
@@ -133,7 +135,7 @@ namespace Epsilon.Controllers
                     Telefono = vmUsuario.Telefono,
                     RutaFoto = vmUsuario.RutaFoto,
                     Activo = vmUsuario.Activo,
-
+                    //TurnoDeTrabajo = vmUsuario.TurnoDeTrabajo,
                 };
 
                 _gestionUsuarios.AddUser(usuario);
@@ -156,16 +158,16 @@ namespace Epsilon.Controllers
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
 
             Usuario usuario = new Usuario();
-
             //Obtenemos el usuario
             usuario = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == idUsuario).First();
 
             //Obtenmos los datos del usuario para mostrarlos
             ViewFormAgregarUsuario vmModificarUsuario = new ViewFormAgregarUsuario();
+
             vmModificarUsuario.Nombre = usuario.Nombre;
             vmModificarUsuario.Password = usuario.Password;
             vmModificarUsuario.Email = usuario.Email;
-            vmModificarUsuario.FechaAlta = usuario.FechaAlta; ;
+            vmModificarUsuario.FechaAlta = usuario.FechaAlta;
             vmModificarUsuario.Telefono = usuario.Telefono;
             vmModificarUsuario.RutaFoto = usuario.RutaFoto;
             vmModificarUsuario.Activo = usuario.Activo;

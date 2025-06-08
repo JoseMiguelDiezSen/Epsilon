@@ -6,6 +6,7 @@ namespace Epsilon.ViewModels
 {
     public class ViewFormAgregarUsuario
     {
+        [BindProperty]
         public int IdUsuario { get; set; }
 
         [BindProperty]

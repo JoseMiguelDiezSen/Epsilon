@@ -53,15 +53,13 @@ namespace Epsilon.Controllers
             return new JsonResult(jsonResponse);
         }
 
-
-
         /// <summary>
         /// Método que contiene la funcionalidad de Añadir Periodos
         /// </summary>
         /// <param name="vmperiodo"></param>
         /// <returns></returns>
         [HttpPost, AjaxOnly]
-        public async Task<JsonResult> AgregarTratamientoAsync(ViewFormAgregarTratamiento vmUsuario)
+        public async Task<JsonResult> AgregarTratamientoAsync(ViewFormAgregarTratamiento vmTratamiento)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 

@@ -76,9 +76,22 @@ namespace Negocio.Servicios
 
         public Usuario UpdateUser(Usuario usuario)
         {
+
+
+            //var p = Context.PeriodosPlanificacion.Single(x => x.IdPeriodo == periodo.IdPeriodo);
+
+            //var entity = Context.PeriodosPlanificacion.Update(p);
+
+            //if (Context.SaveChanges() == 0)
+            //{
+            //    throw new InvalidOperationException("No se aplicaron los cambios");
+            //}
+            //return entity.Entity;
+
             var usuarioActualizado = Context.Usuarios.Single(u => u.IdUsuario == usuario.IdUsuario);
             var entity = Context.Usuarios.Update(usuarioActualizado);
-            return usuarioActualizado;
+            Context.SaveChanges();
+            return entity.Entity;
         }
 
         public Usuario GetUser(long idUsuario)

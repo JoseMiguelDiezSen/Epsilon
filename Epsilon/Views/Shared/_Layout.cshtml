@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="~/Epsilon.styles.css" asp-append-version="true" />
 
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.slim.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+
     <!-- Enlaces a los archivos .css y .js del panel fijo lateral derecho -->
 @* 
  <script src="~/js/switch/theamswitcher.js"></script>
@@ -39,66 +46,66 @@
                     <ul class="navbar-nav flex-grow-1">
                         
                         @* (1) HOME - INICIO *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
                                 <span class="fa fa-home"></span>  Inicio</a>
                         </li>
 
                         @* (2) - USUARIOS *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">
                                 <span class="fa fa-user"></span>  Usuarios
                             </a>         
                         </li>
                    
                         @* (3) - MEDICOS *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Medicos" asp-action="Index">
                                 <span class="fa-solid fa-user-doctor"></span>  Medicos
                             </a>
                         </li>
 
                         @* (4) - PACIENTES *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Pacientes" asp-action="Index">
                                 <span class="fa-solid fa-user-injured"></span>   Pacientes</a>
                         </li>
 
                         @* (5) - CLINICAS *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Clinicas" asp-action="Index">
                                 <span class="fa-solid fa-hospital"></span>  Clinicas</a>
                         </li>
 
                         @* (6) - CITAS *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;" >
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Citas" asp-action="Index">
                                 <span class="fa-solid fa-file-circle-check"></span> Citas</a>
                         </li>
 
                         @* (7) - AGENDA *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Agenda" asp-action="Index">
                                 <span class="fa fa-calendar"></span>  Agenda
                             </a>
                         </li>
 
                         @* (8) - TRATAMIENTOS *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Tratamientos" asp-action="Index">
                                 <span class="fa-solid fa-file-medical"></span>  Tratamientos
                             </a>
                         </li>
 
                         @* (8) - RADIOLOGIA *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;">
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">
                                 <span class="fa-solid fa-circle-radiation"></span>  Radiologia
                             </a>
                         </li>
 
                         @* (9) - FACTURACION *@
-                        <li class="nav-item" style="padding:0px 10px 0px 10px;" >
+                        <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Facturacion" asp-action="Index">
                                 <span class="fa-solid fa-sack-dollar"></span>  Facturacion</a>
                         </li>
@@ -186,9 +193,15 @@
     </div>
 
     <footer class="border-top footer text-center" style="border-top:1px solid black;background-color:grey;border-top-color:yellow !important">
-        <div class="container">
-            &copy; 2025 - Epsilon - BY
-                <img src="~/media/JMDnegro.png" alt="" height="25px" width="50px" />
+        <div class="container" style="text-align: center; margin-top: 5px; text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);margin:2px !important;">
+         
+            <img src="~/media/logoJSMPequeño.png" alt="" height="25px" width="50px" />
+            © Copyright 2025 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
+                are trademarks of The JMD Corporation. All rights Reserved.
+                <img src="~/media/JMDnegro.png" alt="" height="25px" width="50px" /> 
+
+            
+              
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -203,5 +216,11 @@
  /*     .nav-item:hover {
  background-color:grey;
      } */
+    #botonMenu:hover{
+       background-color:gray;
+    }
+
+
+
 
 </style>
