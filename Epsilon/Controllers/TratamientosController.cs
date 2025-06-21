@@ -1,5 +1,6 @@
 ﻿using Calipso.Security;
 using Epsilon.Attributes;
+using Epsilon.Models;
 using Epsilon.Models.Comun;
 using Epsilon.Renders;
 using Epsilon.ViewModels;
@@ -32,7 +33,23 @@ namespace Epsilon.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            //PacientesViewModel vmUsuarios = new PacientesViewModel();
+
+
+            //IQueryable<Paciente> pacientes = _gestionPacientes.Context.Pacientes;
+
+
+            //IEnumerable<ViewPacientes> pacientes = new List<ViewPacientes>();
+
+            //pacientes = pacientes.Skip((vmUsuarios.PaginaActual - 1) * vmUsuarios.RegistrosPorPagina).Take(vmUsuarios.RegistrosPorPagina);
+
+            //if (pacientes.Any())
+            //{
+            //    pacientes = pacientes.Select(x => new ViewUsuario(x)).ToList();
+            //}
+
+            //vmUsuarios.Pacientes = pacientes;
+            return View("Index");
         }
 
         #region AgregarTratamiento

@@ -10,7 +10,7 @@ namespace Negocio.Persistencia
         private readonly ILogger<EpsilonDbContext> _logger;
 
         /// <summary>
-        /// 
+        /// Constructor del contexto de la BD
         /// </summary>
         /// <param name="options"></param>
         /// <param name="logger"></param>
@@ -19,7 +19,6 @@ namespace Negocio.Persistencia
             _logger = logger;
             _extensiones = new ExtensionesEpsilon(this);
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,15 +54,15 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Paciente>().HasKey(m => m.IdPaciente);
             modelBuilder.Entity<Paciente>().Property(m => m.IdPaciente);
             modelBuilder.Entity<Paciente>().Property(m => m.NombrePaciente);
-            //modelBuilder.Entity<Paciente>().Property(m => m.DNI);
-            //modelBuilder.Entity<Paciente>().Property(m => m.NumeroColegiado);
-            //modelBuilder.Entity<Paciente>().Property(m => m.Especialidad);
-            //modelBuilder.Entity<Paciente>().Property(m => m.Telefono);
-            //modelBuilder.Entity<Paciente>().Property(m => m.EMail);
-            //modelBuilder.Entity<Paciente>().Property(m => m.FechaContratacion);
-            //modelBuilder.Entity<Paciente>().Property(m => m.Activo);
-            //modelBuilder.Entity<Paciente>().Property(m => m.Observaviones);
-            //modelBuilder.Entity<Paciente>().Property(m => m.Foto);
+            modelBuilder.Entity<Paciente>().Property(m => m.DNI);
+            modelBuilder.Entity<Paciente>().Property(m => m.Telefono);
+            modelBuilder.Entity<Paciente>().Property(m => m.EMail);
+            modelBuilder.Entity<Paciente>().Property(m => m.Direccion);
+            modelBuilder.Entity<Paciente>().Property(m => m.FechaNacimiento);
+            modelBuilder.Entity<Paciente>().Property(m => m.Ciudad);
+            modelBuilder.Entity<Paciente>().Property(m => m.FechaAlta);
+            modelBuilder.Entity<Paciente>().Property(m => m.NumeroConsultas);
+            modelBuilder.Entity<Paciente>().Property(m => m.Asegurado);
 
             //TABLA CLINICAS
             modelBuilder.Entity<Clinica>().HasKey(m => m.IdClinica);
@@ -184,12 +183,6 @@ namespace Negocio.Persistencia
 
         //Tabla tratamientos
         public virtual DbSet<Modelos.Tratamiento> Tratamientos { get; set; }
-
-       
-
-
-
-
 
         public virtual DbSet<Modelos.PeriodoPlanificacion> PeriodosPlanificacion { get; set; }
 

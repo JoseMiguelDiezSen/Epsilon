@@ -1,0 +1,111 @@
+﻿@using Epsilon.ViewModels
+
+@model IEnumerable<ViewPacientes>
+
+<table class="table table-striped table-bordered table-hover table-group-divider table-responsive table-sm" style="border: 1px solid gainsboro;">
+
+    <thead>
+        <tr>
+            <th scope="col" class="text-center" width="1%">#</th>
+            @*<th scope="col">IDUSUARIO</th>*@
+            <th scope="col">PACIENTE</th>
+            <th scope="col">DNI</th>
+            <th scope="col">TELEFONO</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">CIUDAD</th>
+            <th scope="col">ASEGURADO</th>
+            <th scope="col">F.ALTA</th>
+            <th csope="col">Nº CONSULTAS</th>
+            <th scope="col">OPERACIONES</th>
+        </tr>
+    </thead>
+
+    <tbody id="idBodyTable">
+
+        @if (Model.Count() > 0)
+        {
+            foreach (var paciente in Model)
+            {
+                <tr id="idFilaPeriodo_" class="text-center">
+                    <td class="text-center">
+                        <span class="fa fa-user"></span>
+                    </td>
+                    @* <td> @usuario.IdUsuario.ToString()</td> *@
+                    <td style="text-align:left"> @paciente.NombrePaciente?.ToString()</td>
+                    <td style="text-align:left"> @paciente.DNI?.ToString()</td>
+                    <td style="text-align:left"> @paciente.Telefono.ToString()</td>
+                    <td style="text-align:left"> @paciente.EMail?.ToString()</td>
+                    <td style="text-align:left"> @paciente.Ciudad?.ToString()</td>
+                    <td>
+                        <input id="check" type="checkbox" readonly @(paciente.Asegurado ? "checked=\" checked\"" : "") />
+                    </td>
+                    <td style="text-align:left"> @paciente.FechaAlta.ToShortDateString()</td>
+                    <td style="text-align:left"> @paciente.NumeroConsultas.ToString()</td>
+
+                    <td>
+                        <div aria-label="Basic Example">
+
+                            <a class="btn btn-sm btn-outline-dark" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
+                                <span class="fa fa-pencil"> </span>
+                            </a>
+
+                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                                <span class="fa fa-circle-xmark"> </span>
+                            </button>
+
+
+                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                                <i class="fa fa-calendar-plus"></i>
+                            </button>
+
+
+                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                                <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                            </button>
+
+                        </div>
+                    </td>
+                    @* }
+
+                    @if (DateTime.Now.Year != usuario.FechaAlta.Year)
+                    { *@
+                    @*       <td>
+                            <div class="btn-group" role="group" aria-label="Basic Example">
+
+                                <a class="btn btn-sm btn-outline-dark" id="btnEditar" onclick="jqGetModalModifyUser('Usuarios/ModalModificarPeriodo/@usuario.IdUsuario','Modificar Periodo de Planificacion','modificarPeriodo',@usuario.IdUsuario)">
+                                    <img id="iconoEditarPeriodo" src="~/media/logoJSMGrandeBlanco.png" alt="Editar" title="Editar Periodo" />
+                                </a>
+
+                                <a class="btn btn-sm btn-outline-dark" id="btnEliminar" onclick="jqGetModalDeleteUser('Usuarios/EliminarPeriodo/@usuario.IdUsuario','Modificar Periodo de Planificacion','modificarPeriodo',@usuario.IdUsuario)">
+                                    <img id="iconoEliminarPeriodo" src="~/media/logoJSMGrandeBlanco.png" alt="Editar" title="Editar Periodo" />
+                                </a>
+                            </div>
+                        </td>
+                    } *@
+
+            
+                </tr>
+
+            
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">
+                    <span class="text-black-50 m-2">(No hay resultados que mostrar)</span>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<style>
+    #check{
+        width: 20px !important;
+        height: 20px !important;
+    color:dimgrey !important;
+
+    }
+</style>

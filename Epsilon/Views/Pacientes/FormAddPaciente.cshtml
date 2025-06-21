@@ -1,0 +1,101 @@
+﻿@using Epsilon.ViewModels
+@model ViewFormAgregarPaciente
+
+<form id="addPaciente" method="post" asp-action="AgregarPaciente" name="addPaciente" onsubmit="return jqPostAddPaciente(this);" style="border:1px solid gainsboro;padding:10px">
+
+    <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
+        <img src="~/media/deep.jpg" alt="" height="150px" width="150px" style="border-radius:100px;border:1px solid grey" name="RutaFoto" asp-for="RutaFoto" />
+    </div>
+
+    <div class="row">
+        <!-- Primera columna -->
+        @* NOMBRE *@
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" asp-for="NombrePaciente" placeholder="Ingrese su nombre">
+                </div>
+            </div>
+
+            @* DNI *@
+            <div class="mb-3">
+                <label class="form-label">DNI</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="text" class="form-control" asp-for="DNI" placeholder="Ingrese el DNI">
+                </div>
+            </div>
+
+            @* FECHA ALTA *@
+            <div class="mb-3" style="margin-top:20px;">
+                <label class="form-label">Fecha de Alta</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                    <input type="date" asp-for="FechaAlta" class="form-control">
+                </div>
+            </div>
+
+            @* TURNO DE TRABAJO *@
+            <div class="mb-3">
+                <label class="form-label">Turno de Trabajo</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-list-ul"></i></span>
+                    <select class="form-select">
+                        <option>Opción 1</option>
+                    </select>
+                </div>
+            </div>
+
+            @* ACTIVO *@
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" asp-for="Asegurado">
+                    <label class="form-check-label">Activo</label>
+                </div>
+            </div>
+        </div>
+        <!-- Segunda columna -->
+        <div class="col-md-6">
+
+
+            @* COMENTARIOS *@ 
+            <div class="mb-3">
+                <label class="form-label">Comentarios</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                    <textarea class="form-control" rows="1" placeholder="Escriba sus comentarios" name="Comentarios"></textarea>
+                </div>
+            </div>
+
+
+            @* TELEFONO *@
+            <div class="mb-3">
+                <label class="form-label">Teléfono</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    <input type="number" class="form-control" asp-for="Telefono" name="Telefono" placeholder="Ingrese su número de teléfono">
+                </div>
+            </div>
+
+            @* COMENTARIOS *@ 
+            <div class="mb-3">
+                <label class="form-label">Comentarios</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                    <textarea class="form-control" rows="1" placeholder="Escriba sus comentarios" name="Comentarios"></textarea>
+                </div>
+            </div>
+
+        @* BOTONES *@
+        <div class="fa-pull-left">
+            <button id="btnAddUser" type="submit" class="btn btn-outline-success m-2"><span class="fa fa-check"></span> Aceptar</button>
+            <button id="btnCancel" type="button" class="btn btn-outline-danger m-2"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+        </div>
+    </div>
+</form>
+
+
+
+

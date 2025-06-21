@@ -1,7 +1,295 @@
-﻿<h4> Pacientes </h4>
+﻿@model PacientesViewModel
+
+@{
+    ViewData["Title"] = "Pacientes";
+}
+@{
+    // await Html.RenderPartialAsync("_MensajeOperaciones");
+}
+
+<h4> Pacientes </h4>
+
+<hr>
+<button id="AddUser" type="button" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddPaciente(this)"><span class="fa fa-plus"></span> Nuevo <b>Paciente</b></button>
+<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-dark fa-pull-left" onclick="jqGetModalExportarExcel()"><i class="fa fa-file-import"></i> Importar <b>Pacientes</b></button>
+<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-warning fa-pull-left" onclick="jqGetModalExportarExcel()"><i class="fa fa-envelope"></i> Modificar <b>Pacientes</b></button>
+<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-success fa-pull-right" onclick="jqGetModalExportarExcel()"><i class="fa fa-pen-to-square"></i> Modificar <b>Pacientes</b></button>
+<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-secondary fa-pull-left" onclick="jqGetModalExportarExcel()"><i class="fa fa-envelope"></i> Modificar <b>Pacientes</b></button>
+<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-danger fa-pull-right" onclick="jqGetModalExportarExcel()"><i class="fa fa-pen-to-square"></i> Modificar <b>Pacientes</b></button>
+<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-info fa-pull-right" onclick="jqGetModalExportarExcel()"><i class="fa fa-pen-to-square"></i> Modificar <b>Pacientes</b></button>
+<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-light fa-pull-right" onclick="jqGetModalExportarExcel()"><i class="fa fa-pen-to-square"></i> Modificar <b>Pacientes</b></button>
+<br />
+<hr>
+
+
+<button style="background-color:gainsboro;" class="accordion">Paciente</button>
+
+
+
+<div class="panel" style="border-bottom:1px solid gainsboro;border-left:1px solid gainsboro;border-right:1px solid gainsboro;padding:10px;" id="detallePaciente">
+
+    <h6>Datos del Paciente</h6>
+
+
+    <div class="row">
+
+        <div class="col-sm-3"><b>Nombre</b>@Model.NombrePaciente</div>
+
+        <div class="col-sm-3"><b>DNI</b>@Model.DNI</div>
+
+        <div class="col-sm-3"><b>Telefono</b>@Model.Telefono</div>
+
+        <div class="col-sm-3"><b>E-Mail</b>@Model.EMail</div>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-sm-3"><b>Fecha Nacimiento</b>@Model.FechaNacimiento</div>
+
+        <div class="col-sm-3"><b>Direccion</b>@Model.Direccion</div>
+
+        <div class="col-sm-3"><b>Ciudad</b>@Model.Ciudad</div>
+
+        <div class="col-sm-3"><b>Direccion</b>@Model.Direccion</div>
+
+    </div>
+
+</div>
+<br />
 
 
 
 
 
 
+
+
+
+
+
+
+
+<br />
+<hr>
+
+
+<div class="form-group row">
+
+    <div class="col-md-2">
+        <label class="form-label">Nombre</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
+            <input type="text" class="form-control" placeholder="Ingrese su nombre">
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <label class="form-label">DNI</label>
+        <div class="input-group">
+            <span class="input-group-text">
+                <i class="fa fa-address-card" aria-hidden="true"></i>
+            </span>
+            <input type="text" class="form-control" placeholder="Ingrese su nombre">
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <label class="form-label">Nombre</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
+            <input type="text" class="form-control" placeholder="Ingrese su nombre">
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <label class="form-label">Correo Electrónico</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            <input type="email" class="form-control" placeholder="Ingrese su correo">
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <label class="form-label">Teléfono</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+            <input type="text" class="form-control" placeholder="Ingrese su número de teléfono" style="padding-right:15px;">
+
+        </div>
+    </div>
+
+
+
+    <div class="col-md-12 fa fa-pull-right" style="margin-top:-35px !important;">
+        <label for="lblBuscar"></label>
+
+        <button type="submit" style="float:right !important;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
+            <span class="fa fa-search"></span> Buscar
+        </button>
+
+    </div>
+</div>
+<hr>
+<br />
+
+
+<div style="border:1px solid gainsboro;">
+    <div id="idResultadosFiltro" class="text-center">
+        @{
+            await Html.RenderPartialAsync("TablaPacientes", Model.Pacientes);
+        }
+    </div>
+
+</div>
+
+
+@section Styles {
+    <link href="~/css/Pacientes.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/js/Pacientes.js" asp-append-version="true"></script>
+    <script src="~/js/Paginador.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+}
+
+
+@section Modals {
+    @* Modal agregar paciente *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="addPacienteModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Alta Paciente</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal modificar paciente *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="updatePacienteModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Modificar datos del Paciente</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal eliminar paciente *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="deletePacienteModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Eliminar paciente</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal importar pacientes *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="importarExcel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Importar pacientes</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<style>
+
+    /* Style the buttons that are used to open and close the accordion panel */
+    .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: crosshair;
+        padding: 18px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+    }
+
+        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+
+    /* Style the accordion panel. Note: hidden by default */
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        display: none;
+        overflow: hidden;
+    }
+
+
+    .accordion:after {
+        content: '\02795'; /* Unicode character for "plus" sign (+) */
+        font-size: 13px;
+        color: #777;
+        float: right;
+        margin-left: 5px;
+        display: block;
+    }
+
+    .active:after {
+        content: "\2796"; /* Unicode character for "minus" sign (-) */
+    }
+
+
+    checkbox {
+        width: 25px !important;
+        height: 25px !important;
+        background-color: dimgrey !important;
+    }
+
+</style>
+
+<script>
+
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+    panel.style.display = "none";
+    } else {
+    panel.style.display = "block";
+    }
+    });
+    }
+</script>

@@ -1,41 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Epsilon.ViewModels;
 
-namespace Negocio.Persistencia.Modelos
+namespace Epsilon.Models
 {
-    [Table("Pacientes")]
-    public class Paciente
+    public class PacientesViewModel
     {
-        [Key]
         public int IdPaciente { get; set; }
-
-        [Required]
         public string? NombrePaciente { get; set; }
-
-        [Required]
-        [MaxLength(50)]
         public string? DNI { get; set; }
-
-        [Required]
         public int Telefono { get; set; }
-
-        [Required]
-        [EmailAddress]
-        [MaxLength(50)]
         public string? EMail { get; set; }
-
-        public DateTime FechaNacimiento { get; set; }
-
-        [Required]
-        [MaxLength(50)]
         public string? Direccion { get; set; }
-
+        public DateTime FechaNacimiento { get; set; }
         public string? Ciudad { get; set; }
-        
         public DateTime FechaAlta { get; set; }
-
         public int NumeroConsultas { get; set; }
-
         public bool Asegurado { get; set; }
+
+        public IEnumerable<ViewPacientes> Pacientes { get; set; } = Enumerable.Empty<ViewPacientes>();
     }
 }

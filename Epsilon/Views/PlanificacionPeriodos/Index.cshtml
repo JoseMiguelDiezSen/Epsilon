@@ -113,3 +113,50 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 
 } 
+
+@section Modals {
+    @* Modal agregar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="addUserModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Alta Usuario</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal modificar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="updateUserModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Modificar datos del Usuario</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal eliminar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="deleteUserModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Eliminar usuario</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+}
