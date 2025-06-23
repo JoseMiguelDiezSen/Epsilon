@@ -1,10 +1,12 @@
 ﻿@model UsuariosViewModel
-
 @{
     ViewData["Title"] = "Tratamientos";
 }
 
-<h4> Tratamientos </h4>
+<hr>
+<h4 class="text-center"><span class="fa-solid fa-file-medical"></span> Tratamientos <span class="fa-solid fa-file-medical"></span></h4>
+<hr>
+
 
 <button id="AddUser" type="button" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddUser()"><span class="fa fa-plus"></span> Nuevo <b>Tratamiento</b></button>
 
@@ -14,11 +16,12 @@
 <div class="container mt-12" id="container">
 
     <ul class="nav nav-tabs" id="miTab" role="tablist">
+
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="tabOdontologiaGeneral-tab" data-bs-toggle="tab" data-bs-target="#tabOdontologiaGeneral" type="button" role="tab" aria-controls="tabOdontologiaGeneral" aria-selected="true"><span class="fa fa-graduation-cap pull-left" style="margin-top:5px;"></span> Ortodoncia General </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="tabOdontologiaPediatrica-tab" data-bs-toggle="tab" data-bs-target="#tabOdontologiaPediatrica" type="button" role="tab" aria-controls="tabOdontologiaPediatrica" aria-selected="true"><span class="fa fa-graduation-cap pull-left" style="margin-top:5px;"></span> Ortodoncia Pediadrica </button>
+            <button class="nav-link" id="tabOdontologiaPediatrica-tab" data-bs-toggle="tab" data-bs-target="#tabOdontologiaPediatrica" type="button" role="tab" aria-controls="tabOdontologiaPediatrica" aria-selected="true"><span class="fa fa-graduation-cap pull-left" style="margin-top:5px;"></span> Ortodoncia Pediadrica </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="tabEndodoncia-tab" data-bs-toggle="tab" data-bs-target="#tabEndodoncia" type="button" role="tab" aria-controls="tabEndodoncia" aria-selected="false"><span class="fa fa-user" style="margin-top:5px;"></span> Endodoncia </button>
@@ -28,7 +31,7 @@
     @* Content - Tabs *@
     <div class="tab-content" id="myTabContent">
 
-        <div class="tab-pane fade show active" id="tabOdontologiaGeneral" role="tabpanel" arialabelledby="tab1-tab">
+        <div class="tab-pane fade show active" id="tabOdontologiaGeneral" role="tabpanel" aria-labelledby="tab1-tab">
 
             <table class="table table-secondary table-striped">
                 <thead>
@@ -42,13 +45,13 @@
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>Juan Pérez</td>
+                        <td>Juan Sanchez</td>
                         <td>odonjuan@example.com</td>
                         <td>123456789</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>María López</td>
+                        <td>María Lopez</td>
                         <td>odonmaria@example.com</td>
                         <td>987654321</td>
                     </tr>
@@ -57,7 +60,7 @@
         
         </div>
 
-        <div class="tab-pane fade fade" id="tabOdontologiaPediatrica" role="tabpanel" arialabelledby="tab2-tab">
+        <div class="tab-pane fade fade" id="tabOdontologiaPediatrica" role="tabpanel" aria-labelledby="tab2-tab">
 
             <table class="table table-secondary table-striped">
                 <thead>
@@ -71,13 +74,13 @@
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>Juan Pérez</td>
+                        <td>Juan pacheco</td>
                         <td>odonPedrjuan@example.com</td>
                         <td>123456789</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>María López</td>
+                        <td>María Penal</td>
                         <td>odonPedrmaria@example.com</td>
                         <td>987654321</td>
                     </tr>
@@ -100,13 +103,13 @@
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>Juan Pérez</td>
+                        <td>Juan Ignacio</td>
                         <td>endojuan@example.com</td>
                         <td>123456789</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>María López</td>
+                        <td>María Gallardo</td>
                         <td>endomaria@example.com</td>
                         <td>987654321</td>
                     </tr>
@@ -172,118 +175,8 @@
         </div>
     </div>
 }
-<style>
-
-
-/* ---------------------------------------------------------- */
-
-
-#detallesEdicion {
-        border: 1px solid gainsboro;
-        padding: 10px;
-        padding-bottom: 20px;
-}
-
-#detallesCurso {
-        border: 1px solid gainsboro;
-        padding: 10px;
-        padding-bottom: 20px;
-}
-
-/* ------------------------------------------ */
-/* Accordeon */
-.accordion {
-        background-color: #eee;
-        /* color: #444; */
-        cursor: pointer;
-        padding: 18px;
-        width: 100%;
-        border: none;
-        text-align: left;
-        outline: none;
-        font-size: 15px;
-        transition: 0.4s;
-    }
-
-.active, .accordion:hover {
-        background-color: #ccc;
-    }
-
-.panel {
-        padding: 0 18px;
-        display: none;
-        background-color: white;
-        overflow: hidden;
-    }
-
-.accordion:after {
-    content: '\02795';
-    font-size: 13px;
-    color: #777;
-    float: right;
-    margin-left: 5px;
-    }
-
-.accordion.active:after {
-        content: "\2796";
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /* Hace mas ancho el grid */
-    #btnImportarAlumnos {
-        padding: 5px 10px 5px 10px !important;
-    }
-
-    #btnCancelarImportacion {
-        padding: 5px 10px 5px 10px !important;
-    }
-
-    /* Proceso Excel */
-    #modeloInsercionAlumnos {
-        width: 100%;
-        margin-bottom: 20px;
-        border: 1px solid gainsboro;
-    }
-
-        #modeloInsercionAlumnos:hover {
-            cursor: pointer;
-        }
-
-    #modalExcel {
-        min-width: 1390px !important;
-        margin-left: -5%;
-        margin-top: 60px;
-    }
-
-    #gridExcelAlumnos {
-        width: 1360px !important;
-    }
-
-
-
-</style>
-
-
 
 @section Styles {
     <link href="~/css/Tratamientos.css" rel="stylesheet" />
-    <link href="~/css/viewcomponents/selectorediciones.css" rel="stylesheet" />
 }
 
-@* @section Scripts {
-    <script src="~/js/viewcomponents/SelectorEdiciones.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/js/ejecucionediciones.js"></script>
-} *@

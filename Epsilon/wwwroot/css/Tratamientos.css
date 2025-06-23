@@ -1,4 +1,8 @@
-﻿/* Estilos Pestañas */
+﻿body {
+background-color:#be9f9f;
+}
+
+/* Estilos Pestañas */
 #container {
     margin-top: 10px;
     min-width: 100%;

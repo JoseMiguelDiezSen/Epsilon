@@ -32,7 +32,7 @@
             <div class="container-fluid" style="background-color:grey">
 
                 @* IMAGEN APP *@
-                <a class="navbar-brand" asp-controller="home" asp-action="index">
+                <a class="navbar-brand" asp-controller="home" asp-action="index" style="margin-top:-7px;">
                     <img src="~/media/epsilon.png" width="20" height="20" />
                 </a>
 
@@ -98,7 +98,7 @@
 
                         @* (8) - RADIOLOGIA *@
                         <li class="nav-item" style="padding:0px 10px 0px 10px;" id="botonMenu">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Radiologia" asp-action="">
                                 <span class="fa-solid fa-circle-radiation"></span>  Radiologia
                             </a>
                         </li>
@@ -216,7 +216,7 @@
  background-color:grey;
      } */
     #botonMenu:hover{
-       background-color:gray;
+       background-color:yellow
     }
 
 
