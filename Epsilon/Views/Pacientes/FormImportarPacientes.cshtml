@@ -1,6 +1,6 @@
 ﻿@model FormImportarExcel
 
-<form id="idImportarExcel" enctype="multipart/form-data" method="post" asp-action="ImportarExcel" onsubmit="return jqPostModalExportarExcel(this)">
+<form id="idImportarExcel" enctype="multipart/form-data" method="post" asp-action="ImportarExcel" onsubmit="return jqPostModalImportarExcel(this)">
 
     <h5 class="text-center" style="padding-bottom:10px;">Importar desde Excel</h5>
 
@@ -20,8 +20,6 @@
             <a href=@Url.Content("~/documentos/InsercionPacientes.xlsx")>Descargar Modelo de Plantilla</a>
         </div>
     </div>
-
-
 
     <div class="mt-2">
         <button id="btnAceptar" type="submit" class="btn btn-outline-success ml-1"><span class="fa fa-check"></span> Aceptar</button>

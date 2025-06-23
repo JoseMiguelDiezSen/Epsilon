@@ -195,21 +195,15 @@
         $.ajax({
             url: "/Pacientes/ModalImportarExcel",
             type: "GET",
-            
+
             contentType: false,
             processData: false,
             success: function (response) {
-                /*//alert("Importación exitosa!");*/
-                //document.querySelector(".modal-title").textContent = "Eliminar Usuario";
                 // Inserta la vista en el modal como HTML
                 $('#importarExcel .modal-body').html(response.data);
-                // Abre el modal (Bootstrap 4)
-                //$('#updateUserModal').modal('show');
-
                 // Abre el modal (Bootstrap 5)
                 let modal = new bootstrap.Modal(document.getElementById('importarExcel'));
                 modal.show();
-
             },
             error: function () {
                 alert("Error al importar el archivo.");
@@ -218,32 +212,32 @@
     }
 
 
-jqPostModalExportarExcel = (form) => {
+    jqPostModalImportarExcel = (form) => {
 
-    let formData = new FormData();
-    let fileInput = document.getElementById("file").files[0];
+        let formData = new FormData();
+        let fileInput = document.getElementById("file").files[0];
 
-    if (!fileInput) {
-        alert("Selecciona un archivo primero.");
-        return;
-    }
-
-    formData.append("fileExcel", fileInput);
-
-    $.ajax({
-        url: "/Pacientes/ImportarExcel",
-        type: "POST",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            alert("Importación exitosa!");
-        },
-        error: function () {
-            alert("Error al importar el archivo.");
+        if (!fileInput) {
+            alert("Selecciona un archivo primero.");
+            return;
         }
-    })
-}
+
+        formData.append("fileExcel", fileInput);
+
+        $.ajax({
+            url: "/Pacientes/ImportarExcel",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                alert("Importación exitosa!");
+            },
+            error: function () {
+                alert("Error al importar el archivo.");
+            }
+        })
+    }
 });
 //jqCheckAddPeriodo = () => {
 

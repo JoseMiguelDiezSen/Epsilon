@@ -3,23 +3,13 @@
 @{
     ViewData["Title"] = "Usuarios";
 }
-
-<div class="text-center">
-    <div class="pull-left">
-        <a class="btn btn btn-link btn-sm" href="./" title="Volver a Inicio">
-            <span class="fa arrow-circle-left text-black-50" style="font-size:2em;"></span>
-        </a>
-    </div>
-    <h2>
-    
-            <font size="5">Gestion de Usuarios</font>
-      
-    </h2>
-</div>
-
 @{
     // await Html.RenderPartialAsync("_MensajeOperaciones");
 }
+
+<hr>
+<h4 class="text-center"><span class="fa fa-user"></span> Usuarios <span class="fa fa-user"></span></h4>
+<hr>
 
 <form id="id_Form" method="post" asp-action="FiltrarUsuarios" onsubmit="return jqPostFiltrar(event, this)">
     <h4>Busqueda de Usuarios</h4>
@@ -89,15 +79,13 @@
     <a class="btn btn-sm btn-outline-secondary PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">Siguiente</a>
 </div> *@
 
-
-
 @section Styles {
     <link href="~/css/Usuarios.css" rel="stylesheet" />
 }
 
 @section Scripts {
     <script src="~/js/Usuarios.js" asp-append-version="true"></script>
-@*     <script src="~/js/Paginador.js" asp-append-version="true"></script> *@
+    <script src="~/js/Paginador.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>

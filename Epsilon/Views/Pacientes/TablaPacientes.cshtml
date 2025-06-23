@@ -2,12 +2,12 @@
 
 @model IEnumerable<ViewPacientes>
 
-<table class="table table-striped table-bordered table-hover table-group-divider table-responsive table-sm" style="border: 1px solid gainsboro;">
+<table class="table table-striped table-bordered table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
 
     <thead>
+        @* Cabecera *@
         <tr>
             <th scope="col" class="text-center" width="1%">#</th>
-            @*<th scope="col">IDUSUARIO</th>*@
             <th scope="col">PACIENTE</th>
             <th scope="col">DNI</th>
             <th scope="col">TELEFONO</th>
@@ -31,16 +31,17 @@
                         <span class="fa-solid fa-user-injured"></span>
                     </td>
                     <td style="text-align:left"> @paciente.NombrePaciente?.ToString()</td>
-                    <td style="text-align:left"> @paciente.DNI?.ToString()</td>
-                    <td style="text-align:left"> @paciente.Telefono.ToString()</td>
+                    <td style="text-align:center"> @paciente.DNI?.ToString()</td>
+                    <td style="text-align:center"> @paciente.Telefono.ToString()</td>
                     <td style="text-align:left"> @paciente.EMail?.ToString()</td>
                     <td style="text-align:left"> @paciente.Ciudad?.ToString()</td>
                     <td>
-                        <input id="check" type="checkbox" @(paciente.Asegurado ? "checked=\" checked\"" : "") />
+                        <input id="checkAsegurado" type="checkbox" @(paciente.Asegurado ? "checked=\" checked\"" : "") disabled />
                     </td>
-                    <td style="text-align:left"> @paciente.FechaAlta.ToShortDateString()</td>
+                    <td style="text-align:center"> @paciente.FechaAlta.ToShortDateString()</td>
                     <td style="text-align:center"> @paciente.NumeroConsultas.ToString()</td>
 
+                    @* OPERACIONES *@
                     <td>
                         <div aria-label="Basic Example">
 
@@ -53,37 +54,28 @@
                             </button>
 
 
-                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalAbrirCitacionPaciente(@paciente.IdPaciente)">
                                 <i class="fa fa-calendar-plus"></i>
                             </button>
 
 
-                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalExpandRor(@paciente.IdPaciente)">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                             </button>
-
                         </div>
-                    </td>            
-                </tr>       
+                    </td>
+                </tr>
             }
         }
+
+        @* SI NO HAY RESULTADOS *@
         else
         {
             <tr>
                 <td colspan="7" class="text-center">
-                    <span class="text-black-50 m-2">(No hay resultados que mostrar)</span>
+                    <span class="text-black-50 m-2">(No hay resultados)</span>
                 </td>
             </tr>
         }
-
     </tbody>
 </table>
-
-<style>
-    #check{
-        width: 20px !important;
-        height: 20px !important;
-    color:dimgrey !important;
-
-    }
-</style>

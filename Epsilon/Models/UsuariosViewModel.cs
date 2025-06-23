@@ -1,5 +1,4 @@
 ﻿using Epsilon.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Epsilon.Models
 {

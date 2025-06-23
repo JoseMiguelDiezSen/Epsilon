@@ -1,16 +1,16 @@
-﻿
-
-
-<h4> Medicos </h4>
-
+﻿@model PacientesViewModel
 
 @{
-    ViewData["Title"] = "Formacion de Ediciones";
+    ViewData["Title"] = "Pacientes";
 }
 @{
-    // await Html.RenderPartialAsync("_MensajesOperaciones");
-    // await Html.RenderPartialAsync("_TituloPagina");
+    // await Html.RenderPartialAsync("_MensajeOperaciones");
 }
+
+<hr>
+<h4 class="text-center"><span class="fa-solid fa-user-doctor"></span> Doctores <span class="fa-solid fa-user-doctor"></span></h4>
+<hr>
+
 @* 
 
 <input type="hidden" asp-for="IdEdicion" id="IdEdicion" name="IdEdicion" value="@Model.IdEdicion" />
@@ -55,6 +55,7 @@
 
 
 @section Styles {
+    <link href="~/css/Medicos.css" rel="stylesheet" />
     <link href="~/css/ejecucionediciones.css" rel="stylesheet" />
     <link href="~/css/viewcomponents/selectorediciones.css" rel="stylesheet" />
 }

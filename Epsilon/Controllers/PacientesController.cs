@@ -206,12 +206,7 @@ namespace Epsilon.Controllers
             return new JsonResult(response);
         }
 
-
-
-
-
         #endregion
-
 
         #region ImportarPacientes
 
@@ -219,8 +214,8 @@ namespace Epsilon.Controllers
         public async Task<JsonResult> ModalImportarExcel()
         {
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
-            FormImportarExcel vmAgregarUsuario = new FormImportarExcel();           
-            string data = await _renderService.ToStringAsync("FormImportarPacientes", vmAgregarUsuario);
+            FormImportarExcel vmUsuariosExcel = new FormImportarExcel();           
+            string data = await _renderService.ToStringAsync("FormImportarPacientes", vmUsuariosExcel);
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
             return new JsonResult(jsonResponse);
         }
@@ -274,24 +269,9 @@ namespace Epsilon.Controllers
                     pacientesJSON = await _renderService.ToStringAsync("FormImportarPacientes", pacientesJSON);
 
                     return jsonResult;
-
-                    
-             
                 }
             };
         }
-
-
-
-
-
-
-
-        private string? EmptyString(object text)
-        {
-            return text != null ? text.ToString() : string.Empty;
-        }
-
         #endregion
     }
 }
