@@ -121,6 +121,7 @@ namespace Epsilon.Controllers
             //Obtenmos los datos del usuario para mostrarlos
             ViewFormAgregarPaciente vmPaciente = new ViewFormAgregarPaciente();
 
+            vmPaciente.IdPaciente = idPaciente;
             vmPaciente.NombrePaciente = paciente.NombrePaciente;
             vmPaciente.DNI = paciente.DNI;
             vmPaciente.Telefono = paciente.Telefono;
@@ -133,7 +134,7 @@ namespace Epsilon.Controllers
             vmPaciente.Asegurado = paciente.Asegurado;
 
             //Mostrar Modal
-            string data = await _renderService.ToStringAsync("FormUpdatePaciente", vmPaciente);
+            string data = await _renderService.ToStringAsync("FormModificarPaciente", vmPaciente);
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
             return new JsonResult(jsonResponse);
         }
@@ -205,6 +206,10 @@ namespace Epsilon.Controllers
             return new JsonResult(response);
         }
 
+
+
+
+
         #endregion
 
 
@@ -265,7 +270,13 @@ namespace Epsilon.Controllers
                         }
                     }
                     string pacientesJSON = JsonSerializer.Serialize(pacientes);
+
+                    pacientesJSON = await _renderService.ToStringAsync("FormImportarPacientes", pacientesJSON);
+
                     return jsonResult;
+
+                    
+             
                 }
             };
         }

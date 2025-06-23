@@ -1,28 +1,31 @@
 ﻿@model FormImportarExcel
 
-<form id="idImportarExcel" enctype="multipart/form-data" method="post" style="max-width:70% !important;" asp-action="ProcesarFicheroExcel" onsubmit="return jqPostModalExportarExcel(this)">
+<form id="idImportarExcel" enctype="multipart/form-data" method="post" asp-action="ImportarExcel" onsubmit="return jqPostModalExportarExcel(this)">
 
-    <h4 class="text-center" style="padding-left:200px;padding-bottom:10px;">Importar desde Excel</h4>
+    <h5 class="text-center" style="padding-bottom:10px;">Importar desde Excel</h5>
 
-    <div style="border:1px solid gainsboro;padding:10px;width:143%;" class="col-md-12">
-   @* 
-        <img src="media/modeloInsercionAlumnos.png" onclick="window.open(this.src, '_blank');" alt="Modelo Insercion " id="modeloInsercionAlumnos" target="_blank" />
- *@
-        <hr style="border-top: 1px dotted gainsboro">
+    <div style="border:1px solid gainsboro;padding:10px;" class="col-md-12">
 
-        <div class="col-md-12 text-center" style="left:10%;padding-left:10px;">
-            <label class="labelExcel" for="excel" id="excelFile" style="margin-right:5px;margin-bottom:5px;">Seleccione un archivo Excel para importar</label>
-            <input type="file" class="form-control" id="file" name="file" style="width:50%;margin-left:25%;margin-bottom:10px;" accept=".xlsx, .xls">
-            <div id="errorMessage" style="color: red; display: none;">Por favor, suba un fichero en formato Excel.</div>
+        <div class="col-md-12 text-center" style="left:10%;">
+     
+            <div class="mb-3">
+                <label class="labelExcel" for="excel" id="excelFile" style="margin-right:5px;margin-bottom:5px;">Seleccione un archivo Excel para importar</label>
+                <div class="input-group">
+                    <input id="file" name="file" type="file" class="form-control" accept=".xlsx, .xls">
+                    <span class="input-group-text"><i class="fas fa-upload"></i></span>
+                </div>
+                <div id="errorMessage" style="color: red; display: none;">Por favor, suba un fichero en formato Excel.</div>
+            </div>
+
             <a href=@Url.Content("~/documentos/InsercionPacientes.xlsx")>Descargar Modelo de Plantilla</a>
         </div>
     </div>
 
-    <br />
+
 
     <div class="mt-2">
-        <button id="btnAceptar" type="submit" class="btn btn-outline-success ml-1">Aceptar</button>
-        <button id="btnCancelar" type="button" class="btn btn-outline-danger ml-1 " data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+        <button id="btnAceptar" type="submit" class="btn btn-outline-success ml-1"><span class="fa fa-check"></span> Aceptar</button>
+        <button id="btnCancelar" type="button" class="btn btn-outline-danger ml-1 " data-bs-dismiss="modal" aria-label="Close"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
     </div>
 
 </form>

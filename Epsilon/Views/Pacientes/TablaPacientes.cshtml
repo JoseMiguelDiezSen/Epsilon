@@ -28,19 +28,18 @@
             {
                 <tr id="idFilaPeriodo_" class="text-center">
                     <td class="text-center">
-                        <span class="fa fa-user"></span>
+                        <span class="fa-solid fa-user-injured"></span>
                     </td>
-                    @* <td> @usuario.IdUsuario.ToString()</td> *@
                     <td style="text-align:left"> @paciente.NombrePaciente?.ToString()</td>
                     <td style="text-align:left"> @paciente.DNI?.ToString()</td>
                     <td style="text-align:left"> @paciente.Telefono.ToString()</td>
                     <td style="text-align:left"> @paciente.EMail?.ToString()</td>
                     <td style="text-align:left"> @paciente.Ciudad?.ToString()</td>
                     <td>
-                        <input id="check" type="checkbox" readonly @(paciente.Asegurado ? "checked=\" checked\"" : "") />
+                        <input id="check" type="checkbox" @(paciente.Asegurado ? "checked=\" checked\"" : "") />
                     </td>
                     <td style="text-align:left"> @paciente.FechaAlta.ToShortDateString()</td>
-                    <td style="text-align:left"> @paciente.NumeroConsultas.ToString()</td>
+                    <td style="text-align:center"> @paciente.NumeroConsultas.ToString()</td>
 
                     <td>
                         <div aria-label="Basic Example">
@@ -64,29 +63,8 @@
                             </button>
 
                         </div>
-                    </td>
-                    @* }
-
-                    @if (DateTime.Now.Year != usuario.FechaAlta.Year)
-                    { *@
-                    @*       <td>
-                            <div class="btn-group" role="group" aria-label="Basic Example">
-
-                                <a class="btn btn-sm btn-outline-dark" id="btnEditar" onclick="jqGetModalModifyUser('Usuarios/ModalModificarPeriodo/@usuario.IdUsuario','Modificar Periodo de Planificacion','modificarPeriodo',@usuario.IdUsuario)">
-                                    <img id="iconoEditarPeriodo" src="~/media/logoJSMGrandeBlanco.png" alt="Editar" title="Editar Periodo" />
-                                </a>
-
-                                <a class="btn btn-sm btn-outline-dark" id="btnEliminar" onclick="jqGetModalDeleteUser('Usuarios/EliminarPeriodo/@usuario.IdUsuario','Modificar Periodo de Planificacion','modificarPeriodo',@usuario.IdUsuario)">
-                                    <img id="iconoEliminarPeriodo" src="~/media/logoJSMGrandeBlanco.png" alt="Editar" title="Editar Periodo" />
-                                </a>
-                            </div>
-                        </td>
-                    } *@
-
-            
-                </tr>
-
-            
+                    </td>            
+                </tr>       
             }
         }
         else

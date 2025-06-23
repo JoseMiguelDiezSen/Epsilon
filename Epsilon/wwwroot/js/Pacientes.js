@@ -47,17 +47,9 @@
                 contentType: false,
                 processData: false,
                 success: function (response) {
-                    //$('#idMsg').html(response.data);
-                    //OcultarElemento('idDivMsgError');
-                    //MostrarElemento('idDivMsg');
-                    //$('#add-user-modal').modal('hide');
-                    //$('#idFiltros_Form').submit();
-                    //var pagina = $('#PaginaActual').val();
-                    //PaginadorPrincipal.irPagina(pagina);
-                    // Abre el modal (Bootstrap 5)
                     let modal = new bootstrap.Modal(document.getElementById('addPacienteModal'));
                     modal.hide();
-                    alert("Usuario creado correctamente");
+                    alert("Paciente creado correctamente");
                 },
 
                 error: function (response) {
@@ -118,18 +110,11 @@
                 contentType: false,
                 processData: false,
                 success: function (response) {
-
-                    // Inserta la vista en el modal como HTML
                     $('#updatePacienteModal .modal-body').html(response.data);
-                    // Abre el modal (Bootstrap 4)
-                    //$('#updateUserModal').modal('show');
 
-                    // Abre el modal (Bootstrap 5)
                     let modal = new bootstrap.Modal(document.getElementById('updatePacienteModal'));
                     modal.hide();
-
                     alert("Usuario modificado correctamente");
-
                 },
                 error: function () {
                     alert("No se han podido modificar los datos del usuario");

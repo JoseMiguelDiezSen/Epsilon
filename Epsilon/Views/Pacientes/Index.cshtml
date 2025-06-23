@@ -7,133 +7,83 @@
     // await Html.RenderPartialAsync("_MensajeOperaciones");
 }
 
-<h4> Pacientes </h4>
-
 <hr>
+<h4 class="text-center"><span class="fa-solid fa-user-injured"></span> Pacientes <span class="fa-solid fa-user-injured"></span></h4>
+<hr>
+
+
+
+<button style="background-color:gainsboro;" class="accordion"><span class="fa fa-search"></span> Buscador Pacientes</button>
+
+<div class="panel" style="border-bottom:1px solid gainsboro;border-left:1px solid gainsboro;border-right:1px solid gainsboro;">
+
+    <div class="form-group row" style="padding:10px;">
+
+        @* Nombre *@
+        <div class="col-md-2">
+            <label class="form-label">Nombre</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" class="form-control" placeholder="Ingrese nombre">
+            </div>
+        </div>
+        @* DNI *@
+        <div class="col-md-2">
+            <label class="form-label">DNI</label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                </span>
+                <input type="text" class="form-control" placeholder="Ingrese DNI">
+            </div>
+        </div>
+        @* E-Mail *@
+        <div class="col-md-2">
+            <label class="form-label">Correo Electrónico</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <input type="email" class="form-control" placeholder="Ingrese E-mail">
+            </div>
+        </div>
+        @* Telefono *@
+        <div class="col-md-2">
+            <label class="form-label">Teléfono</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                <input type="text" class="form-control" placeholder="Ingrese teléfono" style="padding-right:15px;">
+
+            </div>
+        </div>
+        @* Ciudad *@
+        <div class="col-md-2">
+            <label class="form-label">Ciudad</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" class="form-control" placeholder="Ingrese ciudad">
+            </div>
+        </div>
+
+        <div class="col-md-12 fa fa-pull-right" style="margin-top:-35px !important;">
+            <label for="lblBuscar"></label>
+
+            <button type="submit" style="float:right !important;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
+                <span class="fa fa-search"></span> 
+            </button>Buscar
+
+
+
+        </div>
+    </div>
+</div>
+
+<div style="margin-bottom:10px;margin-top:10px;">
 <button id="AddUser" type="button" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddPaciente(this)"><span class="fa fa-plus"></span> Nuevo <b>Paciente</b></button>
 <button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-dark fa-pull-left" onclick="jqGetModalExportarExcel()"><i class="fa fa-file-import"></i> Importar <b>Pacientes</b></button>
-<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-warning fa-pull-left" onclick="jqGetModalExportarExcel()"><i class="fa fa-envelope"></i> Modificar <b>Pacientes</b></button>
-<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-success fa-pull-right" onclick="jqGetModalExportarExcel()"><i class="fa fa-pen-to-square"></i> Modificar <b>Pacientes</b></button>
-<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-secondary fa-pull-left" onclick="jqGetModalExportarExcel()"><i class="fa fa-envelope"></i> Modificar <b>Pacientes</b></button>
-<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-danger fa-pull-right" onclick="jqGetModalExportarExcel()"><i class="fa fa-pen-to-square"></i> Modificar <b>Pacientes</b></button>
-<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-info fa-pull-right" onclick="jqGetModalExportarExcel()"><i class="fa fa-pen-to-square"></i> Modificar <b>Pacientes</b></button>
-<button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-light fa-pull-right" onclick="jqGetModalExportarExcel()"><i class="fa fa-pen-to-square"></i> Modificar <b>Pacientes</b></button>
-<br />
-<hr>
-
-
-<button style="background-color:gainsboro;" class="accordion">Paciente</button>
-
-
-
-<div class="panel" style="border-bottom:1px solid gainsboro;border-left:1px solid gainsboro;border-right:1px solid gainsboro;padding:10px;" id="detallePaciente">
-
-    <h6>Datos del Paciente</h6>
-
-
-    <div class="row">
-
-        <div class="col-sm-3"><b>Nombre</b>@Model.NombrePaciente</div>
-
-        <div class="col-sm-3"><b>DNI</b>@Model.DNI</div>
-
-        <div class="col-sm-3"><b>Telefono</b>@Model.Telefono</div>
-
-        <div class="col-sm-3"><b>E-Mail</b>@Model.EMail</div>
-
-    </div>
-
-
-    <div class="row">
-
-        <div class="col-sm-3"><b>Fecha Nacimiento</b>@Model.FechaNacimiento</div>
-
-        <div class="col-sm-3"><b>Direccion</b>@Model.Direccion</div>
-
-        <div class="col-sm-3"><b>Ciudad</b>@Model.Ciudad</div>
-
-        <div class="col-sm-3"><b>Direccion</b>@Model.Direccion</div>
-
-    </div>
-
 </div>
-<br />
-
-
-
-
-
-
-
-
-
-
-
-
 
 <br />
-<hr>
 
-
-<div class="form-group row">
-
-    <div class="col-md-2">
-        <label class="form-label">Nombre</label>
-        <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-user"></i></span>
-            <input type="text" class="form-control" placeholder="Ingrese su nombre">
-        </div>
-    </div>
-
-    <div class="col-md-2">
-        <label class="form-label">DNI</label>
-        <div class="input-group">
-            <span class="input-group-text">
-                <i class="fa fa-address-card" aria-hidden="true"></i>
-            </span>
-            <input type="text" class="form-control" placeholder="Ingrese su nombre">
-        </div>
-    </div>
-
-    <div class="col-md-2">
-        <label class="form-label">Nombre</label>
-        <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-user"></i></span>
-            <input type="text" class="form-control" placeholder="Ingrese su nombre">
-        </div>
-    </div>
-
-    <div class="col-md-2">
-        <label class="form-label">Correo Electrónico</label>
-        <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-            <input type="email" class="form-control" placeholder="Ingrese su correo">
-        </div>
-    </div>
-
-    <div class="col-md-2">
-        <label class="form-label">Teléfono</label>
-        <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-phone"></i></span>
-            <input type="text" class="form-control" placeholder="Ingrese su número de teléfono" style="padding-right:15px;">
-
-        </div>
-    </div>
-
-
-
-    <div class="col-md-12 fa fa-pull-right" style="margin-top:-35px !important;">
-        <label for="lblBuscar"></label>
-
-        <button type="submit" style="float:right !important;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
-            <span class="fa fa-search"></span> Buscar
-        </button>
-
-    </div>
-</div>
-<hr>
 <br />
-
 
 <div style="border:1px solid gainsboro;">
     <div id="idResultadosFiltro" class="text-center">
@@ -244,7 +194,7 @@
     /* Style the accordion panel. Note: hidden by default */
     .panel {
         padding: 0 18px;
-        background-color: white;
+/*         background-color: white; */
         display: none;
         overflow: hidden;
     }

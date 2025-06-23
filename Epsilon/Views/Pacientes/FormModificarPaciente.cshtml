@@ -1,5 +1,113 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Epsilon.ViewModels
+@model ViewFormAgregarPaciente
+
+<form id="updatePaciente" method="post" asp-action="ModificarPaciente" name="updatePaciente" onsubmit="return jqPostUpdatePaciente(this);" style="border:1px solid gainsboro;padding:10px">
+
+    <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
+        <img src="~/media/deep.jpg" alt="" height="150px" width="150px" style="border-radius:100px;border:1px solid grey" name="RutaFoto" asp-for="RutaFoto" />
+    </div>
+
+    <div class="row">
+        <!-- Primera columna -->
+        @* NOMBRE *@
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" asp-for="NombrePaciente" placeholder="Ingrese su nombre">
+                </div>
+            </div>
+
+            @* TELEFONO *@
+            <div class="mb-3">
+                <label class="form-label">Teléfono</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    <input type="number" class="form-control" asp-for="Telefono" name="Telefono" placeholder="Ingrese su número de teléfono">
+                </div>
+            </div>
+
+            @* FECHA ALTA *@
+            <div class="mb-3" style="margin-top:20px;">
+                <label class="form-label">Fecha de Alta</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                    <input type="date" asp-for="FechaAlta" class="form-control">
+                </div>
+            </div>
+
+            @* DIRECCION *@ 
+            <div class="mb-3">
+                <label class="form-label">Direccion</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                    <input type="text" asp-for="Direccion" class="form-control">
+                </div>
+            </div>
+
+
+        </div>
+        <!-- Segunda columna -->
+        <div class="col-md-6">
+
+            @* DNI *@
+            <div class="mb-3">
+                <label class="form-label">DNI</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="text" class="form-control" asp-for="DNI" placeholder="Ingrese el DNI">
+                </div>
+            </div>
+
+            @* CORREO ELECTRONICO *@
+            <div class="mb-3">
+                <label class="form-label">Correo Electrónico</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" asp-for="EMail" name="Email" placeholder="Ingrese su correo" value="@Model.EMail">
+                </div>
+            </div>
+
+            @* COMENTARIOS *@ 
+            <div class="mb-3">
+                <label class="form-label">Comentarios</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                    <textarea class="form-control" rows="1" placeholder="Escriba sus comentarios" name="Comentarios"></textarea>
+                </div>
+            </div>
+
+
+
+            @* CIUDAD *@ 
+            <div class="mb-3">
+                <label class="form-label">Ciudad</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                    <input type="twxt" asp-for="Ciudad" class="form-control">
+                </div>
+            </div>
+
+            @* ASEGURADO *@
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" asp-for="Asegurado">
+                    <label class="form-check-label">Asegurado</label>
+                </div>
+            </div>
+
+        </div>
+
+        @* BOTONES *@
+        <div class="fa-pull-left">
+            <button id="btnAddPaciente" type="submit" class="btn btn-outline-success m-2"><span class="fa fa-check"></span> Aceptar</button>
+            <button id="btnCancel" type="button" class="btn btn-outline-danger m-2"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+        </div>
+
+    </div>
+</form>
+
+
+
+
