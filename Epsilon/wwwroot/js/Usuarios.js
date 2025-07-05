@@ -1,5 +1,16 @@
 ﻿$(document).ready(function () {
 
+    if (window.PaginadorPrincipal == undefined) {
+        $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
+        window.PaginadorPrincipal = jQuery('#idPaginadorPrincipal').paginador({
+            Formulario: 'id_Form',
+            PaginaActual: 'PaginaActual',
+            RegistrosPorPagina: 'RegistrosPorPagina',
+            RegistrosPaginaActual: 'RegistrosPaginaActual',
+            ClassButtons: 'visually-hidden'
+        });
+    }
+
     /* GET: Añadir usuario OK */
     jqGetModalAddUser = (form) => {
         $.ajax({
@@ -238,16 +249,7 @@
     //}
 
 
-    //if (window.PaginadorPrincipal == undefined) {
-    //    $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
-    //    window.PaginadorPrincipal = jQuery('#idPaginadorPrincipal').paginador({
-    //        Formulario: 'id_Form',
-    //        PaginaActual: 'PaginaActual',
-    //        RegistrosPorPagina: 'RegistrosPorPagina',
-    //        RegistrosPaginaActual: 'RegistrosPaginaActual',
-    //        ClassButtons: 'visually-hidden'
-    //    });
-    //}
+
 
     /* Funcion para el filtrado de usuarios */
     //jqPostFiltrar = (ev, form) => {

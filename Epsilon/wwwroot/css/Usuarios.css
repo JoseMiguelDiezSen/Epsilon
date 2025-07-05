@@ -1,3 +1,14 @@
-﻿body {
-    background-color:#cee3ff;
+﻿body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/media/pattern.png');
+    background-repeat: repeat;
+    /* ajusta el tamaño de la malla */
+    background-size: auto; 
+    z-index: -1;
+    pointer-events: none;
 }

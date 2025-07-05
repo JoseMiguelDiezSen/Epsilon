@@ -54,10 +54,10 @@
             </button>
         </div>
     </div>
-@* 
+
     <input type="hidden" asp-for="PaginaActual" id="PaginaActual" />
     <input type="hidden" asp-for="RegistrosPorPagina" id="RegistrosPorPagina" />
-    <input type="hidden" name="RegistrosPaginaActual" id="RegistrosPaginaActual" value="@Model.Usuarios?.Count()" />    *@
+    <input type="hidden" name="RegistrosPaginaActual" id="RegistrosPaginaActual" value="@Model.Usuarios?.Count()" />   
 </form>
 
 <hr />
@@ -72,12 +72,13 @@
         await Html.RenderPartialAsync("TablaUsuarios", Model.Usuarios);
     }
 </div>
-@* 
+
+@* Paginacion *@
 <div id="idPaginadorPrincipal" class="text-center m-1">
     <a class="btn btn-sm btn-outline-secondary PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">Anterior</a>
     <span class="m-2 TextoPaginacion">Página @Model.PaginaActual</span>
     <a class="btn btn-sm btn-outline-secondary PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">Siguiente</a>
-</div> *@
+</div>
 
 @section Styles {
     <link href="~/css/Usuarios.css" rel="stylesheet" />
