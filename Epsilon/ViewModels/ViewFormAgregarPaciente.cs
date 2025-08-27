@@ -10,7 +10,7 @@
         public string? Direccion { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public string? Ciudad { get; set; }
-        public DateTime FechaAlta { get; set; }
+        public DateTime FechaAlta1 { get; set; }
         public int NumeroConsultas { get; set; }
         public bool Asegurado { get; set; }
     }

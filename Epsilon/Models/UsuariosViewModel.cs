@@ -16,7 +16,7 @@ namespace Epsilon.Models
 
         public string? Email { get; set; }
 
-        public DateTime FechaAlta { get; set; } = DateTime.Now;
+        public DateTime FechaAlta { get; set; }
 
         public int Telefono { get; set; }
 

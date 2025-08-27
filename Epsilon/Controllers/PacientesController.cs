@@ -65,7 +65,7 @@ namespace Epsilon.Controllers
         {
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
             ViewFormAgregarPaciente vmAgregarPaciente = new ViewFormAgregarPaciente();
-            vmAgregarPaciente.FechaAlta = DateTime.Now;
+            vmAgregarPaciente.FechaAlta1 = DateTime.Now;
             string data = await _renderService.ToStringAsync("FormAddPaciente", vmAgregarPaciente);
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
             return new JsonResult(jsonResponse);
@@ -92,7 +92,7 @@ namespace Epsilon.Controllers
                     FechaNacimiento = vmPaciente.FechaNacimiento,
                     Direccion = vmPaciente.Direccion,
                     Ciudad = vmPaciente.Ciudad,
-                    FechaAlta = vmPaciente.FechaAlta,
+                    FechaAlta = vmPaciente.FechaAlta1,
                     NumeroConsultas = vmPaciente.NumeroConsultas,
                     Asegurado = vmPaciente.Asegurado
                 };
@@ -129,7 +129,7 @@ namespace Epsilon.Controllers
             vmPaciente.Direccion = paciente.Direccion;
             vmPaciente.FechaNacimiento = paciente.FechaNacimiento;
             vmPaciente.Ciudad = paciente.Ciudad;
-            vmPaciente.FechaAlta = paciente.FechaAlta;
+            vmPaciente.FechaAlta1 = paciente.FechaAlta;
             vmPaciente.NumeroConsultas = paciente.NumeroConsultas;
             vmPaciente.Asegurado = paciente.Asegurado;
 
@@ -160,7 +160,7 @@ namespace Epsilon.Controllers
                     Direccion = vmPaciente.Direccion,
                     FechaNacimiento = vmPaciente.FechaNacimiento,
                     Ciudad = vmPaciente.Ciudad,
-                    FechaAlta = vmPaciente.FechaAlta,
+                    FechaAlta = vmPaciente.FechaAlta1,
                     NumeroConsultas = vmPaciente.NumeroConsultas,
                     Asegurado = vmPaciente.Asegurado
                 };

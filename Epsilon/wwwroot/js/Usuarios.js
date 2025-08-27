@@ -27,8 +27,10 @@
                 let modal = new bootstrap.Modal(document.getElementById('addUserModal'));
                 modal.show();
 
+                // Se definen las reglas de validacion
                 $("#addUser").validate({
                     rules: {
+                        Nombre: { required: true },
                         Email: { required: true, email: true },
                         Password: { required: true, minlength: 3 }
                     },
@@ -38,9 +40,16 @@
                         
                     },
                      errorPlacement: function (error, element) {
+
+
+
                         error.addClass('text-danger'); // Bootstrap style
                         error.insertAfter(element);    // ⬅️ Esto lo pone debajo del input
-                    }
+
+
+
+                     }
+
                 });
 
                 //$('#idMsg').html(response.data);
@@ -53,6 +62,9 @@
 
     /* POST: Añadir usuario OK */
     jqPostAddUser = (form) => {
+
+
+
         try {
             $.ajax({
                 type: 'POST',
@@ -95,9 +107,6 @@
     jqGetModalUpdateUser = (idUsuario) => {
         try {
 
-            var id = idUsuario;
-
-
             $.ajax({
                 type: 'GET',
                 url: 'Usuarios/ModalModificarUsuario',
@@ -131,10 +140,11 @@
 
     /* POST : Actualizar un usuario */
     jqPostUpdateUser = (form) => {
+
         try {
             $.ajax({
-                type: "POST",
-                url: "Usuarios/ModificarUsuario",
+                type: 'POST',
+                url: 'Usuarios/ModificarUsuario',
                 data: new FormData(form),
                 contentType: false,
                 processData: false,
@@ -223,6 +233,48 @@
             console.log(ex);
         }
     }
+
+    /* Funcion para el filtrado de usuarios */
+    jqPostFiltrar = (ev, form) => {
+
+        console.log('PaginaActual:', $('#PaginaActual').val());
+
+        try {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $("#idResultadosFiltro").html(response.data === "undefined" ? response : response.data);
+                    $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
+
+                    if (window.PaginadorPrincipal == undefined) {
+                        window.PaginadorPrincipal = $('#idPaginadorPrincipal').paginador({
+                            Formulario: 'id_Form',
+                            PaginaActual: 'PaginaActual',
+                            RegistrosPorPagina: 'RegistrosPorPagina',
+                            RegistrosPaginaActual: 'RegistrosPaginaActual',
+                            ClassButtons: 'visually-hidden'
+                        });
+                    } else {
+                        window.PaginadorPrincipal.actualiza();
+                    }
+                },
+                error: function (error) {
+                    $('#idMsgError').html(err.message == null ? "No se pudo realizar la operacion" : error.message);
+                    OcultarElemento('idDivMsg');
+                    MostrarElemento('idDivMsgError');
+                }
+            })
+            return false;
+        } catch (ex) {
+            concole.log(ex);
+        }
+    }
+
+
 });
     //jqCheckAddPeriodo = () => {
 
@@ -251,43 +303,7 @@
 
 
 
-    /* Funcion para el filtrado de usuarios */
-    //jqPostFiltrar = (ev, form) => {
-    //    try {
-    //        $.ajax({
-    //            type: "POST",
-    //            url: form.action,
-    //            data: new FormData(form),
-    //            contentType: false,
-    //            processData: false,
-    //            success: function (response) {
-    //                $("#idResultadosFiltro").html(response.data === "undefined" ? response : response.data);
-    //                $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
-
-    //                if (window.PaginadorPrincipal == undefined) {
-    //                    window.PaginadorPrincipal = $('#idPaginadorPrincipal').paginador({
-    //                        Formulario: 'id_Form',
-    //                        PaginaActual: 'PaginaActual',
-    //                        RegistrosPorPagina: 'RegistrosPorPagina',
-    //                        RegistrosPaginaActual: 'RegistrosPaginaActual',
-    //                        ClassButtons: 'visually-hidden'
-    //                    });
-    //                } else {
-    //                    window.PaginadorPrincipal.actualiza();
-    //                }
-    //            },
-    //            error: function (error) {
-    //                $('#idMsgError').html(err.message == null ? "No se pudo realizar la operacion" : error.message);
-    //                OcultarElemento('idDivMsg');
-    //                MostrarElemento('idDivMsgError');
-    //            }
-    //        })
-    //        return false;
-    //    } catch (ex) {
-    //        concole.log(ex);
-    //    }
-    //}
-
+ 
     ///*Funcion de apertura del modal agregar usuario*/
     
 

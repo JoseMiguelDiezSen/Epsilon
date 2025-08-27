@@ -88,7 +88,8 @@ namespace Negocio.Servicios
             //}
             //return entity.Entity;
 
-            var usuarioActualizado = Context.Usuarios.Single(u => u.IdUsuario == usuario.IdUsuario);
+
+            var usuarioActualizado = Context.Usuarios.Where(u => u.IdUsuario == usuario.IdUsuario).First();
             var entity = Context.Usuarios.Update(usuarioActualizado);
             Context.SaveChanges();
             return entity.Entity;

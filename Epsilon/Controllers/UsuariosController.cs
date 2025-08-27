@@ -64,22 +64,23 @@ namespace Epsilon.Controllers
                 var dbContext = _seguridad.Context;
                 IQueryable<DatosUsuario> datosUsuario = _gestionUsuarios.GetDatosUsuario();
 
-                if (vmUsuarios.Nombre != null)
+                if (!string.IsNullOrWhiteSpace(vmUsuarios.Nombre))
                 {
-                    datosUsuario = datosUsuario.Where(p => (p.Nombre == vmUsuarios.Nombre));
+                    datosUsuario = datosUsuario.Where(p => p.Nombre == vmUsuarios.Nombre);
                 }
-                if (vmUsuarios.Email != null)
+                if (!string.IsNullOrWhiteSpace(vmUsuarios.Email))
                 {
-                    datosUsuario = datosUsuario.Where(p => (p.EMail == vmUsuarios.Email));
+                    datosUsuario = datosUsuario.Where(p => p.EMail == vmUsuarios.Email);
                 }
-                if (vmUsuarios?.Telefono != null)
+                if (vmUsuarios.Telefono > 0)
                 {
-                    datosUsuario = datosUsuario.Where(p => (p.Telefono == vmUsuarios.Telefono));
+                    datosUsuario = datosUsuario.Where(p => p.Telefono == vmUsuarios.Telefono);
                 }
 
                 vmUsuarios.Usuarios = await datosUsuario.
-                    OrderBy(x => x.Nombre).
-                    Skip((vmUsuarios.PaginaActual - 1) * vmUsuarios.RegistrosPorPagina).Take(vmUsuarios.RegistrosPorPagina).
+                    OrderBy(x => x.Nombre)
+                    .Skip((vmUsuarios.PaginaActual - 1) * vmUsuarios.RegistrosPorPagina)
+                    .Take(vmUsuarios.RegistrosPorPagina).
                     Select(x => new ViewUsuario(x)).
                     ToListAsync();
 
@@ -164,6 +165,7 @@ namespace Epsilon.Controllers
             //Obtenmos los datos del usuario para mostrarlos
             ViewFormAgregarUsuario vmModificarUsuario = new ViewFormAgregarUsuario();
 
+            vmModificarUsuario.IdUsuario = usuario.IdUsuario;
             vmModificarUsuario.Nombre = usuario.Nombre;
             vmModificarUsuario.Password = usuario.Password;
             vmModificarUsuario.Email = usuario.Email;
@@ -192,6 +194,7 @@ namespace Epsilon.Controllers
             {
                 Usuario usuario = new Usuario()
                 {
+                    IdUsuario = vmUsuario.IdUsuario,
                     Nombre = vmUsuario.Nombre,
                     Password = vmUsuario.Password,
                     Email = vmUsuario.Email,

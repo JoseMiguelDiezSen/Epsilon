@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Icono de la pestaña de la pagina -->
     <link rel="shortcut icon" href="~/media/epsilonIcono.ico">
+    
+    <!-- Titulo de la pestaña de la pagina -->
     <title>@ViewData["Title"] - Epsilon</title>
     <script type="importmap"></script>
+    
+    <!-- Referencia a FontAwesome -->
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+
+    <!-- Referencia a BootStrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+    <!-- Referencia a site.css -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Epsilon.styles.css" asp-append-version="true" />
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.slim.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
 
     <!-- Enlaces a los archivos .css y .js del panel fijo lateral derecho -->
 @* 
@@ -203,11 +207,20 @@
               
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
+
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
+
+
 </html>
 
 
