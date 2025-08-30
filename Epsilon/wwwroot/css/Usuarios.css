@@ -1,14 +1,86 @@
-﻿body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+﻿body {
     background-image: url('/media/pattern.png');
     background-repeat: repeat;
-    /* ajusta el tamaño de la malla */
-    background-size: auto; 
-    z-index: -1;
-    pointer-events: none;
+    background-size: auto;
 }
+
+#AddUser :hover {
+
+/*    color:white;
+    background-color:black;*/
+
+}
+/* Estilos SnackBar (NEGRO) */
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    width: 35%; /* Set a default minimum width */
+    background-color: rgba(51, 51, 51, 0.442); /* Black background color */
+    background-color: #c9ef0b;
+    color: #000000; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    top: 30px; /* 30px from the bottom */
+    margin-left: 17%;
+    z-index: 1;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+    /* Mostrar (Show) la SnackBar cuando se hace click en el boton */
+    #snackbar.show {
+        visibility: visible;
+        /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+			However, delay the fade out process for 2.5 seconds */
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+        animation: fadein 0.5s, fadeout 0.5s 4.5s;
+    }
+
+/* Animacion de aumento y disminucion de la opacidad de la Snackbar (NEGRO) */
+@-webkit-keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    to {
+        top: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        top: 0;
+        opacity: 0;
+    }
+
+    to {
+        top: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        top: 30px;
+        opacity: 1;
+    }
+
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        top: 30px;
+        opacity: 1;
+    }
+
+    to {
+        top: 0;
+        opacity: 0;
+    }
+} 

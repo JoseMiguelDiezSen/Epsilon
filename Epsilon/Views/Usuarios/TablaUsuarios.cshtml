@@ -7,11 +7,11 @@
     <thead>
         <tr>
             <th scope="col" class="text-center" width="1%">#</th>
-            @*<th scope="col">IDUSUARIO</th>*@
+            <th scope="col">IDUSUARIO</th>
             <th scope="col">NOMBRE</th>
             <th scope="col">EMAIL</th>
             <th scope="col">TELEFONO</th>
- @*            <th scope="col">F.ALTA</th> *@
+            <th scope="col">FECHA ALTA</th>
             <th scope="col">ACCIONES</th>
         </tr>
     </thead>
@@ -26,11 +26,11 @@
                     <td class="text-center">
                          <span class="fa fa-user"></span>
                     </td>
-                    @* <td> @usuario.IdUsuario.ToString()</td> *@
+                    <td> @usuario.IdUsuario.ToString()</td>
                     <td> @usuario.Nombre?.ToString()</td>
                     <td> @usuario.Email?.ToString()</td>
                     <td> @usuario.Telefono.ToString()</td>
-               @*      <td> @usuario.FechaAlta.ToShortDateString()</td> *@
+                    <td> @usuario.FechaAlta.ToShortDateString()</td>
           
                     @*  @if (DateTime.Now.Year == usuario.FechaAlta.Year)
                     { *@

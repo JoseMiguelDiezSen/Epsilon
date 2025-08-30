@@ -44,7 +44,7 @@ namespace Epsilon.Controllers
 
             if (datosUsuario.Any())
             {
-                usuarios = datosUsuario.Select(x => new ViewUsuario(x)).ToList();
+                usuarios = datosUsuario.Select(x => new ViewUsuario(x)).ToList().OrderBy(x => x.IdUsuario);
             }
 
             vmUsuarios.Usuarios = usuarios;
@@ -78,7 +78,7 @@ namespace Epsilon.Controllers
                 }
 
                 vmUsuarios.Usuarios = await datosUsuario.
-                    OrderBy(x => x.Nombre)
+                    OrderBy(x => x.IdUsuario)
                     .Skip((vmUsuarios.PaginaActual - 1) * vmUsuarios.RegistrosPorPagina)
                     .Take(vmUsuarios.RegistrosPorPagina).
                     Select(x => new ViewUsuario(x)).
@@ -129,10 +129,11 @@ namespace Epsilon.Controllers
             {
                 Usuario usuario = new Usuario()
                 {
+                    IdUsuario = vmUsuario.IdUsuario,
                     Nombre = vmUsuario.Nombre,
                     Password = vmUsuario.Password,
                     Email = vmUsuario.Email,
-                    FechaAlta = vmUsuario.FechaAlta,
+                    FechaAlta = DateTime.Now,
                     Telefono = vmUsuario.Telefono,
                     RutaFoto = vmUsuario.RutaFoto,
                     Activo = vmUsuario.Activo,

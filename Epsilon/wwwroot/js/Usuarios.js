@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
 
+    // Paginador tabla
     if (window.PaginadorPrincipal == undefined) {
         $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
         window.PaginadorPrincipal = jQuery('#idPaginadorPrincipal').paginador({
@@ -11,7 +12,7 @@
         });
     }
 
-    /* GET: Añadir usuario OK */
+    /* GET: Añadir usuario */
     jqGetModalAddUser = (form) => {
         $.ajax({
             type: 'GET',
@@ -31,26 +32,52 @@
                 $("#addUser").validate({
                     rules: {
                         Nombre: { required: true },
-                        Email: { required: true, email: true },
-                        Password: { required: true, minlength: 3 }
+                        Email: { required: true, email: true, gmailValido: true },
+                        Password: { required: true, minlength: 6 },
+                        Telefono: { required: true, minlength: 9, maxlength: 9, soloNumeros: true }
                     },
                     messages: {
-                        Email: { required: "Se debe introducir un email válido.", email: "Formato incorrecto." },
-                        Password: { required: "Se debe introducir una contraseña.", minlength: "Debe tener al menos 3 caracteres." },
-                        
+                        Nombre: { required: "(*) Debe introducir un nombre" },
+                        Email: { required: "(*) Debe introducir un email.", gmailValido: "Introduce un correo válido de Gmail" },
+                        Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 6 caracteres." },
+                        Telefono: { required: "(*) Debe introducir un telefomo.", minlength: "(*) Debe introducir un numero superior (9 cifras)", maxlength: "(*) Debe introducir un numero inferior (9 cifras)", soloNumeros: "(*) Debe introducir solo numeros" },
                     },
-                     errorPlacement: function (error, element) {
 
+                    // Se posicionan debajo de los controles
+                    errorPlacement: function (error, element) {
+                        if (element.attr("name") === "Nombre") {
+                            error.insertAfter("#inputNombre");
+                        }
+                        if (element.attr("name") === "Password") {
+                            error.insertAfter("#inputPassword");
+                        }
+                        if (element.attr("name") === "Email") {
+                            error.insertAfter("#inputCorreo");
+                        }
+                        if (element.attr("name") === "Telefono") {
+                            error.insertAfter("#inputTelefono");
+                        }
 
-
-                        error.addClass('text-danger'); // Bootstrap style
-                        error.insertAfter(element);    // ⬅️ Esto lo pone debajo del input
-
-
-
-                     }
-
+                        error.addClass('text-danger').addClass('font-size:6px;'); // Bootstrap style
+                    }
                 });
+
+                // Regla de validacion personalizada pare el Email
+                $.validator.addMethod("gmailValido", function (value, element) {
+                    // Nombre de usuario: 6-20 caracteres, letras, números, . _ -
+                    return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
+                }, "Introduce un correo válido de Gmail");
+
+
+                $.validator.addMethod("soloNumeros", function (value, element) {
+                    return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
+                }, "(*) Introduce solo números");
+
+
+
+
+
+
 
                 //$('#idMsg').html(response.data);
             },
@@ -60,47 +87,64 @@
         });
     }
 
-    /* POST: Añadir usuario OK */
+    /* POST: Añadir usuario */
     jqPostAddUser = (form) => {
 
+        if ($('#addUser').valid()) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: 'Usuarios/AgregarUsuario',
+                    data: new FormData(form),
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+
+                        //$('#idMsg').html(response.data);
+                        //OcultarElemento('idDivMsgError');
+                        //MostrarElemento('idDivMsg');
+                        //$('#add-user-modal').modal('hide');
+                        //$('#idFiltros_Form').submit();
+                        //var pagina = $('#PaginaActual').val();
+                        //PaginadorPrincipal.irPagina(pagina);
 
 
-        try {
-            $.ajax({
-                type: 'POST',
-                url: 'Usuarios/AgregarUsuario',
-                data: new FormData(form),
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    //$('#idMsg').html(response.data);
-                    //OcultarElemento('idDivMsgError');
-                    //MostrarElemento('idDivMsg');
-                    //$('#add-user-modal').modal('hide');
-                    //$('#idFiltros_Form').submit();
-                    //var pagina = $('#PaginaActual').val();
-                    //PaginadorPrincipal.irPagina(pagina);
-                    // Abre el modal (Bootstrap 5)
-                    let modal = new bootstrap.Modal(document.getElementById('addUserModal'));
-                    modal.hide();
-                    alert("Usuario creado correctamente");
-                },
-
-                error: function (response) {
-                    //$('#idMsgError').html(response.data);
-                    //OcultarElemento('idDivMsg');
-                    //MostrarElemento('idDivMsgError');
-                    //$('id_add_user_form').modal('hide');
-                    //var pagina = $('#PaginaActual').val();
-                    //PaginadorPrincipal.irPagina(pagina);
-                    //idResultadosFiltro
-                    alert("Ha ocurrido un error");
-                }
-            })
-            return false;
-        } catch (ex) {
-            console.log(ex);
+                        // Abre el modal (Bootstrap 5)
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
+                        if (modal) modal.hide();
+                        alert("Usuario creado correctamente");
+                        showMessage();
+                    },
+                    error: function (response) {
+                        //$('#idMsgError').html(response.data);
+                        //OcultarElemento('idDivMsg');
+                        //MostrarElemento('idDivMsgError');
+                        //$('id_add_user_form').modal('hide');
+                        //var pagina = $('#PaginaActual').val();
+                        //PaginadorPrincipal.irPagina(pagina);
+                        //idResultadosFiltro
+                        alert("Ha ocurrido un error");
+                    }
+                })
+                return false;
+            } catch (ex) {
+                console.log(ex);
+            }
         }
+    }
+
+    /* Funcion que muestra la snackbar */
+    showMessage = () => {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 4.5 seconds, remove the show class from DIV
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 4500);
     }
 
     /* GET : Actualizar un usuario */
@@ -110,10 +154,10 @@
             $.ajax({
                 type: 'GET',
                 url: 'Usuarios/ModalModificarUsuario',
-                data: { idUsuario : idUsuario },
-         
+                data: { idUsuario: idUsuario },
+
                 success: function (response) {
-              
+
                     // Inserta la vista en el modal como HTML
                     $('#updateUserModal .modal-body').html(response.data);
                     // Abre el modal (Bootstrap 4)
@@ -126,7 +170,8 @@
 
 
 
-                    
+
+
                 },
                 error: function () {
                     console.error('Error al obtener el modal');
@@ -143,13 +188,13 @@
 
         try {
             $.ajax({
-                type: 'POST',
-                url: 'Usuarios/ModificarUsuario',
+                type: "POST",
+                url: "Usuarios/ModificarUsuario",
                 data: new FormData(form),
                 contentType: false,
                 processData: false,
                 success: function (response) {
-             
+
                     // Inserta la vista en el modal como HTML
                     $('#updateUserModal .modal-body').html(response.data);
                     // Abre el modal (Bootstrap 4)
@@ -201,7 +246,7 @@
             $.ajax({
                 type: 'POST',
                 url: "Usuarios/EliminarUsuario",
-                data: { idUsuario : idUsuario },
+                data: { idUsuario: idUsuario },
 
                 success: function (response) {
                     //$('#idMsg').html(response.data);
@@ -276,54 +321,54 @@
 
 
 });
-    //jqCheckAddPeriodo = () => {
+//jqCheckAddPeriodo = () => {
 
-    //    const date = new Date();
-    //    var day = date.getDate();
-    //    var month = date.getMonth();
-    //    var year = date.getFullYear();
-    //    var currentDate = day + "/" + month + "/" + year;
+//    const date = new Date();
+//    var day = date.getDate();
+//    var month = date.getMonth();
+//    var year = date.getFullYear();
+//    var currentDate = day + "/" + month + "/" + year;
 
-    //    var d1 = dateFrom.slit("/");
-    //    var d1 = dateTo.slit("/");
-    //    var c = dateCheck.slit("/");
+//    var d1 = dateFrom.slit("/");
+//    var d1 = dateTo.slit("/");
+//    var c = dateCheck.slit("/");
 
-    //    var from = new Date(d1);
-    //    var to = new Date(d2);
-    //    var check = new Date(c);
+//    var from = new Date(d1);
+//    var to = new Date(d2);
+//    var check = new Date(c);
 
-    //    if (check > from && check < to) {
-    //        $("#addUser").show();
-    //    }
-    //    else {
-    //        $("#addUser").hide();
-    //    }
-    //}
-
-
+//    if (check > from && check < to) {
+//        $("#addUser").show();
+//    }
+//    else {
+//        $("#addUser").hide();
+//    }
+//}
 
 
- 
-    ///*Funcion de apertura del modal agregar usuario*/
-    
-
-    
-
-   
 
 
-    /* Actualizacion detalles curso */
-    //jqAJAXGet('EjecucionEdiciones/ActualizarDetallesCurso', { 'IdCurso': Curso.IdCurso, IdEdicion: Curso.IdEdicion }
-    //    , { not_show_popup: true },
-    //    (data) => {
-    //        // Cursos
-    //        $("#DetallesCursoEjecutado").empty();
-    //        $("#DetallesCursoEjecutado").append(data);
-    //    },
-    //    (data) => {
-    //        deferred.reject('Error al actualizar los datos');
-    //    },
-    //    (res) => {
-    //        deferred.reject('Error al conectar con el servidor');
-    //    }
-    //);
+
+///*Funcion de apertura del modal agregar usuario*/
+
+
+
+
+
+
+
+/* Actualizacion detalles curso */
+//jqAJAXGet('EjecucionEdiciones/ActualizarDetallesCurso', { 'IdCurso': Curso.IdCurso, IdEdicion: Curso.IdEdicion }
+//    , { not_show_popup: true },
+//    (data) => {
+//        // Cursos
+//        $("#DetallesCursoEjecutado").empty();
+//        $("#DetallesCursoEjecutado").append(data);
+//    },
+//    (data) => {
+//        deferred.reject('Error al actualizar los datos');
+//    },
+//    (res) => {
+//        deferred.reject('Error al conectar con el servidor');
+//    }
+//);

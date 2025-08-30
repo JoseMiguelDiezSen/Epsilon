@@ -3,8 +3,14 @@
 
 <form id="addUser" method="post" asp-action="AgregarUsuario" name="addUser" onsubmit="return jqPostAddUser(this);" style="border:1px solid gainsboro;padding:10px">
 
-    <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
-        <img src="~/media/deep.jpg" alt="" height="150px" width="150px" style="border-radius:100px;border:1px solid grey" name="RutaFoto" asp-for="RutaFoto" />
+    <div class="text-center" style="padding:2px;border-radius:100px;margin-bottom:20px;">
+
+ 
+
+        <img src="~/media/deep.jpg" alt="" height="150px" width="150px" style="border-radius:100px;border:1px solid grey;padding:3px;" name="RutaFoto" asp-for="RutaFoto" />
+    
+    
+    
     </div>
 
     <div class="row">
@@ -12,8 +18,8 @@
         @* NOMBRE *@
         <div class="col-md-6">
             <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <div class="input-group">
+                <label class="label">Nombre</label>
+                <div class="input-group" id="inputNombre">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                     <input type="text" class="form-control" asp-for="Nombre" placeholder="Ingrese su nombre">
                 </div>
@@ -21,16 +27,16 @@
 
             @* CORREO ELECTRONICO *@
             <div class="mb-3">
-                <label class="form-label">Correo Electrónico</label>
-                <div class="input-group">
+                <label class="label">Correo Electrónico</label>
+                <div class="input-group" id="inputCorreo">
                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                     <input type="email" class="form-control" asp-for="Email" placeholder="Ingrese su correo">
                 </div>
             </div>
 
             @* FECHA ALTA *@
-            <div class="mb-3" style="margin-top:20px;">
-                <label class="form-label">Fecha de Alta</label>
+            <div class="mb-3">
+                <label class="label">Fecha de Alta</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
                     <input type="date" asp-for="FechaAlta" class="form-control">
@@ -39,10 +45,10 @@
 
             @* TURNO DE TRABAJO *@
             <div class="mb-3">
-                <label class="form-label">Turno de Trabajo</label>
+                <label class="label">Turno de Trabajo</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa-solid fa-list-ul"></i></span>
-                    <select class="form-select">
+                    <select class="form-select" asp-for="IdUsuario">
                         <option>Opción 1</option>
                     </select>
                 </div>
@@ -51,7 +57,7 @@
             @* ACTIVO *@
             <div class="mb-3">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" asp-for="Activo">
+                    <input id="checkActivo" type="checkbox" asp-for="Activo">
                     <label class="form-check-label">Activo</label>
                 </div>
             </div>
@@ -61,20 +67,20 @@
 
             @* PASSWORD *@
             <div class="mb-3">
-                <label class="form-label">Password</label>
-                <div class="input-group">
+                <label class="label">Password</label>
+                <div class="input-group" id="inputPassword">
                     <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    <input type="password" id="password" asp-for="Password" class="form-control" placeholder="Ingrese su contraseña">
-                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                        <i class="fas fa-eye"></i> <!-- Ícono de ver -->
+                    <input type="password" id="Password" asp-for="Password" class="form-control" placeholder="Ingrese su contraseña">
+                    <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border:1px solid gainsboro;height:35px;">
+                        <i class="fas fa-eye" style="margin-bottom:3px;"></i> <!-- Ícono de ver -->
                     </button>
                 </div>
             </div>
 
             @* TELEFONO *@
             <div class="mb-3">
-                <label class="form-label">Teléfono</label>
-                <div class="input-group">
+                <label class="label">Teléfono</label>
+                <div class="input-group" id="inputTelefono">
                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
                     <input type="number" class="form-control" asp-for="Telefono" name="Telefono" placeholder="Ingrese su número de teléfono">
                 </div>
@@ -82,16 +88,16 @@
 
             @* COMENTARIOS *@ 
             <div class="mb-3">
-                <label class="form-label">Comentarios</label>
+                <label class="label">Comentarios</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-comment"></i></span>
-                    <textarea class="form-control" rows="1" placeholder="Escriba sus comentarios" name="Comentarios"></textarea>
+                    <textarea class="form-control" rows="1" placeholder="Escriba sus comentarios" name="Comentarios" id="Comentarios"></textarea>
                 </div>
             </div>
 
             @* FOTO DE PERFIL *@
             <div class="mb-3">
-                <label class="form-label">Foto de perfil</label>
+                <label class="label">Foto de perfil</label>
                 <div class="input-group">
                     @* <input type="file" id="foto" name="foto" accept="image/*"> *@
                     <input id="file" name="file" type="file" class="form-control" accept=".xlsx, .xls">
@@ -111,7 +117,57 @@
     </div>
 </form>
 
+<style>
 
+    #checkActivo{
+         height:20px;
+         width:20px;
+         accent-color:orange;
+         margin-left:-20px;
+    }
+
+    /* Tamaño text labels */
+label{
+    font-size:14px;
+}
+
+#Nombre{
+    font-size:14px;
+}
+
+#Password{
+        font-size:14px;
+}
+
+#Telefono{
+        font-size:14px;
+}
+
+#Email{
+    font-size:14px;
+}
+
+#Comentarios{
+        font-size: 14px;
+}
+
+/* Tamaño texto controles */
+#FechaAlta {
+    font-size: 14px;
+}
+
+    #file{
+        font-size: 14px;
+    }
+
+#IdUsuario{
+    font-size: 14px;
+}
+
+
+
+
+</style>
 
 
 
@@ -143,7 +199,7 @@
 <!-- Script : Ver / Ocultar pass -->
 <script>
     document.getElementById("togglePassword").addEventListener("click", function () {
-        let passwordInput = document.getElementById("password");
+        let passwordInput = document.getElementById("Password");
         let icon = this.querySelector("i");
 
         // Alternar entre 'password' y 'text'

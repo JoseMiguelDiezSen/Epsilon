@@ -2,10 +2,15 @@
 @model ViewFormAgregarUsuario
 
 <form id="UpdateUser" method="post" style="border:1px solid gainsboro;padding:10px" asp-action="ModificarUsuario" onsubmit="return jqPostUpdateUser(this);">
+    
     <input type="hidden" name="IdUsuario" id="IdUsuario" asp-for="IdUsuario" value="@Model.IdUsuario" />
-     <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
+     
+    @* IMAGEN *@
+    <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
         <img src="~/media/deep.jpg" alt="" height="150px" width="150px" style="border-radius:100px;border:1px solid grey"/>
     </div> 
+    
+    
     <div class="row">
         <!-- Primera columna -->
         @* NOMBRE *@
@@ -55,6 +60,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Segunda columna -->
         <div class="col-md-6">
 

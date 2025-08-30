@@ -7,16 +7,20 @@
     // await Html.RenderPartialAsync("_MensajeOperaciones");
 }
 
-<hr>
-<h4 class="text-center"><span class="fa fa-user"></span> Usuarios <span class="fa fa-user"></span></h4>
-<hr>
+<hr style="color:white;">
+<h4 class="text-center" style="color:white;"><span class="fa fa-user"></span> Usuarios <span class="fa fa-user"></span></h4>
+<hr style="color:white;">
+
 
 <form id="id_Form" method="post" asp-action="FiltrarUsuarios" onsubmit="return jqPostFiltrar(event, this)">
-    <h4>Busqueda de Usuarios</h4>
+    <!-- Snackbar Panel -->
+    <div align="center" id="snackbar">Usuario creado correctamente</div>
+
+    <h4 style="color:white;">Busqueda de Usuarios</h4>
     <div class="form-group row">
 
         <div class="col-md-3">
-            <label class="form-label">Nombre</label>
+            <label class="form-label" style="color:white">Nombre</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                 <input type="text" class="form-control" placeholder="Ingrese su nombre">
@@ -24,7 +28,7 @@
         </div>
 
         <div class="col-md-3">
-            <label class="form-label">Correo Electrónico</label>
+            <label class="form-label" style="color:white">Correo Electrónico</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                 <input type="email" class="form-control" placeholder="Ingrese su correo">
@@ -32,25 +36,25 @@
         </div>
 
         <div class="col-md-3">
-            <label class="form-label">Teléfono</label>
+            <label class="form-label" style="color:white">Teléfono</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                <input type="text" class="form-control" placeholder="Ingrese su número de teléfono">
+                <input type="text" id="Telefono" class="form-control" placeholder="Ingrese su número de teléfono">
             </div>
         </div>
 
-        <div class="col-md-3">
-            <label class="form-label">Fecha de Alta</label>
+        <div class="col-md-2">
+            <label class="form-label" style="color:white">Fecha de Alta</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
-                <input type="date" asp-for="FechaAlta" class="form-control">
+                <input type="date" asp-for="FechaAlta" class="form-control" value="@Model.FechaAlta">
             </div>
         </div>
     
-        <div class="col-md-12 fa-pull-right" style="margin-top:28px;">
+        <div class="col-md-1" style="margin-top:35px;">
             <label for="lblBuscar"></label>
-            <button type="submit" class="btn btn-sm btn-outline-dark fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
-                <span class="fa fa-search"></span>
+            <button type="submit" class="btn btn-sm btn-outline-light" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
+                <span class="fa fa-search" style="font-size:1.5rem;"></span>
             </button>
         </div>
     </div>
@@ -64,7 +68,10 @@
 <br />
 
 <h4 style="float:left;">Resultados</h4>
-<button id="AddUser" type="button" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddUser()"><span class="fa fa-plus"></span> Nuevo <b>Usuario</b></button>
+<button id="AddUser" type="button" class="btn btn-sm btn-outline-light fa-pull-right" onclick="return jqGetModalAddUser()"><span class="fa fa-plus"></span> Nuevo <b>Usuario</b></button>
+
+<button id="showSnack" type="button" class="btn btn-sm btn-outline-dark fa-pull-left" onclick="showMessage()"><span class="fa fa-cog"></span> Mostrar <b>Snack</b></button>
+
 
 
 <div id="idResultadosFiltro" class="text-center">
@@ -75,9 +82,14 @@
 
 @* Paginacion *@
 <div id="idPaginadorPrincipal" class="text-center m-1">
-    <a class="btn btn-sm btn-outline-secondary PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">Anterior</a>
-    <span class="m-2 TextoPaginacion">Página @Model.PaginaActual</span>
-    <a class="btn btn-sm btn-outline-secondary PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">Siguiente</a>
+    <a class="btn btn-sm btn-outline-light PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i> 
+        Anterior 
+    </a>
+    <span class="m-2 TextoPaginacion" style="color:white;">Página @Model.PaginaActual</span>
+    <a class="btn btn-sm btn-outline-light PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">
+        Siguiente <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+    </a>
 </div>
 
 @section Styles {
@@ -95,7 +107,9 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center">Alta Usuario</h5>
+                    <h5 class="modal-title text-center">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Alta Usuario
+                    </h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -110,7 +124,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center">Modificar datos del Usuario</h5>
+                    <h5 class="modal-title text-center">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                         Modificar datos del Usuario
+                    </h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -125,7 +142,10 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center">Eliminar usuario</h5>
+                    <h5 class="modal-title text-center">
+                        <i class="fa fa-user-times" aria-hidden="true"></i>
+                         Eliminar usuario
+                    </h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

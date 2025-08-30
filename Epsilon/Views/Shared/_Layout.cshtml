@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <!-- Icono de la pestaña de la pagina -->
     <link rel="shortcut icon" href="~/media/epsilonIcono.ico">
     
@@ -30,6 +31,11 @@
     @RenderSection("Modals", required: false)
 </head>
 <body>
+
+
+@*     <div id="background-grid"></div>
+
+ *@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-color:grey !important;border-bottom-color:yellow !important">
 
@@ -198,27 +204,19 @@
     <footer class="border-top footer text-center" style="border-top:1px solid black;background-color:grey;border-top-color:yellow !important">
         <div class="container" style="text-align: center; margin-top: 5px; text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);">
          
-            <img src="~/media/logoJSMPequeño.png" alt="" height="25px" width="50px" />
-            © Copyright 2025 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
+            <img src="~/media/JMDnegro.png" alt="" height="25px" width="50px" /> © Copyright 2025 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
                 are trademarks of The JMD Corporation. All rights Reserved.
-                <img src="~/media/JMDnegro.png" alt="" height="25px" width="50px" /> 
-
-            
-              
+            <img src="~/media/JMDnegro.png" alt="" height="25px" width="50px" />               
         </div>
     </footer>
-
 
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
-
-
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 
 
 </html>
