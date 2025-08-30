@@ -25,16 +25,16 @@
                     <td class="text-center">
                         <span class="fa-solid fa-hourglass-half"></span>
                     </td>
-                    <td> @dusu.idPeriodo.ToString()</td>
+                   @*  <td> @dusu.idPeriodo.ToString()</td>
                     <td> @dusu.Ejercicio.ToString()</td>
                     <td> @dusu.Estimado.ToString()</td>
                     <td> @dusu.Ejecutado.ToString()</td>
-                    <td> @dusu.FechaCreacion.ToString()</td>
+                    <td> @dusu.FechaCreacion.ToString()</td> *@
 
                 
                     @* Periodos abiertos sin curso (Solo Editar, ELiminar y Copiar)*@
                   @*   @if (DateTime.Now.Year == @dusu.Ejercicio)
-                    { *@
+                    {
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <a class="btn btn-sm btn-outline-dark" id="btnEditar" onclick="jQueryModalDeleteGet('PlanificacionPeriodos/ModalModificarPeriodo/@dusu.idPeriodo','Modificar Periodo de Planificacion', 'modificarPeriodo',@dusu.idPeriodo)">
@@ -46,7 +46,7 @@
                                 </a>
 
                             </div>
-                        </td>
+                        </td> *@
                     @* } *@
 
                     @* Periodos abiertos con curso (Solo Editar y ELiminar)*@

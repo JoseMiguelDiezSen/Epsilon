@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace Negocio.Persistencia.Modelos
 {
-    [Table("vDatosPeriodos")]
-    public class DatoPeriodo : EpsilonForModel
-    {
+    //[Table("vDatosPeriodos")]
+    //public class DatoPeriodo : EpsilonForModel
+    //{
 
-        public long IdPeriodo { get; set; }
-        public DateTime Desde { get; set; }
-        public DateTime Hasta { get; set; }
-        public int Ejercicio { get; set; }
-        public int CreadoPorIDP { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        //public long IdArea { get; set; }
-        public decimal Estimado { get; set; }
-        public decimal Ejecutado { get; set; }
-    }
+    //    public long IdPeriodo { get; set; }
+    //    public DateTime Desde { get; set; }
+    //    public DateTime Hasta { get; set; }
+    //    public int Ejercicio { get; set; }
+    //    public int CreadoPorIDP { get; set; }
+    //    public DateTime FechaCreacion { get; set; }
+    //    //public long IdArea { get; set; }
+    //    public decimal Estimado { get; set; }
+    //    public decimal Ejecutado { get; set; }
+    //}
 }

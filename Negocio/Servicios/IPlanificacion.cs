@@ -33,7 +33,7 @@ namespace Negocio.Servicios
         /// </summary>
         /// <param name="idArea"></param>
         /// <returns></returns>
-        IQueryable<DatoPeriodo> GetDatosPeriodos();
+        //IQueryable<DatoPeriodo> GetDatosPeriodos();
 
         /// <summary>
         /// Metodo que contiene la funcionalidad para obtener los datos de los periodos de un año determinado
@@ -62,21 +62,21 @@ namespace Negocio.Servicios
         /// </summary>
         /// <param name="periodo"></param>
         /// <returns></returns>
-        PeriodoPlanificacion UpdatePeriodo(PeriodoPlanificacion periodo);
+        //PeriodoPlanificacion UpdatePeriodo(PeriodoPlanificacion periodo);
 
         /// <summary>
         /// Método que contiene la funcionalidad necesaria para eliminar un periodo de planificacion  
         /// </summary>
         /// <param name="IdPeriodo">Variable que contiene la funcionalidad correspondiente a la eliminacion de un periodo de planificacion</param>
         /// <returns></returns>
-        PeriodoPlanificacion DeletePeriodo(long IdPeriodo);
+        //PeriodoPlanificacion DeletePeriodo(long IdPeriodo);
 
         /// <summary>
         /// Metodo que contiene la funcionalidad correspondiente al proceso de añadir un periodo de planificacion
         /// </summary>
         /// <param name="element">Contiene el modelo de datos de la clase periodos de planificacion</param>
         /// <returns></returns>
-        PeriodoPlanificacion AddPeriodo(PeriodoPlanificacion element);
+        //PeriodoPlanificacion AddPeriodo(PeriodoPlanificacion element);
     }
 }
 

@@ -33,23 +33,23 @@ namespace Epsilon.Controllers
         /// Método principal de entrada a la pantalla de Planificacion de Periodos 
         /// </summary>
         /// <returns>La vista principal de la pantalla de Planificacion de Periodos</returns>
-        public IActionResult Index()
-        {
-            PlanificacionPeriodosViewModel vmPPeriodos = new PlanificacionPeriodosViewModel();
-            //vmPPeriodos.Periodos = new List<ViewPeriodos>() { };
-            IQueryable<DatoPeriodo> datosPeriodos = _planificacion.GetDatosPeriodos();
-            IEnumerable<ViewPeriodos> periodos = new List<ViewPeriodos>();
+        //public IActionResult Index()
+        //{
+        //    PlanificacionPeriodosViewModel vmPPeriodos = new PlanificacionPeriodosViewModel();
+        //    //vmPPeriodos.Periodos = new List<ViewPeriodos>() { };
+        //    IQueryable<DatoPeriodo> datosPeriodos = _planificacion.GetDatosPeriodos();
+        //    IEnumerable<ViewPeriodos> periodos = new List<ViewPeriodos>();
 
-            datosPeriodos = datosPeriodos.Skip((vmPPeriodos.PaginaActual - 1) * vmPPeriodos.RegistrosPorPagina).Take(vmPPeriodos.RegistrosPorPagina);
+        //    datosPeriodos = datosPeriodos.Skip((vmPPeriodos.PaginaActual - 1) * vmPPeriodos.RegistrosPorPagina).Take(vmPPeriodos.RegistrosPorPagina);
 
-            if (datosPeriodos.Any())
-            {
-                periodos = datosPeriodos.Select(x => new ViewPeriodos(x)).ToList();
-            }
+        //    if (datosPeriodos.Any())
+        //    {
+        //        periodos = datosPeriodos.Select(x => new ViewPeriodos(x)).ToList();
+        //    }
 
-            vmPPeriodos.Periodos = periodos;
-            return View("Index", vmPPeriodos);
-        }
+        //    vmPPeriodos.Periodos = periodos;
+        //    return View("Index", vmPPeriodos);
+        //}
 
         /// <summary> Metodo utilizado para el filtrado de periodos en funcion de los criterios seleccionados</summary>
         /// <param name="vmPeriodosPlanificacion"></param>
@@ -95,135 +95,135 @@ namespace Epsilon.Controllers
         //    return new JsonResult(jsonResponse);
         //}
 
-        #region AgregarPeriodo
+        //#region AgregarPeriodo
 
-        /// <summary>
-        /// Método para abrir la ventana modal de agregar periodos
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet, AjaxOnly]
-        public async Task<ActionResult> ModalAgregarPeriodoAsync()
-        {
-            ViewFormAgregarPeriodo viewAgregarPeriodo = new ViewFormAgregarPeriodo();
-            return PartialView("FormAgreagarPeriodo", viewAgregarPeriodo);
-        }
+        ///// <summary>
+        ///// Método para abrir la ventana modal de agregar periodos
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet, AjaxOnly]
+        //public async Task<ActionResult> ModalAgregarPeriodoAsync()
+        //{
+        //    ViewFormAgregarPeriodo viewAgregarPeriodo = new ViewFormAgregarPeriodo();
+        //    return PartialView("FormAgreagarPeriodo", viewAgregarPeriodo);
+        //}
 
-        /// <summary>
-        /// Método que contiene la funcionalidad de Añadir Periodos
-        /// </summary>
-        /// <param name="vmperiodo"></param>
-        /// <returns></returns>
-        [HttpPost, AjaxOnly]
-        public async Task<JsonResult> AgregarPeriodoAsync(ViewFormAgregarPeriodo vmperiodo)
-        {
-            JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
+        ///// <summary>
+        ///// Método que contiene la funcionalidad de Añadir Periodos
+        ///// </summary>
+        ///// <param name="vmperiodo"></param>
+        ///// <returns></returns>
+        //[HttpPost, AjaxOnly]
+        //public async Task<JsonResult> AgregarPeriodoAsync(ViewFormAgregarPeriodo vmperiodo)
+        //{
+        //    JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
-            try
-            {
-                PeriodoPlanificacion periodosPlanificacion = new PeriodoPlanificacion()
-                {
-                    //Ejercicio = vmperiodo.Ejercicio,
-                    //Desde = vmperiodo.Desde,
-                    //PlanesAfectados = "es",
-                    //Hasta = vmperiodo.Hasta,
-                    //FechaCreacion = DateTime.Now
-                };
+        //    try
+        //    {
+        //        PeriodoPlanificacion periodosPlanificacion = new PeriodoPlanificacion()
+        //        {
+        //            //Ejercicio = vmperiodo.Ejercicio,
+        //            //Desde = vmperiodo.Desde,
+        //            //PlanesAfectados = "es",
+        //            //Hasta = vmperiodo.Hasta,
+        //            //FechaCreacion = DateTime.Now
+        //        };
 
-                _planificacion.AddPeriodo(periodosPlanificacion);
-                result = new JsonResult(new { StatusCode = 200, message = "Periodo agregado correctamente" });
-            }
+        //        _planificacion.AddPeriodo(periodosPlanificacion);
+        //        result = new JsonResult(new { StatusCode = 200, message = "Periodo agregado correctamente" });
+        //    }
 
-            catch (Exception ex)
-            {
-                ex.Message.ToString();
-            }
-            return result;
-        }
+        //    catch (Exception ex)
+        //    {
+        //        ex.Message.ToString();
+        //    }
+        //    return result;
+        //}
 
-        #endregion
+        //#endregion
 
-        #region ModificarPeriodo
+        //#region ModificarPeriodo
 
-        [HttpGet, AjaxOnly]
-        public async Task<ActionResult> ModalModificarPeriodoAsync(long id)
-        {
-            PeriodoPlanificacion periodo = new PeriodoPlanificacion();
-            periodo = _planificacion.Context.PeriodosPlanificacion.Where(x => x.IdPeriodo == id).First();
+        //[HttpGet, AjaxOnly]
+        //public async Task<ActionResult> ModalModificarPeriodoAsync(long id)
+        //{
+        //    PeriodoPlanificacion periodo = new PeriodoPlanificacion();
+        //    periodo = _planificacion.Context.PeriodosPlanificacion.Where(x => x.IdPeriodo == id).First();
 
-            ViewFormAgregarPeriodo viewAgregarPeriodo = new ViewFormAgregarPeriodo();
-            //viewAgregarPeriodo.Ejercicio = periodo.Ejercicio;
-            //viewAgregarPeriodo.Desde = periodo.Desde;
-            //viewAgregarPeriodo.Hasta = periodo.Hasta;
-            return PartialView("FormModificarPeriodo", viewAgregarPeriodo);
-        }
+        //    ViewFormAgregarPeriodo viewAgregarPeriodo = new ViewFormAgregarPeriodo();
+        //    //viewAgregarPeriodo.Ejercicio = periodo.Ejercicio;
+        //    //viewAgregarPeriodo.Desde = periodo.Desde;
+        //    //viewAgregarPeriodo.Hasta = periodo.Hasta;
+        //    return PartialView("FormModificarPeriodo", viewAgregarPeriodo);
+        //}
 
-        /// <summary>
-        /// Método que contiene la funcionalidad de Modificar Periodos
-        /// </summary>
-        /// <param name="vmperiodo"></param>
-        /// <returns></returns>
-        [HttpPost, AjaxOnly]
-        public async Task<JsonResult> ModificarPeriodoAsync(ViewFormAgregarPeriodo vmperiodo)
-        {
-            JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
+        ///// <summary>
+        ///// Método que contiene la funcionalidad de Modificar Periodos
+        ///// </summary>
+        ///// <param name="vmperiodo"></param>
+        ///// <returns></returns>
+        //[HttpPost, AjaxOnly]
+        //public async Task<JsonResult> ModificarPeriodoAsync(ViewFormAgregarPeriodo vmperiodo)
+        //{
+        //    JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
-            //var periodo = _planificacion.GetPeriodoPlanificacion(vmperiodo.Ejercicio);
+        //    //var periodo = _planificacion.GetPeriodoPlanificacion(vmperiodo.Ejercicio);
 
-            try
-            {
-                PeriodoPlanificacion periodosPlanificacion = new PeriodoPlanificacion()
-                {
-                    //IdPeriodo = vmperiodo.IdPeriodo,
-                    //Ejercicio = vmperiodo.Ejercicio,
-                    //Desde = vmperiodo.Desde,
-                    //PlanesAfectados = "es",
-                    //Hasta = vmperiodo.Hasta,
-                    //FechaCreacion = DateTime.Now
-                };
+        //    try
+        //    {
+        //        PeriodoPlanificacion periodosPlanificacion = new PeriodoPlanificacion()
+        //        {
+        //            //IdPeriodo = vmperiodo.IdPeriodo,
+        //            //Ejercicio = vmperiodo.Ejercicio,
+        //            //Desde = vmperiodo.Desde,
+        //            //PlanesAfectados = "es",
+        //            //Hasta = vmperiodo.Hasta,
+        //            //FechaCreacion = DateTime.Now
+        //        };
 
-                var res = _planificacion.UpdatePeriodo(periodosPlanificacion);
-                result = new JsonResult(new { StatusCode = 200, message = "Periodo agregado correctamente" });
-            }
-            catch (Exception ex)
-            {
-                ex.Message.ToString();
-            }
-            return result;
-        }
+        //        var res = _planificacion.UpdatePeriodo(periodosPlanificacion);
+        //        result = new JsonResult(new { StatusCode = 200, message = "Periodo agregado correctamente" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.Message.ToString();
+        //    }
+        //    return result;
+        //}
 
-        #endregion
+        //#endregion
 
-        #region EliminarPeriodo 
+        //#region EliminarPeriodo 
 
-        /// <summary>
-        /// Metodo para eliminar un periodo de planificacion 
-        /// </summary>
-        /// <param name="id"> Identificador del periodo a eliminar </param>
-        /// <returns></returns>
-        [HttpPost, AjaxOnly]
-        public async Task<JsonResult> EliminarPeriodoAsync(long id)
-        {
+        ///// <summary>
+        ///// Metodo para eliminar un periodo de planificacion 
+        ///// </summary>
+        ///// <param name="id"> Identificador del periodo a eliminar </param>
+        ///// <returns></returns>
+        //[HttpPost, AjaxOnly]
+        //public async Task<JsonResult> EliminarPeriodoAsync(long id)
+        //{
 
-            JsonResult response = new JsonResult("200", "Ok");
-            try
-            {
-                PeriodoPlanificacion periodo = new PeriodoPlanificacion();
-                //periodo = _planificacion.Context.PeriodosPlanificacion.Where(x => x.IdPeriodo == id).First();
-                //_planificacion.DeletePeriodo(periodo.IdPeriodo);
-                //response.Data = "Periodo eliminado correctamente";
-            }
-            catch (Exception ex)
-            {
-                //response.Status = "500";
-                //response.StatusMessage = "Se ha producido un error al intentar eliminar el Periodo";
-                //response.ErrorData = ex.ToString();
-                //response.Data =
-                ex.Message.ToString();
-            }
-            return new JsonResult(response);
-        }
+        //    JsonResult response = new JsonResult("200", "Ok");
+        //    try
+        //    {
+        //        PeriodoPlanificacion periodo = new PeriodoPlanificacion();
+        //        //periodo = _planificacion.Context.PeriodosPlanificacion.Where(x => x.IdPeriodo == id).First();
+        //        //_planificacion.DeletePeriodo(periodo.IdPeriodo);
+        //        //response.Data = "Periodo eliminado correctamente";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //response.Status = "500";
+        //        //response.StatusMessage = "Se ha producido un error al intentar eliminar el Periodo";
+        //        //response.ErrorData = ex.ToString();
+        //        //response.Data =
+        //        ex.Message.ToString();
+        //    }
+        //    return new JsonResult(response);
+        //}
 
-        #endregion
+        //#endregion
 
     }
 }

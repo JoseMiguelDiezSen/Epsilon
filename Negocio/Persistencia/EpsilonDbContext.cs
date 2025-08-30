@@ -156,14 +156,6 @@ namespace Negocio.Persistencia
             //modelBuilder.Entity<DatosUsuario>().Property(e => e.Activo);
             //modelBuilder.Entity<DatosUsuario>().Property(e => e.TurnoDeTrabajo);
 
-            // Vista [vDatosPeriodos]
-            modelBuilder.Entity<DatoPeriodo>().HasKey(k => k.IdPeriodo);
-            modelBuilder.Entity<DatoPeriodo>().Property(e => e.IdPeriodo);
-            //modelBuilder.Entity<DatoPeriodo>().Property(e => e.IdArea);
-            modelBuilder.Entity<DatoPeriodo>().Property(e => e.Ejercicio);
-            modelBuilder.Entity<DatoPeriodo>().Property(e => e.Estimado);
-            modelBuilder.Entity<DatoPeriodo>().Property(e => e.Ejecutado);
-
             #endregion
         }
 
@@ -184,19 +176,18 @@ namespace Negocio.Persistencia
         //Tabla tratamientos
         public virtual DbSet<Modelos.Tratamiento> Tratamientos { get; set; }
 
-        public virtual DbSet<Modelos.PeriodoPlanificacion> PeriodosPlanificacion { get; set; }
-
+ 
         #endregion
 
         #region COLECCION_VISTAS
 
         //Vistas
         public virtual DbSet<Modelos.DatosUsuario> DatosUsuarios { get; set; }
-        public virtual DbSet<Modelos.DatoPeriodo> DatosPeriodos { get; set; }
                 
         #endregion
 
         ExtensionesEpsilon _extensiones;
+
         EpsilonDbContext _context;
 
         #region Funciones SQL de usuario

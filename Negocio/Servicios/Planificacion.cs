@@ -43,11 +43,11 @@ namespace Negocio.Servicios
         /// Metodo para obtener los periodos de un area determinada
         /// </summary>
         /// <returns></returns>
-        public IQueryable<DatoPeriodo> GetDatosPeriodos()
-        {
-            logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
-            return Context.DatosPeriodos;
-        }
+        //public IQueryable<DatoPeriodo> GetDatosPeriodos()
+        //{
+        //    logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
+        //    return Context.DatosPeriodos;
+        //}
 
         //public DatoPeriodo? GetPeriodosPlanificacionByAnio(int? anio)
         //{
@@ -81,53 +81,53 @@ namespace Negocio.Servicios
         /// Metodo para añadir un periodo de planificacion
         /// </summary>
         /// <param name="periodo">Parametro del modelo de datos de la clase Periodos de Planificacion</param>
-        public PeriodoPlanificacion AddPeriodo(PeriodoPlanificacion periodo)
-        {
-            if (periodo == null) { throw new ArgumentNullException(nameof(periodo)); }
+        //public PeriodoPlanificacion AddPeriodo(PeriodoPlanificacion periodo)
+        //{
+        //    if (periodo == null) { throw new ArgumentNullException(nameof(periodo)); }
 
-            using (var trans = Context.Database.BeginTransaction())
-            {
+        //    using (var trans = Context.Database.BeginTransaction())
+        //    {
 
-                Context.SaveChanges();
-                trans.Commit();
-            }
-            return (periodo);
-        }
+        //        Context.SaveChanges();
+        //        trans.Commit();
+        //    }
+        //    return (periodo);
+        //}
 
         /// <summary>
         /// Metodo para actualizar los datos de un periodo de planificacion determinado
         /// </summary>
         /// <param name="periodo">Parametro del modelo de datos de la clase PeriodosPlanificacion</param>
 
-        public PeriodoPlanificacion UpdatePeriodo(PeriodoPlanificacion periodo)
-        {
-            var p = Context.PeriodosPlanificacion.Single(x => x.IdPeriodo == periodo.IdPeriodo);
+        //public PeriodoPlanificacion UpdatePeriodo(PeriodoPlanificacion periodo)
+        //{
+        //    var p = Context.PeriodosPlanificacion.Single(x => x.IdPeriodo == periodo.IdPeriodo);
 
-            p.Ejercicio = periodo.Ejercicio;
-            p.Desde = periodo.Desde;
+        //    p.Ejercicio = periodo.Ejercicio;
+        //    p.Desde = periodo.Desde;
                   
                 
-            var entity = Context.PeriodosPlanificacion.Update(p);
+        //    var entity = Context.PeriodosPlanificacion.Update(p);
             
-            if (Context.SaveChanges() == 0)
-            {
-                throw new InvalidOperationException("No se aplicaron los cambios");
-            }
-            return entity.Entity;
-        }
+        //    if (Context.SaveChanges() == 0)
+        //    {
+        //        throw new InvalidOperationException("No se aplicaron los cambios");
+        //    }
+        //    return entity.Entity;
+        //}
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="IdPeriodo"></param>
         /// <returns></returns>
-        public PeriodoPlanificacion DeletePeriodo(long IdPeriodo)
-        {
-            var p = Context.PeriodosPlanificacion.Single(x => x.IdPeriodo == IdPeriodo);
-            var entity = Context.PeriodosPlanificacion.Remove(p);
-            Context.SaveChanges();
-            return entity.Entity;
-        }
+        //public PeriodoPlanificacion DeletePeriodo(long IdPeriodo)
+        //{
+        //    var p = Context.PeriodosPlanificacion.Single(x => x.IdPeriodo == IdPeriodo);
+        //    var entity = Context.PeriodosPlanificacion.Remove(p);
+        //    Context.SaveChanges();
+        //    return entity.Entity;
+        //}
 
         /// <summary>
         /// Metodo para obtener el ejercicio actual en funcion del area que se pase como parametro
