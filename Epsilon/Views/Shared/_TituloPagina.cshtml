@@ -1,0 +1,11 @@
+﻿<button id="volverInicio" type="button" class="btn btn-sm btn-outline-light fa-pull-left" title="Volver a Inicio" onclick="window.location.href='@Url.Action("Index", "Home")';" style="font-size:1.5em;width:40px;height:40px;border-radius:150px;"><span class="fa fa-home"></span></button>
+<button id="ayuda" type="button" class="btn btn-sm btn-outline-light fa-pull-right" title="Ayuda" onclick="mostrarAyudaWeb('@ViewData["controller"]')" style="font-size:1.5em;width:40px;height:40px;border-radius:150px;"><span class="fa fa-question-circle"></span></button>
+
+<div class="text-center">
+    <h2>
+        <a href="#" target="_blank" style="color:black; text-decoration:none; padding-right:60px; ">
+            <font size="5">Programa de Gestión de Actividades de Formación</font>
+        </a>
+    </h2>
+    <h3>@ViewData["Title"]</h3>
+</div>

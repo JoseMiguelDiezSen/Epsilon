@@ -12,7 +12,7 @@
         });
     }
 
-    /* GET: Añadir usuario */
+    /* GET : Añadir usuario */
     jqGetModalAddUser = (form) => {
         $.ajax({
             type: 'GET',
@@ -68,16 +68,10 @@
                     return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
                 }, "Introduce un correo válido de Gmail");
 
-
+                // Validacion personalizada telefono
                 $.validator.addMethod("soloNumeros", function (value, element) {
                     return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
                 }, "(*) Introduce solo números");
-
-
-
-
-
-
 
                 //$('#idMsg').html(response.data);
             },
@@ -87,10 +81,11 @@
         });
     }
 
-    /* POST: Añadir usuario */
+    /* POST : Añadir usuario */
     jqPostAddUser = (form) => {
 
         if ($('#addUser').valid()) {
+
             try {
                 $.ajax({
                     type: 'POST',
@@ -109,7 +104,7 @@
                         //PaginadorPrincipal.irPagina(pagina);
 
 
-                        // Abre el modal (Bootstrap 5)
+                        // Localiza el modal (Bootstrap 5)
                         const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
                         if (modal) modal.hide();
                         alert("Usuario creado correctamente");

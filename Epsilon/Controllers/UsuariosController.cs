@@ -77,6 +77,7 @@ namespace Epsilon.Controllers
                     datosUsuario = datosUsuario.Where(p => p.Telefono == vmUsuarios.Telefono);
                 }
 
+
                 vmUsuarios.Usuarios = await datosUsuario.
                     OrderBy(x => x.IdUsuario)
                     .Skip((vmUsuarios.PaginaActual - 1) * vmUsuarios.RegistrosPorPagina)

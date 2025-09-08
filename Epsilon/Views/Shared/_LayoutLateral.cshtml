@@ -1,5 +1,273 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="~/media/escudoEspaña.ico" sizes="38x38">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Formación</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-utilities.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-float-label.css" />
+    <!-- Referencia a FontAwesome -->
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/siteLateral.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <header>
+        <div class="row">
+            <div class="col-sm-12">
+                <div style="background:red;max-width:252px;padding:15px" class="text-center">
+                    <a href="https://www.hacienda.gob.es" target="_blank"><img src="~/media/JMDnegro.png" alt="JMD" style="max-width:252px;width:145px;height:70px" /></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="position-absolute text-center d-none d-xs-block d-md-block" style="top:0px;right:25px;margin-right:5px; width:150px">
+            <div style="margin-top:15px; margin-right:20px">
+                <span class="text-black-50">Usuario</span>: <span class="btn-link link-dark" role="button" onclick="if ($('#idoh').css('visibility') == 'hidden' ) { $('#idoh').css({visibility: 'visible' }) } else { $('#idoh').css({visibility: 'hidden' }) }">@ViewData["User"]</span>
+            </div>
+            <div class="@((ViewData["Rol"] != null) ? "text-success" : "text-black-50")" style="margin-right:30px">@(ViewData["Rol"] ?? "(Sin rol)")</div>
+        </div>
+
+        <div class="position-absolute border rounded-1 d-none d-xs-block d-md-block user-data-window" id="idoh">
+            <div class="m-2" id="idoh-body">
+                <div class="pull-right"><span class="btn btn-close btn-xs" onclick="$('#idoh').css({visibility: 'hidden' })"></span> </div>
+                <div class="text-center"><span><b>Datos del usuario</b></span></div>
+                <hr class="m-1" />
+                <div><span class="text-success">@ViewData["Nombre"]</span></div>
+                <div><span class="text-black-50">Área pricipal <b>@ViewData["Area"]</b></span></div>
+                <div><span class="text-black-50">EMail: <a href="mailto://@ViewData["EMail"]" title="@ViewData["EMail"]">@ViewData["EMailCorto"]</a> </span></div>
+                <div class="text-center" style="margin-top : 5px"><span class="text-black-50"><i>(Último acceso el @ViewData["Acceso"])</i></span></div>
+            </div>
+        </div>
+
+    </header>
+    <div class="page">
+        <div class="sidebar" id="sidebar">
+            <div class="top-row ps-3 navbar navbar-dark">
+                <div class="container-fluid">
+
+                    <span class="navbar-brand" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);padding-bottom:5px;padding-top:5px;padding-left:75px;padding-right:75px;margin-left:-20px;">
+                        EPSILON
+                    </span>
+
+                    <button title="Navigation menu" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" class="navbar-toggler"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="container navbar-collapse collapse">
+                <nav class="flex-column navbar  navbar-expand-sm navbar-toggleable-sm navbar-light navbar navbar-expand-sm border-bottom box-shadow">
+
+                 @*    <div class="nav-title px-1">
+                        Planificación
+                    </div> *@
+                    <div class="nav-item px-1" @* style="margin-top:3px;" *@>
+                        <a class="nav-link" asp-area="" asp-controller="/Home">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            Inicio
+                        </a>
+                    </div>
+                    <div class="nav-title px-1">
+                        Gestion Pacientes
+                    </div>
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-area="" asp-controller="Pacientes">
+                            <i class="fa-solid fa-user-injured"></i> Pacientes
+                        </a>
+                    </div>
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-area="" asp-controller="Citas">
+                            <i class="fa-solid fa-calendar-day"></i> Citas
+                        </a>
+                    </div>
+
+                    <div class="nav-title px-1">
+                        Gestion Doctores
+                    </div>
+                    <div class="nav-item px-1" style="margin-top:3px;">
+                        <a class="nav-link" asp-controller="Medicos">
+                            <i class="fa fa-user-md" aria-hidden="true"></i>
+                            Doctores
+                        </a>
+                    </div>
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-area="" asp-page="/Index">
+                            <i class="fa-regular fa-calendar-days"></i> Agenda
+                        </a>
+                    </div>
+                    <div class="nav-title px-1">
+                        Pruebas
+                    </div>
+                    <div class="nav-item px1" style="margin-top:3px;">
+                        <a class="nav-link" asp-controller="Radiologia">
+                            <i class="fa-solid fa-circle-radiation"></i>  Radiologia
+                        </a>
+                    </div>
+                    <div class="nav-title px-1">
+                        Gestión de Usuarios
+                    </div>
+                    <div class="nav-item px-1" style="margin-top:3px;">
+                        <a class="nav-link" asp-area="" asp-controller="/GestionUsuarios">
+                            <span class="fa fa-user-o" aria-hidden="true"></span> Mi Ficha
+                        </a>
+                    </div>
+                    <div class="nav-item px-1" style="margin-top:3px;">
+                        <a class="nav-link" asp-controller="/Usuarios">
+                            <span class="fa fa-user" aria-hidden="true"></span> Usuarios
+                        </a>
+                    </div>
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-area="" asp-page="/Roles">
+                            <span class="fa fa-key" aria-hidden="true"></span> Cargos
+                        </a>
+                    </div>
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-area="" asp-controller="/GestionPermisos">
+                            <span class="fa fa-lock" aria-hidden="true"></span> Permisos
+                        </a>
+                    </div>
+                    <div class="nav-title px-1">
+                        Administración del sistema
+                    </div>
+                    <div class="nav-item px-1" style="margin-top:3px;">
+                        <a class="nav-link" asp-area="" asp-page="/SeguridadEntidades">
+                            <span class="fa fa-gear" aria-hidden="true"></span>Configuacion
+                        </a>
+                    </div>
+
+                    <div class="nav-title px-1">
+                        Centros
+                    </div>
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-controller="/Clinicas">
+                            <i class="fa fa-hospital-o" aria-hidden="true"></i>
+                            Clinicas
+                        </a>
+                    </div>
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-controller="/Tratamientos">
+                            <i class="fa fa-hospital-o" aria-hidden="true"></i>
+                            Clinicas
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <main role="main">
+            <!--<div class="top-row"><h1>@ViewData["Title"]</h1></div>-->
+            <article class="content">
+                <div class="text-center">
+                    <h1>
+                        <font size="6" color="navy">@ViewData["Area"]</font>
+                    </h1>
+
+                </div>
+                @RenderBody()
+            </article>
+        </main>
+    </div>
+
+    <div class="main-modal-loading" style="display:none" id="modal-loading">
+        <div class="main-modal-loading-content container">
+            <div class="row">
+                <div class="col-3 loading-spinner"></div>
+                <div class="col-9 m-1">Procesando petición...</div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center small text-warning">Esperando respuesta del servidor</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-popup-alert" style="display:none" id="main-popup-alert">
+        <div class="main-popup-alert-content container">
+            <div class="row" style="border-bottom:solid silver 1px">
+                <div class="col-1"><span class="text-xl-center text-danger fa fa-warning" style="font-size:xx-large"></span></div>
+                <div id="idTitleAlertError" class="col-10 text-black m-1" style="font-size:large; font-weight:bold"></div>
+            </div>
+            <div class="row" style="margin-top:3px;">
+                <div id="idMsgAlertError" class="col-12 small text-black"></div>
+            </div>
+            <div class="">
+                <a id="idCloseAlert" class="pull-right btn btn-sm btn-outline-secondary" onclick="$('#main-popup-alert').hide()">Cerrar</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup">
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" id="main-modal" data-bs-focus="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+
+
+                    @* <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button> *@
+
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("Modals", required: false)
+
+    <footer class="border-top footer text-muted" style="box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);">
+        <div class="container text-center">
+            &copy; 2023 - Programa de gestión de actividades de formación del IEF - <a asp-area="" asp-page="/Privacy">Política de Privacidad</a>
+        </div>
+    </footer>
+    <script>window.webapp_root = '@Url.Content("~/")'</script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @* <script src="~/js/plugins/PopupLoader.js" asp-append-version="true"></script>
+<script src="~/js/plugins/Draggable.js"></script>*@
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+<style>
+    /* NO SE TOCA: ORIGINAL */
+    .close {
+        background-color: white;
+        border: none;
+        font-size: 1.95rem;
+        color: grey;
+        opacity: 1;
+        margin-top: -5px;
+    }
+
+        .close:hover {
+            color: #000;
+        }
+
+    /* Sombreado de la parte derecha del menu */
+    #sidebar {
+        box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.2);
+    }
+
+        /* De momento no funciona bien (Es el espacio antes de planificacion) */
+        #sidebar nav {
+            /* padding-top: 0 !important; */
+        }
+</style>
