@@ -30,7 +30,12 @@
 
                 // Se definen las reglas de validacion
                 $("#addUser").validate({
+                    ignore: [],
+
+                    // Omite los campos readonly
+                    ignore : "input[readonly]", 
                     rules: {
+
                         Nombre: { required: true },
                         Email: { required: true, email: true, gmailValido: true },
                         Password: { required: true, minlength: 6 },
@@ -42,6 +47,10 @@
                         Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 6 caracteres." },
                         Telefono: { required: "(*) Debe introducir un telefomo.", minlength: "(*) Debe introducir un numero superior (9 cifras)", maxlength: "(*) Debe introducir un numero inferior (9 cifras)", soloNumeros: "(*) Debe introducir solo numeros" },
                     },
+
+                    errorClass: "is-invalid",
+                    validClass: "is-valid",
+
 
                     // Se posicionan debajo de los controles
                     errorPlacement: function (error, element) {

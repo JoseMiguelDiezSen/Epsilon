@@ -1,48 +1,46 @@
-﻿/* Main site styles*/
-/*-------------------------------------------------- */
-/*@import url('/lib/bootstrap/dist/css/bootstrap.min.css');
-@import url('/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css');
-@import url('/css/bootstrap-float-label.css');
-@import url('/css/font-awesome.min.css');*/
+﻿/* tamaño de fuente grande para encabezado h1 */
 h1 {
     font-size: 2rem;
 }
 
+/* tamaño de fuente medio para encabezado h2 */
 h2 {
     font-size: 1.5rem;
 }
 
+/* tamaño de fuente más pequeño para encabezado h3 */
 h3 {
     font-size: 1rem;
 }
 
-
-/* Sticky footer styles
--------------------------------------------------- */
+/* tamaño base de fuente en todo el documento */
 html {
     font-size: 14px;
 }
 
+/* espacio inferior de 2px en el header */
 header {
     margin-bottom: 2px;
 }
 
-
+/* borde superior gris claro */
 .border-top {
     border-top: 1px solid #e5e5e5;
 }
 
+/* borde inferior gris claro */
 .border-bottom {
     border-bottom: 1px solid #e5e5e5;
 }
 
+/* sombra ligera */
 .box-shadow {
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-    font-size: 1rem;
-    line-height: inherit;
+    font-size: 1rem; /* tamaño de texto del botón */
+    line-height: inherit; /* hereda la altura de línea */
 }
 
 /* Sticky footer styles
@@ -53,37 +51,26 @@ html {
 }
 
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
-    width: 97%;
-    min-width: 540px;
+    margin-bottom: 60px; /* deja espacio al final para el footer */
+    width: 97%; /* ancho de casi toda la ventana */
+    min-width: 540px; /* ancho mínimo de 540px */
 }
 
 .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
+    position: absolute; /* se posiciona respecto al html */
+    bottom: 0; /* anclado abajo */
+    width: 100%; /* ocupa todo el ancho */
+    white-space: nowrap; /* evita saltos de línea */
+    line-height: 60px; /* centra verticalmente el texto dentro */
 }
 
 .page {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    display: flex; /* contenedor flex */
+    flex-direction: column; /* apila elementos en columna */
 }
 
 
-
-/*
-.bg {
-    background-image: url("../media/foto-IEF.jpg");
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-*/
 
 .user-data-window {
     top: 55px;
@@ -98,45 +85,48 @@ body {
 
 
 main {
-    flex: 1;
+    flex: 1; /* ocupa espacio restante dentro de flex */
 }
 
 /* -------------- Nav styles ------------------ */
 
+/* Estilos del menu lateral */
 .sidebar {
-    background-image: linear-gradient(0deg, #e8f7f7 10%, #fff 90%);
-    min-width: 252px;
+    background-image: linear-gradient(0deg, #e8f7f7 10%, #fff 90%); /* fondo degradado */
+    min-width: 252px; /* ancho mínimo */
+    min-height: 100vh; /* altura mínima toda la pantalla */
 }
 
-    .sidebar .top-row {
-        background-color: #f7f7f7;
-        border-bottom: 1px solid #d6d5d5;
-        /*justify-content: flex-end; */
-        height: 3.5rem;
-        display: flex;
-        align-items: center;
-    }
+.sidebar .top-row {
+    background-color: #f7f7f7; /* color gris claro */
+    border-bottom: 1px solid #d6d5d5; /* borde inferior gris */
+    height: 3.5rem; /* altura fija */
+    display: flex; /* elementos alineados en flex */
+    align-items: center; /* centrados verticalmente */
+}
 
-        .sidebar .top-row a, .top-row .btn-link {
-            white-space: nowrap;
-            margin-left: .5rem;
-        }
+.sidebar .top-row a, .top-row .btn-link {
+    white-space: nowrap; /* sin saltos de línea */
+    margin-left: .5rem; /* margen izquierdo */
+}
 
-            .sidebar .top-row a:first-child {
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
+.sidebar .top-row a:first-child {
+    overflow: hidden; /* oculta exceso */
+    text-overflow: ellipsis; /* añade puntos suspensivos */
+}
 
-    /* Estilo del fondo detras de los botones*/
-    .sidebar .container {
-        padding-left: 0;
-        padding-right: 0;
-        background-color: deepskyblue;
-    }
 
-    .sidebar .navbar {
-        align-items: normal;
-    }
+/* Estilo del fondo detras de los botones*/
+.sidebar .container {
+    padding-left: 0; /* elimina padding izquierdo */
+    padding-right: 0; /* elimina padding derecho */
+    background-color: deepskyblue; /* fondo azul */
+}
+
+    
+.sidebar .navbar {
+    align-items: normal;
+}
 
     .sidebar .navbar-toggler {
         background-color: #617a8f;
@@ -183,21 +173,11 @@ main {
         padding-bottom: 1rem;
     }
 
-    /*
- .nav-item span {
-    color: #d7d7d7;
-    border-radius: 4px;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    line-height: 3rem;
-}
-*/
-
     .sidebar .nav-item .active {
         background-color: rgba(255,255,255,0.25);
         color: #000000;
     }
+
 
     /*Original*/
     .sidebar .nav-link {
@@ -258,16 +238,7 @@ main {
 
     .sidebar {
         width: 250px;
-        /* height: 100%;
-            position: sticky;
-            top: 0; */
     }
-
-    /*.top-row {
-            position: sticky;
-            top: 0;
-            z-index: 1;
-        }*/
 
     .top-row, article {
         padding-left: 1.5rem !important;
@@ -289,22 +260,6 @@ main {
         margin-left: 15px;
     }
 }
-
-/*
-    @media (max-width: 640.98px) {
-        .top-row:not(.auth) {
-            display: none;    }
-
-        .top-row.auth {
-            justify-content: space-between;
-        }
-
-        .top-row a, .top-row .btn-link {
-            margin-left: 0;
-        }
-    }
-*/
-
 
 .btn-xs {
     font-size: .575rem;
