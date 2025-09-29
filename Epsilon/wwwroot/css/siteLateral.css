@@ -23,6 +23,7 @@ header {
     margin-bottom: 2px;
 }
 
+
 /* borde superior gris claro */
 .border-top {
     border-top: 1px solid #e5e5e5;
@@ -36,11 +37,6 @@ header {
 /* sombra ligera */
 .box-shadow {
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-    font-size: 1rem; /* tamaño de texto del botón */
-    line-height: inherit; /* hereda la altura de línea */
 }
 
 /* Sticky footer styles
@@ -70,8 +66,6 @@ body {
     flex-direction: column; /* apila elementos en columna */
 }
 
-
-
 .user-data-window {
     top: 55px;
     right: 10px;
@@ -82,7 +76,6 @@ body {
     font-size: smaller;
     visibility: hidden;
 }
-
 
 main {
     flex: 1; /* ocupa espacio restante dentro de flex */
@@ -97,6 +90,7 @@ main {
     min-height: 100vh; /* altura mínima toda la pantalla */
 }
 
+/* Fila superior de la sidebar (puede contener logo o botones) */
 .sidebar .top-row {
     background-color: #f7f7f7; /* color gris claro */
     border-bottom: 1px solid #d6d5d5; /* borde inferior gris */
@@ -105,129 +99,111 @@ main {
     align-items: center; /* centrados verticalmente */
 }
 
+/* Links o botones dentro de la top-row */
 .sidebar .top-row a, .top-row .btn-link {
     white-space: nowrap; /* sin saltos de línea */
     margin-left: .5rem; /* margen izquierdo */
 }
 
+/* Primer link de la top-row: si el texto es muy largo se recorta con puntos suspensivos */
 .sidebar .top-row a:first-child {
     overflow: hidden; /* oculta exceso */
     text-overflow: ellipsis; /* añade puntos suspensivos */
 }
 
-
-/* Estilo del fondo detras de los botones*/
+/* Contenedor detrás de los botones de la sidebar */
 .sidebar .container {
     padding-left: 0; /* elimina padding izquierdo */
     padding-right: 0; /* elimina padding derecho */
     background-color: deepskyblue; /* fondo azul */
 }
 
-    
+/* Navbar dentro de la sidebar */
 .sidebar .navbar {
-    align-items: normal;
+    align-items: normal; /* alinea hijos normalmente */
 }
 
-    .sidebar .navbar-toggler {
-        background-color: #617a8f;
+/* Botón que colapsa el menú lateral (toggler) */
+.sidebar .navbar-toggler {
+    background-color: #617a8f; /* fondo casi transparente */
+}
+
+/* Fila superior de la sidebar (puede contener logo o botones) */
+.sidebar .top-row {
+    height: 3.5rem;
+    background-color: rgb(13, 7, 51, 0.01);
+}
+
+/* Marca o logo de la navbar */
+.sidebar .navbar-dark .navbar-brand {
+    color: black; /* texto negro */
+    background-color: deepskyblue; /* fondo azul brillante */
+    font-size: 1.2rem; /* tamaño texto */
+    font-weight: bold; /* negrita */
+}
+
+/* Cursor por defecto para navbar-dark (no clicable) */
+.sidebar .navbar-dark {
+        cursor: default; /* no cambia el cursor */
     }
 
-    .sidebar .top-row {
-        height: 3.5rem;
-        background-color: rgb(13, 7, 51, 0.01);
+/* Iconos font-awesome dentro de la sidebar */
+.sidebar .fa {
+        width: 1.5rem; /* ancho fijo para íconos font-awesome */
     }
 
-    .sidebar .navbar-dark .navbar-brand {
-        color: black;
-        background-color: deepskyblue;
-        font-size: 1.2rem;
-        font-weight: bold;
+/* Cada opción del menú lateral */
+.sidebar .nav-item {
+        font-size: 0.95rem; /* tamaño de fuente */
+        padding-bottom: 0.25rem; /* espacio inferior */
+        color: #495057; /* color gris oscuro */
+        font-weight: normal; /* peso normal */
     }
 
-    .sidebar .navbar-dark {
-        cursor: default;
+/* Estilo de las secciones del menu */
+.sidebar .nav-title {
+        background-color: #91e251; /* fondo verde para secciones */
     }
 
-    .sidebar .fa {
-        width: 1.5rem;
+/* Primer item del menú: padding superior reducido */
+.sidebar .nav-item:first-of-type {
+        padding-top: .1rem; /* padding superior reducido */
     }
 
-    /*    Estilo de los items del menu*/
-    .sidebar .nav-item {
-        font-size: 0.95rem;
-        padding-bottom: 0.25rem;
-        color: #495057;
-        font-weight: normal;
+/* Último item del menú: padding inferior extra */
+.sidebar .nav-item:last-of-type {
+        padding-bottom: 1rem; /* padding inferior extra */
     }
 
-    /*    Estilo de los titulos del menu*/
-    .sidebar .nav-title {
-        background-color: #91e251;
-    }
-
-    .sidebar .nav-item:first-of-type {
-        padding-top: .1rem;
-    }
-
-    .sidebar .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
-
-    .sidebar .nav-item .active {
+/* Item activo del menú */
+.sidebar .nav-item .active {
         background-color: rgba(255,255,255,0.25);
-        color: #000000;
+        color: #000000; /* texto negro */
     }
 
-
-    /*Original*/
-    .sidebar .nav-link {
-        cursor: pointer;
-        padding: .25rem 1rem;
-        color: #495057;
-        /* position: relative;*/
-        /*background-image: linear-gradient(to right, #e3e518 0%, #e3e518 100%);
-    background-repeat: no-repeat;*/
-        /*background-size: 0% 100%;  comienza sin cubrir nada */
-        /*background-position: left center;*/
-        /*transition: background-size 0.1s ease;  controla velocidad y suavidad */
-        /* mantiene el texto negro también en hover */
-    }
-
-    /*Modificado*/
-    .sidebar .nav-link {
-        cursor: pointer;
-        padding: .25rem 1rem;
-        background-color: #dde1e0;
+/* Links dentro del nav-item */
+.sidebar .nav-link {
+        cursor: pointer; /* Cambia el cursor al pasar sobre el link */
+        padding: .25rem 1rem; /* Espaciado interno: 0.25rem arriba/abajo y 1rem izquierda/derecha */
+        background-color: #dde1e0; /* Color de fondo inicial del link */
         color: #495057;
         position: relative;
+        transition: transform 0.3s ease;
         /*background-image: linear-gradient(to right, #e3e518 0%, #e3e518 100%);
         background-repeat: no-repeat;
         background-size: 0% 100%;*/ /* comienza sin cubrir nada */
         /*background-position: left center;
         transition: background-size 0.2s ease;*/ /* controla velocidad y suavidad */
-
-        transition: transform 0.3s ease;
-    }
-
-    /*Original*/
-    .sidebar .nav-item .nav-link:hover {
-        /* background-color: #dbf1f7;
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.25);*/
-        /* background-color: #afff18; */
-        /*Prueba*/
-        /*background-size: 100% 100%;  se expande de izquierda a derecha */
-        /*color: #495057;  mantiene el texto negro también en hover */
     }
 
 
-    /*Modificado*/
+    /* Estilo al pasar el raton por las opciones del menu */
     .sidebar .nav-item .nav-link:hover {
-        box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2);
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.25);
-        /*    background-color: #afff18;*/
+        box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto de elevación */
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.25); /* Sombra ligera al texto */
         background-size: 100% 100%; /* se expande de izquierda a derecha */
         color: #495057; /* mantiene el texto negro también en hover */
-        background-color: #f5f5dc;
+        background-color: #f5f5dc; /* Fondo claro al pasar el ratón */
         transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
     }
 
@@ -261,211 +237,8 @@ main {
     }
 }
 
-.btn-xs {
-    font-size: .575rem;
-    line-height: .3;
-    border-radius: .2rem;
-}
-
-
-/* Card efects */
-
-:root {
-    --background-dark: #b6b6b3;
-    --text-light: #d6d5d5;
-    --text-lighter: #ffffff;
-    --spacing-s: 6px;
-    --spacing-m: 8px;
-    --spacing-l: 14px;
-    --spacing-xl: 22px;
-    --spacing-xxl: 34px;
-    --width-container: 800px;
-}
-
-
-.ef-hero-section {
-    align-items: flex-start;
-    display: flex;
-    min-height: 95%;
-    justify-content: center;
-    padding: var(--spacing-xxl) var(--spacing-l);
-}
-
-.ef-card-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-column-gap: var(--spacing-l);
-    grid-row-gap: var(--spacing-l);
-    max-width: var(--width-container);
-    width: 95%;
-}
-
-.ef-card-grid {
-    grid-template-columns: repeat(4, 1fr);
-}
-
-
-@media(min-width: 440px) {
-
-    .ef-card__category {
-        color: var(--text-light);
-        font-size: 0.3rem;
-        margin-bottom: var(--spacing-s);
-        text-transform: uppercase;
-    }
-
-    .ef-card__heading {
-        color: black;
-        font-size: 0.4rem;
-        text-shadow: 1px 1px 5px rgba(60,60,60,60.2);
-        line-height: 1;
-        word-spacing: normal;
-    }
-}
-
-@media(min-width: 860px) {
-
-    .ef-card__category {
-        color: var(--text-light);
-        font-size: 0.6rem;
-        margin-bottom: var(--spacing-s);
-        text-transform: uppercase;
-    }
-
-    .ef-card__heading {
-        color: black;
-        font-size: 0.9rem;
-        text-shadow: 2px 2px 10px rgba(60,60,60,60.2);
-        word-spacing: normal;
-    }
-}
-
-.ef-card {
-    list-style: none;
-    position: relative;
-    border: none;
-    margin: 10px;
-}
-
-    .ef-card:before {
-        content: '';
-        display: block;
-        padding-bottom: 150%;
-        width: 100%;
-    }
-
-.ef-card__background {
-    background-size: cover;
-    background-position: center;
-    border-radius: var(--spacing-l);
-    bottom: 0;
-    /*filter: brightness(0.75);*/
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transform-origin: center;
-    transform: scale(1) translateZ(0);
-    transition: filter 200ms linear, transform 200ms linear;
-}
-
-.ef-card:hover .ef-card__background {
-    transform: scale(1.05) translateZ(0);
-}
-
-.ef-card-grid:hover > .ef-card:not(:hover) .ef-card__background {
-    filter: opacity(25%) grayscale(90%);
-}
-
-.ef-card__content {
-    left: 0;
-    padding: var(--spacing-l);
-    position: absolute;
-    top: 0;
-}
-
-
-/* Callouts */
-.bd-callout {
-    padding: 1.25rem;
-    margin-top: 1.25rem;
-    margin-bottom: 1.25rem;
-    border: 1px solid #eee;
-    border-left-width: .25rem;
-    border-radius: .25rem;
-}
-
-    .bd-callout h4 {
-        margin-top: 0;
-        margin-bottom: .25rem;
-    }
-
-    .bd-callout p:last-child {
-        margin-bottom: 0;
-    }
-
-    .bd-callout code {
-        border-radius: .25rem;
-    }
-
-    .bd-callout + .bd-callout {
-        margin-top: -.25rem;
-    }
-
-.bd-callout-info {
-    border-left-color: #5bc0de;
-}
-
-.bd-callout-warning {
-    border-left-color: #f0ad4e;
-}
-
-.bd-callout-danger {
-    border-left-color: #d9534f;
-}
-
-.bd-callout-info h4 {
-    color: #5bc0de;
-}
-
-.bd-callout-warning h4 {
-    color: #f0ad4e;
-}
-
-.bd-callout-danger h4 {
-    color: #d9534f;
-}
-
-
-
-
-/* Otros */
-.table tr:hover td {
-    color: darkcyan;
-    /*font-weight:bold;*/
-    /*transform: scale(0.99);*/
-}
-
 .text-align-right {
     text-align: right;
-}
-
-
-/* Estilos para validaciones */
-.has-error {
-    border-width: 1px;
-    /*box-shadow: 1px 2px red; */
-    border-color: #c26562;
-}
-
-.error {
-    color: darkred;
-    /*     margin-top: 0;
-    margin-bottom: 0;
-   padding: 0;
-    margin-left: 12px;
-    font-size: smaller;
-    font-style: italic;*/
 }
 
 /* Custom Alert */
@@ -520,18 +293,18 @@ main {
     margin-left: 5px;
 }
 
-    .loading-spinner:before,
-    .loading-spinner:after {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: inherit;
-        height: inherit;
-        border-radius: 50%;
-        transform: rotateX(70deg);
-        animation: 1.3s spin linear infinite;
+.loading-spinner:before,
+.loading-spinner:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    transform: rotateX(70deg);
+    animation: 1.3s spin linear infinite;
     }
 
     .loading-spinner:after {
@@ -594,27 +367,3 @@ main {
     }
 }
 
-
-
-/*.loading-spinner {
-    width: 30px;
-    height: 20px;
-    border: 2px solid #4666d1;
-    border-radius: 50%;
-    border-top-color: #6285a1;
-    display: inline-block;
-    animation: loadingspinner .7s cubic-bezier(0.4, 0, 1, 1) infinite;
-    margin-top : 3px;
-    margin-left : 10px;
-}
-
-@keyframes loadingspinner {
-    0% {
-        transform: rotate(0deg)
-    }
-
-    100% {
-        transform: rotate(360deg)
-    }
-}
-*/

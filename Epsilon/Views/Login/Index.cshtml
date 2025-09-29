@@ -13,9 +13,13 @@
 <link href="~/css/site.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
 
+
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/js/Login.js"></script>
 
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 
 <form id="LoginUsuarioForm" method="post" style="border:1px solid gainsboro;padding:10px" asp-action="LoginUser" onsubmit="return jqPostLoginUser(this);">
     <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -28,7 +32,7 @@
             
                 <div class="input-group" id="inputNombre">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" asp-for="Nombre" placeholder="Usuario">
+                    <input type="text" class="form-control" id="Nombre" asp-for="Nombre" placeholder="Usuario">
                 </div>
             
             </div>
@@ -64,4 +68,19 @@
 </style>
 
 
+<!-- Script : Ver / Ocultar pass -->
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        let passwordInput = document.getElementById("Password");
+        let icon = this.querySelector("i");
 
+        // Alternar entre 'password' y 'text'
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.replace("fa-eye", "fa-eye-slash"); // Ícono de ocultar
+        } else {
+            passwordInput.type = "password";
+            icon.classList.replace("fa-eye-slash", "fa-eye"); // Ícono de mostrar
+        }
+    });
+</script>
