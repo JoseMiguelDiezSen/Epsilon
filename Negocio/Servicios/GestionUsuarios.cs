@@ -76,21 +76,7 @@ namespace Negocio.Servicios
 
         public Usuario UpdateUser(Usuario usuario)
         {
-
-
-            //var p = Context.PeriodosPlanificacion.Single(x => x.IdPeriodo == periodo.IdPeriodo);
-
-            //var entity = Context.PeriodosPlanificacion.Update(p);
-
-            //if (Context.SaveChanges() == 0)
-            //{
-            //    throw new InvalidOperationException("No se aplicaron los cambios");
-            //}
-            //return entity.Entity;
-
-
-            var usuarioActualizado = Context.Usuarios.Where(u => u.IdUsuario == usuario.IdUsuario).First();
-            var entity = Context.Usuarios.Update(usuarioActualizado);
+            var entity = Context.Usuarios.Update(usuario);
             Context.SaveChanges();
             return entity.Entity;
         }
@@ -111,7 +97,7 @@ namespace Negocio.Servicios
             var usuario = Context.Usuarios.Single(u => u.IdUsuario == idUsuario);
 
             // Opcion 2 con Where y First()
-            var usuario1 = Context.Usuarios.Where(u => u.IdUsuario == idUsuario).First();
+            //var usuario1 = Context.Usuarios.Where(u => u.IdUsuario == idUsuario).First();
             Context.Usuarios.Remove(usuario);
             return true;
         }

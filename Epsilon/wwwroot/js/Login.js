@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿jQuery(function () {
 
 
     // Se definen las reglas de validacion

@@ -1,10 +1,10 @@
 ﻿@using Epsilon.ViewModels
 @model ViewFormAgregarUsuario
 
-<form id="idAddPeriodo_Form" method="post" asp-action="EliminarUsuario" onsubmit="return jqPostRemoveUser(this);" style="border:1px solid gainsboro;padding:10px">
+<form id="deleteUserModal" method="post" onsubmit="return jqPostDeleteUser(@Model.IdUsuario);" style="border:1px solid gainsboro;padding:10px">
 
-    <input type="hidden" name="IdUsuario" id="IdUsuario" value="@Model.IdUsuario"/>
-     
+    <input type="hidden" name="IdUsuario" id="IdUsuario" asp-for="IdUsuario" value="@Model.IdUsuario" />
+
     <div class="row">
 
         <div class="form-group row md-1">
@@ -14,11 +14,11 @@
         </div>
 
 
-    @* BOTONES *@
-    <div class="text-center">
-        <button id="btnAddUser" type="submit" class="btn btn-outline-success m-2"><span class="fa fa-check"></span> Aceptar</button>
-            <button id="btnc" type="button" class="btn btn-outline-danger m-2" data-bs-dismiss="modal"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
-    </div>
+        @* BOTONES *@
+        <div class="text-center">
+            <button id="btnAddUser" type="submit" class="btn btn-outline-success"><span class="fa fa-check"></span> Aceptar</button>
+            <button id="btnc" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+        </div>
 
     </div>
 </form>

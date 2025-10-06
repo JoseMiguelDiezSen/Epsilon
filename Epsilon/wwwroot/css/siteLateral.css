@@ -87,7 +87,7 @@ main {
 .sidebar {
     background-image: linear-gradient(0deg, #e8f7f7 10%, #fff 90%); /* fondo degradado */
     min-width: 252px; /* ancho mínimo */
-    min-height: 100vh; /* altura mínima toda la pantalla */
+    min-height: 80vh; /* altura mínima toda la pantalla */
 }
 
 /* Fila superior de la sidebar (puede contener logo o botones) */

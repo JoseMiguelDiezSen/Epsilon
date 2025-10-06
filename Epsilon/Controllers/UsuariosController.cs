@@ -8,6 +8,7 @@ using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
 
@@ -119,7 +120,7 @@ namespace Epsilon.Controllers
         /// <summary>
         /// Método que contiene la funcionalidad de Añadir Usuarios
         /// </summary>
-        /// <param name="vmperiodo"></param>
+        /// <param name="vmUsuario"></param>
         /// <returns></returns>
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> AgregarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
@@ -128,6 +129,7 @@ namespace Epsilon.Controllers
 
             try
             {
+                // Reemplaza la línea problemática en el método AgregarUsuarioAsync:
                 Usuario usuario = new Usuario()
                 {
                     IdUsuario = vmUsuario.IdUsuario,
@@ -136,7 +138,8 @@ namespace Epsilon.Controllers
                     Email = vmUsuario.Email,
                     FechaAlta = DateTime.Now,
                     Telefono = vmUsuario.Telefono,
-                    RutaFoto = vmUsuario.RutaFoto,
+                    // Conversión segura de byte[] a string (por ejemplo, Base64) o asigna null si es nulo
+                    //RutaFoto = vmUsuario.RutaFoto != null ? Convert.ToBase64String(vmUsuario.RutaFoto) : null,
                     Activo = vmUsuario.Activo,
                     //TurnoDeTrabajo = vmUsuario.TurnoDeTrabajo,
                 };
@@ -173,7 +176,7 @@ namespace Epsilon.Controllers
             vmModificarUsuario.Email = usuario.Email;
             vmModificarUsuario.FechaAlta = usuario.FechaAlta;
             vmModificarUsuario.Telefono = usuario.Telefono;
-            vmModificarUsuario.RutaFoto = usuario.RutaFoto;
+            //vmModificarUsuario.RutaFoto = !string.IsNullOrEmpty(usuario.RutaFoto) ? Convert.FromBase64String(usuario.RutaFoto) : null;
             vmModificarUsuario.Activo = usuario.Activo;
 
             //Mostrar Modal
@@ -185,10 +188,10 @@ namespace Epsilon.Controllers
         /// <summary>
         /// Método que contiene la funcionalidad de Modificar Periodos
         /// </summary>
-        /// <param name="vmperiodo"></param>
+        /// <param name="vmUsuario"></param>
         /// <returns></returns>
         [HttpPost, AjaxOnly]
-        public async Task<JsonResult> ModificarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
+        public async Task<ActionResult> ModificarUsuario(ViewFormAgregarUsuario vmUsuario)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
@@ -203,7 +206,7 @@ namespace Epsilon.Controllers
                     Telefono = vmUsuario.Telefono,
                     FechaAlta = DateTime.Now,
                     Activo = vmUsuario.Activo,
-
+                    //RutaFoto = vmUsuario.RutaFoto
                 };
 
                 var res = _gestionUsuarios.UpdateUser(usuario);
@@ -246,6 +249,37 @@ namespace Epsilon.Controllers
             }
             return new JsonResult(response);
         }
+
+        ///// <summary>
+        ///// Metodo para eliminar un periodo de planificacion 
+        ///// </summary>
+        ///// <param name="id"> Identificador del usuario a eliminar </param>
+        ///// <returns></returns>
+        [HttpPost, AjaxOnly]
+        public async Task<JsonResult> EliminarUsuarioAsync(int idUsuario)
+        {
+            JsonResponse response = new JsonResponse("200", "Ok");
+            try
+            {
+                Usuario usuario = new Usuario();
+                usuario = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == idUsuario).First();
+                _gestionUsuarios.DeleteUser(usuario.IdUsuario);
+                response.Data = "Usuario eliminado correctamente";
+            }
+            catch (Exception ex)
+            {
+                response.Status = "500";
+                response.StatusMessage = "Se ha producido un error al intentar eliminar el Usuario";
+                response.ErrorData = ex.ToString();
+                //response.Data =
+                ex.Message.ToString();
+            }
+            return new JsonResult(response);
+        }
+
+        //#endregion
+
+
 
         #endregion
     }

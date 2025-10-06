@@ -137,6 +137,11 @@
         }
     }
 
+
+
+
+
+
     /* Funcion que muestra la snackbar */
     showMessage = () => {
         // Get the snackbar DIV
@@ -171,6 +176,57 @@
                     let modal = new bootstrap.Modal(document.getElementById('updateUserModal'));
                     modal.show();
 
+                    // Se definen las reglas de validacion
+                    $("#updateUser").validate({
+                        ignore: [],
+
+                        // Omite los campos readonly
+                        ignore: "input[readonly]",
+                        rules: {
+
+                            Nombre: { required: true },
+                            Email: { required: true, email: true, gmailValido: true },
+                            Password: { required: true, minlength: 6 },
+                            Telefono: { required: true, minlength: 9, maxlength: 9, soloNumeros: true }
+                        },
+                        messages: {
+                            Nombre: { required: "(*) Debe introducir un nombre" },
+                            Email: { required: "(*) Debe introducir un email.", gmailValido: "Introduce un correo válido de Gmail" },
+                            Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 6 caracteres." },
+                            Telefono: { required: "(*) Debe introducir un telefomo.", minlength: "(*) Debe introducir un numero superior (9 cifras)", maxlength: "(*) Debe introducir un numero inferior (9 cifras)", soloNumeros: "(*) Debe introducir solo numeros" },
+                        },
+
+                        errorClass: "is-invalid",
+                        validClass: "is-valid",
+
+                        // Se posicionan debajo de los controles
+                        errorPlacement: function (error, element) {
+                            if (element.attr("name") === "Nombre") {
+                                error.insertAfter("#inputNombre");
+                            }
+                            if (element.attr("name") === "Password") {
+                                error.insertAfter("#inputPassword");
+                            }
+                            if (element.attr("name") === "Email") {
+                                error.insertAfter("#inputCorreo");
+                            }
+                            if (element.attr("name") === "Telefono") {
+                                error.insertAfter("#inputTelefono");
+                            }
+                            error.addClass('text-danger').addClass('font-size:6px;'); // Bootstrap style
+                        }
+                    });
+
+                    // Regla de validacion personalizada pare el Email
+                    $.validator.addMethod("gmailValido", function (value, element) {
+                        // Nombre de usuario: 6-20 caracteres, letras, números, . _ -
+                        return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
+                    }, "Introduce un correo válido de Gmail");
+
+                    // Validacion personalizada telefono
+                    $.validator.addMethod("soloNumeros", function (value, element) {
+                        return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
+                    }, "(*) Introduce solo números");
 
 
 
@@ -189,34 +245,35 @@
 
     /* POST : Actualizar un usuario */
     jqPostUpdateUser = (form) => {
+        if ($("#updateUser").valid()) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Usuarios/ModificarUsuario',
+                    data: new FormData(form),
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
 
-        try {
-            $.ajax({
-                type: "POST",
-                url: "Usuarios/ModificarUsuario",
-                data: new FormData(form),
-                contentType: false,
-                processData: false,
-                success: function (response) {
+                        // Inserta la vista en el modal como HTML
+                        $('#updateUserModal .modal-body').html(response.data);
+                        // Abre el modal (Bootstrap 4)
+                        //$('#updateUserModal').modal('show');
 
-                    // Inserta la vista en el modal como HTML
-                    $('#updateUserModal .modal-body').html(response.data);
-                    // Abre el modal (Bootstrap 4)
-                    //$('#updateUserModal').modal('show');
+                        // Abre el modal (Bootstrap 5)
+                        let modal = new bootstrap.Modal(document.getElementById('updateUserModal'));
+                        modal.hide();
 
-                    // Abre el modal (Bootstrap 5)
-                    let modal = new bootstrap.Modal(document.getElementById('updateUserModal'));
-                    modal.hide();
+                        alert("Usuario modificado correctamente");
 
-                    alert("Usuario modificado correctamente");
-
-                },
-                error: function () {
-                    alert("No se han podido modificar los datos del usuario");
-                }
-            })
-        }
-        catch (ex) {
+                    },
+                    error: function () {
+                        alert("No se han podido modificar los datos del usuario");
+                    }
+                })
+            }
+            catch (ex) {
+            }
         }
     }
 
@@ -246,6 +303,9 @@
 
     /* POST : Eliminar un usuario */
     jqPostDeleteUser = (idUsuario) => {
+
+        var idUsuario = $('#IdUsuario').val();
+
         try {
             $.ajax({
                 type: 'POST',
@@ -256,12 +316,14 @@
                     //$('#idMsg').html(response.data);
                     //OcultarElemento('idDivMsgError');
                     //MostrarElemento('idDivMsg');
-
-                    //$('#add-user-modal').modal('hide');
                     //$('#idFiltros_Form').submit();
 
                     //var pagina = $('#PaginaActual').val();
                     //PaginadorPrincipal.irPagina(pagina);
+
+                    // Abre el modal (Bootstrap 5)
+                    let modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+                    modal.hide();
                     alert("Usuario correctamente eliminado");
                 },
 
