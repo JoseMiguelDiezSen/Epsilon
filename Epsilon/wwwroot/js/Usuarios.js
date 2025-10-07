@@ -2,6 +2,7 @@
 
     // Paginador tabla
     if (window.PaginadorPrincipal == undefined) {
+        // Seguramente aqui este el fallo
         $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
         window.PaginadorPrincipal = jQuery('#idPaginadorPrincipal').paginador({
             Formulario: 'id_Form',
