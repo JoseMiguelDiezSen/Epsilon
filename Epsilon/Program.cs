@@ -34,7 +34,6 @@ builder.Services.AddScoped<IRazorRenderService, RazorRenderService>();
 
 // Se dan de alta los servicios de Negocio
 builder.Services.AddScoped<ISeguridad, Seguridad>();
-builder.Services.AddScoped<IPlanificacion, Planificacion>();
 builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
 builder.Services.AddScoped<IGestionClinica, GestionClinica>();
 builder.Services.AddScoped<IGestionPacientes, GestionPacientes>();

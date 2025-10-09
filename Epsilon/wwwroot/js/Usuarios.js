@@ -387,6 +387,9 @@
     }
 
 
+    $('#addUserModal').dragablito({ handle: ".modal-header" });
+    $('#updateUserModal').dragablito({ handle: ".modal-header" });
+    $("#deleteUserModal").dragablito({ handle: ".modal-header" });
 });
 //jqCheckAddPeriodo = () => {
 
