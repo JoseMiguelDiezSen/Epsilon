@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Microsoft.Extensions.Logging;
 using Negocio.Persistencia;
+using Negocio.Persistencia.Modelos;
 using Negocio.Persistencia.Modelos.Comun;
 using Negocio.Servicios;
 using System.Diagnostics;
@@ -18,14 +19,14 @@ namespace Negocio.Validadores.Comun
         /// <summary>
         /// Contexto de la base de datos
         /// </summary>
-        protected ProgesforDbContext DbContext { get; set; }
+        protected EpsilonDbContext DbContext { get; set; }
         
         /// <summary>
         /// Constructor de la clase
         /// </summary>
         /// <param name="dbContext">Parametro de entrada con el contexto de la base de datos</param>
         /// <param name="logger">Parametro de entrada de la interfaz ILogger</param>
-        public ValidadoresProgesfor(ProgesforDbContext dbContext, ILogger<ValidadoresProgesfor> logger)
+        public ValidadoresProgesfor(EpsilonDbContext dbContext, ILogger<ValidadoresProgesfor> logger)
         {
             DbContext = dbContext;
             _logger = logger;
@@ -334,7 +335,7 @@ namespace Negocio.Validadores.Comun
             if (tipoValidador == null) return null;
 
             IValidador? result = null;
-            Type[] types = new Type[1] { typeof(ProgesforDbContext) };
+            Type[] types = new Type[1] { typeof(EpsilonDbContext) };
             ConstructorInfo? constructor = tipoValidador.GetConstructor(
             BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, types, null);
             if (constructor != null)

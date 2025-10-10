@@ -1,0 +1,23 @@
+﻿@* @using Presentacion.ViewModels
+@model ViewCandidatos
+
+<form id="idSUAddUser_Form" method="post" asp-action="AgregarUsuario" onsubmit="return jqAJAXPostForm(this, {modal:'#main-modal', anuncio:true});">
+    <div class="form-group row md-1">
+        <div class="col-md-11 m-2">
+            <label for="IDPCandidato" class="col-md-10 col-form-label">Usuario a agregar:</label>
+            <select asp-for="IDPCandidato" name="IDPCandidato" class="form-control" asp-items="Model.Candidatos" title="Usuarios disponibles">
+            </select>
+        </div>
+    </div>
+    <div class="form-group row md-1">
+        <div class="col-md-11 m-2">
+            <label for="IdAreaCandidato" class="col-md-10 col-form-label">Área de trabajo del usuario:</label>
+            <select asp-for="IdAreaCandidato" name="IdAreaCandidato" class="form-control" asp-items="Model.Areas" title="Área en la que trabajará el usuario">
+            </select>
+        </div>
+    </div>
+    <button id="btnAddUser" type="submit" class="btn btn-sm btn-primary m-2">Aceptar</button>
+</form>
+
+
+ *@

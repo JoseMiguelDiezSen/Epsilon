@@ -32,6 +32,8 @@ namespace Epsilon.Models
         /// </summary>
         public int Telefono { get; set; }
 
+        public bool Activo { get; set; }
+
         /// <summary>
         /// Obtiene o establece la foto de un usuario
         /// </summary>

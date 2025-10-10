@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Negocio.Persistencia.Modelos;
 using Negocio.Persistencia.Modelos.Comun;
 
 namespace Negocio.Validadores.Comun

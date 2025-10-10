@@ -1,0 +1,36 @@
+﻿@* @using Presentacion.ViewModels
+
+@model ViewDatosUsuario
+
+@if (Model.Securizada != null)
+{
+    <td class="text-center">
+        <img src="media/sec_pq.jpg" alt="Usuario securizado" title="Acceso al usuario protegido" />
+    </td>
+}
+else
+{
+    <td class="text-center">
+        <img src="media/NoSec_pq.jpg" alt="Usuario no securizado" title="Acceso al usuario desprotegido" />
+    </td>
+}
+<td class="@(Model.Activo ? "" : " text-black-50 ") d-none d-sm-table-cell"><span> @Model.NIF</span></td>
+<td class="@(Model.Activo ? "" : " text-black-50 ") d-none d-sm-table-cell"><span> @Model.NombreCompleto</span></td>
+<td class="@(Model.Activo ? "" : " text-black-50 ") d-none d-sm-table-cell"><span> @Model.AreaTrabajo</span></td>
+<td class="@(Model.Activo ? "" : " text-black-50 ") d-none d-sm-table-cell">@(Model.Activo ? "Sí" : "No")</td>
+<td>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-sm btn-outline-dark" title="Gestionar los Roles asignados al usuario" href=".\UsuariosRoles?id=@Model.IdUsuario">Roles</a>
+        <button type="button" class="btn btn-sm btn-outline-dark" title="Modificar los datos del usuario" onclick="jqAJAXGet('GestionUsuarios/ModalModificarUsuario', {id :@Model.IdUsuario},{modal_title : 'Modificar datos del usuario', modal:'#main-modal'})">Modificar</button>
+        @if (Model.Activo)
+        {
+            <button type="button" class="btn btn-sm btn-outline-dark" title="Desactivar el usuario" onclick="jqAJAXPost('GestionUsuarios/Desactivar', {idUsuario:@Model.IdUsuario},{anuncio: true},(data)=>{ $('#idFilaUsuario_'+@Model.IdUsuario).html(data)}, null, null,'Deasctivar un usuario implica que este deje de tener acceso a la aplicación.\nConfirme que desea desactivar este usuario.')">Desactivar</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-sm btn-outline-dark" onclick="jqAJAXPost('GestionUsuarios/Activar', {idUsuario:@Model.IdUsuario},{anuncio: true},(data)=>{ $('#idFilaUsuario_'+@Model.IdUsuario).html(data)}, null, null,'Activar un usuario habilta el acceso de este a la aplicación.\nConfirme que desea activar este usuario.')">Activar</button>
+        }
+
+    </div>
+</td>
+ *@

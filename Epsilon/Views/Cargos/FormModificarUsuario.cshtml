@@ -1,0 +1,32 @@
+﻿@* @using Presentacion.ViewModels
+@model ViewDatosUsuario
+
+<form id="idSUupdateUser_Form" method="post" asp-action="ModificarUsuario" onsubmit="return jqAJAXPostForm(this, {modal:'#main-modal', anuncio:true})">
+
+    <div class="form-group row md-1">
+        <div class="col-md-11 m-2">
+            <span class="has-float-label">
+                <input type="text" id="txtNombre" asp-for="NombreCompleto" name="NombreCompleto" MaxLength="75" class="form-control float_label" readonly="readonly" />
+                <label for="txtNombre">Usuario</label>
+            </span>
+        </div>
+        <div class="col-md-11 m-2">
+            <span class="has-float-label">
+                <select asp-for="IdAreaTrabajo" name="IdAreaTrabajo" class="form-control form-select" asp-items="Model.Areas" title="Área en la que trabajará el usuario">
+                </select>
+                <label for="IdAreaCandidato">Área de trabajo del usuario</label>
+            </span>
+        </div>
+        <div class="col-md-11 m-2 ">
+            <div class="form-check">
+                <input type="checkbox" id="txtActivo" asp-for="Activo" name="Activo" class="form-check-input" />
+                <label for="txtActivo" class="form-check-label"> ¿El usuario está habilitado?</label>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" asp-for="IdUsuario" name="IdUsuario" />
+    <input type="hidden" asp-for="IDP" name="IDP" />
+
+    <button id="btnUpdateUser" type="submit" class="btn btn-sm btn-primary m-2">Aceptar</button>
+</form>
+ *@
