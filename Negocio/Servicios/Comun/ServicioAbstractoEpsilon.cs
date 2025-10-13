@@ -1,124 +1,51 @@
-﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Negocio.Excepciones;
 using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
-using Negocio.Persistencia.Modelos.Comun;
-using System.Diagnostics;
+using Negocio.Validadores.Comun;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace Negocio.Servicios.Comun
 {
-    public abstract class ServicioAbstractoEpsilon : ServicioAbstracto<EpsilonDbContext>
+    public abstract class ServicioAbstractoEpsilon : ServicioAbstracto<EpsilonDbContext>, IServicioEpsilon
     {
-        public ServicioAbstractoEpsilon(EpsilonDbContext context, ILogger milogger) : base(context, milogger)
-        {
+        protected IValidadoresProgesfor _registroValidadores;
 
+        public ServicioAbstractoEpsilon(EpsilonDbContext context, ILogger milogger, IValidadoresProgesfor registroValidadores) : base(context, milogger)
+        {
+            _registroValidadores = registroValidadores;
         }
 
-        //protected void CheckPermissions(NivelesPrelacion nivelRequerido)
-        //{
-        //    MethodBase? caller = new StackTrace().GetFrame(1)?.GetMethod();
-        //    string servicio = GetType().Name ?? string.Empty;
-        //    string clase = GetType().FullName ?? string.Empty;
-        //    string operacion = caller?.Name ?? string.Empty;
-        //    string usuario = CurrentCalipsoforUser?.Nombre ?? String.Empty;
+        protected virtual void ValidaEntidad<T>(T? entidad) where T : ProgesforModel
+        {
+            logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
+            if (entidad == null) return;
 
-        //    // Comprueba si el usuario tiene nivel suficiente
-        //    if (!IsAccessAllowed(nivelRequerido)){
-        //        throw new UnauthorizedAccessException($"El usuario inactivo, {usuario}, ha intentado ejecutar la operacion {operacion}, del servicio {servicio}.");
-        //    }
+            Type type = typeof(T);
+            IValidador<T>? validador = _registroValidadores.GetValidador<T>(entidad);
 
-        //    if (IsAccessAllowed(nivelRequerido)) {
-        //        throw new UnauthorizedAccessException($"Se ha intentado ejecutar la operacion, { operacion } del servicio {servicio} sin el nivel requerido.");
-        //    }
+            if (validador == null || entidad == null) { return; }
 
-        //    Funcionalidad funcionalidad = new Funcionalidad()
-        //    { Clase = clase, Operacion = operacion };
+            IEnumerable<string> errores = validador.Valida(entidad);
+            if (!errores.IsNullOrEmpty())
+            {
+                throw new ValidacionException(type, errores);
+            }
+        }
 
-        //    if (!IsExecutionAllowed(funcionalidad)) {
-        //        throw new UnauthorizedAccessException($"Se ha intentado ejecutar la operacion, {operacion} del servicio {servicio} sin el nivel requerido.");
-        //    }
-        //}
+        protected void ValidaEntidad<T>(T? entidad, IValidador<T> validador) where T : EpsilonDbContext
+        {
+            logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
+            if (entidad == null) return;
+            if (validador == null || entidad == null) { return; }
 
-        //protected bool IsExecutionAllowed(Funcionalidad funcionalidad)
-        //{
-        //    if (funcionalidad == null) { return true; }
-        //    if(IsAdmin()) return true;
-
-        //    Type servicio = GetType();
-        //    Funcionalidad? funcionalidadRegistrada = Context.Funcionalidades.FirstOrDefault(f => f.Clase == funcionalidad.Clase && f.Operacion == funcionalidad.Operacion);
-        //    if (funcionalidadRegistrada == null) { return true; }
-
-        //    EntidadSecurizada? es = GetEsFuncionalidad(funcionalidadRegistrada);
-        //    if(es == null) { return true; }
-        //    return Context.HayPermisoEjecucion(CurrentCalipsoforUser?.IDP ?? 0, es.IdEntidadSecurizada);
-        //}
-
-        //protected bool IsAccessAllowed(NivelesPrelacion nivel)
-        //{
-        //    logger.LogInformation(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
-
-        //    if (IsAdmin()) { return true; }
-        //    int idp = CurrentCalipsoforUser?.IDP ?? -1;
-        //    long idArea = CurrentCalipsoforUser?.IdArea ?? -1;
-
-        //    if (idArea == 0)
-        //    {
-        //        return CurrentCalipsoforUser == null ? false : Context.Roles.Join(Context.UsuariosRoles, r => r.IdRol, u => u.IdRol, (r, u) => new { r, u })
-        //             .Where(z => z.r.Prelacion >= (int)nivel && z.u.IDP == idp).Count() > 0;
-        //    }
-        //    else
-        //    {
-        //        return CurrentCalipsoforUser == null ? false : Context.Roles.Join(Context.UsuariosRoles, r => r.IdRol, u => u.IdRol, (r, u) => new { r, u })
-        //            .Where(z => z.r.Prelacion >= (int)nivel && z.u.IDP == idp && z.r.IdArea == idArea).Count() > 0;
-        //    }
-        //}
-
-        //protected EntidadSecurizada? GetEsFuncionalidad(Funcionalidad funcionalidad)
-        //{
-        //    logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
-        //    return Context.EntidadesSecurizadas.AsNoTracking().SingleOrDefault(s => s.IdEntidadReferenciada == funcionalidad.IdFuncionalidad && s.IdTipo == funcionalidad.IdMiTipo);
-        //}
-
-        //protected bool IsAdmin()
-        //{
-        //    logger.LogInformation(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
-
-        //    int IDP = CurrentCalipsoforUser?.IDP ?? 0;
-        //    return Context.Roles.Join(Context.UsuariosRoles, r => r.IdRol, u => u.IdRol, (r, u) => new { r, u })
-        //        .Where(z => z.r.Prelacion == (int)NivelesPrelacion.Administrador && z.u.IDP == IDP).Any();
-        //}
-
-        //protected void ValidaEntidad<T>(T? entidad) where T : CalipsoForModel
-        //{
-
-        //    //logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
-        //    //if (entidad == null) return;
-
-        //    //Type type = typeof(T);
-        //    //IValidador<T>? validador = _registroValidadores.GetValidador<T>(entidad);
-
-        //    //if (validador == null || entidad == null) { return; }
-
-        //    //IEnumerable<string> errores = validador.Valida(entidad);
-        //    //if (!errores.IsNullOrEmpty())
-        //    //{
-        //    //    throw new ValidacionException(type, errores);
-        //    //}
-        //}
-
-        //protected void ValidaEntidad<T>(T? entidad, IValidador<T> validador) where T : CalipsoForModel
-        //{
-        //    logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
-        //    if (entidad == null) return;
-        //    if (validador == null || entidad == null) { return; }
-
-        //    IEnumerable<string> errores = validador.Valida(entidad);
-        //    //if (!errores.IsNullOrEmpty())
-        //    //{
-        //    //    throw new ValidationException(typeof(T), errores);
-        //    //}
-        //}
+            IEnumerable<string> errores = validador.Valida(entidad);
+            //if (!errores.IsNullOrEmpty())
+            //{
+            //    throw new ValidationException(typeof(T), errores);
+            //}
+        }
     }
 }

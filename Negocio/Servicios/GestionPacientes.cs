@@ -2,6 +2,7 @@
 using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios.Comun;
+using Negocio.Validadores.Comun;
 using System.Reflection;
 
 namespace Negocio.Servicios
@@ -14,7 +15,7 @@ namespace Negocio.Servicios
         /// Constructor del servicio
         /// </summary>
         /// <param name="context"></param>
-        public GestionPacientes(EpsilonDbContext context, ILogger<GestionPacientes> logger, ISeguridad seguridad) : base(context, logger)
+        public GestionPacientes(EpsilonDbContext context, ILogger<GestionPacientes> logger, ISeguridad seguridad, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
         {
             _seguridad = seguridad;
             logger.LogTrace(GetEventId(), "Servicion iniciado");

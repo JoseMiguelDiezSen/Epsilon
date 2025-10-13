@@ -1,16 +1,17 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Negocio.Persistencia.Modelos;
 using Negocio.Persistencia;
+using Negocio.Persistencia.Modelos;
+using Negocio.Persistencia.Modelos.Comun;
+using Negocio.Servicios.Comun;
+using Negocio.Validadores.Comun;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using Negocio.Persistencia.Modelos.Comun;
-using Negocio.Servicios.Comun;
-using System.Collections.Immutable;
 using System.Security.Principal;
 
 namespace Negocio.Servicios
@@ -18,7 +19,7 @@ namespace Negocio.Servicios
     ///<summary> Clase encargada de las funcionalidades relacionadas con la Seguridad de la aplicacion</summary>
     public class Seguridad : ServicioAbstractoEpsilon, ISeguridad
     {
-        public Seguridad(EpsilonDbContext context, ILogger<Seguridad> milogger) : base(context, milogger)
+        public Seguridad(EpsilonDbContext context, ILogger<Seguridad> milogger, IValidadoresProgesfor registroValidadores) : base(context, milogger, registroValidadores)
         {
   
         }

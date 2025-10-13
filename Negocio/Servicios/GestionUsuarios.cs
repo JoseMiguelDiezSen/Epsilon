@@ -1,6 +1,7 @@
 ﻿using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios.Comun;
+using Negocio.Validadores.Comun;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,11 @@ namespace Negocio.Servicios
         /// Constructor de la clase
         /// </summary>
         /// <param name="context"></param>
-        public GestionUsuarios(EpsilonDbContext context, ILogger<GestionUsuarios> logger, ISeguridad seguridad) : base(context, logger)
+        public GestionUsuarios(EpsilonDbContext context, ILogger<GestionUsuarios> logger, ISeguridad seguridad, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
         {
 
             //_claimsPrincipal = claimsPrincipal;
+            _registroValidadores = registroValidadores;
             _seguridad = seguridad;
             logger.LogTrace(GetEventId(), "Servicion iniciado");
         }
@@ -57,6 +59,8 @@ namespace Negocio.Servicios
 
         public Usuario AddUser(Usuario usuario)
         {
+            //ValidaEntidad(usuario, OperacionesValidacion.OPERACION_INSERTAR);
+
             using (var trans = Context.Database.BeginTransaction())
             {
                 try

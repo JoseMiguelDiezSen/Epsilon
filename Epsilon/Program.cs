@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Negocio.Persistencia;
 using Negocio.Servicios;
+using Negocio.Validadores.Comun;
 using System;
 using System.Security.Principal;
 
@@ -28,6 +29,10 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddScoped<IRazorRenderService, RazorRenderService>();
 
+// Registro de los validadores de Negocio
+builder.Services.AddScoped<IValidadoresProgesfor, ValidadoresProgesfor>();
+
+
 
 //builder.Services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
 //builder.Services.AddTransient<IPrincipal>(p => p.GetService<IHttpContextAccessor>()?.HttpContext?.User ?? WindowsPrincipal.Current);
@@ -40,7 +45,6 @@ builder.Services.AddScoped<IGestionPacientes, GestionPacientes>();
 
 //builder.Services.AddScoped<IGestionFinanciera, GestionFinanciera>();
 //builder.Services.AddScoped<IGestion, GestionClinica>();
-
 
 
 
