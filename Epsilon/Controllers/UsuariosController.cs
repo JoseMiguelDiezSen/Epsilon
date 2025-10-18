@@ -6,14 +6,17 @@ using Epsilon.Models.Comun;
 using Epsilon.Renders;
 using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
+using Negocio.Excepciones;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
+using System.ComponentModel;
 
 namespace Epsilon.Controllers
 {
+    /// <summary>
+    /// Clase encargada de gestionar las funcionalidades de los Usuarios
+    /// </summary>
     public class UsuariosController : AbstractSecurityController
     {
         private IGestionUsuarios _gestionUsuarios;
@@ -126,6 +129,7 @@ namespace Epsilon.Controllers
         public async Task<JsonResult> AgregarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
+            JsonResponse jsonResponse = new JsonResponse("400", "Error de servidor al realizar la operacion");
 
             try
             {
@@ -147,9 +151,14 @@ namespace Epsilon.Controllers
                 _gestionUsuarios.AddUser(usuario);
                 result = new JsonResult(new { StatusCode = 200, message = "Usuario agregado correctamente" });
             }
-            catch (Exception ex)
+            catch (ValidacionException ex)
             {
-                ex.Message.ToString();
+                result = new JsonResult(new { StatusCode = 400, errors = ex.Message });
+            }
+            catch (Exception ex){
+
+                jsonResponse = new JsonResponse("400", "La operacion no se pudo realizar", "Error" + ex.Message);
+            
             }
             return result;
         }
@@ -276,10 +285,6 @@ namespace Epsilon.Controllers
             }
             return new JsonResult(response);
         }
-
-        //#endregion
-
-
 
         #endregion
     }

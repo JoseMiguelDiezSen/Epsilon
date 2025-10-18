@@ -30,60 +30,60 @@
                 modal.show();
 
                 // Se definen las reglas de validacion
-                $("#addUser").validate({
-                    ignore: [],
+                ////$("#addUser").validate({
+                ////    ignore: [],
 
-                    // Omite los campos readonly
-                    ignore : "input[readonly]", 
-                    rules: {
+                ////    // Omite los campos readonly
+                ////    ignore : "input[readonly]", 
+                ////    rules: {
 
-                        Nombre: { required: true },
-                        Email: { required: true, email: true, gmailValido: true },
-                        Password: { required: true, minlength: 6 },
-                        Telefono: { required: true, minlength: 9, maxlength: 9, soloNumeros: true }
-                    },
-                    messages: {
-                        Nombre: { required: "(*) Debe introducir un nombre" },
-                        Email: { required: "(*) Debe introducir un email.", gmailValido: "Introduce un correo válido de Gmail" },
-                        Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 6 caracteres." },
-                        Telefono: { required: "(*) Debe introducir un telefomo.", minlength: "(*) Debe introducir un numero superior (9 cifras)", maxlength: "(*) Debe introducir un numero inferior (9 cifras)", soloNumeros: "(*) Debe introducir solo numeros" },
-                    },
+                ////        Nombre: { required: true },
+                ////        Email: { required: true, email: true, gmailValido: true },
+                ////        Password: { required: true, minlength: 6 },
+                ////        Telefono: { required: true, minlength: 9, maxlength: 9, soloNumeros: true }
+                ////    },
+                ////    messages: {
+                ////        Nombre: { required: "(*) Debe introducir un nombre" },
+                ////        Email: { required: "(*) Debe introducir un email.", gmailValido: "Introduce un correo válido de Gmail" },
+                ////        Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 6 caracteres." },
+                ////        Telefono: { required: "(*) Debe introducir un telefomo.", minlength: "(*) Debe introducir un numero superior (9 cifras)", maxlength: "(*) Debe introducir un numero inferior (9 cifras)", soloNumeros: "(*) Debe introducir solo numeros" },
+                ////    },
 
-                    errorClass: "is-invalid",
-                    validClass: "is-valid",
+                ////    errorClass: "is-invalid",
+                ////    validClass: "is-valid",
 
 
-                    // Se posicionan debajo de los controles
-                    errorPlacement: function (error, element) {
-                        if (element.attr("name") === "Nombre") {
-                            error.insertAfter("#inputNombre");
-                        }
-                        if (element.attr("name") === "Password") {
-                            error.insertAfter("#inputPassword");
-                        }
-                        if (element.attr("name") === "Email") {
-                            error.insertAfter("#inputCorreo");
-                        }
-                        if (element.attr("name") === "Telefono") {
-                            error.insertAfter("#inputTelefono");
-                        }
+                ////    // Se posicionan debajo de los controles
+                ////    errorPlacement: function (error, element) {
+                ////        if (element.attr("name") === "Nombre") {
+                ////            error.insertAfter("#inputNombre");
+                ////        }
+                ////        if (element.attr("name") === "Password") {
+                ////            error.insertAfter("#inputPassword");
+                ////        }
+                ////        if (element.attr("name") === "Email") {
+                ////            error.insertAfter("#inputCorreo");
+                ////        }
+                ////        if (element.attr("name") === "Telefono") {
+                ////            error.insertAfter("#inputTelefono");
+                ////        }
 
-                        error.addClass('text-danger').addClass('font-size:6px;'); // Bootstrap style
-                    }
-                });
+                ////        error.addClass('text-danger').addClass('font-size:6px;'); // Bootstrap style
+                ////    }
+                ////});
 
-                // Regla de validacion personalizada pare el Email
-                $.validator.addMethod("gmailValido", function (value, element) {
-                    // Nombre de usuario: 6-20 caracteres, letras, números, . _ -
-                    return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
-                }, "Introduce un correo válido de Gmail");
+                ////// Regla de validacion personalizada pare el Email
+                ////$.validator.addMethod("gmailValido", function (value, element) {
+                ////    // Nombre de usuario: 6-20 caracteres, letras, números, . _ -
+                ////    return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
+                ////}, "Introduce un correo válido de Gmail");
 
-                // Validacion personalizada telefono
-                $.validator.addMethod("soloNumeros", function (value, element) {
-                    return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
-                }, "(*) Introduce solo números");
+                ////// Validacion personalizada telefono
+                ////$.validator.addMethod("soloNumeros", function (value, element) {
+                ////    return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
+                ////}, "(*) Introduce solo números");
 
-                //$('#idMsg').html(response.data);
+                $('#idMsg').html(response.data);
             },
             error: function (response) {
                 alert("No se pudo realizar la operacion");
@@ -94,7 +94,7 @@
     /* POST : Añadir usuario */
     jqPostAddUser = (form) => {
 
-        if ($('#addUser').valid()) {
+        //if ($('#addUser').valid()) {
 
             try {
                 $.ajax({
@@ -104,21 +104,41 @@
                     contentType: false,
                     processData: false,
                     success: function (response) {
-
+                        console.log("Respuesta AJAX:", response);
                         //$('#idMsg').html(response.data);
-                        //OcultarElemento('idDivMsgError');
-                        //MostrarElemento('idDivMsg');
+                     
                         //$('#add-user-modal').modal('hide');
                         //$('#idFiltros_Form').submit();
-                        //var pagina = $('#PaginaActual').val();
-                        //PaginadorPrincipal.irPagina(pagina);
+
+                        if (response.StatusCode === 200) {
+                            $('#divErrores').hide();
+                            // Localiza el modal (Bootstrap 5)
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
+                            if (modal) modal.hide();
+                            alert("Usuario creado correctamente");
+                            showMessage();
+                            $('#idMsg').html(response.data);
+                            OcultarElemento('idDivMsgError');
+                            MostrarElemento('idDivMsg');
+                            //var pagina = $('#PaginaActual').val();
+                            //PaginadorPrincipal.irPagina(pagina);
+
+                        } else {
+                            const mensaje = response.errors || "Error desconocido en el servidor.";
+                            $("#msgErrores").html(mensaje);
+                            $("#divErrores").fadeIn(200);
+
+                            $("#btnCerrarError").off("click").on("click", function () {
+                                $("#divErrores").fadeOut(200);
+                            });
 
 
-                        // Localiza el modal (Bootstrap 5)
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
-                        if (modal) modal.hide();
-                        alert("Usuario creado correctamente");
-                        showMessage();
+                            $('#idMsgError').html("No se pudo realizar la operacion");
+                            OcultarElemento('idDivMsg');
+                            MostrarElemento('idDivMsgError');
+
+
+                        }                
                     },
                     error: function (response) {
                         //$('#idMsgError').html(response.data);
@@ -128,33 +148,17 @@
                         //var pagina = $('#PaginaActual').val();
                         //PaginadorPrincipal.irPagina(pagina);
                         //idResultadosFiltro
-                        alert("Ha ocurrido un error");
+                        $('#idMsgError').html(response.data);
+                        OcultarElemento('idDivMsg');
+                        MostrarElemento('idDivMsgError');
+                        alert("Ha ocurrido un error al crear el usuario");
                     }
                 })
                 return false;
             } catch (ex) {
                 console.log(ex);
             }
-        }
-    }
-
-
-
-
-
-
-    /* Funcion que muestra la snackbar */
-    showMessage = () => {
-        // Get the snackbar DIV
-        var x = document.getElementById("snackbar");
-
-        // Add the "show" class to DIV
-        x.className = "show";
-
-        // After 4.5 seconds, remove the show class from DIV
-        setTimeout(function () {
-            x.className = x.className.replace("show", "");
-        }, 4500);
+        //}
     }
 
     /* GET : Actualizar un usuario */
@@ -180,11 +184,9 @@
                     // Se definen las reglas de validacion
                     $("#updateUser").validate({
                         ignore: [],
-
                         // Omite los campos readonly
                         ignore: "input[readonly]",
                         rules: {
-
                             Nombre: { required: true },
                             Email: { required: true, email: true, gmailValido: true },
                             Password: { required: true, minlength: 6 },
@@ -385,6 +387,23 @@
             concole.log(ex);
         }
     }
+
+
+
+    /* Funcion que muestra la snackbar */
+    showMessage = () => {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 4.5 seconds, remove the show class from DIV
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 4500);
+    }
+
 
 
     $('#addUserModal').dragablito({ handle: ".modal-header" });

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Negocio.Persistencia.Modelos
 {
     [Table("Usuarios")]
-    public class Usuario
+    public class Usuario : ProgesforModel
     {
         public int IdUsuario { get; set; }
 

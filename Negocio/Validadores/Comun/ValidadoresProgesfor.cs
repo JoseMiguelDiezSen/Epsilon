@@ -31,6 +31,7 @@ namespace Negocio.Validadores.Comun
             DbContext = dbContext;
             _logger = logger;
             RegistraValidatores();
+            _logger.LogInformation("Validadores registrados: " + string.Join(", ", cacheValidadores.Keys.Select(t => t.Name)));
         }
 
         /// <summary>
@@ -59,7 +60,8 @@ namespace Negocio.Validadores.Comun
             }
 
             IValidador<T>? result = null;
-            Type type = entidad.GetType();
+
+            Type type = typeof(T);
             _logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name + " (" + type.FullName + ").");
             if (cacheValidadores.ContainsKey(type) && cacheValidadores[type].ContainsKey(operacion))
             {

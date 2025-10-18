@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Negocio.Excepciones;
 
 namespace Negocio.Servicios
 {
@@ -59,7 +60,7 @@ namespace Negocio.Servicios
 
         public Usuario AddUser(Usuario usuario)
         {
-            //ValidaEntidad(usuario, OperacionesValidacion.OPERACION_INSERTAR);
+            ValidaEntidad(usuario, OperacionesValidacion.OPERACION_INSERTAR);
 
             using (var trans = Context.Database.BeginTransaction())
             {
@@ -69,7 +70,7 @@ namespace Negocio.Servicios
                     Context.SaveChanges();
                     trans.Commit();
                 }
-                catch (Exception ex)
+                catch (ValidacionException ex)
                 {
                     ex.Message.ToString();
                     trans.Rollback();

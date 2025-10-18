@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Formación</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-utilities.min.css" />
     <link rel="stylesheet" href="~/css/bootstrap-float-label.css" />
@@ -15,22 +16,24 @@
 </head>
 <body>
     <header>
-        <div class="row">
+        <div class="row" style="width:104.3%">
             <div class="col-sm-12">
-                <div style="background:red;max-width:252px;padding:15px" class="text-center">
-                    <a href="https://www.hacienda.gob.es" target="_blank"><img src="~/media/JMDnegro.png" alt="JMD" style="max-width:252px;width:145px;height:70px" /></a>
+                <div style="background:lightgrey;width:100%;padding:15px" class="text-center">
+                    <div style="box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.3);">
+                    <a href="#" target="_blank"><img src="~/media/JMDnegro.png" alt="JMD" style="max-width:80%;width:115px;height:70px;padding-top:10px;padding-bottom:10px;" /></a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="position-absolute text-center d-none d-xs-block d-md-block" style="top:0px;right:25px;margin-right:5px; width:150px">
+    @*     <div class="position-absolute text-center d-none d-xs-block d-md-block" style="top:0px;right:25px;margin-right:5px; width:150px">
             <div style="margin-top:15px; margin-right:20px">
                 <span class="text-black-50">Usuario</span>: <span class="btn-link link-dark" role="button" onclick="if ($('#idoh').css('visibility') == 'hidden' ) { $('#idoh').css({visibility: 'visible' }) } else { $('#idoh').css({visibility: 'hidden' }) }">@ViewData["User"]</span>
             </div>
             <div class="@((ViewData["Rol"] != null) ? "text-success" : "text-black-50")" style="margin-right:30px">@(ViewData["Rol"] ?? "(Sin rol)")</div>
-        </div>
+        </div> *@
 
-        <div class="position-absolute border rounded-1 d-none d-xs-block d-md-block user-data-window" id="idoh">
+       @*  <div class="position-absolute border rounded-1 d-none d-xs-block d-md-block user-data-window" id="idoh">
             <div class="m-2" id="idoh-body">
                 <div class="pull-right"><span class="btn btn-close btn-xs" onclick="$('#idoh').css({visibility: 'hidden' })"></span> </div>
                 <div class="text-center"><span><b>Datos del usuario</b></span></div>
@@ -40,7 +43,7 @@
                 <div><span class="text-black-50">EMail: <a href="mailto://@ViewData["EMail"]" title="@ViewData["EMail"]">@ViewData["EMailCorto"]</a> </span></div>
                 <div class="text-center" style="margin-top : 5px"><span class="text-black-50"><i>(Último acceso el @ViewData["Acceso"])</i></span></div>
             </div>
-        </div>
+        </div> *@
 
     </header>
     <div class="page">
@@ -233,13 +236,13 @@
         </div>
     </footer>
     <script>window.webapp_root = '@Url.Content("~/")'</script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    @* <script src="~/js/plugins/PopupLoader.js" asp-append-version="true"></script>
-<script src="~/js/plugins/Draggable.js"></script>*@
+    @*  <script src="~/js/plugins/PopupLoader.js" asp-append-version="true"></script> *@
+@* <script src="~/js/plugins/Draggable.js"></script>*@ 
 
 
     @RenderSection("Scripts", required: false)

@@ -1,11 +1,12 @@
 ﻿using Epsilon.ViewModels;
+using Negocio.Persistencia.Modelos.Comun;
 
 namespace Epsilon.Models
 {
     /// <summary>
     /// Modelo de datos para Usuario
     /// </summary>
-    public class UsuariosViewModel
+    public class UsuariosViewModel : EpsilonForSecurityModel
     {
         /// <summary>
         /// Obtiene o establece el nombre del usuario
@@ -53,5 +54,15 @@ namespace Epsilon.Models
         /// Obtiene o establece el nombre del usuario
         /// </summary>
         public IEnumerable<ViewUsuario> Usuarios { get; set; } = Enumerable.Empty<ViewUsuario>();
+
+        protected override long GetMiIdEntidad()
+        {
+              return 0;
+        }
+
+        protected override int GetMiIdTipo()
+        {
+               return 0;
+        }
     }
 }

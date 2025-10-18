@@ -20,24 +20,28 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
 });
 
 
-// Cadena de conexion a BBDD 
+// Configuracion de la cadena de conexion a la base de datos
 builder.Services.AddDbContext<EpsilonDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConexionSQL")));
+
+// Alternativa si se quiere usar el appsettings.json
 //builder.Services.AppDbContext(options => options.UseSqlServer(_configuration.GetConnectionString("ConexionSQL")));
 
 
+// Registro del servicio de acceso al contexto HTTP
 builder.Services.AddHttpContextAccessor();
+// Registro del servicio de acceso al contexto de acciones
 builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
+// Registro del servicio de renderizado de vistas Razor
 builder.Services.AddScoped<IRazorRenderService, RazorRenderService>();
 
-// Registro de los validadores de Negocio
+// Registro del servicio de validadores
 builder.Services.AddScoped<IValidadoresProgesfor, ValidadoresProgesfor>();
 
-
-
+// Registro del servicio de acceso al contexto HTTP y al usuario actual
 //builder.Services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
 //builder.Services.AddTransient<IPrincipal>(p => p.GetService<IHttpContextAccessor>()?.HttpContext?.User ?? WindowsPrincipal.Current);
 
-// Se dan de alta los servicios de Negocio
+// Registro de los servicios de negocio
 builder.Services.AddScoped<ISeguridad, Seguridad>();
 builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
 builder.Services.AddScoped<IGestionClinica, GestionClinica>();
@@ -47,7 +51,7 @@ builder.Services.AddScoped<IGestionPacientes, GestionPacientes>();
 //builder.Services.AddScoped<IGestion, GestionClinica>();
 
 
-
+//
 var app = builder.Build();
 
 
