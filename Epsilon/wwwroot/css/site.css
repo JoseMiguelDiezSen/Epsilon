@@ -31,12 +31,14 @@ body {
 }
 
 
+/*Estilo mensaje error validacion back*/
 .alert-danger {
     background-color: var(--bs-danger-bg-subtle) !important;
     color: var(--bs-danger-text-emphasis) !important;
     border-color: var(--bs-danger-border-subtle) !important;
 }
 
+/*Estilo mensaje exito validacion back*/
 .alert-info {
     background-color: var(--bs-info-bg-subtle) !important;
     color: var(--bs-info-text-emphasis) !important;

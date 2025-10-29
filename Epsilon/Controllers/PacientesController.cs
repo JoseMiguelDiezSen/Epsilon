@@ -250,13 +250,13 @@ namespace Epsilon.Controllers
                         var paciente = new Paciente();
                         paciente.NombrePaciente = hoja1.GetValue(row, 1).ToString();
                         paciente.DNI = hoja1.GetValue(row, 2).ToString();
-                        paciente.Telefono = (int)(hoja1.GetValue(row, 3));
+                        paciente.Telefono = Convert.ToInt32(hoja1.GetValue(row, 3));
                         paciente.EMail = hoja1.GetValue(row, 4).ToString();
                         paciente.FechaNacimiento = Convert.ToDateTime(hoja1.GetValue(row, 5).ToString());
                         paciente.Direccion = hoja1.GetValue(row, 6).ToString();
                         paciente.Ciudad = hoja1.GetValue(row, 7).ToString();
                         paciente.FechaAlta = Convert.ToDateTime(hoja1.GetValue(row, 8).ToString());
-                        paciente.NumeroConsultas = (int)(hoja1.GetValue(row, 9));
+                        paciente.NumeroConsultas = Convert.ToInt32(hoja1.GetValue(row, 9));
                         paciente.Asegurado = Convert.ToBoolean(hoja1.GetValue(row, 10));
 
                         if (!string.IsNullOrEmpty(paciente.NombrePaciente))

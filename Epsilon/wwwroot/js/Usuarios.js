@@ -133,7 +133,7 @@
                             });
 
 
-                            $('#idMsgError').html("No se pudo realizar la operacion");
+                            $('#idMsgError').html("Ha ocurrido un error en la operacion de Agregar un usuario");
                             OcultarElemento('idDivMsg');
                             MostrarElemento('idDivMsgError');
 

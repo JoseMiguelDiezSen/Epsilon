@@ -11,8 +11,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 <link href="~/css/site.css" rel="stylesheet" />
+<link href="~/css/Index.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
 
+
+
+
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -23,23 +29,21 @@
 
 <form id="LoginUsuarioForm" method="post" style="border:1px solid gainsboro;padding:10px" asp-action="LoginUser" onsubmit="return jqPostLoginUser(this);">
     <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card shadow-lg p-4" style="width: 350px; border-radius: 12px;">
+        <div class="card shadow-lg p-4" style="width: 350px; border-radius: 12px;background-color:#424250;border:1px solid yellow">
             <h3 class="text-center mb-4">EPSILON</h3>
-            
-            
-            
+
             <div class="mb-3">
             
                 <div class="input-group" id="inputNombre">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" id="Nombre" asp-for="Nombre" placeholder="Usuario">
+                    <input type="text" class="form-control" id="Nombre" asp-for="Nombre" placeholder="Usuario" value="jsm" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
                 </div>
             
             </div>
             <div class="mb-3">
                 <div class="input-group" id="inputPassword">
                     <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    <input type="password" id="Password" asp-for="Password" class="form-control" placeholder="Ingrese su contraseña">
+                    <input type="password" id="Password" asp-for="Password" class="form-control" placeholder="Ingrese su contraseña" value="1234" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
                     <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border:1px solid gainsboro;height:38px;">
                         <i class="fas fa-eye" style="margin-bottom:3px;"></i> <!-- Ícono de ver -->
                     </button>
@@ -48,9 +52,34 @@
 
 
             <div class="d-flex justify-content-between">
-                <button id="btnAceptar" class="btn btn-outline-success w-50 me-2" onclick="jqPostLoginUser()">Aceptar</button>
-                <button id="btnCancelar" class="btn btn-outline-danger w-50">Cancelar</button>
+                <button id="btnAceptar" class="btn btn-outline-success w-50 me-2" onclick="jqPostLoginUser()">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                     Aceptar
+                </button>
+                <button id="btnCancelar" class="btn btn-outline-danger w-50">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                    Cancelar
+                </button>
             </div>
+
+         
+            <div id="g_id_onload"
+                 data-client_id="TU_CLIENT_ID.apps.googleusercontent.com"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-login_uri="https://localhost:7001/api/auth/google"
+                 data-auto_prompt="false" style="margin-top:10px;">
+            </div>
+
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left">
+            </div>
+
             <div id="mensaje" class="text-danger mt-3 text-center"></div>
         </div>
     </div>
@@ -58,14 +87,7 @@
 <div id="mensaje" style="color:red; margin-top:10px;"></div>
 </form>
 
-<style>
 
-    body{
-    
-    background-color:cornflowerblue;
-    }
-
-</style>
 
 
 <!-- Script : Ver / Ocultar pass -->

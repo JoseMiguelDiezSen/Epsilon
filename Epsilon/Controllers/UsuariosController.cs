@@ -128,7 +128,7 @@ namespace Epsilon.Controllers
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> AgregarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
         {
-            JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
+            JsonResult result = new JsonResult(new { StatusCode = 500, message = "Nao se pudo realizar la operación solicitada" });
             JsonResponse jsonResponse = new JsonResponse("400", "Error de servidor al realizar la operacion");
 
             try

@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="~/media/escudoEspaña.ico" sizes="38x38">
+    <link rel="icon" type="image/png" href="~/media/epsilonIcono.ico" sizes="38x38">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Formación</title>
+    <title>@ViewData["Title"] - EPSILON</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-utilities.min.css" />
@@ -18,32 +18,22 @@
     <header>
         <div class="row" style="width:104.3%">
             <div class="col-sm-12">
-                <div style="background:lightgrey;width:100%;padding:15px" class="text-center">
-                    <div style="box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.3);">
-                    <a href="#" target="_blank"><img src="~/media/JMDnegro.png" alt="JMD" style="max-width:80%;width:115px;height:70px;padding-top:10px;padding-bottom:10px;" /></a>
+                <div style="background:lightgrey;width:100%;padding:15px;opacity:0.5;" class="text-center">
+                    <div style="box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.2);">
+                        <a href="#" target="_blank"><img src="~/media/JMDnegro.png" alt="JMD" style="max-width:80%;width:115px;height:70px;padding-top:10px;padding-bottom:10px;" /></a>
                     </div>
                 </div>
             </div>
         </div>
 
-    @*     <div class="position-absolute text-center d-none d-xs-block d-md-block" style="top:0px;right:25px;margin-right:5px; width:150px">
+        <div class="position-absolute text-center d-none d-xs-block d-md-block" style="top:0px;right:25px;margin-right:5px; width:150px">
             <div style="margin-top:15px; margin-right:20px">
                 <span class="text-black-50">Usuario</span>: <span class="btn-link link-dark" role="button" onclick="if ($('#idoh').css('visibility') == 'hidden' ) { $('#idoh').css({visibility: 'visible' }) } else { $('#idoh').css({visibility: 'hidden' }) }">@ViewData["User"]</span>
             </div>
             <div class="@((ViewData["Rol"] != null) ? "text-success" : "text-black-50")" style="margin-right:30px">@(ViewData["Rol"] ?? "(Sin rol)")</div>
-        </div> *@
+        </div>
 
-       @*  <div class="position-absolute border rounded-1 d-none d-xs-block d-md-block user-data-window" id="idoh">
-            <div class="m-2" id="idoh-body">
-                <div class="pull-right"><span class="btn btn-close btn-xs" onclick="$('#idoh').css({visibility: 'hidden' })"></span> </div>
-                <div class="text-center"><span><b>Datos del usuario</b></span></div>
-                <hr class="m-1" />
-                <div><span class="text-success">@ViewData["Nombre"]</span></div>
-                <div><span class="text-black-50">Área pricipal <b>@ViewData["Area"]</b></span></div>
-                <div><span class="text-black-50">EMail: <a href="mailto://@ViewData["EMail"]" title="@ViewData["EMail"]">@ViewData["EMailCorto"]</a> </span></div>
-                <div class="text-center" style="margin-top : 5px"><span class="text-black-50"><i>(Último acceso el @ViewData["Acceso"])</i></span></div>
-            </div>
-        </div> *@
+
 
     </header>
     <div class="page">
@@ -51,7 +41,7 @@
             <div class="top-row ps-3 navbar navbar-dark">
                 <div class="container-fluid">
 
-                    <span class="navbar-brand" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);padding-bottom:5px;padding-top:5px;padding-left:75px;padding-right:75px;margin-left:-20px;">
+                    <span class="navbar-brand" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);padding-bottom:5px;padding-top:5px;width:220px;color:dimgrey">
                         EPSILON
                     </span>
 
@@ -65,26 +55,34 @@
             <div class="container navbar-collapse collapse">
                 <nav class="flex-column navbar  navbar-expand-sm navbar-toggleable-sm navbar-light navbar navbar-expand-sm border-bottom box-shadow">
 
-                 @*    <div class="nav-title px-1">
-                        Planificación
-                    </div> *@
-                    <div class="nav-item px-1" @* style="margin-top:3px;" *@>
+                    <div class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="/Home">
                             <i class="fa fa-home" aria-hidden="true"></i>
                             Inicio
                         </a>
                     </div>
-                    <div class="nav-title px-1">
+
+                    @* Categoria *@
+                    <div class="nav-title px-1" style="margin-top:3px;">
                         Gestion Pacientes
                     </div>
-                    <div class="nav-item px-1">
+
+                    @* Subcategoria *@
+                    <div class="nav-item px-1" style="margin-top:3px;">
                         <a class="nav-link" asp-area="" asp-controller="Pacientes">
                             <i class="fa-solid fa-user-injured"></i> Pacientes
                         </a>
                     </div>
+
                     <div class="nav-item px-1">
                         <a class="nav-link" asp-area="" asp-controller="Citas">
                             <i class="fa-solid fa-calendar-day"></i> Citas
+                        </a>
+                    </div>
+
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-area="" asp-controller="Citas">
+                            <i class="fa-solid fa-calendar-day"></i> Informes
                         </a>
                     </div>
 
@@ -105,26 +103,75 @@
                     <div class="nav-title px-1">
                         Pruebas
                     </div>
-                    <div class="nav-item px1" style="margin-top:3px;">
-                        <a class="nav-link" asp-controller="Radiologia">
+                    <div class="nav-item px-1" style="margin-top:3px;">
+                        <a class="nav-link" asp-page="/Radiologia">
                             <i class="fa-solid fa-circle-radiation"></i>  Radiologia
                         </a>
                     </div>
+
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-controller="/Tratamientos">
+                            <i class="fa fa-hospital-o" aria-hidden="true"></i>
+                            Tratamientos
+                        </a>
+                    </div>
+
                     <div class="nav-title px-1">
-                        Gestión de Usuarios
+                        Usuarios
                     </div>
                     <div class="nav-item px-1" style="margin-top:3px;">
                         <a class="nav-link" asp-area="" asp-controller="/GestionUsuarios">
-                            <span class="fa fa-user-o" aria-hidden="true"></span> Mi Ficha
+                            <i class="fa fa-address-card" aria-hidden="true"></i>
+                            Mi Perfil
                         </a>
                     </div>
-                    <div class="nav-item px-1" style="margin-top:3px;">
+                    <div class="nav-item px-1">
                         <a class="nav-link" asp-controller="/Usuarios">
                             <span class="fa fa-user" aria-hidden="true"></span> Usuarios
                         </a>
                     </div>
+                  
+
+                    <div class="nav-title px-1">
+                        Gestion Centro
+                    </div>
+
+
+
+                    <div class="nav-item px-1" style="margin-top:3px;">
+                        <a class="nav-link" asp-controller="/Clinicas">
+                            <i class="fa fa-eur" aria-hidden="true"></i>
+
+                            Facturacion
+                        </a>
+                    </div>
+
+
+
+
                     <div class="nav-item px-1">
-                        <a class="nav-link" asp-area="" asp-controller="/Cargos">
+                        <a class="nav-link" asp-controller="/Clinicas">
+                            <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                            Estadistica
+                        </a>
+                    </div>
+
+
+
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-controller="/Clinicas">
+                            <i class="fa fa-hospital" aria-hidden="true"></i>
+                            Clinicas
+                        </a>
+                    </div>
+              
+
+                    <div class="nav-title px-1">
+                        Administración del sistema
+                    </div>
+
+                    <div class="nav-item px-1">
+                        <a class="nav-link" asp-area="" asp-controller="/Cargos" style="margin-top:3px;">
                             <span class="fa fa-key" aria-hidden="true"></span> Cargos
                         </a>
                     </div>
@@ -134,30 +181,19 @@
                         </a>
                     </div>
 
-                    <div class="nav-title px-1">
-                        Centros
-                    </div>
                     <div class="nav-item px-1">
-                        <a class="nav-link" asp-controller="/Clinicas">
-                            <i class="fa fa-hospital-o" aria-hidden="true"></i>
-                            Clinicas
-                        </a>
-                    </div>
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-controller="/Tratamientos">
-                            <i class="fa fa-hospital-o" aria-hidden="true"></i>
-                            Clinicas
+                        <a class="nav-link" asp-area="" asp-page="/SeguridadEntidades">
+                            <span class="fa fa-gear" aria-hidden="true"></span>Configuracion
                         </a>
                     </div>
 
-                    <div class="nav-title px-1">
-                        Administración del sistema
-                    </div>
-                    <div class="nav-item px-1" style="margin-top:3px;">
+                    <div class="nav-item px-1">
                         <a class="nav-link" asp-area="" asp-page="/SeguridadEntidades">
-                            <span class="fa fa-gear" aria-hidden="true"></span>Configuacion
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            Cerrar Sesion
                         </a>
                     </div>
+
                 </nav>
             </div>
         </div>
@@ -211,12 +247,6 @@
                 <div class="modal-header">
                     <h5 class="modal-title"></h5>
 
-
-                    @* <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                    </button> *@
-
-
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -230,9 +260,12 @@
 
     @RenderSection("Modals", required: false)
 
-    <footer class="border-top footer text-muted" style="box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);">
+    <footer class="border-top footer text-muted" style="box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);background-color:lightgray;opacity:0.5">
         <div class="container text-center">
-            &copy; 2026 - Aplicacion de Gestion de Clinicas Epsilon - <a asp-area="" asp-page="/Privacy">CONTACTO</a>
+            <p style="text-align: center; margin-top: 5px; text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);">
+                © Copyright 2026 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
+                are trademarks of <a asp-area="" asp-page="/Login"> The JMD Corporation"</a>. All rights Reserved.
+            </p>
         </div>
     </footer>
     <script>window.webapp_root = '@Url.Content("~/")'</script>
@@ -242,7 +275,7 @@
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @*  <script src="~/js/plugins/PopupLoader.js" asp-append-version="true"></script> *@
-@* <script src="~/js/plugins/Draggable.js"></script>*@ 
+    @* <script src="~/js/plugins/Draggable.js"></script>*@ 
 
 
     @RenderSection("Scripts", required: false)
