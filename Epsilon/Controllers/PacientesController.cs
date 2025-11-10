@@ -265,9 +265,7 @@ namespace Epsilon.Controllers
                         }
                     }
                     string pacientesJSON = JsonSerializer.Serialize(pacientes);
-
                     pacientesJSON = await _renderService.ToStringAsync("FormImportarPacientes", pacientesJSON);
-
                     return jsonResult;
                 }
             };

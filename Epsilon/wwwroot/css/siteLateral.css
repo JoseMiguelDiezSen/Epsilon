@@ -85,9 +85,9 @@ main {
 
 /* Estilos del menu lateral */
 .sidebar {
-    background-image: linear-gradient(0deg, #e8f7f7 10%, #fff 90%); /* fondo degradado */
+    background-color:darkgrey;
     min-width: 252px; /* ancho mínimo */
-    min-height: 79vh; /* altura mínima toda la pantalla */
+    min-height: auto; /* altura mínima toda la pantalla */
 }
 
 /* Fila superior de la sidebar (puede contener logo o botones) */
@@ -140,6 +140,7 @@ main {
     background-color: gainsboro; /* fondo azul brillante */
     font-size: 1.2rem; /* tamaño texto */
     font-weight: bold; /* negrita */
+ /*   height:100%;*/
 }
 
 /* Cursor por defecto para navbar-dark (no clicable) */
@@ -208,6 +209,14 @@ main {
         transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
     }
 
+.nav-group .nav-items {
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.nav-group.expanded .nav-items {
+    display: block !important; /* El !important asegura que siempre se muestre */
+}
 @media (min-width: 700px) {
     .page {
         flex-direction: row;

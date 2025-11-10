@@ -100,7 +100,7 @@ namespace Epsilon.Controllers
 
             return new JsonResult(jsonResponse);
         }
-
+    
         #region AgregarUsuario
 
         /// <summary>
@@ -133,7 +133,6 @@ namespace Epsilon.Controllers
 
             try
             {
-                // Reemplaza la línea problemática en el método AgregarUsuarioAsync:
                 Usuario usuario = new Usuario()
                 {
                     IdUsuario = vmUsuario.IdUsuario,
@@ -287,5 +286,17 @@ namespace Epsilon.Controllers
         }
 
         #endregion
+
+        #region ImportarUsuarios
+
+
+
+
+
+
+
+        #endregion
+
+
     }
 }

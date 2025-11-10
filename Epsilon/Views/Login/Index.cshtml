@@ -27,10 +27,18 @@
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 
-<form id="LoginUsuarioForm" method="post" style="border:1px solid gainsboro;padding:10px" asp-action="LoginUser" onsubmit="return jqPostLoginUser(this);">
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card shadow-lg p-4" style="width: 350px; border-radius: 12px;background-color:#424250;border:1px solid yellow">
-            <h3 class="text-center mb-4">EPSILON</h3>
+<form id="LoginUsuarioForm" method="post" asp-action="LoginUser" onsubmit="return jqPostLoginUser(this);">
+    <h3 style="color:white;">EPSILON</h3><div class="container d-flex justify-content-center align-items-center vh-95">
+  
+        <div class="card shadow-lg p-4" style="width: 350px; border-radius: 12px;background-color:#424250;border:1px solid yellow;margin-top:12.5%;">
+
+            <div class="text-center">
+
+            <a href="#" target="_blank"><img src="~/media/blanco.gris2.png" alt="JMD" style="height:80px;width:140px;padding-top:10px;padding-bottom:10px;" /></a>
+            </div>
+
+
+         
 
             <div class="mb-3">
             
@@ -52,11 +60,12 @@
 
 
             <div class="d-flex justify-content-between">
-                <button id="btnAceptar" class="btn btn-outline-success w-50 me-2" onclick="jqPostLoginUser()">
+                <button id="btnAceptar" class="btn btn-outline-light w-50 me-2" onclick="jqPostLoginUser()">
                     <i class="fa fa-check" aria-hidden="true"></i>
                      Aceptar
                 </button>
-                <button id="btnCancelar" class="btn btn-outline-danger w-50">
+                <button id="btnCancelar" class="btn btn-outline-light
+w-50">
                     <i class="fa fa-times" aria-hidden="true"></i>
                     Cancelar
                 </button>

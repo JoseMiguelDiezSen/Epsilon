@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\media\20201111NEW_101100.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\media\20201111NEW_101100.png">
+      <CopyToOutputDirectory>+</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Negocio\Negocio.csproj" />
   </ItemGroup>
 

@@ -16,35 +16,22 @@
 </head>
 <body>
     <header>
-        <div class="row" style="width:104.3%">
+        <div class="row" style="width:103.8%">
             <div class="col-sm-12">
-                <div style="background:lightgrey;width:100%;padding:15px;opacity:0.5;" class="text-center">
-                    <div style="box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.2);">
+                <div style="width:100%;padding:15px;opacity:0.5;" class="text-center">
+                    <div style="box-shadow: inset 7px 7px 7px 7px rgba(0.1, 0.1, 0.0, 0.3);">
                         <a href="#" target="_blank"><img src="~/media/JMDnegro.png" alt="JMD" style="max-width:80%;width:115px;height:70px;padding-top:10px;padding-bottom:10px;" /></a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="position-absolute text-center d-none d-xs-block d-md-block" style="top:0px;right:25px;margin-right:5px; width:150px">
-            <div style="margin-top:15px; margin-right:20px">
-                <span class="text-black-50">Usuario</span>: <span class="btn-link link-dark" role="button" onclick="if ($('#idoh').css('visibility') == 'hidden' ) { $('#idoh').css({visibility: 'visible' }) } else { $('#idoh').css({visibility: 'hidden' }) }">@ViewData["User"]</span>
-            </div>
-            <div class="@((ViewData["Rol"] != null) ? "text-success" : "text-black-50")" style="margin-right:30px">@(ViewData["Rol"] ?? "(Sin rol)")</div>
-        </div>
-
-
-
     </header>
+
     <div class="page">
         <div class="sidebar" id="sidebar">
             <div class="top-row ps-3 navbar navbar-dark">
                 <div class="container-fluid">
-
-                    <span class="navbar-brand" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);padding-bottom:5px;padding-top:5px;width:220px;color:dimgrey">
-                        EPSILON
-                    </span>
-
+                    @* Boton menu responsive *@
                     <button title="Navigation menu" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" class="navbar-toggler"
                             aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -55,143 +42,166 @@
             <div class="container navbar-collapse collapse">
                 <nav class="flex-column navbar  navbar-expand-sm navbar-toggleable-sm navbar-light navbar navbar-expand-sm border-bottom box-shadow">
 
+                    @* Home/Inicio *@
                     <div class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="/Home">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            Inicio
+                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Inicio") ? "active" : "")" asp-area="" asp-controller="/Home">
+                            <i class="fa fa-home" aria-hidden="true"></i> Inicio
                         </a>
                     </div>
 
-                    @* Categoria *@
-                    <div class="nav-title px-1" style="margin-top:3px;">
-                        Gestion Pacientes
+                    @* Grupo de opciones 1 *@
+                    <div class="nav-group">
+                        @* Titulo: Gestion Pacientes *@
+                        <div class="nav-title px-1">
+                            <i class="fa fa-chevron-right me-1"></i>Gestión Pacientes
+                        </div>
+
+                        @* Opciones grupo 1 *@
+                        <div class="nav-items">
+                            @* Item 1: Doctores *@
+                            <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Pacientes") ? "active" : "")" asp-controller="Pacientes">
+                                    <i class="fa-solid fa-user-injured"></i> Pacientes
+                                </a>
+                            </div>
+
+                            @* Item 2: Citas *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Citas") ? "active" : "")" asp-controller="Citas">
+                                    <i class="fa-solid fa-calendar-day"></i> Citas
+                                </a>
+                            </div>
+
+                            @* Item 3: Informes *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Informes") ? "active" : "")" asp-area="" asp-controller="Citas">
+                                    <i class="fa-solid fa-calendar-day"></i> Informes
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    @* Subcategoria *@
-                    <div class="nav-item px-1" style="margin-top:3px;">
-                        <a class="nav-link" asp-area="" asp-controller="Pacientes">
-                            <i class="fa-solid fa-user-injured"></i> Pacientes
-                        </a>
+                    @* Grupo de opciones 2 *@
+                    <div class="nav-group">
+                        @* Titulo: Gestion Doctores *@
+                        <div class="nav-title px-1">
+                            <i class="fa-solid fa fa-chevron-right me-1"></i>Gestión Doctores
+                        </div>
+                        @* Opciones grupo 2 *@
+                        <div class="nav-items">
+
+                            @* Item 1: Doctores *@
+                            <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Pacientes") ? "acive" : "")" asp-controller="Medicos">
+                                    <i class="fa fa-user-md"></i> Doctores
+                                </a>
+                            </div>
+
+                            @* Item 2: Agenda *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-page="/Index">
+                                    <i class="fa-regular fa-calendar-days"></i> Agenda
+                                </a>
+                            </div>
+
+                            @* Item 3: Radiologia *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Radiologia") ? "acive" : "")" asp-controller="Radiologia">
+                                    <i class="fa-regular fa-calendar-days"></i> Radiologia
+                                </a>
+                            </div>
+
+                            @* Item 4: Tratamientos *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "acive" : "")" asp-controller="/Tratamientos">
+                                    <i class="fa fa-hospital-o" aria-hidden="true"></i> Tratamientos
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-area="" asp-controller="Citas">
-                            <i class="fa-solid fa-calendar-day"></i> Citas
-                        </a>
+                    @* Grupo de opciones 3 *@
+                    <div class="nav-group">
+
+                        <div class="nav-title px-1">
+                            <i class="fa-solid fa fa-chevron-right me-1"></i>Usuarios
+                        </div>
+                        <div class="nav-items">
+
+                            @* Item 1: Usuarios *@
+                            <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Usuarios") ? "active" : "")"
+                                   asp-controller="/Usuarios">
+                                    <span class="fa fa-user" aria-hidden="true"></span> Usuarios
+                                </a>
+                            </div>
+
+                            @* Item 2: Permisos Usuarios *@
+                            <div class="nav-item px1" style="margin-top:3px;margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")"  asp-area="" asp-controller="/GestionUsuarios">
+                                    <span class="fa fa-key" aria-hidden="true"></span> Permisos
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-area="" asp-controller="Citas">
-                            <i class="fa-solid fa-calendar-day"></i> Informes
-                        </a>
+                    @* Grupo de opciones 4 *@
+                    <div class="nav-group">
+                        <div class="nav-title px-1">
+                            <i class="fa-solid fa fa-chevron-right me-1"></i>Gestion Centro
+                        </div>
+                        <div class="nav-items">
+                            @* Item 1: Facturacion *@
+                            <div class="nav-item px-1" style="margin-top:3px;margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Clinicas">
+                                    <i class="fa fa-eur" aria-hidden="true"></i> Facturacion
+                                </a>
+                            </div>
+
+                            @* Item 2: Estadistica *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos">
+                                    <i class="fa fa-pie-chart" aria-hidden="true"></i> Estadistica
+                                </a>
+                            </div>
+
+                            @* Item 3: Tratamientos *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos" asp-controller="/Clinicas">
+                                    <i class="fa fa-hospital" aria-hidden="true"></i> Clinicas
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="nav-title px-1">
-                        Gestion Doctores
-                    </div>
-                    <div class="nav-item px-1" style="margin-top:3px;">
-                        <a class="nav-link" asp-controller="Medicos">
-                            <i class="fa fa-user-md" aria-hidden="true"></i>
-                            Doctores
-                        </a>
-                    </div>
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-area="" asp-page="/Index">
-                            <i class="fa-regular fa-calendar-days"></i> Agenda
-                        </a>
-                    </div>
-                    <div class="nav-title px-1">
-                        Pruebas
-                    </div>
-                    <div class="nav-item px-1" style="margin-top:3px;">
-                        <a class="nav-link" asp-page="/Radiologia">
-                            <i class="fa-solid fa-circle-radiation"></i>  Radiologia
-                        </a>
-                    </div>
+                    @* Grupo de opciones 5 *@
+                    <div class="nav-group">
+                        <div class="nav-title px-1">
+                            <i class="fa-solid fa fa-chevron-right me-1"></i>Administración del sistema
+                        </div>
 
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-controller="/Tratamientos">
-                            <i class="fa fa-hospital-o" aria-hidden="true"></i>
-                            Tratamientos
-                        </a>
-                    </div>
+                        <div class="nav-items">
+                            @* Item 1: Logging *@
+                            <div class="nav-item px-1">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos" asp-area="" asp-controller="/Cargos" style="margin-top:3px;margin-left:-15px">
+                                    <i class="fa-solid fa-chart-bar"></i> Logging
+                                </a>
+                            </div>
+                          
+                            @* Item 2: Configuracion *@
+                            <div class="nav-item px-1">
+                                <a class="nav-link" asp-area="" asp-page="/SeguridadEntidades" style="margin-left:-15px">
+                                    <span class="fa fa-gear" aria-hidden="true"></span> Configuracion
+                                </a>
+                            </div>
 
-                    <div class="nav-title px-1">
-                        Usuarios
-                    </div>
-                    <div class="nav-item px-1" style="margin-top:3px;">
-                        <a class="nav-link" asp-area="" asp-controller="/GestionUsuarios">
-                            <i class="fa fa-address-card" aria-hidden="true"></i>
-                            Mi Perfil
-                        </a>
-                    </div>
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-controller="/Usuarios">
-                            <span class="fa fa-user" aria-hidden="true"></span> Usuarios
-                        </a>
-                    </div>
-                  
-
-                    <div class="nav-title px-1">
-                        Gestion Centro
-                    </div>
-
-
-
-                    <div class="nav-item px-1" style="margin-top:3px;">
-                        <a class="nav-link" asp-controller="/Clinicas">
-                            <i class="fa fa-eur" aria-hidden="true"></i>
-
-                            Facturacion
-                        </a>
-                    </div>
-
-
-
-
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-controller="/Clinicas">
-                            <i class="fa fa-pie-chart" aria-hidden="true"></i>
-                            Estadistica
-                        </a>
-                    </div>
-
-
-
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-controller="/Clinicas">
-                            <i class="fa fa-hospital" aria-hidden="true"></i>
-                            Clinicas
-                        </a>
-                    </div>
-              
-
-                    <div class="nav-title px-1">
-                        Administración del sistema
-                    </div>
-
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-area="" asp-controller="/Cargos" style="margin-top:3px;">
-                            <span class="fa fa-key" aria-hidden="true"></span> Cargos
-                        </a>
-                    </div>
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-area="" asp-controller="/Permisos">
-                            <span class="fa fa-lock" aria-hidden="true"></span> Permisos
-                        </a>
-                    </div>
-
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-area="" asp-page="/SeguridadEntidades">
-                            <span class="fa fa-gear" aria-hidden="true"></span>Configuracion
-                        </a>
-                    </div>
-
-                    <div class="nav-item px-1">
-                        <a class="nav-link" asp-area="" asp-page="/SeguridadEntidades">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-                            Cerrar Sesion
-                        </a>
+                            @* Item 3: Cerrar Sesion *@
+                            <div class="nav-item px-1">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos" asp-area="" asp-controller="/Login" style="margin-left:-15px;background-color:orangered;color:gainsboro">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesion
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                 </nav>
@@ -260,7 +270,7 @@
 
     @RenderSection("Modals", required: false)
 
-    <footer class="border-top footer text-muted" style="box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);background-color:lightgray;opacity:0.5">
+    <footer class="border-top footer text-muted" style="box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);background-color:lightgray;opacity:0.5;">
         <div class="container text-center">
             <p style="text-align: center; margin-top: 5px; text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);">
                 © Copyright 2026 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
@@ -274,6 +284,7 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
     @*  <script src="~/js/plugins/PopupLoader.js" asp-append-version="true"></script> *@
     @* <script src="~/js/plugins/Draggable.js"></script>*@ 
 
@@ -281,6 +292,7 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
 
 <style>
     /* NO SE TOCA: ORIGINAL */
@@ -306,4 +318,85 @@
         #sidebar nav {
             /* padding-top: 0 !important; */
         }
+
+
+
+
+
+    /* Estilo de los TITULOS del menu */
+    .nav-title {
+        font-weight: 600;
+        cursor: pointer;
+        user-select: none;
+        padding: 5px 10px;
+        color: #343a40;
+        transition: background 0.2s;
+    }
+
+
+        /* Estilo de los titulos del menu */
+        .nav-title:hover {
+            background-color: darkslategrey;
+          
+        }
+
+
+    .nav-link.active {
+        background-color: #007bff; /* azulito */
+        color: white;
+        font-weight: 600;
+        border:1px solid yellow;
+    }
+
+    /* Estilos de los items */
+    .nav-items {
+        display: none; /* colapsado por defecto */
+        margin-left: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-group.expanded .nav-items {
+        display: block; /* expandido */
+    }
+
+    /* ESTILOS DEL GRUPO */
+
+
+    /* Estilo del grupo */
+    .nav-group {
+        padding-top: 2px;
+    }
+
+
+
+        /* Cuando el grupo está expandido */
+        .nav-group.expanded .nav-title {
+            background-color: yellow;
+            color: #212529;
+        }
+
+            /* Para que la flecha también cambie de color al expandir */
+            .nav-group.expanded .nav-title .fa {
+                color: #0d6efd;
+            }
+
+
+
+        .nav-group .fa {
+            transition: transform 0.2s ease;
+        }
+
+        /*  */ .nav-group.expanded .nav-title .fa {
+            transform: rotate(90deg);
+            position: relative;
+            top: 5px;
+        }
+
+    /*   Estilo del ultimo item del grupo */
+    .sidebar .nav-item:last-of-type {
+        margin-bottom: 3px !important;
+        padding-bottom: 0rem !important;
+    }
 </style>
+
+
