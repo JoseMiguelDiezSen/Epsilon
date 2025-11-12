@@ -195,18 +195,19 @@
                                 </a>
                             </div>
 
-                            @* Item 3: Cerrar Sesion *@
-                            <div class="nav-item px-1">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos" asp-area="" asp-controller="/Login" style="margin-left:-15px;background-color:orangered;color:gainsboro">
-                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesion
-                                </a>
-                            </div>
+                 
                         </div>
                     </div>
-
+                    @* Item 3: Cerrar Sesion *@
+                    <div class="nav-item px-1" style="margin-top:3px;">
+                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Login" asp-area="" asp-controller="/Login" style="margin-left:-15px;background-color:orangered;color:gainsboro">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesion
+                        </a>
+                    </div>
                 </nav>
             </div>
         </div>
+
         <main role="main">
             <!--<div class="top-row"><h1>@ViewData["Title"]</h1></div>-->
             <article class="content">
