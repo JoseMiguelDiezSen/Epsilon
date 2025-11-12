@@ -9,9 +9,9 @@
 @{
     await Html.RenderPartialAsync("_MensajesOperaciones");
 }
-<hr style="color:white;">
+@* <hr style="color:white;">
 <h4 class="text-center" style="color:white;"><span class="fa fa-user"></span> Usuarios <span class="fa fa-user"></span></h4>
-<hr style="color:white;">
+<hr style="color:white;"> *@
 
 @* <div id="divErrores" class="alert alert-danger" style="display:none"></div> *@
 
@@ -26,8 +26,73 @@
     <!-- Snackbar Panel -->
     <div align="center" id="snackbar">Usuario creado correctamente</div>
 
-    <h4 style="color:white;">Busqueda de Usuarios</h4>
-    <div class="form-group row">
+    <button style="background-color:gainsboro;" class="accordion"><span class="fa fa-search"></span> Buscador Usuarios</button>
+
+    <div class="panel" style="border-bottom:1px solid gainsboro;border-left:1px solid gainsboro;border-right:1px solid gainsboro;">
+
+        <div class="form-group row" style="padding:10px;">
+
+            @* Nombre *@
+            <div class="col-md-2">
+                <label class="form-label">Nombre</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" placeholder="Ingrese nombre">
+                </div>
+            </div>
+            @* DNI *@
+            <div class="col-md-2">
+                <label class="form-label">DNI</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fa fa-address-card" aria-hidden="true"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Ingrese DNI">
+                </div>
+            </div>
+            @* E-Mail *@
+            <div class="col-md-2">
+                <label class="form-label">Correo Electrónico</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" placeholder="Ingrese E-mail">
+                </div>
+            </div>
+            @* Telefono *@
+            <div class="col-md-2">
+                <label class="form-label">Teléfono</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    <input type="text" class="form-control" placeholder="Ingrese teléfono" style="padding-right:15px;">
+
+                </div>
+            </div>
+            @* Ciudad *@
+            <div class="col-md-2">
+                <label class="form-label">Ciudad</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" placeholder="Ingrese ciudad">
+                </div>
+            </div>
+
+            <div class="col-md-12 fa fa-pull-right" style="margin-top:-35px !important;">
+                <label for="lblBuscar"></label>
+
+                <button type="submit" style="float:right !important;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
+                    <span class="fa fa-search"></span>
+                </button>Buscar
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    @* <h4 style="color:white;">Busqueda de Usuarios</h4> *@
+   @*  <div class="form-group row">
 
         <div class="col-md-3">
             <label class="form-label" style="color:white">Nombre</label>
@@ -67,7 +132,7 @@
                 <span class="fa fa-search" style="font-size:1.5rem;"></span>
             </button>
         </div>
-    </div>
+    </div> *@
 
     <input type="hidden" asp-for="PaginaActual" id="PaginaActual" />
     <input type="hidden" asp-for="RegistrosPorPagina" id="RegistrosPorPagina" />
@@ -75,7 +140,7 @@
 </form>
 
 <hr />
-<br />
+
 
 <button id="btnAddUser" type="button" class="btn btn-sm btn-outline-light fa-pull-right" onclick="return jqGetModalAddUser()"><span class="fa fa-plus"></span> Nuevo <b>Usuario</b></button>
 <button id="btnImportUsers" type="button" class="btn btn-sm btn-outline-light fa-pull-left" onclick="return jqGetModalImportUsers()"><i class="fa-regular fa-share-from-square"></i>Importar <b>Usuarios</b></button>
@@ -95,11 +160,11 @@
 <div id="idPaginadorPrincipal" class="text-center m-1">
     <a class="btn btn-sm btn-outline-light PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">
         <i class="fa fa-angle-double-left" aria-hidden="true"></i> 
-        Anterior 
+   @*      Anterior  *@
     </a>
-    <span class="m-2 TextoPaginacion" style="color:white;">Página @Model.PaginaActual</span>
+    <span class="m-2 TextoPaginacion" style="color:white;">@* Página  *@@Model.PaginaActual</span>
     <a class="btn btn-sm btn-outline-light PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">
-        Siguiente <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+     @*    Siguiente  *@<i class="fa fa-angle-double-right" aria-hidden="true"></i>
     </a>
 </div>
 
@@ -198,4 +263,68 @@
         color: #842029;
         text-align: center;
     }
+
+
+
+
+    /* Estilos de los botones para abrir y cerrar el acordeon */
+    .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: crosshair;
+        padding: 18px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+    }
+
+        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+
+    /* Estilo del panel del acordeon. Nota: Oculto por defecto */
+    .panel {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+    }
+
+    .accordion:after {
+        /* Unicode character for "plus" sign (+) */
+        content: '\02795';
+        font-size: 13px;
+        color: #777;
+        float: right;
+        margin-left: 5px;
+        display: block;
+    }
+
+    .active:after {
+        /* Unicode character for "minus" sign (-) */
+        content: "\2796";
+    }
 </style>
+<script>
+
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+    panel.style.display = "none";
+    } else {
+    panel.style.display = "block";
+    }
+    });
+    }
+</script>

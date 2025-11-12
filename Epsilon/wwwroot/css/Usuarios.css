@@ -36,6 +36,18 @@
         animation: fadein 0.5s, fadeout 0.5s 4.5s;
     }
 
+
+
+#bordeModal {
+
+}
+
+
+#inputStyle {
+
+}
+
+
 /* Animacion de aumento y disminucion de la opacidad de la Snackbar (NEGRO) */
 @-webkit-keyframes fadein {
     from {

@@ -115,7 +115,7 @@
                 }
 
                 if ($TextoPagina.length > 0) {
-                    $TextoPagina.text('Página ' + $Pagina.val());
+                    $TextoPagina.text(/*'Página ' + */$Pagina.val());
                 }
 
             } catch (ex) {
