@@ -46,9 +46,9 @@ html {
 }
 
 body {
-    margin-bottom: 60px; /* deja espacio al final para el footer */
-    width: 97%; /* ancho de casi toda la ventana */
-    min-width: 540px; /* ancho mínimo de 540px */
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
 }
 
 .footer {

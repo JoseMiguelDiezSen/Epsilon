@@ -16,8 +16,8 @@
 </head>
 <body>
     <header>
-        <div class="row" style="width:103.8%">
-            <div class="col-sm-12">
+        <div class="row">
+            <div>
                 <div style="width:100%;padding:15px;opacity:0.5;" class="text-center">
                     <div style="box-shadow: inset 7px 7px 7px 7px rgba(0.1, 0.1, 0.0, 0.3);">
                         <a href="#" target="_blank"><img src="~/media/JMDnegro.png" alt="JMD" style="max-width:80%;width:115px;height:70px;padding-top:10px;padding-bottom:10px;" /></a>
@@ -58,7 +58,7 @@
 
                         @* Opciones grupo 1 *@
                         <div class="nav-items">
-                            @* Item 1: Doctores *@
+                            @* Item 1: Pacientes *@
                             <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
                                 <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Pacientes") ? "active" : "")" asp-controller="Pacientes">
                                     <i class="fa-solid fa-user-injured"></i> Pacientes
@@ -72,9 +72,9 @@
                                 </a>
                             </div>
 
-                            @* Item 3: Informes *@
+                            @* Item 3: Agenda *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-area="" asp-controller="Citas">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-area="" asp-controller="Agenda">
                                     <i class="fa-solid fa-calendar-day"></i> Informes
                                 </a>
                             </div>
@@ -92,14 +92,14 @@
 
                             @* Item 1: Doctores *@
                             <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Pacientes") ? "acive" : "")" asp-controller="Medicos">
-                                    <i class="fa fa-user-md"></i> Doctores
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Medicos") ? "acive" : "")" asp-controller="Medicos">
+                                    <i class="fa fa-user-md"></i> Medicos
                                 </a>
                             </div>
 
                             @* Item 2: Agenda *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-page="/Index">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-controller="Agenda">
                                     <i class="fa-regular fa-calendar-days"></i> Agenda
                                 </a>
                             </div>
@@ -107,14 +107,14 @@
                             @* Item 3: Radiologia *@
                             <div class="nav-item px-1" style="margin-left:-15px">
                                 <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Radiologia") ? "acive" : "")" asp-controller="Radiologia">
-                                    <i class="fa-regular fa-calendar-days"></i> Radiologia
+                                    <i class="fa-solid fa-circle-radiation"></i> Radiologia
                                 </a>
                             </div>
 
                             @* Item 4: Tratamientos *@
                             <div class="nav-item px-1" style="margin-left:-15px">
                                 <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "acive" : "")" asp-controller="/Tratamientos">
-                                    <i class="fa fa-hospital-o" aria-hidden="true"></i> Tratamientos
+                                    <i class="fa-solid fa-file-medical"></i> Tratamientos
                                 </a>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                             </div>
 
                             @* Item 2: Permisos Usuarios *@
-                            <div class="nav-item px1" style="margin-top:3px;margin-left:-15px">
+                            <div class="nav-item px-1" style="margin-left:-15px">
                                 <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")"  asp-area="" asp-controller="/GestionUsuarios">
                                     <span class="fa fa-key" aria-hidden="true"></span> Permisos
                                 </a>
@@ -153,7 +153,7 @@
                         <div class="nav-items">
                             @* Item 1: Facturacion *@
                             <div class="nav-item px-1" style="margin-top:3px;margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Clinicas">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Facturacion") ? "active" : "")" asp-controller="Facturacion">
                                     <i class="fa fa-eur" aria-hidden="true"></i> Facturacion
                                 </a>
                             </div>
@@ -167,7 +167,7 @@
 
                             @* Item 3: Tratamientos *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos" asp-controller="/Clinicas">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Clinicas") ? "active" : "")" asp-controller="/Clinicas" asp-controller="/Clinicas">
                                     <i class="fa fa-hospital" aria-hidden="true"></i> Clinicas
                                 </a>
                             </div>
@@ -220,6 +220,15 @@
         </main>
     </div>
 
+    <footer class="footer" style="box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);background-color:lightgray;opacity:0.5;">
+        <div class="container text-center">
+            <p style="text-align: center; margin-top: 5px; text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);">
+                © Copyright 2026 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
+                are trademarks of <a asp-area="" asp-page="/Login"> The JMD Corporation"</a>. All rights Reserved.
+            </p>
+        </div>
+    </footer>
+
     <div class="main-modal-loading" style="display:none" id="modal-loading">
         <div class="main-modal-loading-content container">
             <div class="row">
@@ -269,14 +278,7 @@
 
     @RenderSection("Modals", required: false)
 
-    <footer class="border-top footer text-muted" style="box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);background-color:lightgray;opacity:0.5;">
-        <div class="container text-center">
-            <p style="text-align: center; margin-top: 5px; text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);">
-                © Copyright 2026 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
-                are trademarks of <a asp-area="" asp-page="/Login"> The JMD Corporation"</a>. All rights Reserved.
-            </p>
-        </div>
-    </footer>
+
     <script>window.webapp_root = '@Url.Content("~/")'</script>
 
     <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -289,7 +291,12 @@
 
 
     @RenderSection("Scripts", required: false)
+
+   
 </body>
+
+
+
 </html>
 
 
@@ -310,6 +317,7 @@
 
     /* Sombreado de la parte derecha del menu */
     #sidebar {
+
         box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.2);
     }
 
@@ -396,6 +404,57 @@
         margin-bottom: 3px !important;
         padding-bottom: 0rem !important;
     }
+
+
+    /* Footer no fixed, siempre al final */
+    footer {
+        flex: 0 0 auto;
+        box-shadow: 0 -4px 6px rgba(0,0,0,0.05);
+        background-color: lightgray;
+        opacity: 0.95;
+    }
+
+
+    .footer {
+        border-top-color: yellow !important;
+        /* Quitar posicionamiento absoluto para que el footer fluya con el documento */
+        position: static;
+        width: 100%;
+        white-space: normal;
+        line-height: 60px;
+        background: lightgray;
+        opacity: 0.95;
+        flex-shrink: 0; /* nunca encoger, se queda en el fondo */
+        position: relative; /* asegurar que no sea absolute/fixed */
+    }
+
+
+
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin-bottom: 0; /* anula margin-bottom previo */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    .page {
+        flex: 1 0 auto; /* ocupa todo el espacio disponible entre header y footer */
+        display: flex;
+        align-items: stretch;
+        min-width: 0; /* evita overflow por hijos */
+    }
+
+
+    
 </style>
 
 
