@@ -1,9 +1,6 @@
 ﻿jQuery(function () {
 
-
     jqGetModalCorreoElectronico = () => {
-
-     
 
         $.ajax({
             type: 'GET',
@@ -92,33 +89,6 @@
     jqEliminarModeloCorreo = () => {
 
     }
-
-
-
-    //$(document).ready(function () {
-    //    jqGetModalCorreoElectronico = (form) => {
-
-    //        $.ajax({
-    //            type: 'GET',
-    //            url: 'Configuracion/ModalConfigurarCorreo',
-    //            data: new FormData(form),
-    //            contentType: false,
-
-    //            success: function (response) {
-
-    //                $('#correoModal .modal-body').html(response.data);
-    //                let modal = new bootstrap.Modal(document.getElementById('correoModal'));
-    //                modal.show();
-    //            },
-    //            error: function (xhr, status, error) {
-    //                console.error("Error al cargar el modal de correo electrónico:", error);
-    //            }
-    //        });
-
-    //    }
-
-    //});
-
 
 });
 
