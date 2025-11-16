@@ -129,16 +129,13 @@ namespace Negocio.Persistencia
             //Ejemplo clave compuesta
             //modelBuilder.Entity<Usuario>().HasKey(x => new { x.IdEdicionPlanificada, x.IdConceptoCoste, x.Anio, x.Mes });
 
-            // TABLA PERIODOS PLANIFICACION
-            modelBuilder.Entity<PeriodoPlanificacion>().HasKey(k => k.IdPeriodo);
-            modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.IdPeriodo);
-            modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.Desde);
-            modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.Hasta);
-            modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.PlanesAfectados);
-            modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.Ejercicio);
-            modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.Estimado);
-            modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.Ejecutado);
-            modelBuilder.Entity<PeriodoPlanificacion>().Property(e => e.FechaCreacion);
+            modelBuilder.Entity<CorreosElectronicos>().HasKey(k => k.IdCorreo);
+            modelBuilder.Entity<CorreosElectronicos>().Property(e => e.IdCorreo);
+            modelBuilder.Entity<CorreosElectronicos>().Property(e => e.NombreCorreo);
+            modelBuilder.Entity<CorreosElectronicos>().Property(e => e.Asunto);
+            modelBuilder.Entity<CorreosElectronicos>().Property(e => e.CuerpoMensaje);
+
+
 
             #endregion
 
@@ -176,7 +173,10 @@ namespace Negocio.Persistencia
         //Tabla tratamientos
         public virtual DbSet<Modelos.Tratamiento> Tratamientos { get; set; }
 
- 
+        //Tabla correos electronicos
+        public virtual DbSet<Modelos.CorreosElectronicos> CorreoElectronico { get; set; }
+
+
         #endregion
 
         #region COLECCION_VISTAS

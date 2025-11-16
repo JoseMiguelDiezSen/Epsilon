@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    /* GET: Añadir usuario OK */
+    /* GET: Añadir paciente */
     jqGetModalAddPaciente = () => {
         $.ajax({
             type: 'GET',
@@ -37,7 +37,7 @@
         });
     }
 
-    /* POST: Añadir paciente OK */
+    /* POST: Añadir paciente */
     jqPostAddPaciente = (form) => {
         try {
             $.ajax({

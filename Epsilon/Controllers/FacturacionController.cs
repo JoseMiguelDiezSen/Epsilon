@@ -22,11 +22,6 @@ namespace Epsilon.Controllers
             _renderService = renderService;
         }
 
-
-
-
-
-
         public IActionResult Index()
         {
             return View();

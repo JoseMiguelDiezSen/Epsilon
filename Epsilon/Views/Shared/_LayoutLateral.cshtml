@@ -113,7 +113,7 @@
 
                             @* Item 4: Tratamientos *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "acive" : "")" asp-controller="Tratamientos">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "acive" : "")" asp-controller="/Tratamientos">
                                     <i class="fa-solid fa-file-medical"></i> Tratamientos
                                 </a>
                             </div>
@@ -181,19 +181,20 @@
                         </div>
 
                         <div class="nav-items">
-                            @* Item 1: Logging *@
-                            <div class="nav-item px-1">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos" asp-area="" asp-controller="/Cargos" style="margin-top:3px;margin-left:-15px">
-                                    <i class="fa-solid fa-chart-bar"></i> Logging
+
+                            @* Item 1: Configuracion *@
+                            <div class="nav-item px-1" style="margin-top:3px;">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Configuracion") ? "active" : "")" asp-controller="/Configuracion" style="margin-left:-15px">
+                                    <i class="fa fa-gear" aria-hidden="true"></i> Configuracion
                                 </a>
                             </div>
-                          
-                            @* Item 2: Configuracion *@
+                            @* Item 2: Logging *@
                             <div class="nav-item px-1">
-                                <a class="nav-link" asp-controller="/Tratamientos" style="margin-left:-15px">
-                                    <span class="fa fa-gear" aria-hidden="true"></span> Configuracion
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos" style="margin-left:-15px">
+                                    <i class="fa-solid fa-chart-bar" aria-hidden="true"></i> Logging
                                 </a>
                             </div>
+                         
                         </div>
                     </div>
                     @* Item 3: Cerrar Sesion *@

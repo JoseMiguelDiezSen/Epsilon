@@ -1,0 +1,108 @@
+﻿@using Epsilon.ViewModels
+@model ViewFormCorreoElectronico
+
+<form id="idConfiguracionCorreo_Form" method="post" asp-action="AceptarConfiguracionCorreo" onsubmit="return jqPostConfiguracionCorreo(this)">
+
+    <input type="hidden" asp-for="IdCorreo" id="IdCorreo" value="@Model.IdCorreo" />
+
+    <div id="bordeModal">
+
+        @* Modelo de correo *@
+        <div class="row">
+            <div class="col-md-2">
+                <label for="lblModeloCorreo" class="form-label">Modelo Correo</label>
+            </div>
+
+            @* Selector del modelo del correo *@
+            <div class="col-md-8">
+                <select name="ModeloCorreo" class="form-control form-select" asp-items="Model.ModelosCorreo" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+                    <option value="" selected disabled>-- Seleccione un modelo --</option>
+                </select>
+            </div>
+
+            @* Boton Mostrar / Ocultar Nombre del correo *@
+            <div class="col-md-2">
+                <button type="button" id="botonMostrarNombreCorreo" class="btn btn-sm btn-outline-primary" style="font-size:1em;width:30px;height:30px;margin-top:2px;margin-left:-0.5px;" aria-hidden="true">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+
+
+                <button type="button" id="botonEliminarCorreo" class="btn btn-sm btn-outline-danger" onclick="return modalesNuevoIngreso.eliminarConfiguracionCorreo()" style="font-size:1em;width:30px;height:30px;margin-top:2px;margin-left:-0.5px;display: none;" aria-hidden="true" @* disabled *@>
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+
+            </div>
+        </div>
+
+        @* Nombre *@
+        <div class="row mb-2">
+            <div class="col-md-2">
+                <label for="lblNombre" id="lblCorreo" class="form-label" style="display:none;">Nombre</label>
+            </div>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="NombreCorreoNuevo" name="NombreCorreoNuevo" placeholder="Nombre del nuevo modelo de correo" style="display:none;" value="@Model.NombreNuevoCorreo" />
+            </div>
+
+        </div>
+
+        @* Asunto *@
+        <div class="row mb-2">
+            <div class="col-md-2">
+                <label for="subject" class="form-label">Asunto:</label>
+            </div>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto del mensaje" value="@Model.Asunto">
+            </div>
+        </div>
+
+        @* Mensaje *@
+        <div class="row mb-2">
+            <div class="col-md-2">
+                <label for="body" class="form-label">Mensaje:</label>
+            </div>
+            <div class="col-md-10">
+                <textarea class="form-control" id="cuerpoMensaje" name="cuerpoMensaje" rows="6" placeholder="Escribe tu mensaje aquí...">@Model.CuerpoMensaje</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <button id="btnEnviarCorreo" type="submit" class="btn btn-primary ml-1">Aceptar</button>
+        <button id="btnCancelar" type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+    </div>
+
+</form>
+
+<script>
+
+    document.getElementById("botonMostrarNombreCorreo").addEventListener("click", function () {
+        const label = document.getElementById("lblCorreo");
+        const input = document.getElementById("NombreCorreoNuevo");
+        const icono = this.querySelector("i");
+        const selector = document.getElementById("ModeloCorreo");
+
+        // Verifica si los campos están visibles
+        const visibles = label.style.display === "block";
+
+        if (visibles) {
+            // Ocultar campos
+            label.style.display = "none";
+            input.style.display = "none";
+            // Cambiar ícono a "+"
+            icono.classList.remove("fa-minus");
+            icono.classList.add("fa-plus");
+            selector.disabled = false;
+        } else {
+            // Mostrar campos
+            label.style.display = "block";
+            input.style.display = "block";
+            input.focus(); // Pone el cursor en el input
+            // Cambiar ícono a "−"
+            icono.classList.remove("fa-plus");
+            icono.classList.add("fa-minus");
+            selector.disabled = true;
+        }
+    });
+
+</script>
+

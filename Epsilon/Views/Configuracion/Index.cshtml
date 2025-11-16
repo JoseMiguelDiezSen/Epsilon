@@ -1,0 +1,47 @@
+﻿@model CorreoElectronicoViewModel
+
+@{
+    ViewData["Title"] = "Configuracion";
+}
+@{
+    // await Html.RenderPartialAsync("_MensajeOperaciones");
+}
+
+<hr>
+<h4 class="text-center">
+    <i class="fa fa-cogs" aria-hidden="true"></i> Configuracion <i class="fa fa-cogs" aria-hidden="true"></i>
+</h4>
+<hr>
+
+<button id="AddEdicion" style="padding:5px !important;" type="button" class="btn btn-sm btn-outline-primary pull-right" onclick="return jqGetModalCorreoElectronico()"><span class="fa fa-plus"></span> Correo Electronico</button>
+
+@section Modals {
+    @* Modal agregar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="correoModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Configuracion Correo
+                    </h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    <script src="~/js/Configuracion.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+
+@section Styles {
+    <link href="~/css/Configuracion.css" rel="stylesheet" />
+}
+
