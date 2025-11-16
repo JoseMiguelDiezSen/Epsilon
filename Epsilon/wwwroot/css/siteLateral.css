@@ -13,59 +13,46 @@ h3 {
     font-size: 1rem;
 }
 
-/* tamaño base de fuente en todo el documento */
+/* -------------- General Styles ------------------ */
+
 html {
-    font-size: 14px;
-}
-
-/* espacio inferior de 2px en el header */
-header {
-    margin-bottom: 2px;
-}
-
-/* borde superior gris claro */
-.border-top {
-    border-top: 1px solid #e5e5e5;
-}
-
-/* borde inferior gris claro */
-.border-bottom {
-    border-bottom: 1px solid #e5e5e5;
-}
-
-/* sombra ligera */
-.box-shadow {
-    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
+    margin: 0;
     position: relative;
     min-height: 100%;
+    font-size: 14px; /* tamaño base de fuente en todo el documento */
 }
-
+header {
+    margin-bottom: 2px; /* espacio inferior de 2px en el header */
+}
 body {
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-bottom: 0; /* anula margin-bottom previo */
+    overflow-x: hidden;
 }
-
 .footer {
-    border-top-color:yellow !important;
-    position: absolute; /* se posiciona respecto al html */
+    border-color: yellow !important;
+    position: relative; /* asegurar que no sea absolute/fixed */
     bottom: 0; /* anclado abajo */
     width: 100%; /* ocupa todo el ancho */
-    white-space: nowrap; /* evita saltos de línea */
+    white-space: normal; /* evita saltos de línea   white-space: nowrap;*/
     line-height: 60px; /* centra verticalmente el texto dentro */
+    opacity: 0.5;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
+    background-color: lightgray;
 }
-
 .page {
     position: relative;
     display: flex; /* contenedor flex */
     flex-direction: column; /* apila elementos en columna */
+    flex: 1 0 auto; /* ocupa todo el espacio disponible entre header y footer */
+    align-items: stretch;
+    min-width: 0; /* evita overflow por hijos */
 }
-
 .user-data-window {
     top: 55px;
     right: 10px;
@@ -76,21 +63,21 @@ body {
     font-size: smaller;
     visibility: hidden;
 }
-
 main {
     flex: 1; /* ocupa espacio restante dentro de flex */
 }
 
-/* -------------- Nav styles ------------------ */
+/* -------------- Sidebar Styles ------------------ */
 
 /* Estilos del menu lateral */
 .sidebar {
-    background-color:darkgrey;
+    background-color: darkgrey;
     min-width: 252px; /* ancho mínimo */
     min-height: auto; /* altura mínima toda la pantalla */
+    box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.2);
 }
-
 /* Fila superior de la sidebar (puede contener logo o botones) */
+
 .sidebar .top-row {
     background-color: #f7f7f7; /* color gris claro */
     border-bottom: 1px solid #d6d5d5; /* borde inferior gris */
@@ -98,43 +85,43 @@ main {
     display: flex; /* elementos alineados en flex */
     align-items: center; /* centrados verticalmente */
 }
-
 /* Links o botones dentro de la top-row */
+
 .sidebar .top-row a, .top-row .btn-link {
     white-space: nowrap; /* sin saltos de línea */
     margin-left: .5rem; /* margen izquierdo */
 }
-
 /* Primer link de la top-row: si el texto es muy largo se recorta con puntos suspensivos */
+
 .sidebar .top-row a:first-child {
     overflow: hidden; /* oculta exceso */
     text-overflow: ellipsis; /* añade puntos suspensivos */
 }
-
 /* Contenedor detrás de los botones de la sidebar */
+
 .sidebar .container {
     padding-left: 0; /* elimina padding izquierdo */
     padding-right: 0; /* elimina padding derecho */
     background-color: darkgrey; /* fondo azul */
 }
-
 /* Navbar dentro de la sidebar */
+
 .sidebar .navbar {
     align-items: normal; /* alinea hijos normalmente */
 }
-
 /* Botón que colapsa el menú lateral (toggler) */
+
 .sidebar .navbar-toggler {
     background-color: #617a8f; /* fondo casi transparente */
 }
-
 /* Fila superior de la sidebar (puede contener logo o botones) */
+
 .sidebar .top-row {
     height: 3.5rem;
     background-color: rgb(13, 7, 51, 0.01);
 }
-
 /* Marca o logo de la navbar */
+
 .sidebar .navbar-dark .navbar-brand {
     color: black; /* texto negro */
     background-color: gainsboro; /* fondo azul brillante */
@@ -142,29 +129,23 @@ main {
     font-weight: bold; /* negrita */
  /*   height:100%;*/
 }
-
 /* Cursor por defecto para navbar-dark (no clicable) */
+
 .sidebar .navbar-dark {
         cursor: default; /* no cambia el cursor */
     }
-
 /* Iconos font-awesome dentro de la sidebar */
+
 .sidebar .fa {
         width: 1.5rem; /* ancho fijo para íconos font-awesome */
     }
-
 /* Cada opción del menú lateral */
+
 .sidebar .nav-item {
         font-size: 1rem; /* tamaño de fuente */
         padding-bottom: 0.25rem; /* espacio inferior */
         color: #495057; /* color gris oscuro */
         font-weight: normal; /* peso normal */
-    }
-
-/* Estilo de las secciones del menu */
-.sidebar .nav-title {
-        background-color: black; /* fondo verde para secciones */
-        color:white;
     }
 
 /* Primer item del menú: padding superior reducido */
@@ -198,9 +179,8 @@ main {
         transition: background-size 0.2s ease;*/ /* controla velocidad y suavidad */
     }
 
-
-    /* Estilo al pasar el raton por las opciones del menu */
-    .sidebar .nav-item .nav-link:hover {
+/* Estilo al pasar el raton por las opciones del menu */
+.sidebar .nav-item .nav-link:hover {
         box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto de elevación */
         text-shadow: 1px 1px 3px rgba(0,0,0,0.25); /* Sombra ligera al texto */
         background-size: 100% 100%; /* se expande de izquierda a derecha */
@@ -208,6 +188,82 @@ main {
         background-color: #f5f5dc; /* Fondo claro al pasar el ratón */
         transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
     }
+    
+/* Estilo del ultimo item del grupo */
+.sidebar .nav-item:last-of-type {
+    margin-bottom: 3px !important;
+    padding-bottom: 0rem !important;
+}
+
+/* De momento no funciona bien (Es el espacio antes del boton Home) */
+#sidebar nav {
+    /* padding-top: 0 !important; */
+}
+
+/* -------------- Navbar Styles ------------------ */
+   
+/* Estilo de los TITULOS del menu */
+.nav-title {
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    padding: 5px 10px;
+    color: #343a40;
+    transition: background 0.2s;
+    background-color: black; /* fondo verde negro secciones (Se puede comentar, queda bien) */ 
+    color: white;
+}
+
+/* Titulos del menu (Al pasar raton) */
+.nav-title:hover {
+    background-color: darkslategrey; 
+}
+
+/* Titulos del menu (Al estar en la pagina) */
+.nav-link.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+    border: 1px solid yellow;
+}
+
+/* Estilos de los items */
+.nav-items {
+    display: none; /* colapsado por defecto */
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+
+/* expandido */
+.nav-group.expanded .nav-items {
+    display: block; 
+}
+
+/* Grupo de items */
+.nav-group {
+    padding-top: 2px;
+}
+
+/* Titulo (expandido) */
+.nav-group.expanded .nav-title {
+    background-color: yellow; /* Cuando el grupo está expandido el titulo se pone amarillo */
+    color: #212529;
+}
+
+/* Para que la flecha cambie de color al expandir */
+.nav-group.expanded .nav-title .fa {
+    color: #0d6efd;
+}
+
+.nav-group .fa {
+    transition: transform 0.2s ease;
+}
+
+.nav-group.expanded .nav-title .fa {
+    transform: rotate(90deg);
+    position: relative;
+    top: 5px;
+}
 
 .nav-group .nav-items {
     display: none;
@@ -217,6 +273,29 @@ main {
 .nav-group.expanded .nav-items {
     display: block !important; /* El !important asegura que siempre se muestre */
 }
+
+.close {
+    background-color: white;
+    border: none;
+    font-size: 1.95rem;
+    color: grey;
+    opacity: 1;
+    margin-top: -5px;
+}
+
+.close:hover {
+    color: #000;
+}
+
+/*Estilo del icono situado center en el centro del header*/
+#iconoHeader {
+    max-width: 80%;
+    width: 115px;
+    height: 70px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 @media (min-width: 700px) {
     .page {
         flex-direction: row;
@@ -317,7 +396,7 @@ main {
     animation: 1.3s spin linear infinite;
     }
 
-    .loading-spinner:after {
+.loading-spinner:after {
         color: #6c757d;
         transform: rotateY(70deg);
         animation-delay: .4s;

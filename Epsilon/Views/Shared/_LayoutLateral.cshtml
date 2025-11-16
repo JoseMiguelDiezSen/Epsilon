@@ -20,7 +20,7 @@
             <div>
                 <div style="width:100%;padding:15px;opacity:0.5;" class="text-center">
                     <div style="box-shadow: inset 7px 7px 7px 7px rgba(0.1, 0.1, 0.0, 0.3);">
-                        <a href="#" target="_blank"><img src="~/media/JMDnegro.png" alt="JMD" style="max-width:80%;width:115px;height:70px;padding-top:10px;padding-bottom:10px;" /></a>
+                        <img src="~/media/JMDnegro.png" alt="JMD" id="iconoHeader"/>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
 
                     @* Home/Inicio *@
                     <div class="nav-item">
-                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Inicio") ? "active" : "")" asp-area="" asp-controller="/Home">
+                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Home") ? "active" : "")" asp-area="" asp-controller="/Home">
                             <i class="fa fa-home" aria-hidden="true"></i> Inicio
                         </a>
                     </div>
@@ -75,7 +75,7 @@
                             @* Item 3: Agenda *@
                             <div class="nav-item px-1" style="margin-left:-15px">
                                 <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-area="" asp-controller="Agenda">
-                                    <i class="fa-solid fa-calendar-day"></i> Informes
+                                    <i class="fa fa-file" aria-hidden="true"></i> Informes
                                 </a>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
 
                             @* Item 4: Tratamientos *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "acive" : "")" asp-controller="/Tratamientos">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "acive" : "")" asp-controller="Tratamientos">
                                     <i class="fa-solid fa-file-medical"></i> Tratamientos
                                 </a>
                             </div>
@@ -190,7 +190,7 @@
                           
                             @* Item 2: Configuracion *@
                             <div class="nav-item px-1">
-                                <a class="nav-link" asp-area="" asp-page="/SeguridadEntidades" style="margin-left:-15px">
+                                <a class="nav-link" asp-controller="/Tratamientos" style="margin-left:-15px">
                                     <span class="fa fa-gear" aria-hidden="true"></span> Configuracion
                                 </a>
                             </div>
@@ -198,7 +198,7 @@
                     </div>
                     @* Item 3: Cerrar Sesion *@
                     <div class="nav-item px-1" style="margin-top:3px;">
-                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Login" asp-area="" asp-controller="/Login" style="margin-left:-15px;background-color:orangered;color:gainsboro">
+                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Login") ? "active" : "")" asp-controller="/Login" asp-area="" asp-controller="/Login" style="margin-left:-15px;background-color:orangered;color:gainsboro">
                             <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesion
                         </a>
                     </div>
@@ -220,7 +220,7 @@
         </main>
     </div>
 
-    <footer class="footer" style="box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);background-color:lightgray;opacity:0.5;">
+    <footer class="footer">
         <div class="container text-center">
             <p style="text-align: center; margin-top: 5px; text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);">
                 © Copyright 2026 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
@@ -291,170 +291,5 @@
 
 
     @RenderSection("Scripts", required: false)
-
-   
 </body>
-
-
-
 </html>
-
-
-<style>
-    /* NO SE TOCA: ORIGINAL */
-    .close {
-        background-color: white;
-        border: none;
-        font-size: 1.95rem;
-        color: grey;
-        opacity: 1;
-        margin-top: -5px;
-    }
-
-        .close:hover {
-            color: #000;
-        }
-
-    /* Sombreado de la parte derecha del menu */
-    #sidebar {
-
-        box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.2);
-    }
-
-        /* De momento no funciona bien (Es el espacio antes de planificacion) */
-        #sidebar nav {
-            /* padding-top: 0 !important; */
-        }
-
-
-
-
-
-    /* Estilo de los TITULOS del menu */
-    .nav-title {
-        font-weight: 600;
-        cursor: pointer;
-        user-select: none;
-        padding: 5px 10px;
-        color: #343a40;
-        transition: background 0.2s;
-    }
-
-
-        /* Estilo de los titulos del menu */
-        .nav-title:hover {
-            background-color: darkslategrey;
-          
-        }
-
-
-    .nav-link.active {
-        background-color: #007bff; /* azulito */
-        color: white;
-        font-weight: 600;
-        border:1px solid yellow;
-    }
-
-    /* Estilos de los items */
-    .nav-items {
-        display: none; /* colapsado por defecto */
-        margin-left: 15px;
-        transition: all 0.3s ease;
-    }
-
-    .nav-group.expanded .nav-items {
-        display: block; /* expandido */
-    }
-
-    /* ESTILOS DEL GRUPO */
-
-
-    /* Estilo del grupo */
-    .nav-group {
-        padding-top: 2px;
-    }
-
-
-
-        /* Cuando el grupo está expandido */
-        .nav-group.expanded .nav-title {
-            background-color: yellow;
-            color: #212529;
-        }
-
-            /* Para que la flecha también cambie de color al expandir */
-            .nav-group.expanded .nav-title .fa {
-                color: #0d6efd;
-            }
-
-
-
-        .nav-group .fa {
-            transition: transform 0.2s ease;
-        }
-
-        /*  */ .nav-group.expanded .nav-title .fa {
-            transform: rotate(90deg);
-            position: relative;
-            top: 5px;
-        }
-
-    /*   Estilo del ultimo item del grupo */
-    .sidebar .nav-item:last-of-type {
-        margin-bottom: 3px !important;
-        padding-bottom: 0rem !important;
-    }
-
-
-    /* Footer no fixed, siempre al final */
-    footer {
-        flex: 0 0 auto;
-        box-shadow: 0 -4px 6px rgba(0,0,0,0.05);
-        background-color: lightgray;
-        opacity: 0.95;
-    }
-
-
-    .footer {
-        border-top-color: yellow !important;
-        /* Quitar posicionamiento absoluto para que el footer fluya con el documento */
-        position: static;
-        width: 100%;
-        white-space: normal;
-        line-height: 60px;
-        background: lightgray;
-        opacity: 0.95;
-        flex-shrink: 0; /* nunca encoger, se queda en el fondo */
-        position: relative; /* asegurar que no sea absolute/fixed */
-    }
-
-
-
-    html, body {
-        height: 100%;
-        margin: 0;
-    }
-
-    body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        margin-bottom: 0; /* anula margin-bottom previo */
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        overflow-x: hidden;
-    }
-
-    .page {
-        flex: 1 0 auto; /* ocupa todo el espacio disponible entre header y footer */
-        display: flex;
-        align-items: stretch;
-        min-width: 0; /* evita overflow por hijos */
-    }
-
-
-    
-</style>
-
-
