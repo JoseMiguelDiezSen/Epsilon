@@ -15,7 +15,7 @@
 
 <button style="background-color:gainsboro;margin-top:20px;" important! class="accordion"><span class="fa fa-search"></span> Buscador Pacientes</button>
 
-<div class="panel" style="border-bottom:1px solid gainsboro;border-left:1px solid gainsboro;border-right:1px solid gainsboro;">
+<div class="panel" style="border-bottom:1px solid gainsboro;border-left:1px solid gainsboro;border-right:1px solid gainsboro; box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
 
 
         @* Nombre *@
@@ -62,12 +62,12 @@
             </div>
         </div>
 
-        <div class="col-md-12 fa fa-pull-right" style="margin-top:-35px !important;">
+        <div class="col-md-1 fa fa-pull-right" style="margin-top:-35px !important;">
             <label for="lblBuscar"></label>
 
             <button type="submit" style="float:right !important;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
                 <span class="fa fa-search"></span> 
-            </button>Buscar
+            </button>
 
 
 
@@ -75,10 +75,10 @@
     </div>
 </div>
 
-<div style="margin-bottom:10px;margin-top:10px;">
+
 <button id="AddUser" type="button" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddPaciente(this)"><span class="fa fa-plus"></span> Nuevo <b>Paciente</b></button>
 <button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-dark fa-pull-left" onclick="jqGetModalExportarExcel()"><i class="fa fa-file-import"></i> Importar <b>Pacientes</b></button>
-</div>
+
 
 
 
@@ -100,6 +100,7 @@
 }
 
 @section Scripts {
+    <script src="~/js/plugins/draggable.js"></script>
     <script src="~/js/Pacientes.js" asp-append-version="true"></script>
     <script src="~/js/Paginador.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
@@ -114,7 +115,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center">Alta Paciente</h5>
+                    <h5 class="modal-title text-center"><i class="fa-solid fa-user-injured"></i> Alta Paciente</h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -129,7 +130,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center">Modificar datos del Paciente</h5>
+                    <h5 class="modal-title text-center"><i class="fa-solid fa-user-injured"></i> Modificar datos del Paciente</h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -144,7 +145,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center">Eliminar paciente</h5>
+                    <h5 class="modal-title text-center"><i class="fa-solid fa-user-injured"></i> Eliminar paciente</h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

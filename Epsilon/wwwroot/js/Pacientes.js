@@ -72,7 +72,6 @@
     /* GET : Actualizar un paciente */
     jqGetModalUpdatePaciente = (idPaciente) => {
         try {
-            var id = idPaciente;
 
             $.ajax({
                 type: 'GET',
@@ -105,7 +104,7 @@
         try {
             $.ajax({
                 type: "POST",
-                url: "Pacientes/ModificarPaciente",
+                url: '/Pacientes/ModificarPaciente',
                 data: new FormData(form),
                 contentType: false,
                 processData: false,
@@ -238,6 +237,11 @@
             }
         })
     }
+
+
+
+    $('#updatePacienteModal').dragablito({ handle: ".modal-header" });
+
 });
 //jqCheckAddPeriodo = () => {
 

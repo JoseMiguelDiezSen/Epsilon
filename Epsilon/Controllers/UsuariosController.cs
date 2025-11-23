@@ -11,6 +11,7 @@ using Negocio.Excepciones;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Epsilon.Controllers
 {
@@ -296,6 +297,27 @@ namespace Epsilon.Controllers
 
 
         #endregion
+
+
+        [HttpPost]
+        public IActionResult AbrirWord()
+        {
+            string ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "documentos", "RoadMap.docx");
+
+            if (!System.IO.File.Exists(ruta))
+                return NotFound("Archivo no encontrado");
+
+            try
+            {
+                Process.Start(new ProcessStartInfo(ruta) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("No se pudo abrir el archivo: " + ex.Message);
+            }
+
+            return Ok(); // No devolvemos el archivo
+        }
 
 
     }

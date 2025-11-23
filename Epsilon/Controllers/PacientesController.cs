@@ -153,6 +153,7 @@ namespace Epsilon.Controllers
             {
                 Paciente paciente = new Paciente()
                 {
+                    IdPaciente = vmPaciente.IdPaciente,
                     NombrePaciente = vmPaciente.NombrePaciente,
                     DNI = vmPaciente.DNI,
                     Telefono = vmPaciente.Telefono,

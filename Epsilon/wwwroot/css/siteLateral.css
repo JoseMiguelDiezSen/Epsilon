@@ -160,8 +160,8 @@ main {
 
 /* Item activo del menú */
 .sidebar .nav-item .active {
-        background-color: rgba(255,255,255,0.25);
-        color: #000000; /* texto negro */
+      /*  background-color: rgba(255,255,255,0.25);
+        color: #000000;*/ /* texto negro */
     }
 
 /* Links dentro del nav-item */
@@ -226,19 +226,20 @@ main {
     color: white !important;
     font-weight: 600 !important;
     border: 1px solid yellow !important;
+    transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
 }
 
-    .sidebar .nav-link.active::after {
-        content: "\f00c"; /* icono a tu elección, por ejemplo tick ✔ de FontAwesome */
-        font-family: "Font Awesome 6 Free"; /* asegúrate de tener FA cargado */
-        font-weight: 900;
-        background: transparent;
-        margin-left: 5px;
-        color: yellow;
-        float: right;
-        display: block !important;
 
-    }
+.sidebar .nav-link.active::after {
+    content: "\f00c"; /* icono a tu elección, por ejemplo tick ✔ de FontAwesome */
+    font-family: "Font Awesome 6 Free"; /* asegúrate de tener FA cargado */
+    font-weight: 900;
+    background: transparent;
+    margin-left: 5px;
+    color: yellow;
+    float: right;
+    display: block !important;
+}
 
 
 /* Estilos de los items */

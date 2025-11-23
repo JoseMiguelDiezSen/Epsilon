@@ -2,7 +2,7 @@
 
 @model IEnumerable<ViewPacientes>
 
-<table class="table table-striped table-bordered table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
+<table class="table table-dark table-bordered table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
 
     <thead>
         @* Cabecera *@
@@ -45,21 +45,21 @@
                     <td>
                         <div aria-label="Basic Example">
 
-                            <a class="btn btn-sm btn-outline-dark" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
+                            <a class="btn btn-sm btn-outline-light" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
                                 <span class="fa fa-pencil"> </span>
                             </a>
 
-                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-light" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
                                 <span class="fa fa-circle-xmark"> </span>
                             </button>
 
 
-                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalAbrirCitacionPaciente(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-light" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalAbrirCitacionPaciente(@paciente.IdPaciente)">
                                 <i class="fa fa-calendar-plus"></i>
                             </button>
 
 
-                            <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalExpandRor(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-light" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalExpandRor(@paciente.IdPaciente)">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                             </button>
                         </div>
