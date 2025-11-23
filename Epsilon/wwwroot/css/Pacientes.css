@@ -50,8 +50,8 @@
     display: block;
 }
 
-.active:after {
-    /* Unicode character for "minus" sign (-) */
+.accordion.active:after {
+
     content: "\2796";
 }
 

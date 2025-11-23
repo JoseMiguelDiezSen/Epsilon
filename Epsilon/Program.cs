@@ -46,6 +46,7 @@ builder.Services.AddScoped<ISeguridad, Seguridad>();
 builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
 builder.Services.AddScoped<IGestionClinica, GestionClinica>();
 builder.Services.AddScoped<IGestionPacientes, GestionPacientes>();
+builder.Services.AddScoped<IConfiguracion, Configuracion>();
 
 //builder.Services.AddScoped<IGestionFinanciera, GestionFinanciera>();
 //builder.Services.AddScoped<IGestion, GestionClinica>();

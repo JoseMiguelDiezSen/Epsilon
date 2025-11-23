@@ -7,5 +7,7 @@ namespace Negocio.Servicios
         public bool GuardarCorreoNuevo(CorreosElectronicos correosElectronicos);
 
         public bool ActualizarDatosCorreo(CorreosElectronicos correosElectronicos);
+
+        public bool EliminarModeloCorreo(int idCorreo);
     }
 }

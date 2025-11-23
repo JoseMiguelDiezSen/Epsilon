@@ -12,13 +12,14 @@ using Microsoft.EntityFrameworkCore;
 using Calipso.Security;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using AspNetCoreGeneratedDocument;
 
 namespace Epsilon.Controllers
 {
     public class ConfiguracionController : AbstractSecurityController
     {
         private readonly IRazorRenderService _renderService;
-        private IGestionUsuarios _gestionUsuarios;
+        private IConfiguracion _configuracion;
 
         /// <summary>
         /// Constructor d
@@ -26,9 +27,9 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public ConfiguracionController(ILogger<ConfiguracionController> logger, ISeguridad seguridad, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger, seguridad)
+        public ConfiguracionController(ILogger<ConfiguracionController> logger, ISeguridad seguridad, IConfiguracion configuracion, IRazorRenderService renderService) : base(logger, seguridad)
         {
-            _gestionUsuarios = gestionUsuarios;
+            _configuracion = configuracion;
             _renderService = renderService;
         }
 
@@ -37,7 +38,7 @@ namespace Epsilon.Controllers
         public async Task<JsonResult> ModalConfigurarCorreo()
         {
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
-            EpsilonDbContext context = _gestionUsuarios.Context;
+            EpsilonDbContext context = _configuracion.Context;
             ViewFormCorreoElectronico vmConfiguracionCorreo = new ViewFormCorreoElectronico();
             vmConfiguracionCorreo.ModelosCorreo = new SelectList(context.CorreoElectronico.ToList(), nameof(CorreosElectronicos.IdCorreo), nameof(CorreosElectronicos.NombreCorreo));
             string data = await _renderService.ToStringAsync("FormConfigurarCorreo", vmConfiguracionCorreo);
@@ -55,7 +56,7 @@ namespace Epsilon.Controllers
         {
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
 
-            var context = _gestionUsuarios.Context;
+            var context = _configuracion.Context;
                      var correo = context.CorreoElectronico
                          .Where(c => c.IdCorreo == idCorreo)
                          .Select(c => new { c.IdCorreo, c.Asunto, c.CuerpoMensaje, c.NombreCorreo })
@@ -69,9 +70,8 @@ namespace Epsilon.Controllers
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> AceptarConfiguracionCorreo(CorreoElectronicoViewModel vmModeloCorreo)
         {
-
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
-            EpsilonDbContext context = _gestionUsuarios.Context;
+            EpsilonDbContext context = _configuracion.Context;
             CorreosElectronicos correoElectronico = new CorreosElectronicos();
 
             if (vmModeloCorreo.IdCorreo == 0)
@@ -79,7 +79,7 @@ namespace Epsilon.Controllers
                 correoElectronico.NombreCorreo = vmModeloCorreo.NombreCorreoNuevo;
                 correoElectronico.Asunto = vmModeloCorreo.Asunto;
                 correoElectronico.CuerpoMensaje = vmModeloCorreo.CuerpoMensaje;
-                //_gestionUsuarios.GuardarCorreoNuevo(correoElectronico);
+                _configuracion.GuardarCorreoNuevo(correoElectronico);
             }
             // Actualizacion
             else
@@ -92,10 +92,10 @@ namespace Epsilon.Controllers
                 correoElectronico.NombreCorreo = modeloSeleccionado;
                 correoElectronico.Asunto = vmModeloCorreo.Asunto;
                 correoElectronico.CuerpoMensaje = vmModeloCorreo.CuerpoMensaje;
-                //_gestionUsuarios.ActualizarDatosCorreo(correoElectronico);
+                _configuracion.ActualizarDatosCorreo(correoElectronico);
             }
 
-            jsonResponse.Data = JsonSerializer.Serialize(jsonResponse);
+            jsonResponse.Data = JsonSerializer.Serialize(correoElectronico);
             return new JsonResult(jsonResponse);
 
         }
@@ -105,22 +105,22 @@ namespace Epsilon.Controllers
         /// </summary>
         /// <param name="idCorreo"></param>
         /// <returns></returns>
-        //[HttpPost, AjaxOnly]
-        //public async Task<JsonResult> EliminarModeloCorreo(int idCorreo)
-        //{
-        //    JsonResponse response = new JsonResponse("200", "Ok");
+        [HttpPost, AjaxOnly]
+        public async Task<JsonResult> EliminarModeloCorreo(int idCorreo)
+        {
+            JsonResponse response = new JsonResponse("200", "Ok");
 
-        //    _formacion.EliminarModeloCorreo(idCorreo);
+            _configuracion.EliminarModeloCorreo(idCorreo);
 
-        //    response.StatusMessage = "Se ha eliminado el modelo de correo";
-        //    response.Data = "Usuario eliminado correctamente";
-        //    return new JsonResult(response);
-        //}
+            response.StatusMessage = "Se ha eliminado el modelo de correo";
+            response.Data = "Usuario eliminado correctamente";
+            return new JsonResult(response);
+        }
 
-
-
-
-
+        /// <summary>
+        /// Metodo de acceso a la pantalla
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return View();

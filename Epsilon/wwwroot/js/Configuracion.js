@@ -77,18 +77,33 @@
     
 
     jqPostConfiguracionCorreo = () => {
-        let modal = new bootstrap.Modal(document.getElementById('correoModal'));
-        modal.show();
+        //let modal = new bootstrap.Modal(document.getElementById('correoModal'));
+        //modal.show();
+
+
+        alert("REFRESCAR!!!")
 
     }
 
+    jqPostEliminarModeloCorreo = () => {
+        $.ajax({
+            type: 'POST',
+            url: 'Configuracion/EliminarModeloCorreo',
+            data: { idCorreo: $("ModeloCorreo").val() }, /*{ idCorreo: idCorreo }*/
+            contentType:false,
 
-    jqUpdateModeloCorreo = () => { }
+            success: function (response) {
 
-
-    jqEliminarModeloCorreo = () => {
-
+                $('#correoModal .modal-body').html(response.data);
+                //let modal = new bootstrap.Modal(document.getElementById('correoModal'));
+                //modal.hide();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al cargar el modal de correo electrónico:", error);
+            }
+        });
     }
+
 
 });
 

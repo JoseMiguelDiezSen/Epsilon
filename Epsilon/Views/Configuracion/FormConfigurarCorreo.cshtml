@@ -1,7 +1,7 @@
 ﻿@using Epsilon.ViewModels
 @model ViewFormCorreoElectronico
 
-<form id="idConfiguracionCorreo_Form" method="post" asp-action="AceptarConfiguracionCorreo" onsubmit="return jqPostConfiguracionCorreo(this)">
+<form id="idConfiguracionCorreo_Form" method="post" asp-action="AceptarConfiguracionCorreo" asp-controller="Configuracion">
 
     <input type="hidden" asp-for="IdCorreo" id="IdCorreo" value="@Model.IdCorreo" />
 
@@ -27,7 +27,7 @@
                 </button>
 
 
-                <button type="button" id="botonEliminarCorreo" class="btn btn-sm btn-outline-danger" onclick="return modalesNuevoIngreso.eliminarConfiguracionCorreo()" style="font-size:1em;width:30px;height:30px;margin-top:2px;margin-left:-0.5px;display: none;" aria-hidden="true" @* disabled *@>
+                <button type="button" id="botonEliminarCorreo" class="btn btn-sm btn-outline-danger" onclick="return jqPostEliminarModeloCorreo();" style="font-size:1em;width:30px;height:30px;margin-top:2px;margin-left:-0.5px;display: none;" aria-hidden="true" @* disabled *@>
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
 

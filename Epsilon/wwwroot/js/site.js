@@ -2,8 +2,6 @@
 $(document).ready(function () {
     //    $('#modal-loading').PopupLoader();
 
-
-
     MostrarElemento = (idElement) => {
         $('#' + idElement).removeClass('visually-hidden');
     }
@@ -19,6 +17,8 @@ $(document).ready(function () {
     $('#idDivMsgError').on('click', function () {
         $(this).addClass('visually-hidden');
     });
+
+    // Lo MIO
 
     /*Funcion para expandir y contraer menu principal*/
     mostrarOcultarMenu = () => {

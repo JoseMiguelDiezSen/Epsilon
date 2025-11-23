@@ -29,7 +29,6 @@ namespace Negocio.Servicios
         /// <returns></returns>
         public bool GuardarCorreoNuevo(CorreosElectronicos correoElectronico)
         {
-
             using (var trans = Context.Database.BeginTransaction())
             {
                 try
@@ -54,7 +53,6 @@ namespace Negocio.Servicios
         /// <returns></returns>
         public bool ActualizarDatosCorreo(CorreosElectronicos correoElectronico)
         {
-
             using (var trans = Context.Database.BeginTransaction())
             {
                 var entity = Context.CorreoElectronico.Update(correoElectronico);
@@ -78,7 +76,6 @@ namespace Negocio.Servicios
                 Context.SaveChanges();
                 return true;
             }
-
             return false;
         }
     }

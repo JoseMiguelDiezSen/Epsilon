@@ -92,7 +92,7 @@
 
                             @* Item 1: Doctores *@
                             <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Medicos") ? "acive" : "")" asp-controller="Medicos">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Medicos") ? "active" : "")" asp-controller="Medicos">
                                     <i class="fa fa-user-md"></i> Medicos
                                 </a>
                             </div>
@@ -106,14 +106,14 @@
 
                             @* Item 3: Radiologia *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Radiologia") ? "acive" : "")" asp-controller="Radiologia">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Radiologia") ? "active" : "")" asp-controller="Radiologia">
                                     <i class="fa-solid fa-circle-radiation"></i> Radiologia
                                 </a>
                             </div>
 
                             @* Item 4: Tratamientos *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "acive" : "")" asp-controller="/Tratamientos">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "active" : "")" asp-controller="/Tratamientos">
                                     <i class="fa-solid fa-file-medical"></i> Tratamientos
                                 </a>
                             </div>

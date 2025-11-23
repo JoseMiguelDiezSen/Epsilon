@@ -220,12 +220,26 @@ main {
 }
 
 /* Titulos del menu (Al estar en la pagina) */
-.nav-link.active {
-    background-color: #007bff;
-    color: white;
-    font-weight: 600;
-    border: 1px solid yellow;
+.sidebar .nav-link.active {
+    content: "\f00c";
+    background-color: lightslategray !important;
+    color: white !important;
+    font-weight: 600 !important;
+    border: 1px solid yellow !important;
 }
+
+    .sidebar .nav-link.active::after {
+        content: "\f00c"; /* icono a tu elección, por ejemplo tick ✔ de FontAwesome */
+        font-family: "Font Awesome 6 Free"; /* asegúrate de tener FA cargado */
+        font-weight: 900;
+        background: transparent;
+        margin-left: 5px;
+        color: yellow;
+        float: right;
+        display: block !important;
+
+    }
+
 
 /* Estilos de los items */
 .nav-items {
@@ -312,6 +326,7 @@ main {
 
     .navbar-toggler {
         display: none;
+
     }
 
     .sidebar .collapse {
@@ -323,6 +338,10 @@ main {
 @media (max-width: 700px) {
     .content {
         margin-left: 15px;
+    }
+
+        .sidebar .navbar-toggler {
+        display: block; /* botón visible */
     }
 }
 
