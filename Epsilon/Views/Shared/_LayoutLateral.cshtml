@@ -72,10 +72,10 @@
                                 </a>
                             </div>
 
-                            @* Item 3: Agenda *@
+                            @* Item 3: Informes *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-area="" asp-controller="Agenda">
-                                    <i class="fa fa-file" aria-hidden="true"></i> Informes
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Informes") ? "active" : "")" asp-area="" asp-controller="Informes">
+                                    <i class="fa fa-clipboard" aria-hidden="true"></i> Informes
                                 </a>
                             </div>
                         </div>
@@ -138,7 +138,7 @@
 
                             @* Item 2: Permisos Usuarios *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")"  asp-area="" asp-controller="/GestionUsuarios">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")"  asp-area="" asp-controller="/Permisos">
                                     <span class="fa fa-key" aria-hidden="true"></span> Permisos
                                 </a>
                             </div>
@@ -160,7 +160,7 @@
 
                             @* Item 2: Estadistica *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Estadistica") ? "active" : "")" asp-controller="/Estadistica">
                                     <i class="fa fa-pie-chart" aria-hidden="true"></i> Estadistica
                                 </a>
                             </div>
@@ -190,8 +190,8 @@
                             </div>
                             @* Item 2: Logging *@
                             <div class="nav-item px-1">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Tratamientos" style="margin-left:-15px">
-                                    <i class="fa-solid fa-chart-bar" aria-hidden="true"></i> Logging
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Logging" style="margin-left:-15px">
+                                    <i class="fa-solid fa-chart-bar" aria-hidden="true"></i> Logs
                                 </a>
                             </div>
                          

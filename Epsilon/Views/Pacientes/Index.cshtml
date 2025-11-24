@@ -11,13 +11,13 @@
 <h4 class="text-center"><span class="fa-solid fa-user-injured"></span> Pacientes <span class="fa-solid fa-user-injured"></span></h4>
 <hr>
 
-
+<form id="id_Form">
 
 <button style="background-color:gainsboro;margin-top:20px;" important! class="accordion"><span class="fa fa-search"></span> Buscador Pacientes</button>
 
 <div class="panel" style="border-bottom:1px solid gainsboro;border-left:1px solid gainsboro;border-right:1px solid gainsboro; box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
 
-
+        <div class="form-group row" style="padding:10px;">
         @* Nombre *@
         <div class="col-md-2">
             <label class="form-label">Nombre</label>
@@ -70,7 +70,7 @@
             </button>
 
 
-
+            </div>
 
     </div>
 </div>
@@ -80,9 +80,13 @@
 <button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-dark fa-pull-left" onclick="jqGetModalExportarExcel()"><i class="fa fa-file-import"></i> Importar <b>Pacientes</b></button>
 
 
+    <input type="hidden" asp-for="PaginaActual" id="PaginaActual" />
+    <input type="hidden" asp-for="RegistrosPorPagina" id="RegistrosPorPagina" />
+    <input type="hidden" name="RegistrosPaginaActual" id="RegistrosPaginaActual" value="@Model.Pacientes?.Count()" />
+</form>
 
 
-<div style="border:1px solid gainsboro;">
+
 
 
     <div id="idResultadosFiltro" class="text-center">
@@ -91,8 +95,18 @@
         }
     </div>
 
-
+@* Paginacion *@
+<div id="idPaginadorPrincipal" class="text-center m-1">
+    <a class="btn btn-sm btn-outline-light PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+        @*      Anterior  *@
+    </a>
+    <span class="m-2 TextoPaginacion" style="color:white;">@* Página  *@@Model.PaginaActual</span>
+    <a class="btn btn-sm btn-outline-light PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">
+        @*    Siguiente  *@<i class="fa fa-angle-double-right" aria-hidden="true"></i>
+    </a>
 </div>
+
 
 
 @section Styles {
@@ -101,11 +115,8 @@
 
 @section Scripts {
     <script src="~/js/plugins/draggable.js"></script>
-    <script src="~/js/Pacientes.js" asp-append-version="true"></script>
     <script src="~/js/Paginador.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-
+    <script src="~/js/Pacientes.js" asp-append-version="true"></script>
 }
 
 

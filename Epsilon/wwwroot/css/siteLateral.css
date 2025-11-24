@@ -67,7 +67,7 @@ main {
     flex: 1; /* ocupa espacio restante dentro de flex */
 }
 
-/* -------------- Sidebar Styles ------------------ */
+/* -------------- Sidebar General ------------------ */
 
 /* Estilos del menu lateral */
 .sidebar {
@@ -116,10 +116,6 @@ main {
 }
 /* Fila superior de la sidebar (puede contener logo o botones) */
 
-.sidebar .top-row {
-    height: 3.5rem;
-    background-color: rgb(13, 7, 51, 0.01);
-}
 /* Marca o logo de la navbar */
 
 .sidebar .navbar-dark .navbar-brand {
@@ -200,6 +196,27 @@ main {
     /* padding-top: 0 !important; */
 }
 
+/* Titulos del menu (Al estar en la pagina) */
+.sidebar .nav-link.active {
+    content: "\f00c";
+    background-color: lightslategray !important;
+    color: white !important;
+    font-weight: 600 !important;
+    border: 1px solid yellow !important;
+    transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
+}
+
+.sidebar .nav-link.active::after {
+    content: "\f00c"; /* icono a tu elección, por ejemplo tick ✔ de FontAwesome */
+    font-family: "Font Awesome 6 Free"; /* asegúrate de tener FA cargado */
+    font-weight: 900;
+    background: transparent;
+    margin-left: 5px;
+    color: yellow;
+    float: right;
+    display: block !important;
+}
+
 /* -------------- Navbar Styles ------------------ */
    
 /* Estilo de los TITULOS del menu */
@@ -219,39 +236,18 @@ main {
     background-color: darkslategrey; 
 }
 
-/* Titulos del menu (Al estar en la pagina) */
-.sidebar .nav-link.active {
-    content: "\f00c";
-    background-color: lightslategray !important;
-    color: white !important;
-    font-weight: 600 !important;
-    border: 1px solid yellow !important;
-    transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
-}
-
-
-.sidebar .nav-link.active::after {
-    content: "\f00c"; /* icono a tu elección, por ejemplo tick ✔ de FontAwesome */
-    font-family: "Font Awesome 6 Free"; /* asegúrate de tener FA cargado */
-    font-weight: 900;
-    background: transparent;
-    margin-left: 5px;
-    color: yellow;
-    float: right;
-    display: block !important;
-}
-
-
 /* Estilos de los items */
 .nav-items {
     display: none; /* colapsado por defecto */
     margin-left: 15px;
-    transition: all 0.3s ease;
+    transition: max-height 360ms cubic-bezier(.22,.9,.35,1), opacity 220ms ease;
+    will-change: max-height, opacity;
 }
 
 /* expandido */
 .nav-group.expanded .nav-items {
-    display: block; 
+    display: block;
+    max-height: 500px;
 }
 
 /* Grupo de items */
@@ -285,23 +281,6 @@ main {
     transition: all 0.3s ease;
 }
 
-.nav-group.expanded .nav-items {
-    display: block !important; /* El !important asegura que siempre se muestre */
-}
-
-.close {
-    background-color: white;
-    border: none;
-    font-size: 1.95rem;
-    color: grey;
-    opacity: 1;
-    margin-top: -5px;
-}
-
-.close:hover {
-    color: #000;
-}
-
 /*Estilo del icono situado center en el centro del header*/
 #iconoHeader {
     max-width: 80%;
@@ -311,7 +290,34 @@ main {
     padding-bottom: 10px;
 }
 
+
+/* === Media Queries === */
 @media (min-width: 700px) {
+
+    /* colapsa la franja superior visualmente pero mantiene el DOM intacto */
+    .sidebar .top-row {
+        height: 0; /* elimina el espacio muerto */
+        padding: 0;
+        margin: 0;
+        border-bottom: none;
+        overflow: hidden; /* evita que algo sobresalga */
+    }
+
+
+        /* evita que el container interno deje hueco por su altura/padding */
+        .sidebar .top-row > .container-fluid {
+            height: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+    /* toggler oculto en pantallas grandes (ya lo tenías, reforzamos) */
+    .sidebar .navbar-toggler {
+        display: none !important;
+        visibility: hidden;
+    }
+    
     .page {
         flex-direction: row;
     }
@@ -325,17 +331,13 @@ main {
         padding-right: 1.5rem !important;
     }
 
-    .navbar-toggler {
-        display: none;
 
-    }
 
     .sidebar .collapse {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
 }
-
 @media (max-width: 700px) {
     .content {
         margin-left: 15px;
@@ -343,136 +345,6 @@ main {
 
         .sidebar .navbar-toggler {
         display: block; /* botón visible */
-    }
-}
-
-.text-align-right {
-    text-align: right;
-}
-
-/* Custom Alert */
-.main-popup-alert {
-    position: fixed;
-    left: 50%;
-    top: 150px;
-    transform: translate3d(-50%, 50%, 0);
-    z-index: 1998;
-    width: 560px;
-    background-color: white;
-    border: 1px solid silver;
-    border-radius: 3px;
-    padding: 5px;
-    margin: 2px;
-    box-shadow: 2px 2px 2px silver;
-}
-
-.main-popup-alert-content {
-    margin-top: 10px;
-}
-
-/* Popup loaading */
-.main-modal-loading {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate3d(-50%, 50%, 0);
-    height: 80px;
-    z-index: 1999;
-    width: 260px;
-    background-color: white;
-    border: 1px solid silver;
-    border-radius: 3px;
-    padding: 5px;
-    margin: 2px;
-    box-shadow: 2px 2px 2px silver;
-}
-
-
-.main-modal-loading-content {
-    margin-top: 10px;
-}
-
-.loading-spinner {
-    transform: rotateZ(45deg);
-    perspective: 1000px;
-    border-radius: 50%;
-    width: 32px;
-    height: 30px;
-    color: #ffc107;
-    margin-left: 5px;
-}
-
-.loading-spinner:before,
-.loading-spinner:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: inherit;
-    height: inherit;
-    border-radius: 50%;
-    transform: rotateX(70deg);
-    animation: 1.3s spin linear infinite;
-    }
-
-.loading-spinner:after {
-        color: #6c757d;
-        transform: rotateY(70deg);
-        animation-delay: .4s;
-    }
-
-@keyframes rotate {
-    0% {
-        transform: translate(-50%, -50%) rotateZ(0deg);
-    }
-
-    100% {
-        transform: translate(-50%, -50%) rotateZ(360deg);
-    }
-}
-
-@keyframes rotateccw {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-
-    100% {
-        transform: translate(-50%, -50%) rotate(-360deg);
-    }
-}
-
-@keyframes spin {
-    0%, 100% {
-        box-shadow: .2em 0px 0 0px currentcolor;
-    }
-
-    12% {
-        box-shadow: .2em .2em 0 0 currentcolor;
-    }
-
-    25% {
-        box-shadow: 0 .2em 0 0px currentcolor;
-    }
-
-    37% {
-        box-shadow: -.2em .2em 0 0 currentcolor;
-    }
-
-    50% {
-        box-shadow: -.2em 0 0 0 currentcolor;
-    }
-
-    62% {
-        box-shadow: -.2em -.2em 0 0 currentcolor;
-    }
-
-    75% {
-        box-shadow: 0px -.2em 0 0 currentcolor;
-    }
-
-    87% {
-        box-shadow: .2em -.2em 0 0 currentcolor;
     }
 }
 

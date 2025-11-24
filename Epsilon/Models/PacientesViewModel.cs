@@ -15,7 +15,8 @@ namespace Epsilon.Models
         public DateTime FechaAlta { get; set; }
         public int NumeroConsultas { get; set; }
         public bool Asegurado { get; set; }
-
         public IEnumerable<ViewPacientes> Pacientes { get; set; } = Enumerable.Empty<ViewPacientes>();
+        public int PaginaActual { get; set; } = 1;
+        public int RegistrosPorPagina { get; set; } = 5;
     }
 }

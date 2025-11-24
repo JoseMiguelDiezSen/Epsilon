@@ -1,4 +1,17 @@
-﻿$(document).ready(function () {
+﻿jQuery(function () {
+
+    // Paginador tabla
+    if (window.PaginadorPrincipal == undefined) {
+        // Seguramente aqui este el fallo
+        $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
+        window.PaginadorPrincipal = jQuery('#idPaginadorPrincipal').paginador({
+            Formulario: 'id_Form',
+            PaginaActual: 'PaginaActual',
+            RegistrosPorPagina: 'RegistrosPorPagina',
+            RegistrosPaginaActual: 'RegistrosPaginaActual',
+            ClassButtons: 'visually-hidden'
+        });
+    }
 
     /* GET: Añadir paciente */
     jqGetModalAddPaciente = () => {

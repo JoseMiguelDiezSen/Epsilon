@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿jQuery(function () {
 
     // Paginador tabla
     if (window.PaginadorPrincipal == undefined) {
