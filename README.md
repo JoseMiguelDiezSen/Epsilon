@@ -34,8 +34,7 @@
     - Backend: C#, LinQ
     - ORM: Entity Framework Core
     - Base de datos: SQL SERVER
-    - Autenticación: JWT / OAuth
-    - Despliegue: Docker + CI/CD (GitHub Actions, Vercel, Heroku, etc.)
+
 ____________________________________________________________________________________________________________________________________________________________________________________________________________________
 
 # 🦷 Epsilon
