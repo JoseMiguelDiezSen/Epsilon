@@ -10,8 +10,10 @@ using Microsoft.EntityFrameworkCore;
 using Negocio.Excepciones;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
+using OfficeOpenXml;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace Epsilon.Controllers
 {
@@ -290,7 +292,67 @@ namespace Epsilon.Controllers
 
         #region ImportarUsuarios
 
+        [HttpGet, AjaxOnly]
+        public async Task<JsonResult> ModalImportarUsuarios()
+        {
+            JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+            FormImportarExcel vmUsuariosExcel = new FormImportarExcel();
+            string data = await _razorRenderService.ToStringAsync("FormImportarUsuarios", vmUsuariosExcel);
+            jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
+            return new JsonResult(jsonResponse);
+        }
 
+        [HttpPost, AjaxOnly]
+        public async Task<JsonResult> ImportarUsuarios(IFormFile fileExcel)
+        {
+            JsonResult jsonResult = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
+
+            List<Paciente> pacientes = new List<Paciente>();
+            using (var memoryStream = new MemoryStream())
+            {
+                fileExcel.CopyTo(memoryStream);
+                using (var package = new ExcelPackage(memoryStream))
+                {
+                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                    if (worksheet == null)
+                    {
+                        throw new Exception("Excepcion");
+                    }
+                    var hoja1 = package.Workbook.Worksheets[0];
+                    if (!"Pacientes".Equals(hoja1.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        throw new Exception("Excepcion");
+                    }
+                    //Calculo de rows y cols
+                    int rowCount = worksheet.Dimension.Rows;
+                    int colCount = worksheet.Dimension.Columns;
+                    //Row 2 : Omite Cabecera
+                    for (int row = 2; row < rowCount; row++)
+                    {
+                        var paciente = new Paciente();
+                        paciente.NombrePaciente = hoja1.GetValue(row, 1).ToString();
+                        paciente.DNI = hoja1.GetValue(row, 2).ToString();
+                        paciente.Telefono = Convert.ToInt32(hoja1.GetValue(row, 3));
+                        paciente.EMail = hoja1.GetValue(row, 4).ToString();
+                        paciente.FechaNacimiento = Convert.ToDateTime(hoja1.GetValue(row, 5).ToString());
+                        paciente.Direccion = hoja1.GetValue(row, 6).ToString();
+                        paciente.Ciudad = hoja1.GetValue(row, 7).ToString();
+                        paciente.FechaAlta = Convert.ToDateTime(hoja1.GetValue(row, 8).ToString());
+                        paciente.NumeroConsultas = Convert.ToInt32(hoja1.GetValue(row, 9));
+                        paciente.Asegurado = Convert.ToBoolean(hoja1.GetValue(row, 10));
+
+                        if (!string.IsNullOrEmpty(paciente.NombrePaciente))
+                        {
+                            pacientes.Add(paciente);
+                        }
+                    }
+                    string pacientesJSON = JsonSerializer.Serialize(pacientes);
+                    pacientesJSON = await _razorRenderService.ToStringAsync("FormImportarUsuarios", pacientesJSON);
+                    return jsonResult;
+                }
+            }
+            ;
+        }
 
 
 

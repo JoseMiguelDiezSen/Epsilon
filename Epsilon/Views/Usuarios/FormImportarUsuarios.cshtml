@@ -1,2 +1,77 @@
 ﻿@using Epsilon.ViewModels
-@model ViewFormAgregarUsuario
+@model FormImportarExcel
+
+<form id="idImportarExcel" enctype="multipart/form-data" method="post" asp-action="ImportarUsuarios" onsubmit="return jqPostImportarUsuarios(this)">
+
+    <h5 class="text-center" style="padding-bottom:10px;">Importar desde Excel</h5>
+
+    <div style="border:1px solid gainsboro;padding:10px;" class="col-md-12">
+
+        <div class="col-md-12 text-center" style="left:10%;">
+     
+            <div class="mb-3">
+                <label class="labelExcel" for="excel" id="excelFile" style="margin-right:5px;margin-bottom:5px;">Seleccione un archivo Excel para importar</label>
+                <div class="input-group">
+                    <input id="file" name="file" type="file" class="form-control" accept=".xlsx, .xls">
+                    <span class="input-group-text"><i class="fas fa-upload"></i></span>
+                </div>
+                <div id="errorMessage" style="color: red; display: none;">Por favor, suba un fichero en formato Excel.</div>
+            </div>
+
+            <a href=@Url.Content("~/documentos/InsercionPacientes.xlsx")>Descargar Modelo de Plantilla</a>
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <button id="btnAceptar" type="submit" class="btn btn-outline-success ml-1"><span class="fa fa-check"></span> Aceptar</button>
+        <button id="btnCancelar" type="button" class="btn btn-outline-danger ml-1 " data-bs-dismiss="modal" aria-label="Close"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+    </div>
+
+</form>
+
+<script>
+    // Script para lanzar un mensaje de error en caso de que el fichero no sea .xls o .xlsx
+    document.getElementById("file").addEventListener("change", function (event) {
+        const file = event.target.files[0]; // Obtener el archivo seleccionado
+        const validExtensions = ["application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
+        const inputField = event.target;
+
+        if (file && validExtensions.includes(file.type)) {
+            // Archivo válido
+            inputField.classList.remove("error");
+            inputField.classList.add("loaded");
+            document.getElementById("errorMessage").style.display = "none";
+            // $("#btnImportarAlumnos").removeAttr("disabled");
+        } else {
+            // Archivo no válido
+            inputField.classList.remove("loaded");
+            inputField.classList.add("error");
+            document.getElementById("errorMessage").style.display = "block";
+            inputField.value = ""; // Reinicia el campo de entrada
+            // $("#btnImportarAlumnos").attr("disabled", "disabled");
+        }
+    });
+</script>
+
+
+<style>
+
+    /* Validacion formato importacion fichero excel */
+    #file {
+        color: gray;
+    }
+
+        /* Color cuando el archivo se ha cargado correctamente */
+        #file.loaded {
+            background-color: limegreen; /* Verde claro */
+            color: black;
+        }
+
+        /* Color cuando el archivo no es válido */
+        #file.error {
+            background-color: orangered; /* Rojo claro */
+            color: black;
+        }
+</style>
+
+

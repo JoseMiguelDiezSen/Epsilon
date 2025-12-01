@@ -1,12 +1,44 @@
-﻿MostrarGrid = () => {
+﻿
+class Examples {
 
-    if ($('#gridEdiciones').is(':hidden')) {
-        $("#gridEdiciones").show();
-        $("#gridEdiciones").slideDown(700);
-        $("#spnBtn").removeClass('fa fa-chevron-down').addClass('fa fa-chevron-up');
+    // 1️ Propiedades / campos
+    // Variables internas de la clase (pueden ser públicas o privadas)
+    #campoPrivado;
+    campoPublico;
+
+    // 2️ Constructor
+    // Inicializa la clase, recibe parámetros necesarios
+    constructor(param1, param2) {
+        this.campoPublico = param1;
+        this.#campoPrivado = param2;
     }
-    else if ($('#gridEdiciones').is(':visible')) {
-        $("#gridEdiciones").slideUp(700);
-        $("#spnBtn").removeClass('fa fa-chevron-up').addClass('fa fa-chevron-down');
+
+    // 3️ Métodos privados
+    // Funciones auxiliares internas que no se usan fuera de la clase
+    #metodoPrivado() {
+        // ...
+    }
+
+    // 4️ Métodos públicos
+    // Funciones que interactúan con la clase desde fuera
+    metodoPublico() {
+        // ...
+        this.#metodoPrivado();
+    }
+
+    // 5️ Getters y setters
+    // Acceso controlado a propiedades privadas
+    get propiedad() {
+        return this.#campoPrivado;
+    }
+
+    set propiedad(valor) {
+        this.#campoPrivado = valor;
+    }
+
+    // 6️ Métodos estáticos (opcionales)
+    // Funciones relacionadas con la clase, no con instancias
+    static metodoEstatico() {
+        // ...
     }
 }
