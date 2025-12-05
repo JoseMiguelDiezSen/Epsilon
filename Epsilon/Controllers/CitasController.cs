@@ -23,7 +23,10 @@ namespace Epsilon.Controllers
         }
 
 
-
+        /// <summary>
+        /// Handles requests for the default page of the controller.
+        /// </summary>
+        /// <returns>A view that renders the default page.</returns>
         public IActionResult Index()
         {
             return View();
