@@ -1,0 +1,350 @@
+﻿/* tamaño de fuente grande para encabezado h1 */
+h1 {
+    font-size: 2rem;
+}
+
+/* tamaño de fuente medio para encabezado h2 */
+h2 {
+    font-size: 1.5rem;
+}
+
+/* tamaño de fuente más pequeño para encabezado h3 */
+h3 {
+    font-size: 1rem;
+}
+
+/* -------------- General Styles ------------------ */
+
+html {
+    margin: 0;
+    position: relative;
+    min-height: 100%;
+    font-size: 14px; /* tamaño base de fuente en todo el documento */
+}
+header {
+    margin-bottom: 2px; /* espacio inferior de 2px en el header */
+}
+body {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-bottom: 0; /* anula margin-bottom previo */
+    overflow-x: hidden;
+}
+.footer {
+    border-color: yellow !important;
+    position: relative; /* asegurar que no sea absolute/fixed */
+    bottom: 0; /* anclado abajo */
+    width: 100%; /* ocupa todo el ancho */
+    white-space: normal; /* evita saltos de línea   white-space: nowrap;*/
+    line-height: 60px; /* centra verticalmente el texto dentro */
+    opacity: 0.5;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
+    background-color: lightgray;
+}
+.page {
+    position: relative;
+    display: flex; /* contenedor flex */
+    flex-direction: column; /* apila elementos en columna */
+    flex: 1 0 auto; /* ocupa todo el espacio disponible entre header y footer */
+    align-items: stretch;
+    min-width: 0; /* evita overflow por hijos */
+}
+.user-data-window {
+    top: 55px;
+    right: 10px;
+    width: 180px;
+    z-index: 10;
+    opacity: 100;
+    background: rgba(255,255,255);
+    font-size: smaller;
+    visibility: hidden;
+}
+main {
+    flex: 1; /* ocupa espacio restante dentro de flex */
+}
+
+/* -------------- Sidebar General ------------------ */
+
+/* Estilos del menu lateral */
+.sidebar {
+    background-color: darkgrey;
+    min-width: 252px; /* ancho mínimo */
+    min-height: auto; /* altura mínima toda la pantalla */
+    box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.2);
+}
+/* Fila superior de la sidebar (puede contener logo o botones) */
+
+.sidebar .top-row {
+    background-color: #f7f7f7; /* color gris claro */
+    border-bottom: 1px solid #d6d5d5; /* borde inferior gris */
+    height: 3.5rem; /* altura fija */
+    display: flex; /* elementos alineados en flex */
+    align-items: center; /* centrados verticalmente */
+}
+/* Links o botones dentro de la top-row */
+
+.sidebar .top-row a, .top-row .btn-link {
+    white-space: nowrap; /* sin saltos de línea */
+    margin-left: .5rem; /* margen izquierdo */
+}
+/* Primer link de la top-row: si el texto es muy largo se recorta con puntos suspensivos */
+
+.sidebar .top-row a:first-child {
+    overflow: hidden; /* oculta exceso */
+    text-overflow: ellipsis; /* añade puntos suspensivos */
+}
+/* Contenedor detrás de los botones de la sidebar */
+
+.sidebar .container {
+    padding-left: 0; /* elimina padding izquierdo */
+    padding-right: 0; /* elimina padding derecho */
+    background-color: darkgrey; /* fondo azul */
+}
+/* Navbar dentro de la sidebar */
+
+.sidebar .navbar {
+    align-items: normal; /* alinea hijos normalmente */
+}
+/* Botón que colapsa el menú lateral (toggler) */
+
+.sidebar .navbar-toggler {
+    background-color: #617a8f; /* fondo casi transparente */
+}
+/* Fila superior de la sidebar (puede contener logo o botones) */
+
+/* Marca o logo de la navbar */
+
+.sidebar .navbar-dark .navbar-brand {
+    color: black; /* texto negro */
+    background-color: gainsboro; /* fondo azul brillante */
+    font-size: 1.2rem; /* tamaño texto */
+    font-weight: bold; /* negrita */
+ /*   height:100%;*/
+}
+/* Cursor por defecto para navbar-dark (no clicable) */
+
+.sidebar .navbar-dark {
+        cursor: default; /* no cambia el cursor */
+    }
+/* Iconos font-awesome dentro de la sidebar */
+
+.sidebar .fa {
+        width: 1.5rem; /* ancho fijo para íconos font-awesome */
+    }
+/* Cada opción del menú lateral */
+
+.sidebar .nav-item {
+        font-size: 1rem; /* tamaño de fuente */
+        padding-bottom: 0.25rem; /* espacio inferior */
+        color: #495057; /* color gris oscuro */
+        font-weight: normal; /* peso normal */
+    }
+
+/* Primer item del menú: padding superior reducido */
+.sidebar .nav-item:first-of-type {
+        padding-top: .1rem; /* padding superior reducido */
+    }
+
+/* Último item del menú: padding inferior extra */
+.sidebar .nav-item:last-of-type {
+        padding-bottom: 1rem; /* padding inferior extra */
+    }
+
+/* Item activo del menú */
+.sidebar .nav-item .active {
+      /*  background-color: rgba(255,255,255,0.25);
+        color: #000000;*/ /* texto negro */
+    }
+
+/* Links dentro del nav-item */
+.sidebar .nav-link {
+        cursor: pointer; /* Cambia el cursor al pasar sobre el link */
+        padding: .25rem 1rem; /* Espaciado interno: 0.25rem arriba/abajo y 1rem izquierda/derecha */
+        background-color: #dde1e0; /* Color de fondo inicial del link */
+        color: #495057;
+        position: relative;
+        transition: transform 0.3s ease;
+        /*background-image: linear-gradient(to right, #e3e518 0%, #e3e518 100%);
+        background-repeat: no-repeat;
+        background-size: 0% 100%;*/ /* comienza sin cubrir nada */
+        /*background-position: left center;
+        transition: background-size 0.2s ease;*/ /* controla velocidad y suavidad */
+    }
+
+/* Estilo al pasar el raton por las opciones del menu */
+.sidebar .nav-item .nav-link:hover {
+        box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto de elevación */
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.25); /* Sombra ligera al texto */
+        background-size: 100% 100%; /* se expande de izquierda a derecha */
+        color: #495057; /* mantiene el texto negro también en hover */
+        background-color: #f5f5dc; /* Fondo claro al pasar el ratón */
+        transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
+    }
+    
+/* Estilo del ultimo item del grupo */
+.sidebar .nav-item:last-of-type {
+    margin-bottom: 3px !important;
+    padding-bottom: 0rem !important;
+}
+
+/* De momento no funciona bien (Es el espacio antes del boton Home) */
+#sidebar nav {
+    /* padding-top: 0 !important; */
+}
+
+/* Titulos del menu (Al estar en la pagina) */
+.sidebar .nav-link.active {
+    content: "\f00c";
+    background-color: lightslategray !important;
+    color: white !important;
+    font-weight: 600 !important;
+    border: 1px solid yellow !important;
+    transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
+}
+
+.sidebar .nav-link.active::after {
+    content: "\f00c"; /* icono a tu elección, por ejemplo tick ✔ de FontAwesome */
+    font-family: "Font Awesome 6 Free"; /* asegúrate de tener FA cargado */
+    font-weight: 900;
+    background: transparent;
+    margin-left: 5px;
+    color: yellow;
+    float: right;
+    display: block !important;
+}
+
+/* -------------- Navbar Styles ------------------ */
+   
+/* Estilo de los TITULOS del menu */
+.nav-title {
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    padding: 5px 10px;
+    color: #343a40;
+    transition: background 0.2s;
+    background-color: black; /* fondo verde negro secciones (Se puede comentar, queda bien) */ 
+    color: white;
+}
+
+/* Titulos del menu (Al pasar raton) */
+.nav-title:hover {
+    background-color: darkslategrey; 
+}
+
+/* Estilos de los items */
+.nav-items {
+    display: none; /* colapsado por defecto */
+    margin-left: 15px;
+    transition: max-height 360ms cubic-bezier(.22,.9,.35,1), opacity 220ms ease;
+    will-change: max-height, opacity;
+}
+
+/* expandido */
+.nav-group.expanded .nav-items {
+    display: block;
+    max-height: 500px;
+}
+
+/* Grupo de items */
+.nav-group {
+    padding-top: 2px;
+}
+
+/* Titulo (expandido) */
+.nav-group.expanded .nav-title {
+    background-color: yellow; /* Cuando el grupo está expandido el titulo se pone amarillo */
+    color: #212529;
+}
+
+/* Para que la flecha cambie de color al expandir */
+.nav-group.expanded .nav-title .fa {
+    color: #0d6efd;
+}
+
+.nav-group .fa {
+    transition: transform 0.2s ease;
+}
+
+.nav-group.expanded .nav-title .fa {
+    transform: rotate(90deg);
+    position: relative;
+    top: 5px;
+}
+
+.nav-group .nav-items {
+    display: none;
+    transition: all 0.3s ease;
+}
+
+/*Estilo del icono situado center en el centro del header*/
+#iconoHeader {
+    max-width: 80%;
+    width: 115px;
+    height: 70px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+/* === Media Queries === */
+@media (min-width: 700px) {
+
+    /* colapsa la franja superior visualmente pero mantiene el DOM intacto */
+    .sidebar .top-row {
+        height: 0; /* elimina el espacio muerto */
+        padding: 0;
+        margin: 0;
+        border-bottom: none;
+        overflow: hidden; /* evita que algo sobresalga */
+    }
+
+
+        /* evita que el container interno deje hueco por su altura/padding */
+        .sidebar .top-row > .container-fluid {
+            height: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+    /* toggler oculto en pantallas grandes (ya lo tenías, reforzamos) */
+    .sidebar .navbar-toggler {
+        display: none !important;
+        visibility: hidden;
+    }
+    
+    .page {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 250px;
+    }
+
+    .top-row, article {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+
+
+    .sidebar .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}
+@media (max-width: 700px) {
+    .content {
+        margin-left: 15px;
+    }
+
+        .sidebar .navbar-toggler {
+        display: block; /* botón visible */
+    }
+}
+

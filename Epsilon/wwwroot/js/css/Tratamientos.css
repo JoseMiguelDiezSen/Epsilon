@@ -1,0 +1,128 @@
+﻿body {
+background-color:#be9f9f;
+}
+
+/* Estilos Pestañas */
+#container {
+    margin-top: 10px;
+    min-width: 100%;
+    border-top: none;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+#miTab {
+    width: 100%;
+}
+
+#myTabContent {
+    border: 1px solid gainsboro;
+    border-top: none;
+    height: auto;
+    background-color: white;
+}
+
+/*TAB-1*/
+#tabOdontologiaGeneral {
+    padding: 10px;
+    background-color: white;
+}
+#tabOdontologiaGeneral-tab {
+    color: grey;
+}
+#tabOdontologiaGeneral-tab:hover {
+    box-shadow: -15px 0px 15px -15px inset;
+    font: 300em;
+    border: 1px solid lightblue;
+}
+#tabOdontologiaGeneral-tab:focus {
+        color: dodgerblue;
+    }
+
+/*TAB-2*/
+#tabOdontologiaPediatrica {
+    padding: 10px;
+    background-color: white;
+}
+#tabOdontologiaPediatrica-tab {
+    color: grey;
+}
+#tabOdontologiaPediatrica-tab:hover {
+        box-shadow: -15px 0px 15px -15px inset;
+        font: 300em;
+        border: 1px solid lightblue;
+    }
+#tabOdontologiaPediatrica-tab:focus {
+        color: dodgerblue;
+    }
+
+/*TAB-3*/
+#tabEndodoncia {
+    padding: 10px;
+    background-color: white;
+}
+#tabEndodoncia-tab {
+    color: grey;
+}
+#tabEndodoncia-tab:hover {
+    box-shadow: -15px 0px 15px -15px inset;
+    font: 300em;
+    border: 1px solid lightblue;
+}
+#tabEndodoncia-tab:focus {
+    color: dodgerblue;
+}
+
+/*TAB-4*/
+#tabPeriodoncia {
+    padding: 10px;
+    background-color: white;
+}
+#tabPeriodoncia-tab {
+    color: grey;
+}
+#tabPeriodoncia-tab:hover {
+        box-shadow: -15px 0px 15px -15px inset;
+        font: 300em;
+        border: 1px solid lightblue;
+        background-color: white !important;
+    }
+#tabPeriodoncia-tab:focus {
+        color: dodgerblue;
+    }
+
+/*TAB-5*/
+#tabOrtodoncia {
+    padding: 10px;
+    background-color: white;
+}
+#tabOrtodoncia-tab {
+    color: grey;
+}
+#tabOrtodoncia-tab:hover {
+        box-shadow: -15px 0px 15px -15px inset;
+        font: 300em;
+        border: 1px solid lightblue;
+        background-color: white !important;
+    }
+#tabOrtodoncia-tab:focus {
+        color: dodgerblue;
+    }
+
+/*TAB-6*/
+#tabPeriodoncia {
+    padding: 10px;
+    background-color: white;
+}
+#tabPeriodoncia-tab {
+    color: grey;
+}
+#tabPeriodoncia-tab:hover {
+        box-shadow: -15px 0px 15px -15px inset;
+        font: 300em;
+        border: 1px solid lightblue;
+        background-color: white !important;
+    }
+#tabPeriodoncia-tab:focus {
+        color: dodgerblue;
+    }

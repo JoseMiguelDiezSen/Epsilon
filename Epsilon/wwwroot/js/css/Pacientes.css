@@ -1,0 +1,81 @@
+﻿body {
+    background-color: #b0b0b0;
+    /*font-size: 0.875rem !important;*/
+}
+
+#tablaPacientes {
+}
+
+/* Checkbox de la tabla */
+#checkAsegurado {
+    margin-top: 5px;
+    width: 20px !important;
+    height: 20px !important;
+    accent-color: black !important;
+}
+
+/* Estilos del acordeon */
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: crosshair;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+/* Estilo del panel del acordeon. Nota: Oculto por defecto */
+.panel {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+}
+
+.accordion:after {
+    /* Unicode character for "plus" sign (+) */
+    content: '\02795'; 
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+    display: block;
+}
+
+.accordion.active:after {
+
+    content: "\2796";
+}
+
+
+#contenedorControles {
+    border: 1px solid gainsboro;
+    padding: 10px;
+    box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);
+}
+
+
+#inputStyle {
+    box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);
+}
+
+#fotoPaciente {
+    height:150px; 
+    width:150px;
+    border-radius: 100px;
+    border: 3px solid grey;
+    padding: 3px;
+}
+
+#checkAsegurado {
+    width: 20px !important;
+    height: 20px !important;
+    accent-color: black !important;
+}
