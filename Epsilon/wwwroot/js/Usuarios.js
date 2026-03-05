@@ -1,6 +1,6 @@
 ﻿jQuery(function () {
 
-    // Paginador tabla
+    /* Paginador tabla*/
     if (window.PaginadorPrincipal == undefined) {
         // Seguramente aqui este el fallo
         $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
@@ -12,6 +12,9 @@
             ClassButtons: 'visually-hidden'
         });
     }
+
+
+
 
     /* GET : Añadir usuario */
     jqGetModalAddUser = (form) => {
@@ -124,20 +127,24 @@
                             //PaginadorPrincipal.irPagina(pagina);
 
                         } else {
-                            const mensaje = response.errors || "Error desconocido en el servidor.";
-                            $("#msgErrores").html(mensaje);
-                            $("#divErrores").fadeIn(200);
+                            //const mensaje = response.errors || "Error desconocido en el servidor.";
+                            //$("#msgErrores").html(mensaje);
+                            //$("#divErrores").fadeIn(200);
 
-                            $("#btnCerrarError").off("click").on("click", function () {
-                                $("#divErrores").fadeOut(200);
-                            });
-
-
-                            $('#idMsgError').html("Ha ocurrido un error en la operacion de Agregar un usuario");
-                            OcultarElemento('idDivMsg');
-                            MostrarElemento('idDivMsgError');
+                            //$("#btnCerrarError").off("click").on("click", function () {
+                            //    $("#divErrores").fadeOut(200);
+                            //});
 
 
+                            //$('#idMsgError').html("Ha ocurrido un error en la operacion de Agregar un usuario");
+                            //OcultarElemento('idDivMsg');
+                            //MostrarElemento('idDivMsgError');
+
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
+                            if (modal) modal.hide();
+                            alert("Usuario creado correctamente");
+                            showMessage();
+                            $('#idMsg').html(response.data);
                         }                
                     },
                     error: function (response) {
@@ -230,11 +237,6 @@
                     $.validator.addMethod("soloNumeros", function (value, element) {
                         return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
                     }, "(*) Introduce solo números");
-
-
-
-
-
                 },
                 error: function () {
                     console.error('Error al obtener el modal');
@@ -248,7 +250,7 @@
 
     /* POST : Actualizar un usuario */
     jqPostUpdateUser = (form) => {
-        if ($("#updateUser").valid()) {
+        //if ($("#updateUser").valid()) {
             try {
                 $.ajax({
                     type: 'POST',
@@ -277,7 +279,7 @@
             }
             catch (ex) {
             }
-        }
+        //}
     }
 
     /* GET : Eliminar un usuario */
@@ -407,7 +409,6 @@
                 alert("Error al importar el archivo.");
             }
         })
-
     }
 
     jqPostImportarUsuarios = (form) => {
@@ -434,9 +435,58 @@
                 alert("Error al importar el archivo.");
             }
         })
+    }
+
+    verDetalleUsuario = () => {
 
     }
 
+    $(document).on('click', '.js-toggle-detail', function (e) {
+        e.preventDefault();
+
+        var $btn = $(this);
+        var id = $btn.data('id');
+        if (id === undefined || id === null) {
+            console.warn('Botón detalle sin data-id');
+            return;
+        }
+
+        var detailId = 'detail-' + id;
+        var $existing = $('#' + detailId);
+
+        var $row = $btn.closest('tr');
+        if ($existing.length) {
+            // Alterna la visibilidad con un efecto suave
+            $existing.toggle(); // si necesita animación, usar slideToggle()
+            return;
+        }
+
+        // Crea una fila de detalle justo después de la fila actual
+        var colspan = Math.max(1, $row.children('td').length);
+        var $tr = $('<tr/>', { id: detailId, 'class': 'detail-row' });
+        var $td = $('<td/>', { colspan: colspan });
+        var $content = $('<div/>', { 'class': 'detail-content' }).text('Cargando detalles...');
+
+        $td.append($content);
+        $tr.append($td);
+        $row.after($tr);
+
+        // Intentar cargar contenido rich vía AJAX — endpoint opcional
+        $.ajax({
+            url: '/Usuarios/DetalleUsuario',
+            type: 'GET',
+            data: { idUsuario: id },
+            success: function (response) {
+                // Si el controlador devuelve `response.data` o HTML directo
+                var html = response && response.data ? response.data : (response || '');
+                $content.html(html);
+            },
+            error: function () {
+                // Si no existe el endpoint o falla, mostrar un fallback
+                $content.html('<div style="padding:8px;color:#f8f9fa;">No se pudieron cargar los detalles.</div>');
+            }
+        });
+    });
 
     /* Funcion que muestra la snackbar */
     showMessage = () => {
@@ -457,6 +507,67 @@
     $('#addUserModal').dragablito({ handle: ".modal-header" });
     $('#updateUserModal').dragablito({ handle: ".modal-header" });
     $("#deleteUserModal").dragablito({ handle: ".modal-header" });
+
+    // Esto va en tu JS global, no en la vista
+    var updateModalEla= document.getElementById('updateUserModal');
+
+    if (updateModalEla) {
+        updateModalEla.addEventListener('shown.bs.modal', function () {
+            const fotoInput = updateModalEla.querySelector('input[name="FotoPerfil"]');
+            const previewImg = updateModalEla.querySelector('img');
+
+            if (fotoInput && previewImg) {
+                fotoInput.addEventListener('change', function (e) {
+                    const file = e.target.files[0];
+                    if (file && file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (ev) {
+                            previewImg.src = ev.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+    }
+
+    var updateModalEl = document.getElementById('addUserModal');
+
+    if (updateModalEl) {
+        updateModalEl.addEventListener('shown.bs.modal', function () {
+            const fotoInput = updateModalEl.querySelector('input[name="FotoPerfil"]');
+            const previewImg = updateModalEl.querySelector('img');
+
+            if (fotoInput && previewImg) {
+                fotoInput.addEventListener('change', function (e) {
+                    const file = e.target.files[0];
+                    if (file && file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (ev) {
+                            previewImg.src = ev.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+    }
+
+    // JS mínimo, directo y que funciona
+    //document.addEventListener("DOMContentLoaded", () => {
+    //    const fotoInput = document.getElementById("FotoPerfil");
+    //    const previewImg = document.getElementById("previewFoto");
+
+    //    if (!fotoInput || !previewImg) return; // seguridad
+
+    //    fotoInput.addEventListener("change", e => {
+    //        const file = e.target.files[0];
+    //        if (file) previewImg.src = URL.createObjectURL(file);
+    //    });
+    //});
+
+
+
 });
 //jqCheckAddPeriodo = () => {
 

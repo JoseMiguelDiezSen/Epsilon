@@ -50,7 +50,13 @@ namespace Negocio.Persistencia.Modelos
         /// </summary>
         public bool Activo { get; set; }
 
-     //   public SelectList? TurnoDeTrabajo { get; set; }
+        /// <summary>
+        /// Foto del usuario en base64
+        /// </summary>
+        public byte[]? FotoPerfil { get; set; }
+
+
+        //   public SelectList? TurnoDeTrabajo { get; set; }
     }
 }
 

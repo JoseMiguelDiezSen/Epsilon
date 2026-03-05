@@ -62,29 +62,65 @@ namespace Negocio.Servicios
         {
             ValidaEntidad(usuario, OperacionesValidacion.OPERACION_INSERTAR);
 
-            using (var trans = Context.Database.BeginTransaction())
+            try
             {
-                try
-                {
-                    Context.Add(usuario);
-                    Context.SaveChanges();
-                    trans.Commit();
-                }
-                catch (ValidacionException ex)
-                {
-                    ex.Message.ToString();
-                    trans.Rollback();
-                }
+                Context.Usuarios.Add(usuario);
+                Context.SaveChanges();
+
+                return usuario;
             }
-            return (usuario);
+            catch (Exception ex)
+            {
+                // Aquí log real si tienes logger
+                throw new Exception($"Error al insertar usuario: {ex.Message}", ex);
+            }
         }
+
+        //public Usuario AddUser(Usuario usuario)
+        //{
+        //    ValidaEntidad(usuario, OperacionesValidacion.OPERACION_INSERTAR);
+
+        //    using (var trans = Context.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            Context.Add(usuario);
+        //            Context.SaveChanges();
+        //            trans.Commit();
+        //        }
+        //        catch (ValidacionException ex)
+        //        {
+        //            ex.Message.ToString();
+        //            trans.Rollback();
+        //        }
+        //    }
+        //    return (usuario);
+        //}
+
+        //public Usuario UpdateUser(Usuario usuario)
+        //{
+        //    var entity = Context.Usuarios.Update(usuario);
+        //    Context.SaveChanges();
+        //    return entity.Entity;
+        //}
 
         public Usuario UpdateUser(Usuario usuario)
         {
-            var entity = Context.Usuarios.Update(usuario);
+            var entity = Context.Usuarios.Find(usuario.IdUsuario);
+
+            entity.Nombre = usuario.Nombre;
+            entity.Password = usuario.Password;
+            entity.Email = usuario.Email;
+            entity.Telefono = usuario.Telefono;
+            entity.Activo = usuario.Activo;
+
+            if (usuario.FotoPerfil != null)
+                entity.FotoPerfil = usuario.FotoPerfil;
+
             Context.SaveChanges();
-            return entity.Entity;
+            return entity;
         }
+
 
         public Usuario GetUser(long idUsuario)
         {

@@ -203,7 +203,6 @@ main {
     color: white !important;
     font-weight: 600 !important;
     border: 1px solid yellow !important;
-    transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
 }
 
 .sidebar .nav-link.active::after {

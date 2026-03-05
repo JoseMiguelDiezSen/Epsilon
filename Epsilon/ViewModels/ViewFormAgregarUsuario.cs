@@ -26,10 +26,12 @@ namespace Epsilon.ViewModels
         [BindProperty]
         public int Telefono { get; set; }
 
-        [BindProperty]
-        public string? RutaFoto { get; set; }
+
+        public string? FotoBase64 { get; set; }
 
         public bool Activo { get; set; }
+
+        public IFormFile? FotoPerfil { get; set; }
 
         //public SelectList? TurnoDeTrabajo { get; set; }
     }

@@ -14,6 +14,7 @@ using OfficeOpenXml;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.Json;
+using System.IO;
 
 namespace Epsilon.Controllers
 {
@@ -128,14 +129,62 @@ namespace Epsilon.Controllers
         /// </summary>
         /// <param name="vmUsuario"></param>
         /// <returns></returns>
+        //[HttpPost, AjaxOnly]
+        //public async Task<JsonResult> AgregarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
+        //{
+        //    JsonResult result = new JsonResult(new { StatusCode = 500, message = "Nao se pudo realizar la operación solicitada" });
+        //    JsonResponse jsonResponse = new JsonResponse("400", "Error de servidor al realizar la operacion");
+
+        //    try
+        //    {
+        //        Usuario usuario = new Usuario()
+        //        {
+        //            IdUsuario = vmUsuario.IdUsuario,
+        //            Nombre = vmUsuario.Nombre,
+        //            Password = vmUsuario.Password,
+        //            Email = vmUsuario.Email,
+        //            FechaAlta = DateTime.Now,
+        //            Telefono = vmUsuario.Telefono,
+        //            // Conversión segura de byte[] a string (por ejemplo, Base64) o asigna null si es nulo
+        //            //RutaFoto = vmUsuario.RutaFoto != null ? Convert.ToBase64String(vmUsuario.RutaFoto) : null,
+        //            Activo = vmUsuario.Activo,
+        //            //TurnoDeTrabajo = vmUsuario.TurnoDeTrabajo,
+        //        };
+
+        //        _gestionUsuarios.AddUser(usuario);
+        //        result = new JsonResult(new { StatusCode = 200, message = "Usuario agregado correctamente" });
+        //    }
+        //    catch (ValidacionException ex)
+        //    {
+        //        result = new JsonResult(new { StatusCode = 400, errors = ex.Message });
+        //    }
+        //    catch (Exception ex){
+
+        //        jsonResponse = new JsonResponse("400", "La operacion no se pudo realizar", "Error" + ex.Message);
+
+        //    }
+        //    return result;
+        //}
+
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> AgregarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "Nao se pudo realizar la operación solicitada" });
-            JsonResponse jsonResponse = new JsonResponse("400", "Error de servidor al realizar la operacion");
 
             try
             {
+                byte[]? foto = null;
+
+                // 🔥 Convertimos el archivo a byte[]
+                if (vmUsuario.FotoPerfil != null && vmUsuario.FotoPerfil.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        await vmUsuario.FotoPerfil.CopyToAsync(ms);
+                        foto = ms.ToArray();
+                    }
+                }
+
                 Usuario usuario = new Usuario()
                 {
                     IdUsuario = vmUsuario.IdUsuario,
@@ -144,24 +193,27 @@ namespace Epsilon.Controllers
                     Email = vmUsuario.Email,
                     FechaAlta = DateTime.Now,
                     Telefono = vmUsuario.Telefono,
-                    // Conversión segura de byte[] a string (por ejemplo, Base64) o asigna null si es nulo
-                    //RutaFoto = vmUsuario.RutaFoto != null ? Convert.ToBase64String(vmUsuario.RutaFoto) : null,
                     Activo = vmUsuario.Activo,
-                    //TurnoDeTrabajo = vmUsuario.TurnoDeTrabajo,
+                    FotoPerfil = foto
                 };
 
                 _gestionUsuarios.AddUser(usuario);
-                result = new JsonResult(new { StatusCode = 200, message = "Usuario agregado correctamente" });
+
+                result = new JsonResult(new
+                {
+                    StatusCode = 200,
+                    message = "Usuario agregado correctamente"
+                });
             }
             catch (ValidacionException ex)
             {
                 result = new JsonResult(new { StatusCode = 400, errors = ex.Message });
             }
-            catch (Exception ex){
-
-                jsonResponse = new JsonResponse("400", "La operacion no se pudo realizar", "Error" + ex.Message);
-            
+            catch (Exception ex)
+            {
+                result = new JsonResult(new { StatusCode = 500, message = ex.Message });
             }
+
             return result;
         }
 
@@ -169,30 +221,72 @@ namespace Epsilon.Controllers
 
         #region ModificarUsuario
 
+        //[HttpGet, AjaxOnly]
+        //public async Task<ActionResult> ModalModificarUsuarioAsync(int idUsuario)
+        //{
+        //    JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+
+        //    Usuario usuario = new Usuario();
+        //    //Obtenemos el usuario
+        //    usuario = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == idUsuario).First();
+
+        //    //Obtenmos los datos del usuario para mostrarlos
+        //    ViewFormAgregarUsuario vmModificarUsuario = new ViewFormAgregarUsuario();
+
+        //    vmModificarUsuario.IdUsuario = usuario.IdUsuario;
+        //    vmModificarUsuario.Nombre = usuario.Nombre;
+        //    vmModificarUsuario.Password = usuario.Password;
+        //    vmModificarUsuario.Email = usuario.Email;
+        //    vmModificarUsuario.FechaAlta = usuario.FechaAlta;
+        //    vmModificarUsuario.Telefono = usuario.Telefono;
+        //    //vmModificarUsuario.RutaFoto = !string.IsNullOrEmpty(usuario.RutaFoto) ? Convert.FromBase64String(usuario.RutaFoto) : null;
+        //    vmModificarUsuario.Activo = usuario.Activo;
+
+        //    //Mostrar Modal
+        //    string data = await _razorRenderService.ToStringAsync("FormUpdateUser", vmModificarUsuario);
+        //    jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
+        //    return new JsonResult(jsonResponse);
+        //}
+
         [HttpGet, AjaxOnly]
         public async Task<ActionResult> ModalModificarUsuarioAsync(int idUsuario)
         {
-            JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+            JsonResponse jsonResponse = new JsonResponse("400", "Error en el servidor", "");
 
-            Usuario usuario = new Usuario();
-            //Obtenemos el usuario
-            usuario = _gestionUsuarios.Context.Usuarios.Where(x => x.IdUsuario == idUsuario).First();
+            // 🔎 Obtener usuario
+            Usuario? usuario = _gestionUsuarios.Context.Usuarios
+                .FirstOrDefault(x => x.IdUsuario == idUsuario);
 
-            //Obtenmos los datos del usuario para mostrarlos
-            ViewFormAgregarUsuario vmModificarUsuario = new ViewFormAgregarUsuario();
+            if (usuario == null)
+            {
+                return new JsonResult(new JsonResponse("404", "Usuario no encontrado", ""));
+            }
 
-            vmModificarUsuario.IdUsuario = usuario.IdUsuario;
-            vmModificarUsuario.Nombre = usuario.Nombre;
-            vmModificarUsuario.Password = usuario.Password;
-            vmModificarUsuario.Email = usuario.Email;
-            vmModificarUsuario.FechaAlta = usuario.FechaAlta;
-            vmModificarUsuario.Telefono = usuario.Telefono;
-            //vmModificarUsuario.RutaFoto = !string.IsNullOrEmpty(usuario.RutaFoto) ? Convert.FromBase64String(usuario.RutaFoto) : null;
-            vmModificarUsuario.Activo = usuario.Activo;
+            // 🧬 Mapear ViewModel
+            ViewFormAgregarUsuario vmModificarUsuario = new ViewFormAgregarUsuario
+            {
+                IdUsuario = usuario.IdUsuario,
+                Nombre = usuario.Nombre,
+                Password = usuario.Password,
+                Email = usuario.Email,
+                FechaAlta = usuario.FechaAlta,
+                Telefono = usuario.Telefono,
+                Activo = usuario.Activo
+            };
 
-            //Mostrar Modal
-            string data = await _razorRenderService.ToStringAsync("FormUpdateUser", vmModificarUsuario);
+            // 🖼️ Convertir imagen a Base64 SOLO para mostrar en la vista
+            if (usuario.FotoPerfil != null && usuario.FotoPerfil.Length > 0)
+            {
+                vmModificarUsuario.FotoBase64 =
+                    $"data:image/jpeg;base64,{Convert.ToBase64String(usuario.FotoPerfil)}";
+            }
+
+            // 📺 Render modal
+            string data = await _razorRenderService
+                .ToStringAsync("FormUpdateUser", vmModificarUsuario);
+
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
+
             return new JsonResult(jsonResponse);
         }
 
@@ -201,13 +295,85 @@ namespace Epsilon.Controllers
         /// </summary>
         /// <param name="vmUsuario"></param>
         /// <returns></returns>
+        //[HttpPost, AjaxOnly]
+        //public async Task<ActionResult> ModificarUsuario(ViewFormAgregarUsuario vmUsuario)
+        //{
+        //    JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
+
+        //    try
+        //    {
+        //        Usuario usuario = new Usuario()
+        //        {
+        //            IdUsuario = vmUsuario.IdUsuario,
+        //            Nombre = vmUsuario.Nombre,
+        //            Password = vmUsuario.Password,
+        //            Email = vmUsuario.Email,
+        //            Telefono = vmUsuario.Telefono,
+        //            FechaAlta = DateTime.Now,
+        //            Activo = vmUsuario.Activo,
+        //            //RutaFoto = vmUsuario.RutaFoto
+        //        };
+
+        //        var res = _gestionUsuarios.UpdateUser(usuario);
+        //        result = new JsonResult(new { StatusCode = 200, message = "Usuario actualizado correctamente" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.Message.ToString();
+        //    }
+        //    return result;
+        //}
+
+        //[HttpPost, AjaxOnly]
+        //public async Task<ActionResult> ModificarUsuario(ViewFormAgregarUsuario vmUsuario)
+        //{
+        //    JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
+
+        //    try
+        //    {
+        //        // Crear instancia del usuario
+        //        Usuario usuario = new Usuario()
+        //        {
+        //            IdUsuario = vmUsuario.IdUsuario,
+        //            Nombre = vmUsuario.Nombre,
+        //            Password = vmUsuario.Password,
+        //            Email = vmUsuario.Email,
+        //            Telefono = vmUsuario.Telefono,
+        //            FechaAlta = DateTime.Now,
+        //            Activo = vmUsuario.Activo,
+        //            // La foto se gestiona aparte
+        //        };
+
+        //        // --- NUEVO: Guardar la foto si viene ---
+        //        if (vmUsuario.FotoPerfil != null && vmUsuario.FotoPerfil.Length > 0)
+        //        {
+        //            using var ms = new MemoryStream();
+        //            await vmUsuario.FotoPerfil.CopyToAsync(ms);
+        //            usuario.FotoPerfil = ms.ToArray(); // Asegúrate de que RutaFoto ahora sea byte[] en tu modelo Usuario
+        //        }
+
+        //        // Actualizar usuario
+        //        var res = _gestionUsuarios.UpdateUser(usuario);
+
+        //        result = new JsonResult(new { StatusCode = 200, message = "Usuario actualizado correctamente" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Puedes loguearlo mejor si quieres
+        //        ex.Message.ToString();
+        //    }
+
+        //    return result;
+        //}
+
         [HttpPost, AjaxOnly]
-        public async Task<ActionResult> ModificarUsuario(ViewFormAgregarUsuario vmUsuario)
+        public async Task<ActionResult> ModificarUsuario([FromForm] ViewFormAgregarUsuario vmUsuario)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
             try
             {
+                // Crear instancia del usuario
                 Usuario usuario = new Usuario()
                 {
                     IdUsuario = vmUsuario.IdUsuario,
@@ -217,19 +383,30 @@ namespace Epsilon.Controllers
                     Telefono = vmUsuario.Telefono,
                     FechaAlta = DateTime.Now,
                     Activo = vmUsuario.Activo,
-                    //RutaFoto = vmUsuario.RutaFoto
+                    // La foto se gestiona aparte
                 };
 
+                // --- Guardar la foto si viene ---
+                if (vmUsuario.FotoPerfil != null && vmUsuario.FotoPerfil.Length > 0)
+                {
+                    using var ms = new MemoryStream();
+                    await vmUsuario.FotoPerfil.CopyToAsync(ms);
+                    usuario.FotoPerfil = ms.ToArray(); // Asegúrate de que Usuario.FotoPerfil sea byte[]
+                }
+
+                // Actualizar usuario
                 var res = _gestionUsuarios.UpdateUser(usuario);
+
                 result = new JsonResult(new { StatusCode = 200, message = "Usuario actualizado correctamente" });
             }
             catch (Exception ex)
             {
+                // Log si hace falta
                 ex.Message.ToString();
             }
+
             return result;
         }
-
         #endregion
 
         #region EliminarUsuario
