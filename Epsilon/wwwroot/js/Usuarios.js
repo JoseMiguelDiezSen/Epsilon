@@ -441,6 +441,8 @@
 
     }
 
+
+    // Funcion para abrir el detalle de un usuario con AJAX y mostrarlo debajo de la fila correspondiente
     $(document).on('click', '.js-toggle-detail', function (e) {
         e.preventDefault();
 
@@ -488,70 +490,78 @@
         });
     });
 
-    /* Funcion que muestra la snackbar */
+    //Funcion que contiene la logica para mostrar el mensaje de exito al crear un usuario, se muestra durante 4.5 segundos y luego desaparece
     showMessage = () => {
-        // Get the snackbar DIV
+        // Se obtiene el DIV que actúa como snackbar
         var x = document.getElementById("snackbar");
 
-        // Add the "show" class to DIV
+        // Se añade la clase "show" para mostrar el DIV
         x.className = "show";
 
-        // After 4.5 seconds, remove the show class from DIV
+        // Despues de 4.5 segundos, se elimina la clase "show" para ocultar el DIV
         setTimeout(function () {
             x.className = x.className.replace("show", "");
         }, 4500);
     }
 
-
-
+    // Hacemos los modales arrastrables usando la librería Dragablito
     $('#addUserModal').dragablito({ handle: ".modal-header" });
     $('#updateUserModal').dragablito({ handle: ".modal-header" });
     $("#deleteUserModal").dragablito({ handle: ".modal-header" });
 
-    // Esto va en tu JS global, no en la vista
-    var updateModalEla= document.getElementById('updateUserModal');
+    // Funcion que contiene la logica para mostrar o ocultar la contraseña al hacer click en el icono del ojo
+    document.addEventListener("click", function (e) {
 
-    if (updateModalEla) {
-        updateModalEla.addEventListener('shown.bs.modal', function () {
-            const fotoInput = updateModalEla.querySelector('input[name="FotoPerfil"]');
-            const previewImg = updateModalEla.querySelector('img');
+        const btn = e.target.closest(".togglePassword");
+        if (!btn) return;
 
-            if (fotoInput && previewImg) {
-                fotoInput.addEventListener('change', function (e) {
-                    const file = e.target.files[0];
-                    if (file && file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function (ev) {
-                            previewImg.src = ev.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
-        });
-    }
+        const inputGroup = btn.closest(".input-group");
+        const passwordInput = inputGroup.querySelector("input");
+        const icon = btn.querySelector("i");
 
-    var updateModalEl = document.getElementById('addUserModal');
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            icon.classList.replace("fa-eye-slash", "fa-eye");
+        }
 
-    if (updateModalEl) {
-        updateModalEl.addEventListener('shown.bs.modal', function () {
-            const fotoInput = updateModalEl.querySelector('input[name="FotoPerfil"]');
-            const previewImg = updateModalEl.querySelector('img');
+    });
 
-            if (fotoInput && previewImg) {
-                fotoInput.addEventListener('change', function (e) {
-                    const file = e.target.files[0];
-                    if (file && file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function (ev) {
-                            previewImg.src = ev.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
-        });
-    }
+    // Escuchamos cualquier cambio que ocurra en toda la página
+    // (event delegation). Así no necesitamos registrar eventos
+    // en cada input individualmente.
+    document.addEventListener("change", function (e) {
+
+        // Comprobamos si el elemento que disparó el evento
+        // tiene la clase "inputFoto".
+        // Esto nos asegura que el código solo se ejecuta
+        // cuando se selecciona una imagen en ese input.
+        if (e.target.classList.contains("inputFoto")) {
+
+            // Obtenemos el primer archivo seleccionado
+            const file = e.target.files[0];
+
+            // Si no hay archivo (canceló el selector por ejemplo)
+            // salimos del método.
+            if (!file) return;
+
+            // Buscamos el formulario más cercano al input.
+            // Esto es importante porque cada modal tiene su propio form.
+            const form = e.target.closest("form");
+
+            // Dentro de ese formulario buscamos la imagen
+            // que tiene la clase previewFoto.
+            const preview = form.querySelector(".previewFoto");
+
+            // Creamos una URL temporal del archivo seleccionado
+            // y la asignamos al src de la imagen.
+            // Así se muestra inmediatamente sin subirla al servidor.
+            preview.src = URL.createObjectURL(file);
+        }
+
+    });
 
     // JS mínimo, directo y que funciona
     //document.addEventListener("DOMContentLoaded", () => {
