@@ -12,7 +12,6 @@
             <img class="previewFoto" src="@(Model.FotoBase64 ?? Url.Content("~/media/defaultUserImage.jpg"))" alt="" height="150" width="150" style="border-radius:100px;border:3px solid grey;padding:3px;" />
         </div>
 
-
         <div class="row">
             <!-- Primera columna -->
             @* NOMBRE *@
@@ -30,7 +29,7 @@
                     <label class="label">Correo Electrónico</label>
                     <div class="input-group" id="inputCorreo">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        <input type="email" class="form-control" asp-for="Email" style="display:none" autocomplete="off" name="Email" placeholder="Ingrese su correo" value="@Model.Email" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
+                        <input type="email" class="form-control" asp-for="Email" name="Email" placeholder="Ingrese su correo" value="@Model.Email" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
                     </div>
                 </div>
 
@@ -44,7 +43,7 @@
                 </div>
 
                 @* TURNO DE TRABAJO *@
-             @*    <div class="mb-3">
+                <div class="mb-3">
                     <label class="label">Turno de Trabajo</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-list-ul"></i></span>
@@ -52,15 +51,15 @@
                             <option>Opción 1</option>
                         </select>
                     </div>
-                </div> *@
+                </div>
 
                 @* ACTIVO *@
-        @*         <div class="mb-3">
+                <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" name="Activo" type="checkbox" asp-for="Activo" id="chekActivo" value="@(Model.Activo ? "checked=\" checked\"" : "")" />
+                        <input class="form-check-input" name="Activo" type="checkbox" asp-for="Activo" id="checkActivo" value="@(Model.Activo ? "checked=\" checked\"" : "")" />
                         <label class="form-check-label">Usuario Activo</label>
                     </div>
-                </div> *@
+                </div>
             </div>
 
             <!-- Segunda columna -->
@@ -100,8 +99,7 @@
                 <div class="mb-3">
                     <label class="label">Foto de perfil</label>
                     <div class="input-group">
-                        <input type="file" asp-for="FotoPerfil" class="form-control" accept="image/*">
-                        @* <input type="file" class="form-control" id="@Model?.RutaFoto" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);"> *@
+                        <input type="file" asp-for="FotoPerfil" class="form-control inputFoto" accept="image/*" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">            
                         <span class="input-group-text"><i class="fas fa-upload"></i></span>
                     </div>
                 </div>
@@ -117,52 +115,3 @@
     </div>
 
 </form>
-
-
-
-
-<style>
-
-    #chekActivo {
-        height: 20px;
-        width: 20px;
-        accent-color: orange;
-        margin-left: -20px;
-    }
-
-    /* Tamaño text labels */
-    label {
-        font-size: 14px;
-    }
-
-    #Nombre {
-        font-size: 14px;
-    }
-
-    #Password {
-        font-size: 14px;
-    }
-
-    #Telefono {
-        font-size: 14px;
-    }
-
-    #Email {
-        font-size: 14px;
-    }
-
-    #Comentarios {
-        font-size: 14px;
-    }
-
-    /* Tamaño texto controles */
-    #FechaAlta {
-        font-size: 14px;
-    }
-
-
-    #IdUsuario {
-        font-size: 14px;
-    }
-
-</style>

@@ -254,8 +254,7 @@ namespace Epsilon.Controllers
             JsonResponse jsonResponse = new JsonResponse("400", "Error en el servidor", "");
 
             // 🔎 Obtener usuario
-            Usuario? usuario = _gestionUsuarios.Context.Usuarios
-                .FirstOrDefault(x => x.IdUsuario == idUsuario);
+            Usuario? usuario = _gestionUsuarios.Context.Usuarios.FirstOrDefault(x => x.IdUsuario == idUsuario);
 
             if (usuario == null)
             {
@@ -282,8 +281,7 @@ namespace Epsilon.Controllers
             }
 
             // 📺 Render modal
-            string data = await _razorRenderService
-                .ToStringAsync("FormUpdateUser", vmModificarUsuario);
+            string data = await _razorRenderService.ToStringAsync("FormUpdateUser", vmModificarUsuario);
 
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
 

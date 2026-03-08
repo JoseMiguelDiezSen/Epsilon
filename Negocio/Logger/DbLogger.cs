@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Extensions.Logging;
 using Negocio.Persistencia.Modelos;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Principal;

@@ -442,7 +442,7 @@
     }
 
 
-    // Funcion para abrir el detalle de un usuario con AJAX y mostrarlo debajo de la fila correspondiente
+    // Funcion que contiene la logica para abrir el detalle de un usuario y mostrarlo debajo de la fila correspondiente
     $(document).on('click', '.js-toggle-detail', function (e) {
         e.preventDefault();
 
@@ -529,104 +529,22 @@
 
     });
 
-    // Escuchamos cualquier cambio que ocurra en toda la página
-    // (event delegation). Así no necesitamos registrar eventos
-    // en cada input individualmente.
+    // Funcion que contiene la logica para el cambio de foto en los modales
     document.addEventListener("change", function (e) {
 
-        // Comprobamos si el elemento que disparó el evento
-        // tiene la clase "inputFoto".
-        // Esto nos asegura que el código solo se ejecuta
-        // cuando se selecciona una imagen en ese input.
-        if (e.target.classList.contains("inputFoto")) {
+        if (e.target.matches(".inputFoto")) {
 
-            // Obtenemos el primer archivo seleccionado
             const file = e.target.files[0];
 
-            // Si no hay archivo (canceló el selector por ejemplo)
-            // salimos del método.
             if (!file) return;
 
-            // Buscamos el formulario más cercano al input.
-            // Esto es importante porque cada modal tiene su propio form.
             const form = e.target.closest("form");
 
-            // Dentro de ese formulario buscamos la imagen
-            // que tiene la clase previewFoto.
             const preview = form.querySelector(".previewFoto");
 
-            // Creamos una URL temporal del archivo seleccionado
-            // y la asignamos al src de la imagen.
-            // Así se muestra inmediatamente sin subirla al servidor.
             preview.src = URL.createObjectURL(file);
         }
 
     });
 
-    // JS mínimo, directo y que funciona
-    //document.addEventListener("DOMContentLoaded", () => {
-    //    const fotoInput = document.getElementById("FotoPerfil");
-    //    const previewImg = document.getElementById("previewFoto");
-
-    //    if (!fotoInput || !previewImg) return; // seguridad
-
-    //    fotoInput.addEventListener("change", e => {
-    //        const file = e.target.files[0];
-    //        if (file) previewImg.src = URL.createObjectURL(file);
-    //    });
-    //});
-
-
-
 });
-//jqCheckAddPeriodo = () => {
-
-//    const date = new Date();
-//    var day = date.getDate();
-//    var month = date.getMonth();
-//    var year = date.getFullYear();
-//    var currentDate = day + "/" + month + "/" + year;
-
-//    var d1 = dateFrom.slit("/");
-//    var d1 = dateTo.slit("/");
-//    var c = dateCheck.slit("/");
-
-//    var from = new Date(d1);
-//    var to = new Date(d2);
-//    var check = new Date(c);
-
-//    if (check > from && check < to) {
-//        $("#addUser").show();
-//    }
-//    else {
-//        $("#addUser").hide();
-//    }
-//}
-
-
-
-
-
-///*Funcion de apertura del modal agregar usuario*/
-
-
-
-
-
-
-
-/* Actualizacion detalles curso */
-//jqAJAXGet('EjecucionEdiciones/ActualizarDetallesCurso', { 'IdCurso': Curso.IdCurso, IdEdicion: Curso.IdEdicion }
-//    , { not_show_popup: true },
-//    (data) => {
-//        // Cursos
-//        $("#DetallesCursoEjecutado").empty();
-//        $("#DetallesCursoEjecutado").append(data);
-//    },
-//    (data) => {
-//        deferred.reject('Error al actualizar los datos');
-//    },
-//    (res) => {
-//        deferred.reject('Error al conectar con el servidor');
-//    }
-//);

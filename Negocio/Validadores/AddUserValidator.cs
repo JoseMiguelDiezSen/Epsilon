@@ -43,7 +43,7 @@ namespace Negocio.Validadores
 
                     //if (user.IdUsuario == usuarioq.idUsuario)
                     //{
-                    //    contextDB.AddFailure($"Usuario ya sado de alta");
+                    //    contextDB.AddFailure($"Usuario ya dado de alta");
                     //}
                 });
         }
