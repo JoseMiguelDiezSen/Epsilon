@@ -14,7 +14,43 @@
     }
 
 
+    /* GET : Añadir usuario */
+    jqGetModalAddUser1 = (form) => {
+        $.ajax({
+            type: 'GET',
+            url: 'Usuarios/ModalAgregarUsuario',
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                // Inserta la vista en el modal como HTML
+                $('#addUserModal .modal-body').html(response.data);
 
+                // Abre el modal (Bootstrap 5)
+                let modal = new bootstrap.Modal(document.getElementById('addUserModal'));
+                modal.show();
+
+                // --- Inserción mínima recomendada para reparsear validación unobtrusive ---
+                const $addForm = $('#addUser');
+                console.log('jqGetModalAddUser: form encontrado?', $addForm.length);
+                if (typeof $.validator !== 'undefined' && typeof $.validator.unobtrusive !== 'undefined') {
+                    try {
+                        $.validator.unobtrusive.parse($addForm);
+                    } catch (ex) {
+                        console.warn('unobtrusive.parse fallo:', ex);
+                    }
+                }
+                // ------------------------------------------------------------------------
+
+                // ...el resto de tu inicialización de validación (si la deixas) sigue aquí...
+                // (tu código original definía $("#addUser").validate({...}) y métodos personalizados)
+                $('#idMsg').html(response.data);
+            },
+            error: function (response) {
+                alert("No se pudo realizar la operacion");
+            }
+        });
+    }
 
     /* GET : Añadir usuario */
     jqGetModalAddUser = (form) => {
@@ -33,58 +69,49 @@
                 modal.show();
 
                 // Se definen las reglas de validacion
-                ////$("#addUser").validate({
-                ////    ignore: [],
+                $("#addUser").validate({
+                /*    ignore: [],*/
 
-                ////    // Omite los campos readonly
-                ////    ignore : "input[readonly]", 
-                ////    rules: {
+                    // Omite los campos readonly
+                    ignore : "input[readonly]", 
+                    rules: {
 
-                ////        Nombre: { required: true },
-                ////        Email: { required: true, email: true, gmailValido: true },
-                ////        Password: { required: true, minlength: 6 },
-                ////        Telefono: { required: true, minlength: 9, maxlength: 9, soloNumeros: true }
-                ////    },
-                ////    messages: {
-                ////        Nombre: { required: "(*) Debe introducir un nombre" },
-                ////        Email: { required: "(*) Debe introducir un email.", gmailValido: "Introduce un correo válido de Gmail" },
-                ////        Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 6 caracteres." },
-                ////        Telefono: { required: "(*) Debe introducir un telefomo.", minlength: "(*) Debe introducir un numero superior (9 cifras)", maxlength: "(*) Debe introducir un numero inferior (9 cifras)", soloNumeros: "(*) Debe introducir solo numeros" },
-                ////    },
+                        Nombre: { required: true },
+                        Email: { required: true, email: true, gmailValido: true },
+                        Password: { required: true, minlength: 6 },
+                        Telefono: { required: true, minlength: 9, maxlength: 9, soloNumeros: true }
+                    },
+                    messages: {
+                        Nombre: { required: "(*) Debe introducir un nombre" },
+                        Email: { required: "(*) Debe introducir un email.", gmailValido: "Introduce un correo válido de Gmail" },
+                        Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 6 caracteres." },
+                        Telefono: { required: "(*) Debe introducir un telefomo.", minlength: "(*) Debe introducir un numero superior (9 cifras)", maxlength: "(*) Debe introducir un numero inferior (9 cifras)", soloNumeros: "(*) Debe introducir solo numeros" },
+                    },
 
-                ////    errorClass: "is-invalid",
-                ////    validClass: "is-valid",
+                    errorClass: "is-invalid",
+                    validClass: "is-valid",
 
+                    errorPlacement: function (error, element) {
+                        // Inserta después del input-group si existe, si no, después del elemento
+                        var inputGroup = element.closest('.input-group');
+                        if (inputGroup.length) {
+                            error.insertAfter(inputGroup);
+                        } else {
+                            error.insertAfter(element);
+                        }
+                        error.addClass('text-danger');
+                    }
+                });
 
-                ////    // Se posicionan debajo de los controles
-                ////    errorPlacement: function (error, element) {
-                ////        if (element.attr("name") === "Nombre") {
-                ////            error.insertAfter("#inputNombre");
-                ////        }
-                ////        if (element.attr("name") === "Password") {
-                ////            error.insertAfter("#inputPassword");
-                ////        }
-                ////        if (element.attr("name") === "Email") {
-                ////            error.insertAfter("#inputCorreo");
-                ////        }
-                ////        if (element.attr("name") === "Telefono") {
-                ////            error.insertAfter("#inputTelefono");
-                ////        }
+                // Regla de validacion personalizada pare el Email
+                $.validator.addMethod("gmailValido", function (value, element) {
+                    return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
+                }, "Introduce un correo válido de Gmail");
 
-                ////        error.addClass('text-danger').addClass('font-size:6px;'); // Bootstrap style
-                ////    }
-                ////});
-
-                ////// Regla de validacion personalizada pare el Email
-                ////$.validator.addMethod("gmailValido", function (value, element) {
-                ////    // Nombre de usuario: 6-20 caracteres, letras, números, . _ -
-                ////    return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
-                ////}, "Introduce un correo válido de Gmail");
-
-                ////// Validacion personalizada telefono
-                ////$.validator.addMethod("soloNumeros", function (value, element) {
-                ////    return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
-                ////}, "(*) Introduce solo números");
+                // Validacion personalizada telefono
+                $.validator.addMethod("soloNumeros", function (value, element) {
+                    return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
+                }, "(*) Introduce solo números");
 
                 $('#idMsg').html(response.data);
             },
@@ -97,8 +124,10 @@
     /* POST : Añadir usuario */
     jqPostAddUser = (form) => {
 
-        //if ($('#addUser').valid()) {
 
+        if (!$(form).valid()) {
+            return false;
+        }
             try {
                 $.ajax({
                     type: 'POST',
@@ -165,7 +194,7 @@
             } catch (ex) {
                 console.log(ex);
             }
-        //}
+        
     }
 
     /* GET : Actualizar un usuario */
@@ -250,7 +279,7 @@
 
     /* POST : Actualizar un usuario */
     jqPostUpdateUser = (form) => {
-        //if ($("#updateUser").valid()) {
+        if ($("#updateUser").valid()) {
             try {
                 $.ajax({
                     type: 'POST',
@@ -279,7 +308,7 @@
             }
             catch (ex) {
             }
-        //}
+        }
     }
 
     /* GET : Eliminar un usuario */

@@ -7,7 +7,9 @@
     <thead>
         <tr>
             <th scope="col" class="text-center" width="1%">#</th>
+            <th scope="col">FOTO</th>
             <th scope="col">IDUSUARIO</th>
+           
             <th scope="col">NOMBRE</th>
             <th scope="col">EMAIL</th>
             <th scope="col">TELEFONO</th>
@@ -26,6 +28,19 @@
                     <td class="text-center">
                          <span class="fa fa-user"></span>
                     </td>
+                    <td>
+                       
+                        <img src="@(usuario.FotoPerfil != null 
+                            ? $"data:image/jpeg;base64,{Convert.ToBase64String(usuario.FotoPerfil)}"
+                            : Url.Content("~/media/defaultUserImage.jpg"))"
+                             alt="Foto de perfil"
+                             height="30"
+                             width="30"
+                             style="border-radius:100px;border:2px solid grey;padding:2px;" />
+                        </td>
+                  
+                     
+
                     <td> @usuario.IdUsuario.ToString()</td>
                     <td> @usuario.Nombre?.ToString()</td>
                     <td> @usuario.Email?.ToString()</td>
@@ -103,6 +118,8 @@
 
  <style>
 
+
+/*     // Estilo para la fila de detalle */
     .detail-row td {
         background-color: none;
         color: black;
@@ -112,11 +129,14 @@
         padding: 12px;
         transition: all 0.7s ease;
     }
+
+/*     Estilo para el hover en la fila de detalle */ 
         .detail-row td:hover {
             background-color: yellow !important; /* leve cambio al pasar el ratón */
         }
 
 
+ /*    Estilo de contenido detallado */
     .detail-content {
         background-color: #3b3f44;
         color: #f8f9fa;
@@ -128,4 +148,4 @@
         transition: max-height 0.3s ease; /* transición suave */
     }
 
-                                            </style>
+</style>

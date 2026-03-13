@@ -36,6 +36,8 @@ namespace Negocio.Persistencia.Modelos
 
         public bool Activo { get; set; }
 
+        public byte[]? FotoPerfil { get; set; }
+
         //public SelectList? TurnoDeTrabajo { get; set; }
     }
 }

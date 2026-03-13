@@ -11,10 +11,8 @@ using Negocio.Excepciones;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
 using OfficeOpenXml;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.Json;
-using System.IO;
 
 namespace Epsilon.Controllers
 {
@@ -436,11 +434,11 @@ namespace Epsilon.Controllers
             return new JsonResult(response);
         }
 
-        ///// <summary>
-        ///// Metodo para eliminar un periodo de planificacion 
-        ///// </summary>
-        ///// <param name="id"> Identificador del usuario a eliminar </param>
-        ///// <returns></returns>
+        /// <summary>
+        /// Metodo para eliminar un usuario
+        /// </summary>
+        /// <param name="idUsuario"> Identificador del usuario a eliminar </param>
+        /// <returns></returns>
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> EliminarUsuarioAsync(int idUsuario)
         {

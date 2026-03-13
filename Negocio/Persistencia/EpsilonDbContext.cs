@@ -34,6 +34,7 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Usuario>().Property(u => u.FechaAlta);
             modelBuilder.Entity<Usuario>().Property(u => u.Telefono);
             modelBuilder.Entity<Usuario>().Property(u => u.Activo);
+            modelBuilder.Entity<Usuario>().Property(u => u.FotoPerfil);
             //modelBuilder.Entity<Usuario>().Property(u => u.TurnoDeTrabajo);
 
             //TABLA MEDICOS
@@ -150,7 +151,7 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosUsuario>().Property(e => e.FechaAlta);
             modelBuilder.Entity<DatosUsuario>().Property(e => e.Telefono);
             modelBuilder.Entity<DatosUsuario>().Property(e => e.RutaFoto);
-            //modelBuilder.Entity<DatosUsuario>().Property(e => e.Activo);
+            modelBuilder.Entity<DatosUsuario>().Property(e => e.FotoPerfil);
             //modelBuilder.Entity<DatosUsuario>().Property(e => e.TurnoDeTrabajo);
 
             #endregion
