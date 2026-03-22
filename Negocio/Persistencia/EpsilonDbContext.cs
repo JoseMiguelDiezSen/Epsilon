@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Negocio.Persistencia.Extensiones;
 using Negocio.Persistencia.Modelos;
+using System.Data;
 
 namespace Negocio.Persistencia
 {
@@ -215,39 +217,7 @@ namespace Negocio.Persistencia
             }
         }
 
-        #region Procedimientos_Almacenados
 
-        //public async Task<IActionResult> SP_AgregarMedico(Medico medico)
-        //{
-        //    try
-        //    {
-        //        // Crear los parámetros del procedimiento almacenado
-        //        var DNI = new SqlParameter("@DNI", medico.DNI);
-        //        var NombreMedico = new SqlParameter("@NombreMedico", medico.NombreMedico);
-        //        var NumeroColegiado = new SqlParameter("@NumeroColegiado", medico.NumeroColegiado);
-        //        var Especialidad = new SqlParameter("@Especialidad", medico.Especialidad);
-        //        var Telefono = new SqlParameter("@Telefono", medico.Telefono);
-        //        var EMail = new SqlParameter("@EMail", medico.EMail);
-        //        var FechaContratacion = new SqlParameter("@FechaContratacion", medico.FechaContratacion);
-        //        var Activo = new SqlParameter("@Activo", medico.Activo);
-        //        var Observaciones = new SqlParameter("@Observaciones",string.IsNullOrEmpty(medico.Observaciones) ? (object)DBNull.Value : medico.Observaciones);
-        //        var Foto = new SqlParameter("@Foto", medico.Foto == null ? (object)DBNull.Value : medico.Foto);
-
-        //        // Ejecuta el procedimiento almacenado
-        //        await _context.Database.ExecuteSqlRawAsync(
-        //            "EXEC spInsertarMedico @NombreMedico, @DNI, @NumeroColegiado, @Especialidad, @Telefono, @EMail, @FechaContratacion, @Activo, @Observaciones, @Foto",
-        //            NombreMedico, DNI, NumeroColegiado, Especialidad, Telefono, EMail, FechaContratacion, Activo, Observaciones, Foto);
-
-        //        // Redirige a la vista de índice (u otra acción) tras una inserción exitosa       
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-  
-        //}
-
-        #endregion
     }
 }
  

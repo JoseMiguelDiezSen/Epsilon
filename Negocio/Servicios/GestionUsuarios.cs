@@ -1,24 +1,18 @@
-﻿using Negocio.Persistencia;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios.Comun;
 using Negocio.Validadores.Comun;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Negocio.Excepciones;
 
 namespace Negocio.Servicios
 {
     public class GestionUsuarios : ServicioAbstractoEpsilon, IGestionUsuarios
     {
         protected ISeguridad _seguridad;
-
+        private readonly EpsilonDbContext _context;
 
         /// <summary>
         /// Constructor de la clase
@@ -26,10 +20,9 @@ namespace Negocio.Servicios
         /// <param name="context"></param>
         public GestionUsuarios(EpsilonDbContext context, ILogger<GestionUsuarios> logger, ISeguridad seguridad, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
         {
-
-            //_claimsPrincipal = claimsPrincipal;
             _registroValidadores = registroValidadores;
             _seguridad = seguridad;
+            _context = context;
             logger.LogTrace(GetEventId(), "Servicion iniciado");
         }
 
@@ -117,6 +110,7 @@ namespace Negocio.Servicios
             if (usuario.FotoPerfil != null)
                 entity.FotoPerfil = usuario.FotoPerfil;
 
+            //Context.Update(usuario);
             Context.SaveChanges();
             return entity;
         }
@@ -144,13 +138,56 @@ namespace Negocio.Servicios
         }
 
         /// <summary>
-        /// Metodo para obtener los periodos de un area determinada
+        /// Metodo para obtener los datos de un usuario, se utiliza para mostrar la informacion del usuario en la vista de perfil
         /// </summary>
         /// <returns></returns>
         public IQueryable<DatosUsuario> GetDatosUsuario()
         {
             logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
             return Context.DatosUsuarios;
+        }
+
+        #endregion
+
+        #region Procedimientos Almacenados
+
+        // Procedimiento almacenado para agregar un usuario
+        public void AgregarUsuario(Usuario usuario)
+        {
+            _context.Database.ExecuteSqlRaw(
+                "EXEC SP_AgregarUsuario @Nombre, @Password, @Email, @FechaAlta, @Telefono, @Activo, @FotoPerfil",
+                new SqlParameter("@Nombre", usuario.Nombre),
+                new SqlParameter("@Password", usuario.Password),
+                new SqlParameter("@Email", usuario.Email),
+                new SqlParameter("@FechaAlta", usuario.FechaAlta),
+                new SqlParameter("@Telefono", usuario.Telefono),
+                new SqlParameter("@Activo", usuario.Activo),
+                new SqlParameter("@FotoPerfil", (object?)usuario.FotoPerfil ?? DBNull.Value)
+            );
+        }
+
+        // Procedimiento almacenado para modificar un usuario
+        public void ModificarUsuario(Usuario usuario)
+        {
+            _context.Database.ExecuteSqlRaw(
+                "EXEC SP_ModificarUsuario @IdUsuario, @Nombre, @Password, @Email, @Telefono, @Activo, @FotoPerfil",
+                new SqlParameter("@IdUsuario", usuario.IdUsuario),
+                new SqlParameter("@Nombre", usuario.Nombre),
+                new SqlParameter("@Password", usuario.Password),
+                new SqlParameter("@Email", usuario.Email),
+                new SqlParameter("@Telefono", usuario.Telefono),
+                new SqlParameter("@Activo", usuario.Activo),
+                new SqlParameter("@FotoPerfil", (object?)usuario.FotoPerfil ?? DBNull.Value)
+            );
+        }
+
+        // Procedimiento almacenado para eliminar un usuario
+        public void EliminarUsuario(int idUsuario)
+        {
+            _context.Database.ExecuteSqlRaw(
+                "EXEC SP_EliminarUsuario @IdUsuario",
+                new SqlParameter("@IdUsuario", idUsuario)
+            );
         }
 
         #endregion

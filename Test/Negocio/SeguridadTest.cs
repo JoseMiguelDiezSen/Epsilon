@@ -6,6 +6,7 @@ using Negocio.Persistencia.Extensiones;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
 using Negocio.Servicios.Comun;
+using System;
 using System.Security.Principal;
 using Test.Shared;
 
@@ -19,7 +20,7 @@ namespace Test.Negocio
         Mock<IPrincipal> principalFake;
         Mock<Seguridad> srvSeguridadFake;
         DbSet<Usuario> usuariosFake;
-        Seguridad srvSeguridad;
+        Seguridad? srvSeguridad;
 
         [SetUp]
         public void Setup()
@@ -75,6 +76,7 @@ namespace Test.Negocio
             // Comprobación
             //Assert.That(dusuFake, Is.EqualTo(dusu));
         }
+       
 
         [Test]
         public void GetDatosUsuario_IdUsuario_Ok()

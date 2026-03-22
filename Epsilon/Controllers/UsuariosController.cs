@@ -377,7 +377,7 @@ namespace Epsilon.Controllers
                     Password = vmUsuario.Password,
                     Email = vmUsuario.Email,
                     Telefono = vmUsuario.Telefono,
-                    FechaAlta = DateTime.Now,
+                    //FechaAlta = DateTime.Now,// solo en agregar, no en modificar
                     Activo = vmUsuario.Activo,
                     // La foto se gestiona aparte
                 };
