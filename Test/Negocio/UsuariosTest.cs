@@ -34,7 +34,7 @@ namespace Test.Negocio
         {
             // Datos por defecto útiles para varias pruebas; los tests que necesiten
             // otros datos deben configurar su propio DbSet y sobreescribir contextFake.
-            string nombreUsuarioFake = @"IEF\\usuario";
+            string nombreUsuarioFake = @"jsm";
             int idUsuarioFake = 1;
 
             loggerFake = new Mock<ILogger<Seguridad>>();
@@ -93,25 +93,29 @@ namespace Test.Negocio
             contextFake.SetupGet(c => c.Usuarios).Returns(dbSetMock.Object);
             contextFake.Setup(c => c.SaveChanges()).Returns(1);
 
-            var service = new GestionUsuarios(contextFake.Object, loggerMock!.Object, seguridadMock!.Object, validadoresMock!.Object);
+            // Creamos el servicio con los mocks configurados
+            var serviceFake = new GestionUsuarios(contextFake.Object, loggerMock!.Object, seguridadMock!.Object, validadoresMock!.Object);
 
             // Act: modificamos usuario mediante el servicio
-            var usuarioMod = new Usuario
+            var usuarioAModificar = new Usuario
             {
                 IdUsuario = 1,
                 Nombre = "Jose Modificado",
                 Email = usuarios[0].Email,
                 Password = usuarios[0].Password,
                 Telefono = usuarios[0].Telefono,
-                Activo = usuarios[0].Activo
+        
+                // Mas campos
             };
 
-            service.UpdateUser(usuarioMod);
+            // Llamamos al método que queremos probar
+            serviceFake.UpdateUser(usuarioAModificar);
 
             // Assert: comprobar que el cambio persiste en la lista simulada
             var actualizado = usuarios.First(u => u.IdUsuario == 1);
             Assert.IsNotNull(actualizado);
-            Assert.AreEqual("Jose Modificado", actualizado.Nombre);
+            // Verificamos que el nombre se haya actualizado correctamente
+            Assert.That(usuarioAModificar.Nombre, Is.EqualTo(actualizado.Nombre));
         }
 
         [Test]
@@ -135,8 +139,8 @@ namespace Test.Negocio
             // Assert
             Assert.IsNotNull(agregado);
             Assert.AreEqual(1, usuarios.Count);
-            //Assert.That(dusuFake, Is.EqualTo(dusu));
-            Assert.AreEqual("Ana", usuarios[0].Nombre);
+            Assert.That(nuevo.Nombre, Is.EqualTo(usuarios[0].Nombre));
+            //Assert.AreEqual("Ana", usuarios[0].Nombre);
         }
 
         [Test]
