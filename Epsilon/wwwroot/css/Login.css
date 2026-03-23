@@ -1,13 +1,14 @@
-﻿body {
-}
-
-#loginCard {
+﻿#loginCard {
     width: 350px;
     border-radius: 12px;
     background-color: #424250;
     border: 1px solid yellow;
     margin-top: 12.5%;
 
+}
+
+#loginCard:hover {
+    border: 1px solid red;
 }
 
 #logoLogin {
