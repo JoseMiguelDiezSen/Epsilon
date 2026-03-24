@@ -152,7 +152,6 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosUsuario>().Property(e => e.EMail);
             modelBuilder.Entity<DatosUsuario>().Property(e => e.FechaAlta);
             modelBuilder.Entity<DatosUsuario>().Property(e => e.Telefono);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.RutaFoto);
             modelBuilder.Entity<DatosUsuario>().Property(e => e.FotoPerfil);
             //modelBuilder.Entity<DatosUsuario>().Property(e => e.TurnoDeTrabajo);
 

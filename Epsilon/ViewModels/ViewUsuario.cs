@@ -15,7 +15,6 @@ namespace Epsilon.ViewModels
             Email = datosUsuario.EMail;
             FechaAlta = datosUsuario.FechaAlta;
             Telefono = datosUsuario.Telefono;
-            RutaFoto = datosUsuario?.RutaFoto;
             FotoPerfil = datosUsuario?.FotoPerfil;
         }
 
@@ -31,7 +30,7 @@ namespace Epsilon.ViewModels
 
         public int Telefono { get; set; }
 
-        public string? RutaFoto { get; set; }
+
 
 
         public byte[]? FotoPerfil { get; set; }

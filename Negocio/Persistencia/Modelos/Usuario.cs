@@ -40,10 +40,7 @@ namespace Negocio.Persistencia.Modelos
         /// </summary>
         public int Telefono { get; set; }
 
-        /// <summary>
-        /// Obtirene o establece la foto del usuario
-        /// </summary>
-        public string? RutaFoto { get; set; }
+
 
         /// <summary>
         /// Obtiene o establece si el usuario esta activo o no

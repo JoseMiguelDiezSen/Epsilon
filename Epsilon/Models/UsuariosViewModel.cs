@@ -35,10 +35,6 @@ namespace Epsilon.Models
 
         public bool Activo { get; set; }
 
-        /// <summary>
-        /// Obtiene o establece la foto de un usuario
-        /// </summary>
-        public string? RutaFoto { get; set; }
 
         /// <summary>
         /// Obtiene o establece la pagina actual de la tabla

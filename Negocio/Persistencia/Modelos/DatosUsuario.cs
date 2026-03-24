@@ -31,9 +31,6 @@ namespace Negocio.Persistencia.Modelos
         /// <summary> Obtiene o establece el telefono del usuario. </summary>
         public int Telefono { get; set; }
 
-        /// <summary> Obtiene o establece la foto del usuario. </summary>
-        public string? RutaFoto { get; set; }
-
         public bool Activo { get; set; }
 
         public byte[]? FotoPerfil { get; set; }

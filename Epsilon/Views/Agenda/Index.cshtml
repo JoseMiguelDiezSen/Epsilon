@@ -8,9 +8,83 @@
 <hr>
 <h4 class="text-center"><span class="fa fa-calendar-days"></span> Agenda <span class="fa fa-calendar-days"></span></h4>
 <hr>
+<!DOCTYPE html>
+<html lang='en'>
+<head>
 
+</head>
+<body>
+    <div id='calendar'></div>
+</body>
+</html>
 
 
 @section Styles {
     <link href="~/css/Agenda.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <script src="~/js/Agenda.js" asp-append-version="true"></script>
+    <script src="~/js/calendar/core/index.global.min.js"></script>
+    <script src="~/js/calendar/daygrid/index.global.min.js"></script>
+    <script src="~/js/calendar/interaction/index.global.min.js"></script>
+    <script src="~/js/calendar/locales.js"></script>
+    <script src="~/js/calendar/locale/es.js"></script>
+    <script src="~/js/calendar/timegrid/index.global.min.js"></script>
+}
+@section Modals {
+    @* Modal agregar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="addCitaModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">
+                        <i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Agregar Cita
+                    </h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal modificar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="updateUserModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">
+                        <span class="fa fa-pencil-square" aria-hidden="true"></span>
+
+                        Modificar datos del Usuario
+                    </h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal eliminar usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="deleteUserModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">
+                        <i class="fa fa-user-times" aria-hidden="true"></i>
+                        Eliminar usuario
+                    </h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
 }
