@@ -41,6 +41,7 @@ namespace Epsilon.Controllers
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
             return new JsonResult(jsonResponse);
         }
+
         [JSInvokable]
         public static Task OnDateClicked(string date)
         {

@@ -1,23 +1,37 @@
-﻿
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
+
+        /* Vista inicial del calendario */
         initialView: 'dayGridMonth',
+
+        /* Configuración de idioma */
         locale: 'es',
+
+        /* Botones del header y su orden */
         headerToolbar: {
-            left: 'prev,next today',
+            left: 'prevYear,prev,next,nextYear',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek'
+            right: 'timeGridWeek,dayGridMonth,multiMonthYear,today'
         },
+
+        // Permitir selección y edición de eventos
         selectable: true,
+
+        /* Permitir arrastrar y soltar eventos para editarlos */
         editable: true,
 
+        /* Rango de horas visible en las vistas de tiempo */
         slotMinTime: '08:00:00',
         slotMaxTime: '20:00:00',
 
         height: 650,
+
+        /* Fecha inicial del calendario */
         initialDate: '2026-04-01',
+
+        /* Eventos de prueba */
         events: [
             { title: 'Evento OK', start: '2026-04-07' },
             { title: 'Otro evento', start: '2026-04-12' },
@@ -39,8 +53,30 @@ document.addEventListener('DOMContentLoaded', function () {
         ],
 
 
+        /* Vistas y formato de título */
+        views: {
+            dayGridMonth: { // name of view
+                titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' }
+                // other view-specific options here
+                //{ year: 'numeric', month: 'long' }                  // like 'September 2009', for month view
+                //{ year: 'numeric', month: 'short', day: 'numeric' } // like 'Sep 13 2009', for week views
+                //{ year: 'numeric', month: 'long', day: 'numeric' }  // like 'September 8 2009', for day views
+            },
+            dayGrid: {
+                // options apply to dayGridMonth, dayGridWeek, and dayGridDay views
+            },
+            timeGrid: {
+                // options apply to timeGridWeek and timeGridDay views
+            },
+            week: {
+                // options apply to dayGridWeek and timeGridWeek views
+            },
+            day: {
+                // options apply to dayGridDay and timeGridDay views
+            }
+        },
 
-        // NUeva Cita
+        // Nueva Cita
         dateClick: function (info) {
 
             console.log("Nueva cita en:", info.date);
