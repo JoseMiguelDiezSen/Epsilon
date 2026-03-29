@@ -40,8 +40,6 @@ namespace Negocio.Persistencia.Modelos
         /// </summary>
         public int Telefono { get; set; }
 
-
-
         /// <summary>
         /// Obtiene o establece si el usuario esta activo o no
         /// </summary>
@@ -51,6 +49,11 @@ namespace Negocio.Persistencia.Modelos
         /// Foto del usuario en base64
         /// </summary>
         public byte[]? FotoPerfil { get; set; }
+
+        /// <summary>
+        /// Obtiene o establece el identificador del estado del usuario, que puede ser activo, inactivo, suspendido, etc.
+        /// </summary>
+        public int IdEstadoUsuario { get; set; }
 
 
         //   public SelectList? TurnoDeTrabajo { get; set; }

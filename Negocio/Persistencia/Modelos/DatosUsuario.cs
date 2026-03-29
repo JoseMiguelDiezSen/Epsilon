@@ -1,11 +1,6 @@
 ﻿
 using Negocio.Persistencia.Modelos.Comun;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Negocio.Persistencia.Modelos
 {
@@ -34,6 +29,10 @@ namespace Negocio.Persistencia.Modelos
         public bool Activo { get; set; }
 
         public byte[]? FotoPerfil { get; set; }
+
+        public int IdEstadoUsuario { get; set; }
+
+        public string? EstadoUsuario { get; set; }
 
         //public SelectList? TurnoDeTrabajo { get; set; }
     }

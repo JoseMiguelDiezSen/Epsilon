@@ -6,6 +6,7 @@ using Epsilon.Models.Comun;
 using Epsilon.Renders;
 using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Negocio.Excepciones;
 using Negocio.Persistencia.Modelos;
@@ -52,11 +53,11 @@ namespace Epsilon.Controllers
             {
                 usuarios = datosUsuario.Select(x => new ViewUsuario(x)).ToList().OrderBy(x => x.IdUsuario);
             }
-
+            //SqlNullValueException: Data is Null. This method or property cannot be called on Null values.
             vmUsuarios.Usuarios = usuarios;
             return View("Index", vmUsuarios);
         }
-
+       
         /// <summary> Metodo utilizado para el filtrado de periodos en funcion de los criterios seleccionados</summary>
         /// <param name="vmUsuarios"></param>
         /// <returns> Devuelve una lista de los periodos que coincidan con los datos introducidos</returns>
@@ -116,10 +117,12 @@ namespace Epsilon.Controllers
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
             ViewFormAgregarUsuario vmAgregarUsuario = new ViewFormAgregarUsuario();
             vmAgregarUsuario.FechaAlta = DateTime.Now;
+            vmAgregarUsuario.EstadoUsuario = new SelectList(_gestionUsuarios.Context.EstadosUsuario.ToList(), nameof(EstadosUsuario.IdEstadoUsuario), nameof(EstadosUsuario.EstadoUsuario));
             //vmAgregarUsuario.TurnoDeTrabajo = new SelectList(_gestionUsuarios.Context.Usuarios.ToList(), nameof(Usuario.IdUsuario), nameof(Usuario.TurnoDeTrabajo));
             string data = await _razorRenderService.ToStringAsync("FormAddUser", vmAgregarUsuario);
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
             return new JsonResult(jsonResponse);
+         
         }
 
         /// <summary>

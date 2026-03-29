@@ -37,18 +37,33 @@
             { title: 'Otro evento', start: '2026-04-12' },
             {
                 title: 'Reunión 1 😎',
-                start: '2026-04-15T10:00:00',
-                end: '2026-04-15T11:30:00'
+                start: '2026-04-01T10:00:00',
+                end: '2026-04-01T11:30:00',
+                color: 'yellow',
+                background:'blue'
             },
             {
                 title: 'Reunión 2 😎',
-                start: '2026-04-18T18:00:00',
-                end: '2026-04-18T18:30:00'
+                start: '2026-04-03T18:00:00',
+                end: '2026-04-03T18:30:00',
+                color: 'black',
             },
             {
                 title: 'Reunión 3 😎',
-                start: '2026-04-5T13:00:00',
-                end: '2026-04-15T15:30:00'
+                start: '2026-04-25T10:00:00',
+                end: '2026-04-25T11:30:00',
+                color: 'yellow',
+                background: 'blue'
+            },
+            {
+                title: 'Reunión 4 😎',
+                start: '2026-04-14T18:00:00',
+                end: '2026-04-14T18:30:00'
+            },
+            {
+                title: 'Reunión 3 😎',
+                start: '2026-04-18T13:00:00',
+                end: '2026-04-18T15:30:00'
             }
         ],
 

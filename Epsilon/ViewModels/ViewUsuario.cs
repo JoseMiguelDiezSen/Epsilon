@@ -16,6 +16,8 @@ namespace Epsilon.ViewModels
             FechaAlta = datosUsuario.FechaAlta;
             Telefono = datosUsuario.Telefono;
             FotoPerfil = datosUsuario?.FotoPerfil;
+            IdEstadoUsuario = datosUsuario.IdEstadoUsuario;
+            EstadoUsuario = datosUsuario?.EstadoUsuario; 
         }
 
         public int IdUsuario { get; set; }
@@ -30,7 +32,10 @@ namespace Epsilon.ViewModels
 
         public int Telefono { get; set; }
 
+        public int IdEstadoUsuario { get; set; }
 
+
+        public string? EstadoUsuario { get; set; }
 
 
         public byte[]? FotoPerfil { get; set; }

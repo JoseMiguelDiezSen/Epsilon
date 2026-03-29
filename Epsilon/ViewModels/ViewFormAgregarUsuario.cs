@@ -31,7 +31,16 @@ namespace Epsilon.ViewModels
 
         public bool Activo { get; set; }
 
+
+        public int IdEstadoUsuario { get; set; }
+
+
+        public SelectList? EstadoUsuario { get; set; }
+
+
         public IFormFile? FotoPerfil { get; set; }
+
+
 
         //public SelectList? TurnoDeTrabajo { get; set; }
     }

@@ -45,14 +45,27 @@
 
                 @* TURNO DE TRABAJO *@
                 <div class="mb-3">
-                    <label class="label">Turno de Trabajo</label>
+                  @*   <label class="label">Turno de Trabajo</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-list-ul"></i></span>
                         <select class="form-select" asp-for="IdUsuario">
                             <option>Opción 1</option>
                         </select>
-                    </div>
-                </div>
+                    </div> *@
+
+                                <label class="label">Estado Usuario</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-list-ul"></i></span>
+                                    <select type="text" class="form-control" asp-for="IdEstadoUsuario" asp-items="@Model.EstadoUsuario">
+                                        <option selected disabled>--Seleccione un Estado--</option>
+                                    </select>
+                                </div>
+                              </div>
+
+
+
+
+
 
                 @* ACTIVO *@
                 <div class="mb-3">
@@ -105,6 +118,18 @@
                     <div id="errorMessage" style="color: red; display: none;">Por favor, suba un fichero en formato jpg.</div>
                 </div>
 
+                <div class"mb-3">
+
+                                          
+
+
+
+
+
+                </div>
+                                       
+                                        
+
 
             </div>
         </div>
@@ -115,3 +140,4 @@
         <button id="btnCancel" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
     </div>
 </form>
+

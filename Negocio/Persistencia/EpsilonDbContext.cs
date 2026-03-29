@@ -37,7 +37,12 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Usuario>().Property(u => u.Telefono);
             modelBuilder.Entity<Usuario>().Property(u => u.Activo);
             modelBuilder.Entity<Usuario>().Property(u => u.FotoPerfil);
-            //modelBuilder.Entity<Usuario>().Property(u => u.TurnoDeTrabajo);
+            modelBuilder.Entity<Usuario>().Property(u => u.IdEstadoUsuario);
+
+            // TABLA ESTADOS USUARIOS
+            modelBuilder.Entity<EstadosUsuario>().HasKey(u => u.IdEstadoUsuario);
+            modelBuilder.Entity<EstadosUsuario>().Property(u => u.IdEstadoUsuario);
+            modelBuilder.Entity<EstadosUsuario>().Property(u => u.EstadoUsuario);
 
             //TABLA MEDICOS
             modelBuilder.Entity<Medico>().HasKey(m => m.IdMedico);
@@ -153,7 +158,9 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosUsuario>().Property(e => e.FechaAlta);
             modelBuilder.Entity<DatosUsuario>().Property(e => e.Telefono);
             modelBuilder.Entity<DatosUsuario>().Property(e => e.FotoPerfil);
-            //modelBuilder.Entity<DatosUsuario>().Property(e => e.TurnoDeTrabajo);
+            modelBuilder.Entity<DatosUsuario>().Property(e => e.IdEstadoUsuario);
+            modelBuilder.Entity<DatosUsuario>().Property(e => e.EstadoUsuario);
+
 
             #endregion
         }
@@ -162,6 +169,9 @@ namespace Negocio.Persistencia
 
         //Tabla usuarios
         public virtual DbSet<Modelos.Usuario> Usuarios { get; set; }
+
+        //Tabla usuarios
+        public virtual DbSet<Modelos.EstadosUsuario> EstadosUsuario { get; set; }
 
         //Tabla medicos
         public virtual DbSet<Modelos.Medico> Medicos { get; set; }
