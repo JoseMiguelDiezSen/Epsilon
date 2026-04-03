@@ -83,18 +83,13 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Clinica>().Property(m => m.DirectorClinica);
 
             //TABLA CITAS
-            //modelBuilder.Entity<Citas>().HasKey(m => m.IdMedico);
-            //modelBuilder.Entity<Citas>().Property(m => m.IdMedico);
-            //modelBuilder.Entity<Citas>().Property(m => m.NombreMedico);
-            //modelBuilder.Entity<Citas>().Property(m => m.DNI);
-            //modelBuilder.Entity<Citas>().Property(m => m.NumeroColegiado);
-            //modelBuilder.Entity<Citas>().Property(m => m.Especialidad);
-            //modelBuilder.Entity<Citas>().Property(m => m.Telefono);
-            //modelBuilder.Entity<Citas>().Property(m => m.EMail);
-            //modelBuilder.Entity<Citas>().Property(m => m.FechaContratacion);
-            //modelBuilder.Entity<Citas>().Property(m => m.Activo);
-            //modelBuilder.Entity<Citas>().Property(m => m.Observaviones);
-            //modelBuilder.Entity<Citas>().Property(m => m.Foto);
+            modelBuilder.Entity<Citas>().HasKey(e => e.IdCita);
+            modelBuilder.Entity<Citas>().Property(e => e.IdCita);
+            modelBuilder.Entity<Citas>().Property(e => e.IdClinica);
+            //modelBuilder.Entity<Citas>().Property(e => e.Duracion);
+            modelBuilder.Entity<Citas>().Property(e => e.IdPaciente);
+            modelBuilder.Entity<Citas>().Property(e => e.IdMedico);
+            modelBuilder.Entity<Citas>().Property(e => e.Observaciones);
 
             //TABLA AGENDA
             //modelBuilder.Entity<Medicos>().HasKey(m => m.IdMedico);
@@ -114,6 +109,7 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Tratamiento>().HasKey(m => m.IdTratamiento);
             modelBuilder.Entity<Tratamiento>().Property(m => m.IdTratamiento);
             modelBuilder.Entity<Tratamiento>().Property(m => m.NombreTratamiento);
+
             //modelBuilder.Entity<Tratamiento>().Property(m => m.Precio);
 
             //TABLA FACTURACION

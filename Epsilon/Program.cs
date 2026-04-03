@@ -50,7 +50,8 @@ builder.Services.AddScoped<IConfiguracion, Configuracion>();
 
 //builder.Services.AddScoped<IGestionFinanciera, GestionFinanciera>();
 //builder.Services.AddScoped<IGestion, GestionClinica>();
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 //
 var app = builder.Build();
@@ -63,10 +64,10 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+//app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -74,7 +75,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Login}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

@@ -3,7 +3,9 @@
 }
 
 
-<div style="border: 1px solid yellow;box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);margin-top:2%;width:100%;">
+<div class="home-hero">
+
+<div style="border: 1px solid yellow;box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);width:100%;">
 
     <div class="text-center">
         @* IMAGEN DEL INICIO *@
@@ -15,7 +17,7 @@
 
             <p style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);color:yellow;margin-bottom:110px;"> BY </p>
 
-            <div class="row">
+            <div class="row" style="height:40%;">
                 <div style="border-radius:100px;margin-bottom:20px;" class="col-md-6">
                     <img src="~/media/JMDnegro.png" alt="" height="70px" width="150px" style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);border: 1px solid yellow" />
                 </div>
@@ -28,7 +30,7 @@
     </div>
 </div>
 
-
+</div>
 <style>
 
 
@@ -38,7 +40,18 @@
         height: 100%;
     }
 
-
+    .home-hero{
+        min-height: 75vh; /* ocupa el 95% de la altura de la ventana */
+        display: flex;
+        align-items: center; /* centra verticalmente el contenido */
+        justify-content: center; /* centra horizontalmente si hace falta */
+        border: 1px solid yellow;
+        box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+     
+        width: 100%;
+        padding: 2rem; /* opcional para espacio interior */
+        box-sizing: border-box;
+    }
 
 
     body {

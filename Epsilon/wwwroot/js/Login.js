@@ -1,5 +1,19 @@
 ﻿jQuery(function () {
+    $(document).ready(function () {
+        var image = document.getElementById('themesBtn');
+        var inputFoto = document.getElementById('fotoUsuario');
 
+        if (!image || !inputFoto) return; // 🛡️ protección anti-null
+
+        var rutaFoto = "/media/defaultUserImage.jpg";
+        var fotoBase64 = inputFoto.value;
+
+        if (fotoBase64 && fotoBase64 !== "") {
+            rutaFoto = "data:image/jpeg;base64," + fotoBase64;
+        }
+
+        image.src = rutaFoto;
+    });
 
     // Se definen las reglas de validacion
     $("#LoginUsuarioForm").validate({
@@ -38,6 +52,28 @@
     //$.validator.addMethod("soloNumeros", function (value, element) {
     //    return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
     //}, "(*) Introduce solo números");
+    $(document).ready(function () {
+        // Inicializar particleground sobre el contenedor de fondo
+        $('#particles-container').particleground({
+            dotColor: '#5cbdaa',
+            lineColor: '#5cbdaa'
+        });
+
+        // Toggle password
+        $('#togglePassword').click(function () {
+            let passwordInput = $('#Password');
+            let icon = $(this).find('i');
+
+            if (passwordInput.attr('type') === 'password') {
+                passwordInput.attr('type', 'text');
+                icon.removeClass('fa-eye').addClass('fa-eye-slash');
+            } else {
+                passwordInput.attr('type', 'password');
+                icon.removeClass('fa-eye-slash').addClass('fa-eye');
+            }
+        });
+    });
+
 
     // Opción: enviar con botón
     jqPostLoginUser = () => {

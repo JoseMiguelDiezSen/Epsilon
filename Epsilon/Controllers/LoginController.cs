@@ -32,12 +32,24 @@ namespace Epsilon.Controllers
         [HttpPost]
         public JsonResult LoginUser(string nombre, string password)
         {
-            var user = _gestionUsuarios.Context.Usuarios.FirstOrDefault(u => u.Nombre == nombre && u.Password == password);
+            var user = _gestionUsuarios.Context.Usuarios
+                .FirstOrDefault(u => u.Nombre == nombre && u.Password == password);
 
             if (user != null)
             {
+                if (user.FotoPerfil != null && user.FotoPerfil.Length > 0)
+                {
+                    var fotoBase64 = Convert.ToBase64String(user.FotoPerfil);
+                    HttpContext.Session.SetString("FotoPerfil", fotoBase64);
+                }
+                else
+                {
+                    HttpContext.Session.SetString("FotoPerfil", "");
+                }
+
                 return Json(new { success = true, redirectUrl = Url.Action("Index", "Home") });
             }
+
             return Json(new { success = false, message = "Usuario o contraseña incorrectos" });
         }
     }

@@ -38,12 +38,13 @@ body {
 }
 
 .footer {
-    border-color: yellow !important;
+    max-height:40px;
+    border:1px solid yellow !important;
     position: relative; /* asegurar que no sea absolute/fixed */
     bottom: 0; /* anclado abajo */
     width: 100%; /* ocupa todo el ancho */
     white-space: normal; /* evita saltos de línea   white-space: nowrap;*/
-    line-height: 60px; /* centra verticalmente el texto dentro */
+    line-height: 40px; /* centra verticalmente el texto dentro */
     opacity: 0.5;
     box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
     background-color: lightgray;
@@ -126,7 +127,7 @@ main {
 
     .sidebar .navbar-dark .navbar-brand {
         color: black; /* texto negro */
-        background-color: gainsboro; /* fondo azul brillante */
+        background-color: blue; /* fondo azul brillante */
         font-size: 1.2rem; /* tamaño texto */
         font-weight: bold; /* negrita */
         /*   height:100%;*/
@@ -170,10 +171,11 @@ main {
     .sidebar .nav-link {
         cursor: pointer; /* Cambia el cursor al pasar sobre el link */
         padding: .25rem 1rem; /* Espaciado interno: 0.25rem arriba/abajo y 1rem izquierda/derecha */
-        background-color: #dde1e0; /* Color de fondo inicial del link */
+        background-color: white; /* Color de fondo inicial del link */
         color: #495057;
         position: relative;
         transition: transform 0.3s ease;
+        border: 1px solid blue !important;
         /*background-image: linear-gradient(to right, #e3e518 0%, #e3e518 100%);
         background-repeat: no-repeat;
         background-size: 0% 100%;*/ /* comienza sin cubrir nada */
@@ -183,21 +185,23 @@ main {
 
     /* Estilo al pasar el raton por las opciones del menu */
     .sidebar .nav-item .nav-link:hover {
-        box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto de elevación */
+        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.25); /* Sombra para dar efecto de elevación */
         text-shadow: 1px 1px 3px rgba(0,0,0,0.25); /* Sombra ligera al texto */
         background-size: 100% 100%; /* se expande de izquierda a derecha */
-        color: #495057; /* mantiene el texto negro también en hover */
-        background-color: #f5f5dc; /* Fondo claro al pasar el ratón */
-        transform: translateX(10px); /* aproximadamente 1cm en pantalla estándar */
+        color: white; /* mantiene el texto negro también en hover */
+        background-color: black; /* Fondo claro al pasar el ratón */
+
+        transform: translate(10px,4px); /* aproximadamente 1cm en pantalla estándar */
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
     }
 
     /* Titulos del menu (Al estar en la pagina) */
     .sidebar .nav-link.active {
         content: "\f00c";
-        background-color: lightslategray !important;
+        background-color: cornflowerblue !important;
         color: white !important;
         font-weight: 600 !important;
-        border: 1px solid yellow !important;
+        border: 1px solid white !important;
         /*transform: translateX(10px);*/ /* aproximadamente 1cm en pantalla estándar */
     }
     /* Estilo del ultimo item del grupo */
@@ -296,7 +300,6 @@ main {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-
 
 /* === Media Queries === */
 @media (min-width: 700px) {

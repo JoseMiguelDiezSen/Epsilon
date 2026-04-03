@@ -11,6 +11,62 @@
 
 
 
+
+
+@* 
+Grafico de  *@
+<div style="border:1px solid gainsboro;padding:5px;">
+<canvas id="myChart" width="1200" height="400"></canvas>
+</div>
+
+@* Button - Tabs *@
+<div class="container mt-12" id="container" >
+
+    <ul class="nav nav-tabs" id="miTab" role="tablist">
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tabOdontologiaGeneral-tab" data-bs-toggle="tab" data-bs-target="#tabOdontologiaGeneral" type="button" role="tab" aria-controls="tabOdontologiaGeneral" aria-selected="true"><span class="fa fa-graduation-cap pull-left" style="margin-top:5px;"></span> Facturacion </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tabOdontologiaPediatrica-tab" data-bs-toggle="tab" data-bs-target="#tabOdontologiaPediatrica" type="button" role="tab" aria-controls="tabOdontologiaPediatrica" aria-selected="true"><span class="fa fa-graduation-cap pull-left" style="margin-top:5px;"></span> Ortodoncia Pediadrica </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tabEndodoncia-tab" data-bs-toggle="tab" data-bs-target="#tabEndodoncia" type="button" role="tab" aria-controls="tabEndodoncia" aria-selected="false"><span class="fa fa-user" style="margin-top:5px;"></span> Endodoncia </button>
+        </li>
+    </ul>
+
+    @* Content - Tabs *@
+    <div class="tab-content" id="myTabContent" style="border:1px solid gainsboro;border-right:1px solid;border-left:1px solid;border-bottom:1px solid;border-top:none;">
+
+        <div class="tab-pane fade show active" id="tabOdontologiaGeneral" role="tabpanel" aria-labelledby="tab1-tab">
+
+            <canvas id="myChart1" width="800" height="400"></canvas>
+        
+        </div>
+
+        <div class="tab-pane fade fade" id="tabOdontologiaPediatrica" role="tabpanel" aria-labelledby="tab2-tab">
+
+            <canvas id="myChart2" width="800" height="400"></canvas>
+
+        </div>
+
+        <div class="tab-pane fade" id="tabEndodoncia" role="tabpanel" aria-labelledby="tab3-tab">
+
+            <canvas id="myChart3" width="800" height="400"></canvas>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <script src="~/js/charts/chart.umd.min.js"></script>
+    <script src="~/js/charts/chart.min.js"></script>
+    <script src="~/js/Estadisticas.js" asp-append-version="true"></script>
+}
+
 @section Styles {
-    <link href="~/css/Agenda.css" rel="stylesheet" />
+    <link href="~/css/Estadisticas.css" rel="stylesheet" />
 }

@@ -10,8 +10,17 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-utilities.min.css" />
     <link rel="stylesheet" href="~/css/bootstrap-float-label.css" />
     <!-- Referencia a FontAwesome -->
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
-    <link rel="stylesheet" href="~/css/siteLateral.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+
+
+        <script src="~/js/switch/jquery.js"></script>
+        <link rel="stylesheet" href="~/css/siteLateral.css" />
+        
+        <link href="~/js/switch/themeswitch.css" rel="stylesheet" />
+
+        <script src="~/js/modallateral/theamswitcher.js"></script>
+
+
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -67,7 +76,7 @@
 
                             @* Item 2: Citas *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Citas") ? "active" : "")" asp-controller="Citas">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Citas") ? "active" : "")" asp-controller="Citas">
                                     <i class="fa-solid fa-calendar-day"></i> Citas
                                 </a>
                             </div>
@@ -113,7 +122,7 @@
 
                             @* Item 4: Tratamientos *@
                             <div class="nav-item px-1" style="margin-left:-15px">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "active" : "")" asp-controller="/Tratamientos">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "active" : "")" asp-controller="Tratamientos">
                                     <i class="fa-solid fa-file-medical"></i> Tratamientos
                                 </a>
                             </div>
@@ -199,7 +208,7 @@
                     </div>
                     @* Item 3: Cerrar Sesion *@
                     <div class="nav-item px-1" style="margin-top:3px;">
-                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Login") ? "active" : "")" asp-controller="/Login" asp-area="" asp-controller="/Login" style="margin-left:-15px;background-color:orangered;color:gainsboro">
+                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Login") ? "active" : "")" asp-controller="/Login" style="margin-left:-15px;background-color:orangered;color:gainsboro">
                             <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesion
                         </a>
                     </div>
@@ -209,7 +218,7 @@
 
         <main role="main">
             <!--<div class="top-row"><h1>@ViewData["Title"]</h1></div>-->
-            <article class="content">
+            <article class="content" style="height:45%;">
                 <div class="text-center">
                     <h1>
                         <font size="6" color="navy">@ViewData["Area"]</font>
@@ -223,7 +232,7 @@
 
     <footer class="footer">
         <div class="container text-center">
-            <p style="text-align: center; margin-top: 5px; text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);">
+            <p style="text-align: center;">
                 © Copyright 2026 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
                 are trademarks of <a asp-area="" asp-page="/Login"> The JMD Corporation"</a>. All rights Reserved.
             </p>
@@ -277,6 +286,106 @@
         </div>
     </div>
 
+
+
+
+
+
+
+
+        <div id="secectionBox">
+            
+            <div id="themeContainer" style="border:1px solid yellow;">
+                
+                <!--Boton para cerrar el panel ¡¡¡AQUI ES LA FLECHA PERO MIRA NO HAY NADA!!!! -->
+                @* hideme es el nombre de la flecha, de la imagen de la flecha *@
+                
+                <div class="row">
+
+               @*  <div id="hideme" style="background:url('/media/hideme.png') no-repeat left center;height:40px;margin-bottom:20px;">CERRAR</div> *@
+                    <div id="hideme" class="themeTitle" style="cursor: pointer;"><span style="margin-left:20px;font-size:14px;font-family:sans-serif;">  CERRAR </span> </div>
+                </div>
+                <!-- Seccion (1) : DATOS USUARIO -->
+                <div class="themeName" style="margin-bottom:15px;">&#11088; JMD SOFTWARE &#11088;</div>
+               
+                <!-- Video -->
+                <video style="width:100%;height:99px;background-position: center;" autoplay muted loop>
+                    <source src="~/media/videos/Motion.mp4" type="video/mp4" />
+                </video>
+                     
+
+                <!-- Datos del usuario -->
+                <div style="margin-top:-95px; line-height: 1em;">
+                    <asp:Label runat="server" ID="lblNombre" Font-Size="9pt"></asp:Label><br />
+                    <asp:Label runat="server" ID="lblEmail" Font-Size="9pt"></asp:Label><br />
+                    <asp:Label runat="server" ID="lblTelefono" Font-Size="9pt"></asp:Label><br />
+                    <asp:Label runat="server" ID="lblFechaAlta" Font-Size="9pt"></asp:Label><br />
+                    <asp:Label runat="server" ID="lblRutaFoto" Font-Size="9pt"></asp:Label>
+                    <br />
+                </div>
+              
+
+                <br />
+
+                <!-- Seccion (2) : MENU OPCIONES -->
+                <div class="themeName" style="margin-bottom:10px;">&#128295; AJUSTES &#128295;</div>
+
+                <!-- Opciones Panel Lateral -->
+                <ul style="text-align:left;margin-left:5px;font-size:9pt;list-style-type: square;color:yellow;">
+                    <li><a href="AjustesUsuario.aspx">Mi Perfil</a></li>
+                    <li><a href="Usuarios.aspx">Usuarios</a></li>
+                    <li><a href="Pruebas.aspx">Pruebas JS</a></li>
+                    <li><a href="PruebasjQuery.aspx">Pruebas jQuery</a></li>
+                    <li><a href="Bootstrap.aspx">Bootstrap</a></li>
+                    <!--<li><a href="EmojiIcons.aspx">Emojis</a></li>-->
+                    <li><a href="ControlesEspeciales.aspx">Controles Especiales</a></li>
+                    <li><a href="Login.aspx" onclick="CerrarSesion">Cerrar Sesion</a></li>
+                </ul>
+              
+                <!-- Seccion (3) : PERSONALIZACION -->
+                <div class="themeName">PERSONALIZACION</div>
+
+                <p style="font-size: 9pt; font-family: arial; color: grey;">
+                    Selecciona desde aquí el color de esta web a tu gusto.
+                </p>
+
+                <!-- Desplegable de seleccion del color -->
+                <select onchange="changeTheme()" id="option" style="border-radius: 5px; margin-bottom: 10px; width: 80%; background-color: teal;">
+                    <option>WHITE</option>
+                    <option selected="selected">GREY</option>
+                    <option>ORANGE</option>
+                    <option>SKYBLUE</option>
+                    <option>YELLOW</option>
+                    <option>RED</option>
+                    <option>GOLD</option>
+                    <option>PINK</option>
+                    <option>GREEN</option>
+                </select>
+
+                <br />
+                <br />
+             
+            </div>
+            <!--Fin 'secectionBox'-->
+        </div>
+
+        <img id="themesBtn" style="height:80px;border-top: 1px solid yellow; border-left: 1px solid yellow; border-bottom: 1px solid yellow;position: fixed;top: 58px;right: 0;width: 80px;background-size: cover;cursor: pointer;" class="imgUserClass"/>
+
+
+
+
+@*         
+
+        <input type="hidden" id="fotoUsuario" value="@Context.Session.GetString("FotoPerfil")" /> *@
+
+
+
+
+
+
+
+
+
     @RenderSection("Modals", required: false)
 
 
@@ -289,8 +398,33 @@
     <script src="~/js/site.js"></script>
     @*  <script src="~/js/plugins/PopupLoader.js" asp-append-version="true"></script> *@
     @* <script src="~/js/plugins/Draggable.js"></script>*@ 
-
-
+    
+    
     @RenderSection("Scripts", required: false)
+
+        <input type="hidden" id="fotoUsuario" value="@Context.Session.GetString("FotoPerfil")" />
+        <img id="themesBtn" ... />
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var image = document.getElementById('themesBtn');
+            var inputFoto = document.getElementById('fotoUsuario');
+
+            if (!image || !inputFoto) {
+            console.warn("themesBtn o fotoUsuario no encontrados");
+            return;
+            }
+
+            var rutaFoto = "/media/defaultUserImage.jpg";
+            var fotoBase64 = inputFoto.value;
+
+            if (fotoBase64 && fotoBase64 !== "") {
+            rutaFoto = "data:image/jpeg;base64," + fotoBase64;
+            }
+
+            image.src = rutaFoto;
+            });
+        </script>
 </body>
 </html>
+

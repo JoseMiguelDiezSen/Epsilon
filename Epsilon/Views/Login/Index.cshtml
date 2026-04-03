@@ -1,120 +1,96 @@
 ﻿@using Epsilon.ViewModels
 @model ViewFormAgregarUsuario
+
 @{
     ViewData["Title"] = "Login";
-}
-@{
-    Layout = null;  // <- Esto evita que cargue _Layout.cshtml
+    Layout = null; // No usar _Layout.cshtml
 }
 
-<title>@ViewData["Title"] - Epsilon</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="~/css/site.css" rel="stylesheet" />
-<link href="~/css/Index.css" rel="stylesheet" />
-<link href="~/css/Login.css" rel="stylesheet" />
-<link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Epsilon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/js/Login.js"></script>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-
-
-<form id="LoginUsuarioForm" method="post" asp-action="LoginUser" onsubmit="return jqPostLoginUser(this);">
-    <h3 style="color:white;">EPSILON</h3><div class="container d-flex justify-content-center align-items-center vh-95">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/Index.css" rel="stylesheet" />
+    <link href="~/css/Login.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
   
-    <div class="card shadow-lg p-4" id="loginCard">
+</head>
+<body>
+    <!-- Contenedor de partículas -->
+    <div id="particles-container"></div>
 
-        @* Logotipo *@
-        <div class="text-center">
-            <a href="#" target="_blank"><img id="logoLogin" src="~/media/blanco.gris2.png" alt="JMD" /></a>
-        </div>
-
-        @* Nombre *@
-        <div class="mb-3">
-            <div class="input-group" id="inputNombre">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                <input type="text" class="form-control" id="Nombre" asp-for="Nombre" placeholder="Usuario" value="jsm" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
-            </div>
-        </div>
-
-        @* Password *@
-        <div class="mb-3">
-             <div class="input-group" id="inputPassword">
-                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                <input type="password" id="Password" asp-for="Password" class="form-control" placeholder="Ingrese su contraseña" value="1234" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
-                        
-                <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border:1px solid gainsboro;height:38px;">
-                    <i class="fas fa-eye" style="margin-bottom:3px;"></i> <!-- Ícono de ver -->
-                </button>
-             </div>
-        </div>
-
-
-        <div class="d-flex justify-content-between">
-
-            @* Aceptar *@
-            <button id="btnAceptar" class="btn btn-outline-light w-50 me-2" onclick="jqPostLoginUser()">
-                 <i class="fa fa-check" aria-hidden="true"></i> Aceptar
-            </button>
-
-            @* Cancelar *@
-            <button id="btnCancelar" class="btn btn-outline-light w-50">
-                 <i class="fa fa-times" aria-hidden="true"></i> Cancelar
-            </button>
-        
-        </div>
-
-         
-                <div id="g_id_onload"
-                     data-client_id="TU_CLIENT_ID.apps.googleusercontent.com"
-                     data-context="signin"
-                     data-ux_mode="popup"
-                     data-login_uri="https://localhost:7001/api/auth/google"
-                     data-auto_prompt="false" style="margin-top:10px;">
+    <!-- Login form -->
+    <div class="login-wrapper">
+        <form id="LoginUsuarioForm" method="post" asp-action="LoginUser" onsubmit="return jqPostLoginUser(this);">
+            <div class="card shadow-lg p-4" id="loginCard">
+                <!-- Logotipo -->
+                <div class="text-center">
+                    <a href="#" target="_blank"><img id="logoLogin" src="~/media/blanco.gris2.png" alt="JMD" /></a>
                 </div>
 
-                <div class="g_id_signin"
-                     data-type="standard"
-                     data-shape="rectangular"
-                     data-theme="outline"
-                     data-text="signin_with"
-                     data-size="large"
-                     data-logo_alignment="left">
-                </div>
+                <!-- Nombre -->
+                <div class="mb-3">
+                    <div class="input-group" id="inputNombre">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="Nombre" asp-for="Nombre" placeholder="Usuario" value="Jose Miguel Diez" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
+                        </div>
+                    </div>
 
-                <div id="mensaje" class="text-danger mt-3 text-center"></div>
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <div class="input-group" id="inputPassword">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" id="Password" asp-for="Password" class="form-control" placeholder="Ingrese su contraseña" value="123456" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
+
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border:1px solid gainsboro;height:38px;">
+                                    <i class="fas fa-eye" style="margin-bottom:3px;"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-between">
+                            <button id="btnAceptar" class="btn btn-outline-light w-50 me-2" onclick="jqPostLoginUser()">
+                                <i class="fa fa-check" aria-hidden="true"></i> Aceptar
+                            </button>
+                            <button id="btnCancelar" class="btn btn-outline-light w-50">
+                                <i class="fa fa-times" aria-hidden="true"></i> Cancelar
+                            </button>
+                        </div>
+
+                        <!--Autenticacion de Google -->
+                        <div id="g_id_onload"
+                             data-client_id="TU_CLIENT_ID.apps.googleusercontent.com" data-context="signin" data-ux_mode="popup"
+                             data-login_uri="https://localhost:7001/api/auth/google" data-auto_prompt="false" style="margin-top:10px;">
+                        </div>
+
+                        <div class="g_id_signin" data-type="standard" data-shape="rectangular"
+                             data-theme="outline" data-text="signin_with" data-size="large" 
+                             data-logo_alignment="left">
+                        </div>
+
+                        <!-- Mensaje -->
+                        <div id="mensaje" class="text-danger mt-3 text-center"></div>
+                    </div>
+                </form>
             </div>
-        </div>
-
-        <div id="mensaje" style="color:red; margin-top:10px;"></div>
-    </form>
-
-
-    @section Styles {
-        <link href="~/css/.css" rel="stylesheet" />
-    }
-
-    @section Scripts {
-        <script src="~/js/Login.js" asp-append-version="true"></script>
-    }
-
-    <!-- Script : Ver / Ocultar pass -->
-    <script>
-        document.getElementById("togglePassword").addEventListener("click", function () {
-        let passwordInput = document.getElementById("Password");
-        let icon = this.querySelector("i");
-
-        // Alternar entre 'password' y 'text'
-        if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        icon.classList.replace("fa-eye", "fa-eye-slash"); // Ícono de ocultar
-        } else {
-        passwordInput.type = "password";
-        icon.classList.replace("fa-eye-slash", "fa-eye"); // Ícono de mostrar
-        }
-        });
-    </script>
+            @* Scripts --> Deben ser incluidos en esta parte *@
+            @* Script de jQuery *@
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            @* Script de Bootstrap *@
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            @* Script de jQuery Validation *@
+            <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+            @* Script para autenticacion Google *@
+            <script src="https://accounts.google.com/gsi/client" async defer></script>
+            @* Script para partículas *@
+            <script src="~/js/particulas/jquery.particleground.min.js"></script>
+            @* Script de la pantalla *@
+            <script src="~/js/Login.js" asp-append-version="true"></script>
+        </body>         
+    </html>

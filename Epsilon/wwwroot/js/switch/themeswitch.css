@@ -6,7 +6,11 @@
     #secectionBox {background: #262626;width: 193px;position: fixed;right: -999px;top: 58px;color: white;text-align: center;}
 
     /* Estilos del Div de cierre del panel lateral fijo */
-    #hideme{background:url(../../../Images/Buttons/hideme.png) no-repeat right 0; padding-right:48px }
+#hideme {
+    background: url('../../media/hideme.png') no-repeat right 0;
+    padding-right: 148px;
+    margin-right:20px;
+}
 
     /* Estilos del Div de cierre del panel lateral fijo (Seleccionado)*/
     #hideme:hover{background-position:right -44px;color: orangered; }

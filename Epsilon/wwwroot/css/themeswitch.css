@@ -1,0 +1,69 @@
+
+
+    /* Imagen lateral fija (NEGRO) */
+    
+    /* Estilos del panel lateral fijo */
+    #secectionBox {background: #262626;width: 193px;position: fixed;right: -999px;top: 58px;color: white;text-align: center;}
+
+    /* Estilos del Div de cierre del panel lateral fijo */
+    #hideme{background:url(../../../Images/Buttons/hideme.png) no-repeat right 0; padding-right:48px }
+
+    /* Estilos del Div de cierre del panel lateral fijo (Seleccionado)*/
+    #hideme:hover{background-position:right -44px;color: orangered; }
+
+
+    #themeContainer{-webkit-box-shadow: 0 2px 9px 2px rgba(0,0,0,0.14);-moz-box-shadow: 0 2px 9px 2px rgba(0,0,0,0.14);box-shadow: 0 2px 9px 2px rgba(0,0,0,0.14);border:1px solid rgba(23,24,26,0.15);-webkit-border-top-left-radius: 2px;-webkit-border-bottom-left-radius: 2px;-moz-border-radius-topleft: 2px;-moz-border-radius-bottomleft: 2px;border-top-left-radius: 2px;border-bottom-left-radius: 2px;}
+
+    /*Texto boton Cerrar*/
+    .themeTitle{font-size:15px;height:44px;line-height:44px;text-align:center;color: white;background-color: #43434D;background-image: -webkit-linear-gradient(top, #43434D, #1D1C21);background-image: -moz-linear-gradient(top, #43434D, #1D1C21);background-image: -o-linear-gradient(top, #43434D, #1D1C21);background-image: -ms-linear-gradient(top, #43434D, #1D1C21);background-image: linear-gradient(top, #43434D, #1D1C21);border-top: 1px solid #60606F;}
+
+    /* Estilo de los titulos */
+    .themeName{font-size:12px;height:41px;line-height:41px;text-align:center;border-top:1px solid #444;border-bottom:1px solid #444;padding:0 8px}
+
+
+    /*Estilo de las imagenes del panel lateral fijo*/
+    #secectionBox .images {width: 165px;border-bottom: 0;padding-bottom: 10px;position: relative;z-index: 1000000;background: #333;}
+
+    #secectionBox .images img{border: 2px solid #60606F;width:25px;height:24px;margin-right:7px;margin-bottom:7px;z-index:1000;}
+
+    #secectionBox .images img.active,#secectionBox .images img:hover {border: 2px solid #D33800;}
+
+
+
+
+
+
+
+
+	/* ESTILOS -> ANCHO DE 240PX A 500PX (VERDE) */
+	@media only screen and (min-width: 240px) and (max-width: 500px) {
+    
+    
+    /* Imagen lateral fija (VERDE) */
+    #themesBtn {height: 60px;background: url(../../images/yo.jpg) no-repeat 0 0;position: fixed;top: 58px;right: 0;width: 60px;background-size: cover;cursor: pointer;}
+
+    /* Estilos del panel lateral fijo (VERDE) */
+    #secectionBox {background: #262626;width: 193px;position: fixed;right: -999px;top: 58px;color: white;text-align: center;
+}
+
+   /* Estilo de los titulos */
+   .themeName{font-size:10px;height:41px;line-height:41px;text-align:center;border-top:1px solid #444;border-bottom:1px solid #444;padding:0 6px}
+
+
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    }
