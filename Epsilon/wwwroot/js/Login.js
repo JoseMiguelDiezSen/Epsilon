@@ -24,7 +24,7 @@
         },
         messages: {
             Nombre: { required: "(*) Debe introducir un nombre" },
-            Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 4 caracteres." },         
+            Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 4 caracteres." },
         },
 
         errorClass: "is-invalid",
@@ -42,39 +42,50 @@
         }
     });
 
-    // Regla de validacion personalizada pare el Email
-    //$.validator.addMethod("gmailValido", function (value, element) {
-    //    // Nombre de usuario: 6-20 caracteres, letras, números, . _ -
-    //    return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
-    //}, "Introduce un correo válido de Gmail");
-
-    //// Validacion personalizada telefono
-    //$.validator.addMethod("soloNumeros", function (value, element) {
-    //    return this.optional(element) || /^[0-9\s\-()+]+$/.test(value);
-    //}, "(*) Introduce solo números");
-    $(document).ready(function () {
-        // Inicializar particleground sobre el contenedor de fondo
-        $('#particles-container').particleground({
-            dotColor: '#5cbdaa',
-            lineColor: '#5cbdaa'
-        });
-
-        // Toggle password
-        $('#togglePassword').click(function () {
-            let passwordInput = $('#Password');
-            let icon = $(this).find('i');
-
-            if (passwordInput.attr('type') === 'password') {
-                passwordInput.attr('type', 'text');
-                icon.removeClass('fa-eye').addClass('fa-eye-slash');
-            } else {
-                passwordInput.attr('type', 'password');
-                icon.removeClass('fa-eye-slash').addClass('fa-eye');
-            }
-        });
+    // Inicializar particleground sobre el contenedor de fondo
+    $('#particles-container').particleground({
+        dotColor: '#5cbdaa',
+        lineColor: '#5cbdaa'
     });
 
+    // Toggle password
+    $('#togglePassword').click(function () {
+        let passwordInput = $('#Password');
+        let icon = $(this).find('i');
 
+        if (passwordInput.attr('type') === 'password') {
+            passwordInput.attr('type', 'text');
+            icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            passwordInput.attr('type', 'password');
+            icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Callback de Google Login
+    //window.handleGoogleLogin = (response) => {
+    //    const token = response.credential;
+
+    //    $.ajax({
+    //        url: '/Login/LoginGoogle',
+    //        type: 'POST',
+    //        data: { token: token },
+    //        success: function (res) {
+    //            if (res.success) {
+    //                window.location.href = res.redirectUrl;
+    //            } else {
+    //                $("#mensaje").text(res.message);
+    //            }
+    //        },
+    //        error: function () {
+    //            $("#mensaje").text("Error en login con Google");
+    //        }
+    //    });
+    //};
+
+   
     // Opción: enviar con botón
     jqPostLoginUser = () => {
         if ($("#LoginUsuarioForm").valid()) {
@@ -98,7 +109,6 @@
             });
         }
 
-
         // Opción: enviar con Enter
         $("#loginForm input").keypress(function (e) {
             if (e.which == 13) {
@@ -106,4 +116,7 @@
             }
         });
     }
+
+
+
 });

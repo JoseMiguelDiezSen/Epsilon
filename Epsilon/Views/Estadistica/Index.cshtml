@@ -6,57 +6,70 @@
 }
 
 <hr>
-<h4 class="text-center"><span class="fa fa-calendar-days"></span> Estadistica <span class="fa fa-calendar-days"></span></h4>
+<h4 class="text-center"><span class="fa fa-pie-chart"></span> Estadistica <span class="fa fa-pie-chart"></span></h4>
 <hr>
 
 
-
-
-
-@* 
-Grafico de  *@
-<div style="border:1px solid gainsboro;padding:5px;">
-<canvas id="myChart" width="1200" height="400"></canvas>
+<div class="row"> 
+<div class="col-md-3">
+    <label>Tipo de Estadistica</label>
+    <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+        <option value="" selected disabled>(Seleccione una opcion)</option>
+        <option value="2">Facturacion</option>
+        <option value="3">Pacientes</option>
+        <option value="4">Medicos</option>
+        <option value="4">Tratamientos</option>
+    </select>
 </div>
 
-@* Button - Tabs *@
-<div class="container mt-12" id="container" >
 
-    <ul class="nav nav-tabs" id="miTab" role="tablist">
 
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="tabOdontologiaGeneral-tab" data-bs-toggle="tab" data-bs-target="#tabOdontologiaGeneral" type="button" role="tab" aria-controls="tabOdontologiaGeneral" aria-selected="true"><span class="fa fa-graduation-cap pull-left" style="margin-top:5px;"></span> Facturacion </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tabOdontologiaPediatrica-tab" data-bs-toggle="tab" data-bs-target="#tabOdontologiaPediatrica" type="button" role="tab" aria-controls="tabOdontologiaPediatrica" aria-selected="true"><span class="fa fa-graduation-cap pull-left" style="margin-top:5px;"></span> Ortodoncia Pediadrica </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tabEndodoncia-tab" data-bs-toggle="tab" data-bs-target="#tabEndodoncia" type="button" role="tab" aria-controls="tabEndodoncia" aria-selected="false"><span class="fa fa-user" style="margin-top:5px;"></span> Endodoncia </button>
-        </li>
-    </ul>
-
-    @* Content - Tabs *@
-    <div class="tab-content" id="myTabContent" style="border:1px solid gainsboro;border-right:1px solid;border-left:1px solid;border-bottom:1px solid;border-top:none;">
-
-        <div class="tab-pane fade show active" id="tabOdontologiaGeneral" role="tabpanel" aria-labelledby="tab1-tab">
-
-            <canvas id="myChart1" width="800" height="400"></canvas>
-        
-        </div>
-
-        <div class="tab-pane fade fade" id="tabOdontologiaPediatrica" role="tabpanel" aria-labelledby="tab2-tab">
-
-            <canvas id="myChart2" width="800" height="400"></canvas>
-
-        </div>
-
-        <div class="tab-pane fade" id="tabEndodoncia" role="tabpanel" aria-labelledby="tab3-tab">
-
-            <canvas id="myChart3" width="800" height="400"></canvas>
-
-        </div>
-    </div>
+<div class="col-md-3">
+        <label>Tipo de Animacion</label>
+    <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+        <option value="" selected disabled>Seleccione Luz</option>
+        <option value="2">Opcion 1</option>
+        <option value="3">Opcion 2</option>
+        <option value="4">Opcion 3</option>
+    </select>
 </div>
+
+
+<div class="col-md-3">
+        <label>Tipo de Malla</label>
+    <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+        <option value="" selected disabled>Seleccione Luz</option>
+        <option value="2">Vertices</option>
+        <option value="3">Triangulos</option>
+    </select>
+</div>
+
+
+<div class="col-md-3">
+        <label>Tipo de Animacion</label>
+    <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+        <option value="" selected disabled>Seleccione Luz</option>
+        <option value="2">Animacion 1</option>
+        <option value="3">Animacion 2</option>
+        <option value="4">Animacion 3</option>
+    </select>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+@* Grafico general fuera de pestaña para probar su comportamiento y maquetacion fuera  *@
+<div style="border:1px solid gainsboro;padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-bottom:30px;">
+    <canvas id="myChart" width="1200" height="400"></canvas>
+</div>
+
 
 
 

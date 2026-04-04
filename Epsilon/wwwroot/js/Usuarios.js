@@ -625,3 +625,12 @@
     });
 
 });
+
+
+// Added safe binding of navigator.permissions.query to avoid Illegal invocation
+(function(){
+  if (typeof navigator !== 'undefined' && navigator.permissions && typeof navigator.permissions.query === 'function') {
+    // ensure we always call with correct receiver
+    window.permissionsQuery = navigator.permissions.query.bind(navigator.permissions);
+  }
+})();

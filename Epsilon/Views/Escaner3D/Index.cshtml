@@ -1,0 +1,399 @@
+﻿@model PacientesViewModel
+
+@{
+    ViewData["Title"] = "Escaner 3D";
+}
+@{
+    // await Html.RenderPartialAsync("_MensajeOperaciones");
+}
+
+<hr>
+<h4 class="text-center"><span class="fa-solid fa-circle-radiation"></span> Radiologia 3D<span class="fa-solid fa-circle-radiation"></span></h4>
+<hr>
+
+<div class="row">
+
+    <div class="col-md-10" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+
+        @* Modelo Honda CRX *@
+        <model-viewer style="height:510px;width:100%;"
+                      alt="Honda Crx un ataud sobre ruedas. Admirado por los apasionados del riesgo extremo, la aceleracion retardada que tanta gente mato. Buen vehiculo"
+                      src="media/3d/Calavera Humana.glb"
+                      camera-controls
+                      enable-pan
+                      auto-rotate
+                      bounds="tight"
+                      shadow-intensity="1"
+            @* poster="poster.webp" *@
+                      ar ar-modes="webxr scene-viewer quick-look" autoplay exposure="0.60"
+                      environment-image="media/3d/urban_street_02_4k.hdr"
+                      skybox-image="media/3d/urban_street_02_4k.hdr">
+
+
+            @* La progressBar no funciona aun, script comentado *@
+            <div class="progress-bar hide" slot="progress-bar">
+                <div class="update-bar"></div>
+            </div>
+
+            <!-- EN PC NADA -->
+            <div id="ar-prompt">
+                <img src="media/3d/ar_hand_prompt.png">
+            </div>
+
+            <br />
+            <div>
+                <!-- EN PC NADA -->
+                <button id="ar-button" slot="ar-button" style="background-color:yellow;top:500px;margin-top:-30px;" src="media/3d/ar_icon.png">View in your space </button>
+            </div>
+        </model-viewer>
+
+    </div>
+
+    <div class="col-md-2" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+
+        <div style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);height:100px;" class="text-center">
+        
+       @*      <div class="text-center div-con-gif">
+                <img src="~/media/3d.png" height="50" width="50" style="margin-top:20px" class="icono-3d"/>
+            </div> *@
+
+            <div class="contenedor-video text-center">
+
+    <video autoplay loop muted playsinline class="video-bg">
+        <source src="~/media/Videos/Tunnel - 40927.mp4" type="video/mp4">
+    </video>
+
+    <img src="~/media/3d.png" class="icono-3d" height="50" width="50"/>
+
+</div>
+        </div>
+
+
+      
+
+
+        <label>Tipo de Objeto</label>
+        
+        <div class="col-md-12">
+            <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+                <option value="" selected disabled>Seleccione modelo 3D</option>
+                <option value="2">Opcion 1</option>
+                <option value="3">Opcion 2</option>
+                <option value="4">Opcion 3</option>
+            </select>
+        </div>
+
+
+        <label>Entorno e Iluminacion</label>
+        <div class="col-md-12">
+            <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+                <option value="" selected disabled>Seleccione Luz</option>
+                <option value="2">Opcion 1</option>
+                <option value="3">Opcion 2</option>
+                <option value="4">Opcion 3</option>
+            </select>
+        </div>
+
+        <label>Tipo de Malla</label>
+        <div class="col-md-12">
+            <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+                <option value="" selected disabled>Seleccione Luz</option>
+                <option value="2">Vertices</option>
+                <option value="3">Triangulos</option>
+            </select>
+        </div>
+
+        <label>Tipo de Animacion</label>
+        <div class="col-md-12">
+            <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+                <option value="" selected disabled>Seleccione Luz</option>
+                <option value="2">Animacion 1</option>
+                <option value="3">Animacion 2</option>
+                <option value="4">Animacion 3</option>
+            </select>
+        </div>
+
+        <label>Punto de observacion</label>
+        <div class="col-md-12">
+            <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+                <option value="" selected disabled>Punto de observacion</option>
+                <option value="2">Frente</option>
+                <option value="3">Atras</option>
+                <option value="4">Arriba</option>
+                <option value="2">Abajo</option>
+                <option value="3">Derecha</option>
+                <option value="4">Izquierda</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+
+
+@* Grid de modelos 3D *@
+<div class="col-md-12" style="border:1px solid black">
+ 
+    @* Fila 1 *@
+    <div class="row text-center">
+      
+        <div class="col-md-3" style="border:1px solid blue">
+            
+            <img></>
+         
+            <button></button>
+         
+        </div>
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 2</div>
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 3</div>
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 4</div>
+
+
+    </div>
+
+    @* Fila 2 *@
+    <div class="row">
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 6</div>
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 7</div>
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 8</div>
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 9</div>
+
+    </div>
+
+    @* Fila 3 *@
+    <div class="row">
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 6</div>
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 7</div>
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 8</div>
+
+        <div class="col-md-3" style="border:1px solid blue">Modelo 9</div>
+
+    </div>
+
+</div>
+
+
+@* PRUEBA FUTURA *@
+@*  <img src="Images/3dModels/SpecGlossVsMetalRough.PNG" style="width: 90%; height: 200px" />
+    <br />
+    <br />
+
+    <div>
+        <button onclick="return viewHomdaCrx3d()" /> View Honda CRX 3D Model</button>
+    </div>
+
+    <br />
+
+
+
+
+ *@
+
+@* Se pretende crear funciones que abran el modelo 3d en un modal. En una primera version no. pero a futuro se pretende crear una imagen pequeña png a modo de previsualizacion con un boton debajo de que ponga "ver en 3d" y al pulsar el boton se abra el modelo 3d en un modal. *@
+@* Script desactualizado traido de .Net *@
+<script>
+    function viewHondaCrx3d() {
+
+        $(".modal_dialog").dialog({
+
+            /* Aqui ira el nombre del producto en cuestion */
+            title: "3D MODEL VIEW",
+            buttons: {
+
+                CERRAR: function () {
+
+                    $(this).dialog('close');
+                }
+            },
+
+            maxWidth: 700,
+            maxHeight: 660,
+            width: 700,
+            height: 660,
+            modal: true,
+            position: { my: "center top", at: "top + 200" },
+            resizable: false
+        });
+        return false;
+    }
+</script>
+
+
+@*  NO RECUERDO PARA QUE ERA TODO ESTO DE LA PROGRESSBAR *@
+@*  <script>
+
+                                 // Handles loading the events for <model-viewer>'s slotted progress bar
+                                 const onProgress = (event) => {
+                                     const progressBar = event.target.querySelector('.progress-bar');
+                                     const updatingBar = event.target.querySelector('.update-bar');
+                                     updatingBar.style.width = `${event.detail.totalProgress * 100}%`;
+                                     if (event.detail.totalProgress === 1) {
+                                         progressBar.classList.add('hide');
+                                     } else {
+                                         progressBar.classList.remove('hide');
+                                         if (event.detail.totalProgress === 0) {
+                                             event.target.querySelector('.center-pre-prompt').classList.add('hide');
+                                         }
+                                     }
+                                 };
+                                 document.querySelector('model-viewer').addEventListener('progress', onProgress);
+
+                             </script> *@
+
+<style>
+    .progress-bar {
+        display: block;
+        width: 33%;
+        height: 10%;
+        max-height: 2%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        border-radius: 25px;
+        box-shadow: 0px 3px 10px 3px rgba(0, 0, 0, 0.5), 0px 0px 5px 1px rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+        .progress-bar.hide {
+            visibility: hidden;
+            transition: visibility 0.3s;
+        }
+
+    .update-bar {
+        background-color: rgba(255, 255, 255, 0.9);
+        width: 0%;
+        height: 100%;
+        border-radius: 25px;
+        float: left;
+        transition: width 0.3s;
+    }
+
+    #ar-button {
+        background-image: url('media/3d/ar_icon.png');
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        background-position: 12px 50%;
+        background-color: #fff;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        bottom: 16px;
+        padding: 0px 16px 0px 40px;
+        font-family: Roboto Regular, Helvetica Neue, sans-serif;
+        font-size: 14px;
+        color: #4285f4;
+        height: 36px;
+        line-height: 36px;
+        border-radius: 18px;
+        border: 1px solid #DADCE0;
+    }
+
+        #ar-button:active {
+            background-color: #E8EAED;
+        }
+
+        #ar-button:focus {
+            outline: none;
+        }
+
+        #ar-button:focus-visible {
+            outline: 1px solid #4285f4;
+        }
+
+    .div-con-gif {
+        padding: 5px;
+        box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);
+        height: 100px;
+        background-image: url('media/Gifs/world.gif');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+@@keyframes girar {
+    from { transform: rotateY(0deg); }
+    to   { transform: rotateY(360deg); }
+}
+
+.contenedor-video {
+    position: relative;
+    height: 100px;
+
+    overflow: hidden;
+}
+
+.video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    
+    z-index: 0;
+}
+
+.icono-3d {
+    margin-top:20px;
+    position: relative;
+    z-index: 1;
+     animation: girar 4s linear infinite;
+}
+</style>
+
+
+
+
+@section Modals {
+    @* Modal 3d viewer usuario *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="modal3d">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> MODELO 3D
+                    </h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+@section Styles {
+    <link href="Styles/3dModelStyle.css" rel="stylesheet" />
+    <link href="~/css/Escaner3D.css" rel="stylesheet" />
+}
+
+
+@section Scripts {
+    <script src="~/js/Escaner3D.js" asp-append-version="true"></script>
+    <script type="module" src="https://unpkg.com/@@google/model-viewer/dist/model-viewer.min.js"></script>
+}
+
+

@@ -2,10 +2,16 @@
 using Epsilon.Renders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
+using System;
+using Google.Apis.Auth;
 
 namespace Epsilon.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class LoginController : AbstractSecurityController
     {
         private IGestionUsuarios _gestionUsuarios;
@@ -51,6 +57,59 @@ namespace Epsilon.Controllers
             }
 
             return Json(new { success = false, message = "Usuario o contraseña incorrectos" });
+        }
+
+
+        /// <summary>
+        ///  Se ha metido libreria google auth con dotnet add package Google.Apis.Auth
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<JsonResult> LoginGoogle(string token)
+        {
+            try
+            {
+                var payload = await GoogleJsonWebSignature.ValidateAsync(token);
+
+                var email = payload.Email;
+                var nombre = payload.Name;
+
+                var user = _gestionUsuarios.Context.Usuarios
+                    .FirstOrDefault(u => u.Email == email);
+
+                if (user == null)
+                {
+                    // Crear usuario automáticamente
+                    user = new Usuario
+                    {
+                        Nombre = nombre,
+                        Email = email,
+                        Activo = true,
+                        FechaAlta = DateTime.Now
+                    };
+
+                    _gestionUsuarios.Context.Usuarios.Add(user);
+                    _gestionUsuarios.Context.SaveChanges();
+                }
+
+                // Aquí podrías meter sesión si quieres
+                HttpContext.Session.SetString("Usuario", user.Nombre);
+
+                return Json(new
+                {
+                    success = true,
+                    redirectUrl = Url.Action("Index", "Home")
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Error al validar el login con Google"
+                });
+            }
         }
     }
 }

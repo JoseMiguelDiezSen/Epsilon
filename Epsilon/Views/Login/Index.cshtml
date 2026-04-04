@@ -18,7 +18,8 @@
     <link href="~/css/Index.css" rel="stylesheet" />
     <link href="~/css/Login.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
-  
+    @* GoogleVCLoud oauth *@
+    @* https://console.cloud.google.com/auth/clients?project=focal-freedom-492312-p2&supportedpurview=project *@
 </head>
 <body>
     <!-- Contenedor de partículas -->
@@ -26,7 +27,7 @@
 
     <!-- Login form -->
     <div class="login-wrapper">
-        <form id="LoginUsuarioForm" method="post" asp-action="LoginUser" onsubmit="return jqPostLoginUser(this);">
+        <form id="LoginUsuarioForm" method="post" asp-action="LoginUser">
             <div class="card shadow-lg p-4" id="loginCard">
                 <!-- Logotipo -->
                 <div class="text-center">
@@ -55,24 +56,27 @@
 
                         <!-- Botones -->
                         <div class="d-flex justify-content-between">
-                            <button id="btnAceptar" class="btn btn-outline-light w-50 me-2" onclick="jqPostLoginUser()">
+                            <button type="button" id="btnAceptar" class="btn btn-outline-light w-50 me-2" onclick="jqPostLoginUser()">
                                 <i class="fa fa-check" aria-hidden="true"></i> Aceptar
                             </button>
-                            <button id="btnCancelar" class="btn btn-outline-light w-50">
+                            <button type="button" id="btnCancelar" class="btn btn-outline-light w-50">
                                 <i class="fa fa-times" aria-hidden="true"></i> Cancelar
                             </button>
                         </div>
 
                         <!--Autenticacion de Google -->
                         <div id="g_id_onload"
-                             data-client_id="TU_CLIENT_ID.apps.googleusercontent.com" data-context="signin" data-ux_mode="popup"
-                             data-login_uri="https://localhost:7001/api/auth/google" data-auto_prompt="false" style="margin-top:10px;">
+                          @*    data-client_id="639632098786-f22crgmnl5l988t9s2cops5475crvkes.apps.googleusercontent.com" *@
+                             data-context="signin"
+                             data-ux_mode="popup"
+                             data-callback="handleGoogleLogin"
+                             data-auto_prompt="false">
                         </div>
 
-                        <div class="g_id_signin" data-type="standard" data-shape="rectangular"
-                             data-theme="outline" data-text="signin_with" data-size="large" 
-                             data-logo_alignment="left">
-                        </div>
+
+
+                       
+                        <div class="g_id_signin" data-type="standard" data-width="300" style="margin-top:10px;"></div>
 
                         <!-- Mensaje -->
                         <div id="mensaje" class="text-danger mt-3 text-center"></div>
@@ -94,3 +98,4 @@
             <script src="~/js/Login.js" asp-append-version="true"></script>
         </body>         
     </html>
+
