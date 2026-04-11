@@ -9,7 +9,7 @@ namespace Negocio.Servicios
 {
     public class GestionClinica : ServicioAbstractoEpsilon, IGestionClinica
     {
-        public GestionClinica(EpsilonDbContext context, ILogger <GestionUsuarios> logger, ISeguridad seguridad, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
+        public GestionClinica(EpsilonDbContext context, ILogger <GestionUsuarios> logger, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
         {
             logger.LogTrace(GetEventId(), "Servicion iniciado");
         }

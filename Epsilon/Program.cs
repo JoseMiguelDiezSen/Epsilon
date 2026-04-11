@@ -7,6 +7,7 @@ using Negocio.Persistencia;
 using Negocio.Servicios;
 using Negocio.Validadores.Comun;
 using System;
+using System.Net;
 using System.Security.Principal;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,7 +43,6 @@ builder.Services.AddScoped<IValidadoresProgesfor, ValidadoresProgesfor>();
 //builder.Services.AddTransient<IPrincipal>(p => p.GetService<IHttpContextAccessor>()?.HttpContext?.User ?? WindowsPrincipal.Current);
 
 // Registro de los servicios de negocio
-builder.Services.AddScoped<ISeguridad, Seguridad>();
 builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
 builder.Services.AddScoped<IGestionClinica, GestionClinica>();
 builder.Services.AddScoped<IGestionPacientes, GestionPacientes>();
@@ -52,6 +52,11 @@ builder.Services.AddScoped<IConfiguracion, Configuracion>();
 //builder.Services.AddScoped<IGestion, GestionClinica>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+
+
+
+
+
 
 //
 var app = builder.Build();

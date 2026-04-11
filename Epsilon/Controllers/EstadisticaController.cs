@@ -17,7 +17,7 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionPacientes"></param>
-        public EstadisticaController(ILogger<EstadisticaController> logger, ISeguridad seguridad, IGestionPacientes gestionPacientes, IRazorRenderService renderService) : base(logger, seguridad)
+        public EstadisticaController(ILogger<EstadisticaController> logger, IGestionPacientes gestionPacientes, IRazorRenderService renderService) : base(logger)
         {
             _gestionPacientes = gestionPacientes;
             _renderService = renderService;

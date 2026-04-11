@@ -6,12 +6,17 @@ namespace Calipso.Security
     public class AbstractSecurityController : Controller
     {
         protected ILogger _logger;
-        protected ISeguridad _seguridad;
 
-        protected AbstractSecurityController(ILogger logger, ISeguridad seguridad)
+
+
+        protected AbstractSecurityController()
+        {
+          
+        }
+
+        protected AbstractSecurityController(ILogger logger)
         {
             _logger = logger;
-            _seguridad = seguridad;
         }
     }
 }

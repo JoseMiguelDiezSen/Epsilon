@@ -9,16 +9,14 @@ namespace Negocio.Servicios
 {
     public class Configuracion : ServicioAbstractoEpsilon, IConfiguracion
     {
-        protected ISeguridad _seguridad;
-
+ 
         /// <summary>
         /// Constructor del servicio
         /// </summary>
         /// <param name="context"></param>
-        public Configuracion(EpsilonDbContext context, ILogger<Configuracion> logger, ISeguridad seguridad, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
+        public Configuracion(EpsilonDbContext context, ILogger<Configuracion> logger, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
         {
             _registroValidadores = registroValidadores;
-            _seguridad = seguridad;
             logger.LogTrace(GetEventId(), "Servicion iniciado");
         }
 

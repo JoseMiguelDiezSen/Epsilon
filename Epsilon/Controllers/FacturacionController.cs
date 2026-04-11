@@ -16,7 +16,7 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public FacturacionController(ILogger<FacturacionController> logger, ISeguridad seguridad, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger, seguridad)
+        public FacturacionController(ILogger<FacturacionController> logger, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger)
         {
             _gestionUsuarios = gestionUsuarios;
             _renderService = renderService;

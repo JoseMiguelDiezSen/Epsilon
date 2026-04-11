@@ -16,7 +16,7 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public StockController(ILogger<StockController> logger, ISeguridad seguridad, IGestionClinica gestionclinica, IRazorRenderService renderService) : base(logger, seguridad)
+        public StockController(ILogger<StockController> logger, IGestionClinica gestionclinica, IRazorRenderService renderService) : base(logger)
         {
 //            _gestionClinica = gestionclinica;
             _razorRenderService = renderService;

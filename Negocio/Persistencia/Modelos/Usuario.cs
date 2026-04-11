@@ -3,10 +3,8 @@
 namespace Negocio.Persistencia.Modelos
 {
     /// <summary>
-    /// Modelo de datos de la tabla Usuarios
+    /// Esta clase mapea la tabla usuarios de la BBDD y proporciona las propiedades para gestionarlas
     /// </summary>
-    /// <remarks>Esta clase mapea la tabla usuarios de la BBDD y proporviona las propiedades para gestionarlas
-    /// user data. It includes fields such as the user's name, email, password, registration date, and status.</remarks
     [Table("Usuarios")]
     public class Usuario : ProgesforModel
     {
@@ -54,9 +52,6 @@ namespace Negocio.Persistencia.Modelos
         /// Obtiene o establece el identificador del estado del usuario, que puede ser activo, inactivo, suspendido, etc.
         /// </summary>
         public int IdEstadoUsuario { get; set; }
-
-
-        //   public SelectList? TurnoDeTrabajo { get; set; }
     }
 }
 

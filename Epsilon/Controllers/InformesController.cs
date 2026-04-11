@@ -9,6 +9,7 @@ namespace Epsilon.Controllers
     {
         private IRazorRenderService _renderService;
         private IGestionUsuarios _gestionUsuarios;
+        private IInformes _informes;
 
         /// <summary>
         /// Constructor d
@@ -16,8 +17,9 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public InformesController(ILogger<InformesController> logger, ISeguridad seguridad, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger, seguridad)
+        public InformesController(ILogger<InformesController> logger, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService, IInformes informes) : base(logger)
         {
+            _informes = informes;
             _gestionUsuarios = gestionUsuarios;
             _renderService = renderService;
         }
@@ -25,6 +27,12 @@ namespace Epsilon.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult GenerarInforme(long idUsuario)
+        {
+            byte[] data = _informes.GeneraInforme("/EPSILON/Usuarios", "InformeUsuario", new Dictionary<String, String> { { "idUsuario", idUsuario.ToString() } });
+            return File(data, "application/pdf");
         }
     }
 }

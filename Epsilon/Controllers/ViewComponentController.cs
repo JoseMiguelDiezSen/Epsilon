@@ -20,7 +20,7 @@ namespace Epsilon.Controllers
         /// <param name="planificacion"> Servicio con las funciones de planificacion de la aplicación </param>
         /// <param name="seguridad"> Servicio con las funciones de seguridad de la aplicación </param>
         /// <param name="renderService"> Motor personalizado para la rederización a HTML de vistas parciales </param>
-        public ViewComponentController(ILogger<ViewComponentController> logger, ISeguridad seguridad, IRazorRenderService renderService) : base(logger, seguridad)
+        public ViewComponentController(ILogger<ViewComponentController> logger, IRazorRenderService renderService) : base(logger)
         {
             _renderService = renderService;
 

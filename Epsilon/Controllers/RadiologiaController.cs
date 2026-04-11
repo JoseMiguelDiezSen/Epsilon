@@ -17,7 +17,7 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public RadiologiaController(ILogger<RadiologiaController> logger, ISeguridad seguridad, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger, seguridad)
+        public RadiologiaController(ILogger<RadiologiaController> logger, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger)
         {
             _gestionUsuarios = gestionUsuarios;
             _renderService = renderService;

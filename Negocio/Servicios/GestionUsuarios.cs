@@ -11,17 +11,15 @@ namespace Negocio.Servicios
 {
     public class GestionUsuarios : ServicioAbstractoEpsilon, IGestionUsuarios
     {
-        protected ISeguridad _seguridad;
         private readonly EpsilonDbContext _context;
 
         /// <summary>
         /// Constructor de la clase
         /// </summary>
         /// <param name="context"></param>
-        public GestionUsuarios(EpsilonDbContext context, ILogger<GestionUsuarios> logger, ISeguridad seguridad, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
+        public GestionUsuarios(EpsilonDbContext context, ILogger<GestionUsuarios> logger, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
         {
             _registroValidadores = registroValidadores;
-            _seguridad = seguridad;
             _context = context;
             logger.LogTrace(GetEventId(), "Servicion iniciado");
         }

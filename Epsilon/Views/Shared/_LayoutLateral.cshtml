@@ -1,25 +1,29 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--Icono de la pestaña -->
     <link rel="icon" type="image/png" href="~/media/epsilonIcono.ico" sizes="38x38">
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+        <!--Titulo de la pestaña-->
         <title>@ViewData["Title"] - EPSILON</title>
-
+        <!-- Referencias a bootstrap -->
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-utilities.min.css" />
         <link rel="stylesheet" href="~/css/bootstrap-float-label.css" />
         <!-- Referencia a FontAwesome -->
         <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
 
-
+        <!--Script para el menu lateral-->
         <script src="~/js/switch/jquery.js"></script>
+        
+        <!-- Enlace a los estilos -->
         <link rel="stylesheet" href="~/css/siteLateral.css" />
         
+        <!-- Referencia al JS y el CSS del menu lateral-->
         <link href="~/js/switch/themeswitch.css" rel="stylesheet" />
-
         <script src="~/js/modallateral/theamswitcher.js"></script>
-
 
         @RenderSection("Styles", required: false)
     </head>
@@ -27,6 +31,7 @@
         <header>
             <div class="row">
                 <div>
+                    <!-- Icono -->
                     <div style="width:100%;padding:15px;opacity:0.5;" class="text-center">
                         <div style="box-shadow: inset 7px 7px 7px 7px rgba(0.1, 0.1, 0.0, 0.3);">
                             <img src="~/media/JMDnegro.png" alt="JMD" id="iconoHeader" />
@@ -36,6 +41,7 @@
             </div>
         </header>
 
+        <!-- Menu lateral de opciones -->
         <div class="page">
             <div class="sidebar" id="sidebar" style="font-family:sans-serif;">
                 <div class="top-row ps-3 navbar navbar-dark">
@@ -51,45 +57,46 @@
                 <div class="container navbar-collapse collapse">
                     <nav class="flex-column navbar  navbar-expand-sm navbar-toggleable-sm navbar-light navbar navbar-expand-sm border-bottom box-shadow">
 
-                        @* Home/Inicio *@
+                        @* INICIO *@
                         <div class="nav-item">
+                          
                             <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Home") ? "active" : "")" asp-area="" asp-controller="/Home">
                                 <i class="fa fa-home" aria-hidden="true"></i> Inicio
                             </a>
                         </div>
 
-                        @* Grupo de opciones 1 *@
+                        @* GRUPO DE OPCIONES (1) *@
                         <div class="nav-group">
-                            @* Titulo: Gestion Pacientes *@
+                            
+                            
+                            @* TITULO DE LA SECCION *@
                             <div class="nav-title px-1">
                                 <i class="fa fa-chevron-right me-1"></i>Gestión Pacientes
                             </div>
 
-                            @* Opciones grupo 1 *@
+                            @* PACIENTES *@
                             <div class="nav-items">
-                                @* Item 1: Pacientes *@
+                                @* Item 1: PACIENTES *@
                                 <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
                                     <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Pacientes") ? "active" : "")" asp-controller="Pacientes">
                                         <i class="fa-solid fa-user-injured"></i> Pacientes
                                     </a>
                                 </div>
-                                @* Item 3: Radiologia *@
+                                @* Item 2: RADIOLOGIA *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
                                     <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Radiologia") ? "active" : "")" asp-controller="Radiologia">
                                         <i class="fa-solid fa-circle-radiation"></i> Radiologia
                                     </a>
                                 </div>
-
-
                             
-                                @* (8) - ESCANER 3D *@
+                                @* ESCANER 3D *@
                                 <li class="nav-item px-1" style="margin-left:-15px">
                                     <a class="nav-link  @(Context.Request.Path.StartsWithSegments("/Escaner3D") ? "active" : "")" asp-controller="Escaner3D">
                                         <i class="fa fa-cube"></i>Escaner 3D
                                     </a>
                                 </li>
 
-                                @* Item 3: Informes *@
+                                @* INFORMES *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
                                     <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Informes") ? "active" : "")" asp-controller="Informes">
                                         <i class="fa fa-clipboard" aria-hidden="true"></i>Informes
@@ -98,13 +105,14 @@
                             </div>
                         </div>
 
-                        @* Grupo de opciones 2 *@
+                        @* GRUPO DE OPCIONES (2) *@
                         <div class="nav-group">
-                            @* Titulo: Gestion Doctores *@
+   
+                            @* TITULO DE LA SECCION *@
                             <div class="nav-title px-1">
                                 <i class="fa-solid fa fa-chevron-right me-1"></i>Gestión Doctores
                             </div>
-                            @* Opciones grupo 2 *@
+   
                             <div class="nav-items">
 
                                 @* Item 1: Doctores *@
@@ -123,9 +131,9 @@
                             </div>
                         </div>
 
-                        @* Grupo de opciones 3 *@
+                        @* GRUPO DE OPCIONES (3) *@
                         <div class="nav-group">
-
+                            @* TITULO DE LA SECCION *@
                             <div class="nav-title px-1">
                                 <i class="fa-solid fa fa-chevron-right me-1"></i>Usuarios
                             </div>
@@ -148,12 +156,16 @@
                             </div>
                         </div>
 
-                        @* Grupo de opciones 4 *@
+                        @* GRUPO DE OPCIONES (4) *@
                         <div class="nav-group">
+                            
+                            @* TITULO DE LA SECCION *@
                             <div class="nav-title px-1">
                                 <i class="fa-solid fa fa-chevron-right me-1"></i>Gestion Centro
                             </div>
+                            
                             <div class="nav-items">
+
                                 @* Item 1: Facturacion *@
                                 <div class="nav-item px-1" style="margin-top:3px;margin-left:-15px">
                                     <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Facturacion") ? "active" : "")" asp-controller="Facturacion">
@@ -161,24 +173,21 @@
                                     </a>
                                 </div>
 
-
-                                @* Item 4: Tratamientos *@
+                                @* Item 2: Tratamientos *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
                                     <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "active" : "")" asp-controller="Tratamientos">
                                         <i class="fa-solid fa-file-medical"></i> Tratamientos
                                     </a>
                                 </div>
 
-                                @* Item 2: Estadistica *@
+                                @* Item 3: Estadistica *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
                                     <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Estadistica") ? "active" : "")" asp-controller="/Estadistica">
                                         <i class="fa fa-pie-chart" aria-hidden="true"></i>Estadistica
                                     </a>
                                 </div>
 
-                     
-
-                                @* Item 3: Tratamientos *@
+                                @* Item 4: Stock *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
                                     <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Stock") ? "active" : "")" asp-controller="/Stock">
                                         <i class="fa fa-medkit"></i>Stock
@@ -187,8 +196,9 @@
                             </div>
                         </div>
 
-                        @* Grupo de opciones 5 *@
+                        @* GRUPO DE OPCIONES (5) *@
                         <div class="nav-group">
+                            @* TITULO DE LA SECCION *@
                             <div class="nav-title px-1">
                                 <i class="fa-solid fa fa-chevron-right me-1"></i>Administración del sistema
                             </div>
@@ -207,7 +217,6 @@
                                         <i class="fa-solid fa-chart-bar" aria-hidden="true"></i> Logs
                                     </a>
                                 </div>
-                         
                             </div>
                         </div>
                         @* Item 3: Cerrar Sesion *@
@@ -234,6 +243,7 @@
             </main>
         </div>
 
+        @* Footer del _Layout *@
         <footer class="footer">
             <div class="container text-center">
                 <p style="text-align: center;">
@@ -242,6 +252,8 @@
                 </p>
             </div>
         </footer>
+
+        @* ///////////////////////////////////////////////////////////////////////////// *@
 
         <div class="main-modal-loading" style="display:none" id="modal-loading">
             <div class="main-modal-loading-content container">
@@ -291,19 +303,11 @@
         </div>
 
 
-
-
-
-
-
         @* MODAL LATERAL *@
         <div id="secectionBox">
             
             <div id="themeContainer" style="border:1px solid yellow;">
-                
-                <!--Boton para cerrar el panel ¡¡¡AQUI ES LA FLECHA PERO MIRA NO HAY NADA!!!! -->
-                @* hideme es el nombre de la flecha, de la imagen de la flecha *@
-                
+                                
                 <div class="row">
 
                     @*  <div id="hideme" style="background:url('/media/hideme.png') no-repeat left center;height:40px;margin-bottom:20px;">CERRAR</div> *@
@@ -322,7 +326,7 @@
                 <div style="margin-top:-95px; line-height: 1em;">
                     @*         <div>@Model.Nombre</div><br />
                     <div><@Model.Telefono</div><br /> *@
-                    <br />
+                    <br /><br /><br /><br /><br /><br />
                 </div>
               
 
@@ -375,7 +379,7 @@
 
 
 
-        @*         
+        @*
 
         <input type="hidden" id="fotoUsuario" value="@Context.Session.GetString("FotoPerfil")" /> *@
 

@@ -24,7 +24,7 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public ConfiguracionController(ILogger<ConfiguracionController> logger, ISeguridad seguridad, IConfiguracion configuracion, IRazorRenderService renderService) : base(logger, seguridad)
+        public ConfiguracionController(ILogger<ConfiguracionController> logger, IConfiguracion configuracion, IRazorRenderService renderService) : base(logger)
         {
             _configuracion = configuracion;
             _renderService = renderService;

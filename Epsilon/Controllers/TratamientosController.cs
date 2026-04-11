@@ -25,7 +25,7 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public TratamientosController(ILogger<TratamientosController> logger, ISeguridad seguridad, IGestionClinica gestionclinica,IRazorRenderService renderService) : base(logger, seguridad)
+        public TratamientosController(ILogger<TratamientosController> logger, IGestionClinica gestionclinica, IRazorRenderService renderService) : base(logger)
         {
             _gestionClinica = gestionclinica;
             _razorRenderService = renderService;

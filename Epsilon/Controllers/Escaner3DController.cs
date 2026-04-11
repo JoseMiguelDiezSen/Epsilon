@@ -17,7 +17,7 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public Escaner3DController(ILogger<Escaner3DController> logger, ISeguridad seguridad, IGestionClinica gestionclinica, IRazorRenderService renderService) : base(logger, seguridad)
+        public Escaner3DController(ILogger<Escaner3DController> logger, IGestionClinica gestionclinica, IRazorRenderService renderService) : base(logger)
         {
             //            _gestionClinica = gestionclinica;
             _razorRenderService = renderService;

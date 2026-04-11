@@ -15,17 +15,17 @@ namespace Negocio.Servicios
     /// <summary>
     /// Interfaz correspondiente a la clase seguridad en la que se definen los metodos utilizados en dicha clase.
     /// </summary>
-    public interface ISeguridad : IServicioEpsilon
-    { 
-        #region PREFERENCIASUSUARIOS
-       // PreferenciasUsuarios? GetPreferenciasUsuario(int? idUsuario, string nombre);
-       // void DeletePreferenciasUsuarios(int idUsuario, string nombre);
-       //// public string? GetValorPreferenciaUsuarioPorNombre(int idUsuario, string nombre);
-       // public void AddPreferenciaUsuario(PreferenciasUsuarios preferenciaUsuario);
-       // PreferenciasUsuarios UpdatePreferenciaUsuario(PreferenciasUsuarios preferenciaUsuario);
+    //public interface ISeguridad : IServicioEpsilon
+    //{ 
+    //    #region PREFERENCIASUSUARIOS
+    //   // PreferenciasUsuarios? GetPreferenciasUsuario(int? idUsuario, string nombre);
+    //   // void DeletePreferenciasUsuarios(int idUsuario, string nombre);
+    //   //// public string? GetValorPreferenciaUsuarioPorNombre(int idUsuario, string nombre);
+    //   // public void AddPreferenciaUsuario(PreferenciasUsuarios preferenciaUsuario);
+    //   // PreferenciasUsuarios UpdatePreferenciaUsuario(PreferenciasUsuarios preferenciaUsuario);
 
-        #endregion
-    }
+    //    #endregion
+    //}
 }
 
 

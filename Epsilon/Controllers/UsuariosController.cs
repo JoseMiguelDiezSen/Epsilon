@@ -31,7 +31,7 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public UsuariosController(ILogger<UsuariosController> logger, ISeguridad seguridad, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger, seguridad)
+        public UsuariosController(ILogger<UsuariosController> logger, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger)
         {
             _gestionUsuarios = gestionUsuarios;
             _razorRenderService = renderService;
@@ -68,7 +68,6 @@ namespace Epsilon.Controllers
 
             try
             {
-                var dbContext = _seguridad.Context;
                 IQueryable<DatosUsuario> datosUsuario = _gestionUsuarios.GetDatosUsuario();
 
                 if (!string.IsNullOrWhiteSpace(vmUsuarios.Nombre))

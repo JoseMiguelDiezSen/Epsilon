@@ -26,10 +26,8 @@ namespace Epsilon.Controllers
         /// <summary>
         /// Constructor d
         /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public LoginController(ILogger<LoginController> logger, ISeguridad seguridad, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger, seguridad)
+        public LoginController(IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) 
         {
             _gestionUsuarios = gestionUsuarios;
             _razorRenderService = renderService;
@@ -70,6 +68,7 @@ namespace Epsilon.Controllers
         {
             try
             {
+                // pega dos ostias illegal invocation y entra con el token, lo valida con la libreria de google y te devuelve el email y nombre del usuario
                 var payload = await GoogleJsonWebSignature.ValidateAsync(token);
 
                 var email = payload.Email;

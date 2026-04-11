@@ -44,6 +44,9 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<EstadosUsuario>().Property(u => u.IdEstadoUsuario);
             modelBuilder.Entity<EstadosUsuario>().Property(u => u.EstadoUsuario);
 
+            // T
+
+
             //TABLA MEDICOS
             modelBuilder.Entity<Medico>().HasKey(m => m.IdMedico);
             modelBuilder.Entity<Medico>().Property(m => m.IdMedico);

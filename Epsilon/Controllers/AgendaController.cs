@@ -20,7 +20,7 @@ namespace Epsilon.Controllers
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionUsuarios"></param>
-        public AgendaController(ILogger<AgendaController> logger, ISeguridad seguridad, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger, seguridad)
+        public AgendaController(ILogger<AgendaController> logger, IGestionUsuarios gestionUsuarios, IRazorRenderService renderService) : base(logger)
         {
             _gestionUsuarios = gestionUsuarios;
             _renderService = renderService;
