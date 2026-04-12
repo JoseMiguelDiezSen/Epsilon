@@ -1,0 +1,29 @@
+﻿body {
+}
+
+
+
+.botonColores {
+    width: 100%;
+    height: 20px;
+    line-height: 1;
+    border: none;
+    outline: none;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    font-weight: bold;
+    opacity: 1;
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
