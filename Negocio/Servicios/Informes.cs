@@ -1,9 +1,16 @@
-﻿using System.Net;
+﻿using Microsoft.Extensions.Logging;
+using Negocio.Persistencia;
+using Negocio.Servicios.Comun;
+using Negocio.Validadores.Comun;
+using System.Net;
 
 namespace Negocio.Servicios
 {
-    public class Informes
+    public class Informes: ServicioAbstractoEpsilon, IInformes
     {
+
+        private readonly EpsilonDbContext _context;
+
         /// <summary>  
         /// Inicializa una nueva instancia de la clase <see cref="Informes"/>.  
         /// </summary>  
@@ -11,8 +18,12 @@ namespace Negocio.Servicios
         /// <param name="milogger">El logger.</param>  
         /// <param name="registroValidadores">El registro de validadores.</param>  
         /// <param name="seguridad">El servicio de seguridad.</param>  
-        public Informes()
-        {
+        public Informes(EpsilonDbContext context, ILogger<GestionUsuarios> logger, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
+        { 
+        
+            _context = context;
+
+
         }
 
         /// <summary>  
@@ -55,6 +66,9 @@ namespace Negocio.Servicios
 
             return $"{baseUrl}/{reportPath}&rs:Format={formato}&{parametrosUrl}";
         }
+
+        //Desde la opcion la opcion Extensiones --> Administrar Extensiones se ha instalado el paquete Reporting Services Projects
+
     }
 }
     

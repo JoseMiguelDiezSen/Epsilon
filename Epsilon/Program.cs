@@ -43,6 +43,7 @@ builder.Services.AddScoped<IValidadoresProgesfor, ValidadoresProgesfor>();
 //builder.Services.AddTransient<IPrincipal>(p => p.GetService<IHttpContextAccessor>()?.HttpContext?.User ?? WindowsPrincipal.Current);
 
 // Registro de los servicios de negocio
+builder.Services.AddScoped<IInformes, Informes>();
 builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
 builder.Services.AddScoped<IGestionClinica, GestionClinica>();
 builder.Services.AddScoped<IGestionPacientes, GestionPacientes>();

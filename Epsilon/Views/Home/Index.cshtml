@@ -1,61 +1,67 @@
 ﻿@{
     ViewData["Title"] = "Inicio";
 }
+<div style="position:relative; z-index:0; color:white;">
+    <div class="home-hero">
+        
+        <audio autoplay>
+            <source src="audio.mp3" type="audio/mpeg">
+        </audio>
 
+        <div style="border: 1px solid yellow;box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);width:100%;">
 
-<div class="home-hero">
+            <div class="text-center" style="position:relative; z-index:1;">
+                <video autoplay loop muted style="position:absolute; top:-60px; left:0; width:100%; height:113%; object-fit:cover;z-index:-1;">
+                    <source src="~/media/videos/madrid.mp4" type="video/mp4">
+                    </video>
 
-<div style="border: 1px solid yellow;box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);width:100%;">
+                    <div class="text-center" style="margin-top:60px;margin-bottom:30px;">
+                        <img src="~/media/epsilon.png" alt="" height="150px" width="150px" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);border:1px solid yellow" />
+                    </div>
+                    <div style="height:100%">
+                        <h1 style="box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);z-index:0;width:auto;border:1px solid yellow"><i class="fa-solid fa-tooth"></i> CLINICAS DENTALES EPSILON <i class="fa-solid fa-tooth"></i></h1>
 
-    <div class="text-center">
-        @* IMAGEN DEL INICIO *@
-        <div class="text-center" style="margin-top:60px;margin-bottom:30px;">
-            <img src="~/media/epsilon.png" alt="" height="150px" width="150px" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);border:1px solid yellow" />
-        </div>
-        <div style="height:100%">
-            <h1 style="box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);z-index:0;width:auto;border:1px solid yellow"><i class="fa-solid fa-tooth"></i> CLINICAS DENTALES EPSILON <i class="fa-solid fa-tooth"></i></h1>
+                        <p style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);color:yellow;margin-bottom:110px;"> BY </p>
 
-            <p style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);color:yellow;margin-bottom:110px;"> BY </p>
+                        <div class="row" style="height:40%;">
+                            <div style="border-radius:100px;margin-bottom:20px;" class="col-md-6">
+                                <img src="~/media/JMDnegro.png" alt="" height="70px" width="150px" style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);border: 1px solid yellow" />
+                            </div>
 
-            <div class="row" style="height:40%;">
-                <div style="border-radius:100px;margin-bottom:20px;" class="col-md-6">
-                    <img src="~/media/JMDnegro.png" alt="" height="70px" width="150px" style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);border: 1px solid yellow" />
+                            <div style="border-radius:100px;padding-bottom:20px;" class="col-md-6">
+                                <img src="~/media/logoJSMPequeño.png" alt="" height="70px" width="150px" style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);border: 1px solid yellow" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div style="border-radius:100px;padding-bottom:20px;" class="col-md-6">
-                    <img src="~/media/logoJSMPequeño.png" alt="" height="70px" width="150px" style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);border: 1px solid yellow" />
-                </div>
+
             </div>
+
         </div>
     </div>
-</div>
+    <style>
 
-</div>
-<style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
 
+        .home-hero {
+            min-height: 75vh; /* ocupa el 95% de la altura de la ventana */
+            display: flex;
+            align-items: center; /* centra verticalmente el contenido */
+            justify-content: center; /* centra horizontalmente si hace falta */
+            border: 1px solid yellow;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            width: 100%;
+            padding: 2rem; /* opcional para espacio interior */
+            box-sizing: border-box;
+            position: relative; /* MUY IMPORTANTE */
+            overflow: hidden;
+        }
 
-
-    html {
-        width: 100%;
-        height: 100%;
-    }
-
-    .home-hero{
-        min-height: 75vh; /* ocupa el 95% de la altura de la ventana */
-        display: flex;
-        align-items: center; /* centra verticalmente el contenido */
-        justify-content: center; /* centra horizontalmente si hace falta */
-        border: 1px solid yellow;
-        box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
-     
-        width: 100%;
-        padding: 2rem; /* opcional para espacio interior */
-        box-sizing: border-box;
-    }
-
-
-    body {
-        background-color: #2E4E8E;
-    }
-
-</style>
+        body {
+            background-color: #2E4E8E;
+        }
+    </style>
