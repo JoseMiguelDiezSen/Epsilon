@@ -1,8 +1,23 @@
-﻿namespace Epsilon.ViewModels
+﻿using Negocio.Persistencia.Modelos;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Epsilon.ViewModels
 {
     public class ViewPacientes
     {
-        public ViewPacientes() { }
+        public ViewPacientes(DatosPacientes datosPaciente) {
+            IdPaciente = datosPaciente.IdPaciente;
+            NombrePaciente = datosPaciente.NombrePaciente;
+            DNI = datosPaciente.DNI;
+            Telefono = datosPaciente.Telefono;
+            Direccion = datosPaciente.Direccion;
+            Ciudad = datosPaciente.Ciudad;
+            EMail = datosPaciente.EMail;
+            FechaAlta = datosPaciente.FechaAlta;
+            NumeroConsultas = datosPaciente.NumeroConsultas;
+            Asegurado = datosPaciente.Asegurado;
+        }
 
         public int IdPaciente { get; set; }
         public string? NombrePaciente { get; set; }

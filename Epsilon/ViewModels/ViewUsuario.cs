@@ -1,7 +1,6 @@
 ﻿using Negocio.Persistencia.Modelos;
 
 namespace Epsilon.ViewModels
-
 {
     public class ViewUsuario
     {
@@ -34,9 +33,7 @@ namespace Epsilon.ViewModels
 
         public int IdEstadoUsuario { get; set; }
 
-
         public string? EstadoUsuario { get; set; }
-
 
         public byte[]? FotoPerfil { get; set; }
     }

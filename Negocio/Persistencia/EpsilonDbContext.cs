@@ -75,6 +75,23 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Paciente>().Property(m => m.NumeroConsultas);
             modelBuilder.Entity<Paciente>().Property(m => m.Asegurado);
 
+            // Vista [[vDatosUsuarios]]
+            modelBuilder.Entity<DatosPacientes>().HasKey(p => p.IdPaciente);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.IdPaciente);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.NombrePaciente);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.DNI);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Telefono);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.EMail);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Direccion);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaAlta);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Ciudad);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.NumeroConsultas);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Asegurado);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaNacimiento);
+
+
+
+
             //TABLA CLINICAS
             modelBuilder.Entity<Clinica>().HasKey(m => m.IdClinica);
             modelBuilder.Entity<Clinica>().Property(m => m.IdClinica);
@@ -194,7 +211,9 @@ namespace Negocio.Persistencia
 
         //Vistas
         public virtual DbSet<Modelos.DatosUsuario> DatosUsuarios { get; set; }
-                
+
+        public virtual DbSet<Modelos.DatosPacientes> DatosPacientes { get; set; }
+
         #endregion
 
         ExtensionesEpsilon _extensiones;

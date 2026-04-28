@@ -1,0 +1,51 @@
+﻿@using Epsilon.ViewModels
+@model ViewFormAgregarPaciente
+
+<form id="addPaciente" method="post" asp-action="AgregarPaciente" name="addPaciente" onsubmit="return jqPostCalcularFactura(this);">
+
+    <div style="border:1px solid gainsboro;padding:10px">
+
+        <div class="row">
+
+            <div class="form-group mb-2">
+                <label>Importe por hora</label>
+                <input type="number" class="form-control" id="importeHora" />
+            </div>
+
+            <div class="form-group mb-2">
+                <label>Número de horas</label>
+                <input type="number" class="form-control" id="numeroHoras" />
+            </div>
+
+            <div class="form-group mb-2">
+                <label>Total</label>
+                <input type="number" class="form-control" id="totalImporte" disabled />
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+  
+    @* BOTONES *@
+    <div class="fa-pull-left">
+        <button id="btnAddPaciente" type="submit" class="btn btn-outline-success m-2"><span class="fa fa-check"></span> Aceptar</button>
+        <button id="btnCancel" type="button" class="btn btn-outline-danger m-2"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+    </div>
+</form>
+
+<style>
+    #checkAsegurado {
+        width: 20px !important;
+        height: 20px !important;
+        accent-color: black !important;
+    }
+</style>
+
+
+
+
+

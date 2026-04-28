@@ -56,6 +56,12 @@ namespace Negocio.Servicios
             return entity.Entity;
         }
 
+        public IQueryable<DatosPacientes> GetDatosPacientes()
+        {
+            logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
+            return Context.DatosPacientes;
+        }
+
         /// <summary>
         /// Metodo para obtener un paciente
         /// </summary>

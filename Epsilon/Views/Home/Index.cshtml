@@ -2,22 +2,20 @@
     ViewData["Title"] = "Inicio";
 }
 
-
 <div class="botonColores"></div>
 
 <div style="position:relative; z-index:0; color:white;">
  
     <div class="home-hero">
 
-
         <audio autoplay>
             <source src="/media/audio/StillWiz.mp3" type="audio/mpeg">
         </audio>
 
-        <div style="border: 1px solid yellow;box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);width:100%;">
+        <div id="masterContainer">
 
             <div class="text-center" style="position:relative; z-index:1;">
-                <video autoplay loop muted style="position:absolute; top:-60px; left:0; width:100%; height:113%; object-fit:cover;z-index:-1;">
+                <video autoplay loop muted id="videoMadrid">
                     <source src="~/media/videos/madrid.mp4" type="video/mp4">
                     </video>
 
@@ -40,84 +38,20 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
 
+            <div class="text-center">
+                <button class="btn btn-outline-light" style="margin-top:15px;">ROADMAP</button>
             </div>
 
         </div>
     </div>
-    <style>
-
-        html {
-            width: 100%;
-            height: 100%;
-        }
-
-        .home-hero {
-            min-height: 75vh; /* ocupa el 95% de la altura de la ventana */
-            display: block;
-            align-items: center; /* centra verticalmente el contenido */
-            justify-content: center; /* centra horizontalmente si hace falta */
-            border: 1px solid yellow;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
-            width: 100%;
-            padding: 2rem; /* opcional para espacio interior */
-            box-sizing: border-box;
-            position: relative; /* MUY IMPORTANTE */
-            overflow: hidden;
-        }
-
-        body {
-            background-color: #2E4E8E;
-        }
-
-
-      
-
-
-    </style>
-
-    @* <%-- Script : div colores --%> *@
-        <script>
-
-            $(document).ready(function () {
-
-                 $(".botonColores")
-                    .css("content", "''")
-                    .css("background", "linear-gradient(45deg,#ff0000,#ff7300,#fffb00,#48ff00,#00ffd5,#002bff,#7a00ff,#ff00c8,#ff0000)")
-
-                     /*.css("position", "absolute")*/
-
-                     //.css("top", "-2px")
-
-                     //.css("left", "-2px")
-
-                     .css("background-size", "400%")
-
-                     /*    .css("z-index","-1")*/
-
-
-                     /* Efecto Difuminacion */
-
-                     /*.css("filter", "blur(0px)")*/
-                     .css("filter", "blur(5px)")
-                     //.css("filter", "blur(10px)")
-
-                     .css("width", "calc(100%+4px)")
-                     .css("height", "calc(100%+4px)")
-
-                     /* Velocidad de los colores*/
-                     //.css("animation", "glowing 10s linear infinite")
-                     //.css("animation", "glowing 20s linear infinite")
-
-                     .css("animation", "glowing 40s linear infinite")
-                     .css("transition", "opacity .3s ease-in-out")
-                     .css("color", "#000")
-                     .css("opacity", "1")
-                });
-
-        </script>   
 
     @section Styles {
         <link href="~/css/Home.css" rel="stylesheet" />
+    }
+
+    @section Scripts {
+        <script src="~/js/Home.js" asp-append-version="true"></script>
     }

@@ -463,10 +463,6 @@
         })
     }
 
-    verDetalleUsuario = () => {
-
-    }
-
     jqGetModalExportarExcel = () => {
 
         $.ajax({
@@ -487,7 +483,6 @@
             }
         })
     }
-
 
     jqPostModalImportarExcel = (form) => {
 

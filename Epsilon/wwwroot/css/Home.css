@@ -1,7 +1,25 @@
-﻿body {
+﻿html {
+    width: 100%;
+    height: 100%;
 }
 
+body {
+    background-color: #2E4E8E;
+}
 
+.home-hero {
+    min-height: 75vh; /* ocupa el 95% de la altura de la ventana */
+    display: block;
+    align-items: center; /* centra verticalmente el contenido */
+    justify-content: center; /* centra horizontalmente si hace falta */
+    border: 1px solid yellow;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+    width: 100%;
+    padding: 2rem; /* opcional para espacio interior */
+    box-sizing: border-box;
+    position: relative; /* MUY IMPORTANTE */
+    overflow: hidden;
+}
 
 .botonColores {
     width: 100%;
@@ -26,4 +44,20 @@
     100% {
         background-position: 0 0;
     }
+}
+
+#videoMadrid {
+    position: absolute;
+    top: -60px;
+    left: 0;
+    width: 100%;
+    height: 113%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+#masterContainer {
+    border: 1px solid yellow;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+    width: 100%;
 }

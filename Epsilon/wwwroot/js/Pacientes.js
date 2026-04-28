@@ -5,7 +5,7 @@
         // Seguramente aqui este el fallo
         $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
         window.PaginadorPrincipal = jQuery('#idPaginadorPrincipal').paginador({
-            Formulario: 'id_Form',
+            Formulario: 'id_Form1',
             PaginaActual: 'PaginaActual',
             RegistrosPorPagina: 'RegistrosPorPagina',
             RegistrosPaginaActual: 'RegistrosPaginaActual',
@@ -202,6 +202,47 @@
         }
     }
 
+    /* Funcion para el filtrado de usuarios */
+    jqPostFiltrar = (ev, form) => {
+
+        console.log('PaginaActual:', $('#PaginaActual').val());
+
+        try {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $("#idResultadosFiltro").html(response.data === "undefined" ? response : response.data);
+                    $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
+
+                    if (window.PaginadorPrincipal == undefined) {
+                        window.PaginadorPrincipal = $('#idPaginadorPrincipal').paginador({
+                            Formulario: 'id_Form1',
+                            PaginaActual: 'PaginaActual',
+                            RegistrosPorPagina: 'RegistrosPorPagina',
+                            RegistrosPaginaActual: 'RegistrosPaginaActual',
+                            ClassButtons: 'visually-hidden'
+                        });
+                    } else {
+                        window.PaginadorPrincipal.actualiza();
+                    }
+                },
+                error: function (error) {
+                    $('#idMsgError').html(err.message == null ? "No se pudo realizar la operacion" : error.message);
+                    OcultarElemento('idDivMsg');
+                    MostrarElemento('idDivMsgError');
+                }
+            })
+            return false;
+        } catch (ex) {
+            concole.log(ex);
+        }
+    }
+
+
     jqGetModalExportarExcel = () => {
 
         $.ajax({
@@ -256,6 +297,52 @@
     $('#updatePacienteModal').dragablito({ handle: ".modal-header" });
 
 
+    $(document).on('click', '.js-toggle-detail', function (e) {
+        e.preventDefault();
+
+        var $btn = $(this);
+        var id = $btn.data('id');
+        if (id === undefined || id === null) {
+            console.warn('Botón detalle sin data-id');
+            return;
+        }
+
+        var detailId = 'detail-' + id;
+        var $existing = $('#' + detailId);
+
+        var $row = $btn.closest('tr');
+        if ($existing.length) {
+            // Alterna la visibilidad con un efecto suave
+            $existing.toggle(); // si necesita animación, usar slideToggle()
+            return;
+        }
+
+        // Crea una fila de detalle justo después de la fila actual
+        var colspan = Math.max(1, $row.children('td').length);
+        var $tr = $('<tr/>', { id: detailId, 'class': 'detail-row' });
+        var $td = $('<td/>', { colspan: colspan });
+        var $content = $('<div/>', { 'class': 'detail-content' }).text('Cargando detalles...');
+
+        $td.append($content);
+        $tr.append($td);
+        $row.after($tr);
+
+        // Intentar cargar contenido rich vía AJAX — endpoint opcional
+        $.ajax({
+            url: '/Pacientes/DetallePaciente',
+            type: 'GET',
+            data: { idPaciente: id },
+            success: function (response) {
+                // Si el controlador devuelve `response.data` o HTML directo
+                var html = response && response.data ? response.data : (response || '');
+                $content.html(html);
+            },
+            error: function () {
+                // Si no existe el endpoint o falla, mostrar un fallback
+                $content.html('<div style="padding:8px;color:#f8f9fa;">No se pudieron cargar los detalles.</div>');
+            }
+        });
+    });
     //MostrarGrid = () => {
 
     //    if ($('#gridEdiciones').is(':hidden')) {
@@ -304,48 +391,6 @@
 //        ClassButtons: 'visually-hidden'
 //    });
 //}
-
-/* Funcion para el filtrado de usuarios */
-//jqPostFiltrar = (ev, form) => {
-//    try {
-//        $.ajax({
-//            type: "POST",
-//            url: form.action,
-//            data: new FormData(form),
-//            contentType: false,
-//            processData: false,
-//            success: function (response) {
-//                $("#idResultadosFiltro").html(response.data === "undefined" ? response : response.data);
-//                $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
-
-//                if (window.PaginadorPrincipal == undefined) {
-//                    window.PaginadorPrincipal = $('#idPaginadorPrincipal').paginador({
-//                        Formulario: 'id_Form',
-//                        PaginaActual: 'PaginaActual',
-//                        RegistrosPorPagina: 'RegistrosPorPagina',
-//                        RegistrosPaginaActual: 'RegistrosPaginaActual',
-//                        ClassButtons: 'visually-hidden'
-//                    });
-//                } else {
-//                    window.PaginadorPrincipal.actualiza();
-//                }
-//            },
-//            error: function (error) {
-//                $('#idMsgError').html(err.message == null ? "No se pudo realizar la operacion" : error.message);
-//                OcultarElemento('idDivMsg');
-//                MostrarElemento('idDivMsgError');
-//            }
-//        })
-//        return false;
-//    } catch (ex) {
-//        concole.log(ex);
-//    }
-//}
-
-///*Funcion de apertura del modal agregar usuario*/
-
-
-
 
 
 

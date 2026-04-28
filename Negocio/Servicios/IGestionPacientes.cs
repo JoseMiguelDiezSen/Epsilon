@@ -9,6 +9,8 @@ namespace Negocio.Servicios
         /// <summary> Agregar un paciente </summary>
         Paciente AddPaciente(Paciente paciente);
 
+        public IQueryable<DatosPacientes> GetDatosPacientes();
+
         Paciente UpdatePaciente(Paciente paciente);
 
         bool DeletePaciente(int idPaciente);

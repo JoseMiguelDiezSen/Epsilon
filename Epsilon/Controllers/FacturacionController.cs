@@ -1,5 +1,8 @@
 ﻿using Calipso.Security;
+using Epsilon.Attributes;
+using Epsilon.Models.Comun;
 using Epsilon.Renders;
+using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Negocio.Servicios;
 
@@ -25,6 +28,19 @@ namespace Epsilon.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+
+
+        [HttpGet, AjaxOnly]
+        public async Task<ActionResult> ModalCalcularFactura()
+        {
+            JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+            ViewFormAgregarPaciente vmAgregarPaciente = new ViewFormAgregarPaciente();
+            vmAgregarPaciente.FechaAlta1 = DateTime.Now;
+            string data = await _renderService.ToStringAsync("FormCalcularFactura", vmAgregarPaciente);
+            jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
+            return new JsonResult(jsonResponse);
         }
     }
 }

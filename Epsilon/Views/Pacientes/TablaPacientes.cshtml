@@ -8,6 +8,7 @@
         @* Cabecera *@
         <tr>
             <th scope="col" class="text-center" width="1%">#</th>
+            <th scope="col">IDPACIENTE</th>
             <th scope="col">PACIENTE</th>
             <th scope="col">DNI</th>
             <th scope="col">TELEFONO</th>
@@ -30,6 +31,7 @@
                     <td class="text-center">
                         <span class="fa-solid fa-user-injured"></span>
                     </td>
+                    <td style="text-align:left"> @paciente.IdPaciente.ToString()</td>
                     <td style="text-align:left"> @paciente.NombrePaciente?.ToString()</td>
                     <td style="text-align:center"> @paciente.DNI?.ToString()</td>
                     <td style="text-align:center"> @paciente.Telefono.ToString()</td>
@@ -59,7 +61,7 @@
                             </button>
 
 
-                            <button class="btn btn-sm btn-outline-light" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalExpandRor(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-light js-toggle-detail" data-id="@paciente.IdPaciente" style="margin-left:5px;" id="btnMostrarDetalle">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -79,3 +81,47 @@
         }
     </tbody>
 </table>
+
+<script>
+    function toggleDetail(id, btn) {
+        const detail = document.getElementById('detail-' + id);
+        // Alterna solo la fila actual
+        detail.style.display = detail.style.display === 'none' ? '' : 'none';
+    }
+</script>
+
+
+        
+
+<style>
+
+
+    /*     // Estilo para la fila de detalle */
+    .detail-row td {
+        background-color: none;
+        color: black;
+        border: 1px solid #444 !important; /* marco dark pero visible */
+        border-top: none !important; /* evita doble borde con la fila anterior */
+        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.05); /* sombreado interior sutil */
+        padding: 12px;
+        transition: all 0.7s ease;
+    }
+
+        /*     Estilo para el hover en la fila de detalle */
+        .detail-row td:hover {
+            background-color: yellow !important; /* leve cambio al pasar el ratón */
+        }
+
+
+    /*    Estilo de contenido detallado */
+    .detail-content {
+        background-color: #3b3f44;
+        color: #f8f9fa;
+        padding: 12px;
+        border-radius: 0 0 6px 6px;
+        box-shadow: inset 0 0 6px rgba(255,255,255,0.05);
+        overflow: hidden; /* ocultar contenido al cerrar */
+        transition: max-height 0.3s ease; /* transición suave */
+    }
+
+</style>

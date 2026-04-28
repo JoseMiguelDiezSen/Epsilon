@@ -5,6 +5,7 @@ using Epsilon.Models.Comun;
 using Epsilon.Renders;
 using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
 using OfficeOpenXml;
@@ -34,26 +35,69 @@ namespace Epsilon.Controllers
         public IActionResult Index()
         {
             PacientesViewModel vmPacientes = new PacientesViewModel();
-            IEnumerable<ViewPacientes> pacientes = _gestionPacientes.Context.Pacientes
-                        .Select(p => new ViewPacientes
-                        {
-                            IdPaciente = p.IdPaciente,
-                            NombrePaciente = p.NombrePaciente,
-                            DNI = p.DNI,
-                            EMail = p.EMail,
-                            FechaNacimiento = p.FechaNacimiento,
-                            Telefono = p.Telefono,
-                            Direccion = p.Direccion,
-                            Ciudad = p.Ciudad,
-                            FechaAlta = p.FechaAlta,
-                            Asegurado = p.Asegurado,
-                            NumeroConsultas = p.NumeroConsultas
-                        })
-                        .AsEnumerable();
+
+            IQueryable<DatosPacientes> datosPacientes = _gestionPacientes
+                .GetDatosPacientes()
+                .AsNoTracking()
+                .OrderBy(x => x.IdPaciente)
+                .Skip((vmPacientes.PaginaActual - 1) * vmPacientes.RegistrosPorPagina)
+                .Take(vmPacientes.RegistrosPorPagina);
+
+            var pacientes = datosPacientes
+                .ToList() // aquí materializas
+                .Select(x => new ViewPacientes(x)) // aquí usas tu constructor
+                .ToList();
 
             vmPacientes.Pacientes = pacientes;
-            return View("Index",vmPacientes);
+
+            return View("Index", vmPacientes);
         }
+
+
+        [HttpPost, AjaxOnly]
+        public async Task<JsonResult> FiltrarUsuariosAsync(PacientesViewModel vmPacientes)
+        {
+            JsonResponse? jsonResponse = null;
+
+            try
+            {
+                IQueryable<DatosPacientes> datosPacientes = _gestionPacientes.GetDatosPacientes();
+
+                if (!string.IsNullOrWhiteSpace(vmPacientes.NombrePaciente))
+                {
+                    datosPacientes = datosPacientes.Where(p => p.NombrePaciente == vmPacientes.NombrePaciente);
+                }
+                if (!string.IsNullOrWhiteSpace(vmPacientes.EMail))
+                {
+                    datosPacientes = datosPacientes.Where(p => p.EMail == vmPacientes.EMail);
+                }
+                if (vmPacientes.Telefono > 0)
+                {
+                    datosPacientes = datosPacientes.Where(p => p.Telefono == vmPacientes.Telefono);
+                }
+
+
+                vmPacientes.Pacientes = await datosPacientes.
+                    OrderBy(x => x.IdPaciente)
+                    .Skip((vmPacientes.PaginaActual - 1) * vmPacientes.RegistrosPorPagina)
+                    .Take(vmPacientes.RegistrosPorPagina).
+                    Select(x => new ViewPacientes(x)).
+                    ToListAsync();
+
+                string data = await _renderService.ToStringAsync("TablaPacientes", vmPacientes.Pacientes);
+                jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
+            }
+
+            catch (Exception ex)
+            {
+                jsonResponse = new JsonResponse("500", "La operación no se pudo realizar.", string.Empty, "Error: " + ex.Message);
+            }
+
+            return new JsonResult(jsonResponse);
+        }
+
+
+
 
         /// <summary>
         /// Método para abrir la ventana modal de agregar pacientes

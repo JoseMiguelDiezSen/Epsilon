@@ -2,13 +2,32 @@
 <h4 class="text-center"><span class="fa-solid fa-sack-dollar"></span> Facturacion <span class="fa-solid fa-sack-dollar"></span></h4>
 <hr style ="color:black;">
 
-@* 
-Grafico de  *@
-<canvas id="myChart" width="800" height="400"></canvas>
+
+
+<button type="button" id="botonEliminarCorreo" class="btn btn-sm btn-outline-danger" onclick="return jqGetModalCalcularFactura();" style="font-size:1em;width:30px;height:30px;margin-top:2px;margin-left:-0.5px;" aria-hidden="true" @* disabled *@>
+    CALCULAR FACTURA
+</button>
 
 
 
 
+
+@section Modals {
+    @* Modal agregar paciente *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="addPacienteModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center"><i class="fa-solid fa-user-injured"></i> Alta Paciente</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+    }
 
 
 
