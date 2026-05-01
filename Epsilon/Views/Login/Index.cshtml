@@ -17,100 +17,107 @@
     <!-- Icono de la pestaña -->
     <link rel="shortcut icon" href="~/media/epsilonIcono.ico">
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-        <!-- Se carga libreria boostrap 5 -->
-        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Se carga libreria boostrap 5 -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
    
-        <!-- Se carga libreria Font Awesome -->
-        <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <!-- Se carga libreria Font Awesome -->
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
     
-        <!-- Se cargan estilos de la pagina -->
-        <link href="~/css/Login.css" rel="stylesheet" />
+    <!-- Se cargan estilos de la pagina -->
+    <link href="~/css/Login.css" rel="stylesheet" />
    
-    </head>
-    <body>
-        <!-- Contenedor de partículas -->
-        <div id="particles-container"></div>
+</head>
+<body>
+    <!-- Contenedor de partículas -->
+    <div id="particles-container"></div>
 
-        <!-- Login form -->
-        <div class="login-wrapper">
-            <form id="LoginUsuarioForm" method="post" onsubmit="return jqPostLoginUser(this);">
-                <div class="card shadow-lg p-4" id="loginCard">
-                    <!-- Logotipo -->
-                    <div class="text-center">
-                        <a href="#" target="_blank"><img id="logoLogin" src="~/media/blanco.gris2.png" alt="JMD" /></a>
-                    </div>
-
-                    <!-- Nombre -->
-                    <div class="mb-3">
-                        <div class="input-group" id="inputNombre">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            <input type="text" class="form-control" id="Nombre" asp-for="Nombre" placeholder="Usuario" value="Jose Miguel Diez" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
-                            </div>
-                        </div>
-
-                        <!-- Password -->
-                        <div class="mb-3">
-                            <div class="input-group" id="inputPassword">
-                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input type="password" id="Password" asp-for="Password" class="form-control" placeholder="Ingrese su contraseña" value="123456" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
-
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border:1px solid gainsboro;height:38px;">
-                                        <i class="fas fa-eye" style="margin-bottom:3px;"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Botones -->
-                            <div class="d-flex justify-content-between">
-                                <button id="btnAceptar" class="btn btn-outline-light w-50 me-2">
-                                    <i class="fa fa-check" aria-hidden="true"></i> Aceptar
-                                </button>
-                                <button id="btnCancelar" class="btn btn-outline-light w-50">
-                                    <i class="fa fa-times" aria-hidden="true"></i> Cancelar
-                                </button>
-                            </div>
-                            
-                            <!--Autenticacion de Google (Pendiente)  639632098786-f22crgmnl5l988t9s2cops5475crvkes.apps.googleusercontent.com-->
-                            <div id="g_id_onload"
-                                @* La linea en si parece que esta bien , si se habilita sale el cuadro para meter email pero da Ilegal Invocation - me redimensiona el boton *@
-                                data-client_id="639632098786-f22crgmnl5l988t9s2cops5475crvkes.apps.googleusercontent.com"
-                                 data-context="signin"
-                                 data-ux_mode="popup"
-                                 data-callback="handleGoogleLogin"
-                                 data-auto_prompt="false" style="margin-top:10px;">
-                            </div>
-
-                            <div class="g_id_signin"
-                                 data-type="standard"
-                                 data-shape="rectangular"
-                                 data-theme="outline"
-                                 data-text="signin_with"
-                                 data-size="large" 
-                                  data-logo_alignment="left">
-                            </div>
- 
-                            <!-- Mensaje de usuario o contraseña incorrectos enviado desde controller a vista -->
-                            <div id="mensaje" class="text-warning mt-3 text-center"></div>
-                        </div>
-                    </form>
+    <!-- Login form -->
+    <div class="login-wrapper">
+        <form id="LoginUsuarioForm" method="post" onsubmit="return jqPostLoginUser(this);">
+            <div class="card shadow-lg p-4" id="loginCard">
+                <!-- Logotipo -->
+                <div class="text-center">
+                    <a href="#" target="_blank"><img id="logoLogin" src="~/media/blanco.gris2.png" alt="JMD" /></a>
                 </div>
 
-                @* Scripts --> Deben ser incluidos en esta parte *@
-                @* Script de jQuery *@
-                <script src="~/lib/jquery/dist/jquery.min.js"></script>
-                @* Script de Bootstrap *@
-                <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-                @* Script de jQuery Validation *@
-                <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-   
-                @* Script para partículas *@
-                <script src="~/js/particulas/jquery.particleground.min.js"></script>
-                @* Script de la pantalla *@
-                <script src="~/js/Login.js" asp-append-version="true"></script>
+                <!-- Nombre -->
+                <div class="mb-3">
+                    <div class="input-group" id="inputNombre">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="Nombre" asp-for="Nombre" placeholder="Usuario" value="Jose Miguel Diez" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
+                    </div>
+                </div>
 
-                @* Script para autenticacion Google *@
-                <script src="https://accounts.google.com/gsi/client" async defer></script>
-            </body>
-        </html>
+                <!-- Password -->
+                <div class="mb-3">
+                    <div class="input-group" id="inputPassword">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" id="Password" asp-for="Password" class="form-control" placeholder="Ingrese su contraseña" value="123456" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
+
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border:1px solid gainsboro;height:38px;">
+                            <i class="fas fa-eye" style="margin-bottom:3px;"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-between">
+                    <button id="btnAceptar" class="btn btn-outline-light w-50 me-2">
+                        <i class="fa fa-check" aria-hidden="true"></i> Aceptar
+                    </button>
+                    <button id="btnCancelar" class="btn btn-outline-light w-50">
+                        <i class="fa fa-times" aria-hidden="true"></i> Cancelar
+                    </button>
+                </div>
+                            
+                <!--Autenticacion de Google (Pendiente)  639632098786-f22crgmnl5l988t9s2cops5475crvkes.apps.googleusercontent.com-->
+                <div id="g_id_onload"
+                    @* La linea en si parece que esta bien , si se habilita sale el cuadro para meter email pero da Ilegal Invocation - me redimensiona el boton *@
+                     data-client_id="639632098786-f22crgmnl5l988t9s2cops5475crvkes.apps.googleusercontent.com"
+                     data-context="signin"
+                     data-ux_mode="popup"
+                   @*   data-ux_mode="redirect" *@
+                     data-callback="handleGoogleLogin"
+                     data-auto_prompt="false" style="margin-top:10px;">
+                </div>
+
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-shape="rectangular"
+                     data-theme="outline"
+                     data-text="signin_with"
+                     data-size="large"
+                     data-logo_alignment="left">
+                </div>
+ 
+                <!-- Mensaje de usuario o contraseña incorrectos enviado desde controller a vista -->
+                <div id="mensaje" class="text-warning mt-3 text-center"></div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+    @* Scripts --> Deben ser incluidos en esta parte *@
+    @* Script de jQuery *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* Script de Bootstrap *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* Script de jQuery Validation *@
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+   
+    @* Script para partículas *@
+    <script src="~/js/particulas/jquery.particleground.min.js"></script>
+
+    @* Script de la pantalla *@
+    <script src="~/js/Login.js" asp-append-version="true"></script>
+
+    @* Script para autenticacion Google *@
+    <script src="https://accounts.google.com/gsi/client"></script>
+
+</body>
+</html>

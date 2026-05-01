@@ -80,6 +80,7 @@
     });
 
 
+
     // Funcion para futura autenticacion con google
     window.handleGoogleLogin = (response) => {
         const token = response.credential;

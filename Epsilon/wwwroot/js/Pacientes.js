@@ -296,53 +296,91 @@
 
     $('#updatePacienteModal').dragablito({ handle: ".modal-header" });
 
-
     $(document).on('click', '.js-toggle-detail', function (e) {
         e.preventDefault();
 
-        var $btn = $(this);
-        var id = $btn.data('id');
-        if (id === undefined || id === null) {
-            console.warn('Botón detalle sin data-id');
-            return;
-        }
+        // ID del paciente desde el botón
+        var id = $(this).data('id');
+        if (!id) return;
 
-        var detailId = 'detail-' + id;
-        var $existing = $('#' + detailId);
+        // Selector de la fila detalle (si ya existe)
+        var detailSelector = '#detail-' + id;
+        var $existing = $(detailSelector);
 
-        var $row = $btn.closest('tr');
+        // Fila actual (paciente)
+        var $row = $(this).closest('tr');
+
+        // Si ya existe → solo mostrar/ocultar
         if ($existing.length) {
-            // Alterna la visibilidad con un efecto suave
-            $existing.toggle(); // si necesita animación, usar slideToggle()
+            $existing.toggle();
             return;
         }
 
-        // Crea una fila de detalle justo después de la fila actual
-        var colspan = Math.max(1, $row.children('td').length);
-        var $tr = $('<tr/>', { id: detailId, 'class': 'detail-row' });
-        var $td = $('<td/>', { colspan: colspan });
-        var $content = $('<div/>', { 'class': 'detail-content' }).text('Cargando detalles...');
+        // Contenedor donde se cargará la vista parcial
+        var $content = $('<div class="detail-content">Cargando detalles...</div>');
 
-        $td.append($content);
-        $tr.append($td);
-        $row.after($tr);
+        // Crear nueva fila debajo con colspan completo
+        $('<tr id="detail-' + id + '" class="detail-row">' +
+            '<td colspan="' + $row.children('td').length + '"></td></tr>')
+            .insertAfter($row)
+            .find('td')
+            .append($content);
 
-        // Intentar cargar contenido rich vía AJAX — endpoint opcional
+        // Llamada al servidor → devuelve la vista parcial (HTML)
         $.ajax({
             url: '/Pacientes/DetallePaciente',
             type: 'GET',
             data: { idPaciente: id },
-            success: function (response) {
-                // Si el controlador devuelve `response.data` o HTML directo
-                var html = response && response.data ? response.data : (response || '');
-                $content.html(html);
-            },
-            error: function () {
-                // Si no existe el endpoint o falla, mostrar un fallback
-                $content.html('<div style="padding:8px;color:#f8f9fa;">No se pudieron cargar los detalles.</div>');
-            }
+            success: function (res) { $content.html(res); },
+            error: function () { $content.html('Error al cargar'); }
         });
     });
+
+    //$(document).on('click', '.js-toggle-detail', function (e) {
+    //    e.preventDefault();
+
+    //    var $btn = $(this);
+    //    var id = $btn.data('id');
+    //    if (id === undefined || id === null) {
+    //        console.warn('Botón detalle sin data-id');
+    //        return;
+    //    }
+
+    //    var detailId = 'detail-' + id;
+    //    var $existing = $('#' + detailId);
+
+    //    var $row = $btn.closest('tr');
+    //    if ($existing.length) {
+    //        // Alterna la visibilidad con un efecto suave
+    //        $existing.toggle(); // si necesita animación, usar slideToggle()
+    //        return;
+    //    }
+
+    //    // Crea una fila de detalle justo después de la fila actual
+    //    var colspan = Math.max(1, $row.children('td').length);
+    //    var $tr = $('<tr/>', { id: detailId, 'class': 'detail-row' });
+    //    var $td = $('<td/>', { colspan: colspan });
+    //    var $content = $('<div/>', { 'class': 'detail-content' }).text('Cargando detalles...');
+
+    //    $td.append($content);
+    //    $tr.append($td);
+    //    $row.after($tr);
+
+    //    // Intentar cargar contenido rich vía AJAX — endpoint opcional
+    //    $.ajax({
+    //        url: '/Pacientes/DetallePaciente',
+    //        data: { idPaciente: id },
+    //        type: 'GET',
+    //        success: function (response) {
+    //            // Si el controlador devuelve `response.data` o HTML directo
+    //            $content.html(response);
+    //        },
+    //        error: function () {
+    //            // Si no existe el endpoint o falla, mostrar un fallback
+    //            $content.html('<div style="padding:8px;color:#f8f9fa;">No se pudieron cargar los detalles.</div>');
+    //        }
+    //    });
+    //});
     //MostrarGrid = () => {
 
     //    if ($('#gridEdiciones').is(':hidden')) {

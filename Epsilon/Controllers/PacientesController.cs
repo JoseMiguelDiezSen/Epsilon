@@ -265,6 +265,20 @@ namespace Epsilon.Controllers
             return new JsonResult(jsonResponse);
         }
 
+
+        public IActionResult DetallePaciente(int idPaciente)
+        {
+            return PartialView("DetallePaciente", idPaciente);
+        }
+
+        //public IActionResult DetallePaciente(int idPaciente)
+        //{
+        //    var paciente = /* aquí cargas lo que necesites */;
+        //    var model = /* construyes tu ViewModel bonito */;
+
+        //    return PartialView("DetallePaciente", model);
+        //}
+
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> ImportarExcel(IFormFile fileExcel)
         {
