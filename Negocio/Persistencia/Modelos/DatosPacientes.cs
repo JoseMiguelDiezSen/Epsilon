@@ -1,10 +1,5 @@
 ﻿using Negocio.Persistencia.Modelos.Comun;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Negocio.Persistencia.Modelos
 {
@@ -71,17 +66,14 @@ namespace Negocio.Persistencia.Modelos
         /// </summary>
         public DateTime FechaPrimeraCita { get; set; }
 
-
         /// <summary>
         /// Obtiene o establece la fecha de alta del paciente.
         /// </summary>
         public DateTime FechaUltimaCita { get; set; }
 
-
         /// <summary>
         /// Obtiene o establece las observaciones.
         /// </summary>
         public string? Observaciones { get; set; }
-
     }
 }

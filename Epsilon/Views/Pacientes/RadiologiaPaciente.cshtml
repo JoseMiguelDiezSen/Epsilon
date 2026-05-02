@@ -1,33 +1,15 @@
 ﻿@using Negocio.Persistencia.Modelos
 @model DatosPacientes
 
-
-
-
-<h3>Radiologia del Paciente</h3>
-
-<hr />
-
-
-<p style="color:green;">
-    ✔ Si ves esto, el routing y el modelo están vivos
-</p>
-
-
-
-
-@* Aqui meter el index aquel *@
-
-
 @{
-    ViewData["Title"] = "Radiologia";
+    ViewData["Title"] = "Radiologia" + Model.NombrePaciente;
 }
 @{
     // await Html.RenderPartialAsync("_MensajeOperaciones");
 }
 
 <hr>
-<h4 class="text-center"><span class="fa-solid fa-circle-radiation"></span> Radiologia 3D <span class="fa-solid fa-circle-radiation"></span></h4>
+<h4 class="text-center"><span class="fa-solid fa-circle-radiation"></span> Radiologia <span class="fa-solid fa-circle-radiation"></span></h4>
 <hr>
 
 <div class="row">
@@ -47,12 +29,12 @@
             <button class="btn btn-outline-dark" id="reset" style="margin-left:10px;">Reset</button>
         </div>
 
-         @* Aqui a continuacion los demas controles del DICOM *@
-         @* ....................
+        @* Aqui a continuacion los demas controles del DICOM *@
+        @* ....................
          ....................
          .................... *@
 
-         @* Boton para abrir modal fullScreen con la radiografia *@
+        @* Boton para abrir modal fullScreen con la radiografia *@
         <div class="col-md-2">
             <button class="btn btn-outline-dark" id="zoomIn" style="border-radius:30px;"><i class="fa fa-maximize" onclick="abrirVisorFullScreen()"></i><b> VISOR FULL SCREEN</b></button>
         </div>
@@ -65,17 +47,48 @@
     </div>
 
     @* Espacio lateral para datos del paciente *@
-    <div class="col-md-2" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+    <div class="col-md-2">
         
         @* Datos ficticios de momento *@
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
             <h3 class="text-center">DATOS DEL PACIENTE</h3>
             <label><b>Nombre:</b>@Model.NombrePaciente</label><br />
-            <label><b>Edad: </b> 37</label><br />
-            <label><b>Paciente:</b>Jose Miguel Diez Sen</label><br />
-            <label><b>Edad: </b> 37</label>
+            <label><b>Edad: </b> @Model.NumeroConsultas</label><br />
+            <label><b>Observaciones:</b>@Model.Observaciones</label><br />
+            <label><b>Ultima Cita: </b> @Model.FechaUltimaCita</label>
+        </div>
+
+
+        <div class="col-md-12" style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+            <label>Seleccione Radiografia</label>
+            <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+                <option value="" selected disabled>(Seleccione una opcion)</option>
+                <option value="2">Facturacion</option>
+                <option value="3">Pacientes</option>
+                <option value="4">Medicos</option>
+                <option value="4">Tratamientos</option>
+            </select>
+
+
+
+
+
+            <label>Seleccione Tipo</label>
+            <select name="ModeloCorreo" class="form-control form-select" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+                <option value="" selected disabled>(Seleccione una opcion)</option>
+                <option value="2">Facturacion</option>
+                <option value="3">Pacientes</option>
+                <option value="4">Medicos</option>
+                <option value="4">Tratamientos</option>
+            </select>
+
         </div>
     </div>
+
+
+
+
+</div>
 </div>
 
 <div style="margin-bottom:15px;">

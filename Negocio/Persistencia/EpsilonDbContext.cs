@@ -95,7 +95,14 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaPrimeraCita);
             modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaUltimaCita);
 
-
+            // TABLA RADIOLOGIA
+            modelBuilder.Entity<Radiografia>().HasKey(p => p.IdRadiografia);
+            modelBuilder.Entity<Radiografia>().Property(p => p.IdRadiografia);
+            modelBuilder.Entity<Radiografia>().Property(p => p.IdPaciente);
+            modelBuilder.Entity<Radiografia>().Property(p => p.Archivo);
+            modelBuilder.Entity<Radiografia>().Property(p => p.Tipo);
+            modelBuilder.Entity<Radiografia>().Property(p => p.FechaArchivo);
+            modelBuilder.Entity<Radiografia>().Property(p => p.Observaciones);
 
             //TABLA CLINICAS
             modelBuilder.Entity<Clinica>().HasKey(m => m.IdClinica);
@@ -199,6 +206,9 @@ namespace Negocio.Persistencia
 
         //Tabla pacientes
         public virtual DbSet<Modelos.Paciente> Pacientes { get; set; }
+
+        // Tabla radiologia
+        public virtual DbSet<Radiografia> Radiografias { get; set; }
 
         //Tabla clinicas
         public virtual DbSet<Modelos.Clinica> Clinicas { get; set; }
