@@ -60,7 +60,7 @@
                         @* INICIO *@
                         <div class="nav-item">
                           
-                            <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Home") ? "active" : "")" asp-area="" asp-controller="/Home">
+                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Home") ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">
                                 <i class="fa fa-home" aria-hidden="true"></i> Inicio
                             </a>
                         </div>
@@ -78,27 +78,27 @@
                             <div class="nav-items">
                                 @* Item 1: PACIENTES *@
                                 <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Pacientes") ? "active" : "")" asp-controller="Pacientes">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Pacientes") ? "active" : "")" asp-controller="Pacientes" asp-action="Index">
                                         <i class="fa-solid fa-user-injured"></i> Pacientes
                                     </a>
                                 </div>
                                 @* Item 2: RADIOLOGIA *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Radiologia") ? "active" : "")" asp-controller="Radiologia">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Radiologia") ? "active" : "")" asp-controller="Radiologia" asp-action="Index">
                                         <i class="fa-solid fa-circle-radiation"></i> Radiologia
                                     </a>
                                 </div>
                             
                                 @* ESCANER 3D *@
                                 <li class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link  @(Context.Request.Path.StartsWithSegments("/Escaner3D") ? "active" : "")" asp-controller="Escaner3D">
+                                    <a class="nav-link  @(Context.Request.Path.StartsWithSegments("/Escaner3D") ? "active" : "")" asp-controller="Escaner3D" asp-action="Index">
                                         <i class="fa fa-cube"></i>Escaner 3D
                                     </a>
                                 </li>
 
                                 @* INFORMES *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Informes") ? "active" : "")" asp-controller="Informes">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Informes") ? "active" : "")" asp-controller="Informes" asp-action="Index">
                                         <i class="fa fa-clipboard" aria-hidden="true"></i>Informes
                                     </a>
                                 </div>
@@ -117,14 +117,14 @@
 
                                 @* Item 1: Doctores *@
                                 <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Medicos") ? "active" : "")" asp-controller="Medicos">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Medicos") ? "active" : "")" asp-controller="Medicos" asp-action="Index">
                                         <i class="fa fa-user-md"></i>Medicos
                                     </a>
                                 </div>
 
                                 @* Item 2: Agenda *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-controller="Agenda">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-controller="Agenda" asp-action="Index">
                                         <i class="fa-regular fa-calendar-days"></i> Agenda
                                     </a>
                                 </div>
@@ -142,14 +142,14 @@
                                 @* Item 1: Usuarios *@
                                 <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
                                     <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Usuarios") ? "active" : "")"
-                                           asp-controller="/Usuarios">
+                                           asp-controller="Usuarios" asp-action="Index">
                                         <span class="fa fa-user" aria-hidden="true"></span>Usuarios
                                     </a>
                                 </div>
 
                                 @* Item 2: Permisos Usuarios *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-area="" asp-controller="/Permisos">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-area="" asp-controller="Permisos" asp-action="Index">
                                         <span class="fa fa-key" aria-hidden="true"></span>Permisos
                                     </a>
                                 </div>
@@ -168,28 +168,28 @@
 
                                 @* Item 1: Facturacion *@
                                 <div class="nav-item px-1" style="margin-top:3px;margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Facturacion") ? "active" : "")" asp-controller="Facturacion">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Facturacion") ? "active" : "")" asp-controller="Facturacion" asp-action="Index">
                                         <i class="fa fa-eur" aria-hidden="true"></i>Facturacion
                                     </a>
                                 </div>
 
                                 @* Item 2: Tratamientos *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "active" : "")" asp-controller="Tratamientos">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "active" : "")" asp-controller="Tratamientos" asp-action="Index">
                                         <i class="fa-solid fa-file-medical"></i> Tratamientos
                                     </a>
                                 </div>
 
                                 @* Item 3: Estadistica *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Estadistica") ? "active" : "")" asp-controller="/Estadistica">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Estadistica") ? "active" : "")" asp-controller="Estadistica" asp-action="Index">
                                         <i class="fa fa-pie-chart" aria-hidden="true"></i>Estadistica
                                     </a>
                                 </div>
 
                                 @* Item 4: Stock *@
                                 <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Stock") ? "active" : "")" asp-controller="/Stock">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Stock") ? "active" : "")" asp-controller="Stock" asp-action="Index">
                                         <i class="fa fa-medkit"></i>Stock
                                     </a>
                                 </div>
@@ -207,13 +207,13 @@
 
                                 @* Item 1: Configuracion *@
                                 <div class="nav-item px-1" style="margin-top:3px;">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Configuracion") ? "active" : "")" asp-controller="/Configuracion" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Configuracion") ? "active" : "")" asp-controller="Configuracion" asp-action="Index" style="margin-left:-15px">
                                         <i class="fa fa-gear" aria-hidden="true"></i> Configuracion
                                     </a>
                                 </div>
                                 @* Item 2: Logging *@
                                 <div class="nav-item px-1">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-controller="/Logging" style="margin-left:-15px">
+                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Logging") ? "active" : "")" asp-controller="Logging" asp-action="Index" style="margin-left:-15px">
                                         <i class="fa-solid fa-chart-bar" aria-hidden="true"></i> Logs
                                     </a>
                                 </div>
@@ -221,7 +221,7 @@
                         </div>
                         @* Item 3: Cerrar Sesion *@
                         <div class="nav-item px-1" style="margin-top:3px;">
-                            <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Login") ? "active" : "")" asp-controller="/Login" style="margin-left:-15px;background-color:orangered;color:gainsboro">
+                            <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Login") ? "active" : "")" asp-controller="Login" asp-action="Index" style="margin-left:-15px;background-color:orangered;color:gainsboro">
                                 <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesion
                             </a>
                         </div>

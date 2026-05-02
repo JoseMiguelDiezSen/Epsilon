@@ -242,6 +242,13 @@
         }
     }
 
+    jqAbrirHistorialPaciente = (idPaciente) => {
+        window.location.href = '/Pacientes/HistorialPaciente?idPaciente=' + idPaciente;
+    }
+
+    jqAbrirRadiografiasPaciente = (idPaciente) => {
+        window.location.href = '/Radiologia/Index?idPaciente=' + idPaciente;
+    }
 
     jqGetModalExportarExcel = () => {
 

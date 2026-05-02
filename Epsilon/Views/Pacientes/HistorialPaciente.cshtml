@@ -1,0 +1,28 @@
+﻿@using Negocio.Persistencia.Modelos
+@model DatosPacientes
+
+
+
+
+<h3>Historial del Paciente</h3>
+
+<hr />
+
+<p><strong>ID:</strong> @Model.IdPaciente</p>
+<p><strong>Nombre:</strong> @Model.NombrePaciente</p>
+<p><strong>DNI:</strong> @Model.DNI</p>
+<p><strong>Email:</strong> @Model.EMail</p>
+<p><strong>Teléfono:</strong> @Model.Telefono</p>
+
+<hr />
+
+<p style="color:green;">
+    ✔ Si ves esto, el routing y el modelo están vivos
+</p>
+
+
+<div style="margin-bottom:15px;">
+    <a class="btn btn-secondary" href="/Pacientes/Index">
+        ← Volver a Pacientes
+    </a>
+</div>

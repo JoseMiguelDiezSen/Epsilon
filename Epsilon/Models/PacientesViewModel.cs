@@ -17,6 +17,6 @@ namespace Epsilon.Models
         public bool Asegurado { get; set; }
         public IEnumerable<ViewPacientes> Pacientes { get; set; } = Enumerable.Empty<ViewPacientes>();
         public int PaginaActual { get; set; } = 1;
-        public int RegistrosPorPagina { get; set; } = 5;
+        public int RegistrosPorPagina { get; set; } = 10;
     }
 }

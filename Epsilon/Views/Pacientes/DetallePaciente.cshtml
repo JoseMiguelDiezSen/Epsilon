@@ -1,66 +1,81 @@
-﻿@model int
+﻿
+@using Negocio.Persistencia.Modelos
+@model DatosPacientes
 
 <div>
-    Ficha de paciente con ID: @Model
-</div>
-
-<div class="row">
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">1</button>
-    </div>
-    
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">2</button>
-    </div>
-    
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">3</button>
-    </div>
-    
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">4</button>
-
-    </div>
+    Ficha de Datos del paciente : @Model.NombrePaciente
 </div>
 
 <div class="row" style="margin:10px">
+   
+    @* Nombre Paciente *@
     <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">1</button>
+        <label class="label">Nombre Paciente: </label>
+        <label type="button" class="label">@Model.NombrePaciente</label>
     </div>
     
+    @* DNI *@
     <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">2</button>
+        <label class="label">DNI: </label>
+        <label class="label">@Model.DNI</label>
     </div>
-    
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">3</button>
-    </div>
-    
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">4</button>
 
+    @* Telefono  *@
+    <div class="col-md-3">
+        <label class="label">Telefono: </label>
+        <label class="label">@Model.Telefono</label>
+    </div>
+
+    @* Email *@
+    <div class="col-md-3">
+        <label class="label">Email: </label>
+        <label class="label">@Model.EMail</label>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Nº de Consultas: </label>
+        <label class="label">@Model.NumeroConsultas</label> 
+    </div>
+    
+    <div class="col-md-3">
+        <label class="label">Fecha Nacimiento: </label>
+        <label class="label">@Model.FechaNacimiento</label>
+    </div>
+    
+    <div class="col-md-3">
+        <label class="label">Direccion: </label>
+        <label class="label">@Model.Direccion</label>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Ciudad: </label>
+        <label class="label">@Model.Ciudad</label>
     </div>
 </div>
+<hr style="color:yellow">
+@* Acciones *@
+<div class="row" style="margin:10px">
+    @* Informe Clinico (Historial Clinico) (Citas del Paciente) --> Emision Factura?? *@
+    <div class="col-md-4">
+        @* Hermano estamos aqui, debemos partir de este boton para abrir el historial te dejo un ejemplo comentado de como me gustaria*@
+        <button type="button" class="btn btn-outline-light" onclick="return jqAbrirHistorialPaciente(@Model.IdPaciente);"><i class="fa fa-history" aria-hidden="true"></i> Historial Clinico</button>
+ 
+    </div>
+    @* Radiologia (Ver Radiografias del Paciente)
+        Aqui tendremos que hacer algo parecido porque la accion es la misma redireccionar a una pantalla filtrando por paciente.
 
-<div class="row">
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">1</button>
+    *@
+    <div class="col-md-4">
+        <button type="button" class="btn btn-outline-light"><i class="fa-solid fa-circle-radiation" onclick="return jqAbrirRadiografiasPaciente(@Model.IdPaciente);"></i> Ver Radiografias</button>
     </div>
-    
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">2</button>
-    </div>
-    
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">3</button>
-    </div>
-    
-    <div class="col-md-3">
-        <button type="button" class="btn btn-outline-primary">4</button>
 
+    @* Enviar Correo a Paciente
+        Esto de momento nada..
+    *@
+    <div class="col-md-4">
+        <button type="button" class="btn btn-outline-light"><i class="fa fa-paper-plane" aria-hidden="true"></i> Envio Email</button>
     </div>
 </div>
-
 
 
 

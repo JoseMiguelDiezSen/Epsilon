@@ -6,6 +6,7 @@ using Epsilon.Renders;
 using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
 using OfficeOpenXml;
@@ -19,17 +20,18 @@ namespace Epsilon.Controllers
     {
         private readonly IRazorRenderService _renderService;
         private IGestionPacientes _gestionPacientes;
-
+        private readonly EpsilonDbContext _context;
         /// <summary>
         /// Constructor del controlador 'Pacientes'
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionPacientes"></param>
-        public PacientesController(ILogger<PacientesController> logger, IGestionPacientes gestionPacientes, IRazorRenderService renderService) : base(logger)
+        public PacientesController(ILogger<PacientesController> logger, IGestionPacientes gestionPacientes, IRazorRenderService renderService, EpsilonDbContext context) : base(logger)
         {
             _gestionPacientes = gestionPacientes;
             _renderService = renderService;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -265,11 +267,25 @@ namespace Epsilon.Controllers
             return new JsonResult(jsonResponse);
         }
 
-
+        /// <summary>
+        /// Devuelve una vista parcial que muestra los detalles del paciente que sea identificado.
+        /// </summary>
+        /// <param name="idPaciente"> Identificador unico del paciente del cual se mortaran los detalles.</param>
+        /// <returns>A partial view containing the patient's details if found; otherwise, a view with no data.</returns>
+        [HttpGet, AjaxOnly]
         public IActionResult DetallePaciente(int idPaciente)
         {
-            return PartialView("DetallePaciente", idPaciente);
+            var paciente = _gestionPacientes.GetDetallePaciente(idPaciente);
+            return PartialView("DetallePaciente", paciente);
         }
+
+
+        public IActionResult HistorialPaciente(int idPaciente)
+        {
+            var paciente = _context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+            return View("HistorialPaciente", paciente);
+        }
+
 
         //public IActionResult DetallePaciente(int idPaciente)
         //{

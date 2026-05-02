@@ -14,5 +14,7 @@ namespace Negocio.Servicios
         Paciente UpdatePaciente(Paciente paciente);
 
         bool DeletePaciente(int idPaciente);
+
+        public DatosPacientes? GetDetallePaciente(int idPaciente);
     }
 }

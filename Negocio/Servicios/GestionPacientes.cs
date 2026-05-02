@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios.Comun;
@@ -92,6 +93,15 @@ namespace Negocio.Servicios
             Context.Pacientes.Remove(paciente);
             return true;
         }
+
+
+        public DatosPacientes? GetDetallePaciente(int idPaciente)
+        {
+            return Context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+        }
+
+
+
 
         /// <summary>
         /// Metodo para obtener los pacientes
