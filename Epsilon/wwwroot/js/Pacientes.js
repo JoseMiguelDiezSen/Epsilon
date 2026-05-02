@@ -242,12 +242,14 @@
         }
     }
 
+    // Funcion para la apertura del historial de un paciente
     jqAbrirHistorialPaciente = (idPaciente) => {
         window.location.href = '/Pacientes/HistorialPaciente?idPaciente=' + idPaciente;
     }
 
+    // Funcion para la apertura de las radiografias de un paciente
     jqAbrirRadiografiasPaciente = (idPaciente) => {
-        window.location.href = '/Radiologia/Index?idPaciente=' + idPaciente;
+        window.location.href = '/Pacientes/RadiologiaPaciente?idPaciente=' + idPaciente;
     }
 
     jqGetModalExportarExcel = () => {
@@ -343,51 +345,7 @@
         });
     });
 
-    //$(document).on('click', '.js-toggle-detail', function (e) {
-    //    e.preventDefault();
-
-    //    var $btn = $(this);
-    //    var id = $btn.data('id');
-    //    if (id === undefined || id === null) {
-    //        console.warn('Botón detalle sin data-id');
-    //        return;
-    //    }
-
-    //    var detailId = 'detail-' + id;
-    //    var $existing = $('#' + detailId);
-
-    //    var $row = $btn.closest('tr');
-    //    if ($existing.length) {
-    //        // Alterna la visibilidad con un efecto suave
-    //        $existing.toggle(); // si necesita animación, usar slideToggle()
-    //        return;
-    //    }
-
-    //    // Crea una fila de detalle justo después de la fila actual
-    //    var colspan = Math.max(1, $row.children('td').length);
-    //    var $tr = $('<tr/>', { id: detailId, 'class': 'detail-row' });
-    //    var $td = $('<td/>', { colspan: colspan });
-    //    var $content = $('<div/>', { 'class': 'detail-content' }).text('Cargando detalles...');
-
-    //    $td.append($content);
-    //    $tr.append($td);
-    //    $row.after($tr);
-
-    //    // Intentar cargar contenido rich vía AJAX — endpoint opcional
-    //    $.ajax({
-    //        url: '/Pacientes/DetallePaciente',
-    //        data: { idPaciente: id },
-    //        type: 'GET',
-    //        success: function (response) {
-    //            // Si el controlador devuelve `response.data` o HTML directo
-    //            $content.html(response);
-    //        },
-    //        error: function () {
-    //            // Si no existe el endpoint o falla, mostrar un fallback
-    //            $content.html('<div style="padding:8px;color:#f8f9fa;">No se pudieron cargar los detalles.</div>');
-    //        }
-    //    });
-    //});
+   
     //MostrarGrid = () => {
 
     //    if ($('#gridEdiciones').is(':hidden')) {

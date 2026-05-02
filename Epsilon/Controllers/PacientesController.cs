@@ -286,7 +286,11 @@ namespace Epsilon.Controllers
             return View("HistorialPaciente", paciente);
         }
 
-
+        public IActionResult RadiologiaPaciente(int idPaciente)
+        {
+            var paciente = _context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+            return View("RadiologiaPaciente", paciente);
+        }
         //public IActionResult DetallePaciente(int idPaciente)
         //{
         //    var paciente = /* aquí cargas lo que necesites */;

@@ -1,0 +1,132 @@
+﻿@using Negocio.Persistencia.Modelos
+@model DatosPacientes
+
+
+
+
+<h3>Radiologia del Paciente</h3>
+
+<hr />
+
+
+<p style="color:green;">
+    ✔ Si ves esto, el routing y el modelo están vivos
+</p>
+
+
+<div style="margin-bottom:15px;">
+    <a class="btn btn-secondary" href="/Pacientes/Index">
+        ← Volver a Pacientes
+    </a>
+</div>
+
+@* Aqui meter el index aquel *@
+
+
+@{
+    ViewData["Title"] = "Radiologia";
+}
+@{
+    // await Html.RenderPartialAsync("_MensajeOperaciones");
+}
+
+<hr>
+<h4 class="text-center"><span class="fa-solid fa-circle-radiation"></span> Radiologia 3D <span class="fa-solid fa-circle-radiation"></span></h4>
+<hr>
+
+<div class="row">
+    @* Zona de controles de manipulacion de DICOM *@
+    <div class="row" style="margin-bottom:10px;border:1px solid gainsboro;padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+        @* Botones normales *@
+        <div class="col-md-2">
+            <button id="zoomIn">Zoom +</button>
+            <button id="zoomOut">Zoom -</button>
+            <button id="reset">Reset</button>
+        </div>
+
+        @* Botones bootstrap (Mas bonitos) *@
+        <div class="col-md-2">
+            <button class="btn btn-outline-dark" id="zoomIn" style="border-radius:30px;"><b>+</b></button>
+            <button class="btn btn-outline-dark" id="zoomOut" style="border-radius:30px;width:35px;"><b>-</b></button>
+            <button class="btn btn-outline-dark" id="reset" style="margin-left:10px;">Reset</button>
+        </div>
+
+         @* Aqui a continuacion los demas controles del DICOM *@
+         @* ....................
+         ....................
+         .................... *@
+
+         @* Boton para abrir modal fullScreen con la radiografia *@
+        <div class="col-md-2">
+            <button class="btn btn-outline-dark" id="zoomIn" style="border-radius:30px;"><i class="fa fa-maximize" onclick="abrirVisorFullScreen()"></i><b> VISOR FULL SCREEN</b></button>
+        </div>
+    </div>
+
+    @* Contenedor de la DICOM *@
+    <div class="col-md-10" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+        @* Zona de visualizacion de la radiografia *@
+        <div id="dicomViewer" style="width: 100%; height: 562px; border: 1px solid #333;"></div>
+    </div>
+
+    @* Espacio lateral para datos del paciente *@
+    <div class="col-md-2" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+        
+        @* Datos ficticios de momento *@
+        <div class="col-md-12">
+            <h3 class="text-center">DATOS DEL PACIENTE</h3>
+            <label><b>Nombre:</b>@Model.NombrePaciente</label><br />
+            <label><b>Edad: </b> 37</label><br />
+            <label><b>Paciente:</b>Jose Miguel Diez Sen</label><br />
+            <label><b>Edad: </b> 37</label>
+        </div>
+    </div>
+</div>
+
+
+
+
+@* <p><strong>ID:</strong> @Model.IdPaciente</p>
+<p><strong>Nombre:</strong> @Model.NombrePaciente</p>
+<p><strong>DNI:</strong> @Model.DNI</p>
+<p><strong>Email:</strong> @Model.EMail</p>
+<p><strong>Teléfono:</strong> @Model.Telefono</p>
+
+<hr />
+ *@
+
+
+
+
+
+
+
+
+@section Scripts {
+    <script src="/dicom/dicomParser.min.js"></script>
+    <script src="/dicom/cornerstone.min.js"></script>
+    <script src="/dicom/cornerstoneWADOImageLoader.bundle.min.js"></script>
+    <script src="~/js/Radiologia.js" asp-append-version="true"></script>
+}
+
+@section Modals {
+    @* Modal FullScreen??? o no vale esto?? *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="modalRadiografia">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Radiografia
+                    </h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Styles {
+    <link href="~/css/Radiologia.css" rel="stylesheet" />
+}

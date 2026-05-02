@@ -3,7 +3,6 @@
 @model IEnumerable<ViewPacientes>
 
 <table class="table table-dark table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
-
     <thead>
         @* Cabecera *@
         <tr>
@@ -16,7 +15,7 @@
             <th scope="col">CIUDAD</th>
             <th scope="col">ASEGURADO</th>
             <th scope="col">F.ALTA</th>
-            <th csope="col">Nº CONSULTAS</th>
+            <th scope="col">Nº CONSULTAS</th>
             <th scope="col">OPERACIONES</th>
         </tr>
     </thead>
@@ -47,14 +46,17 @@
                     <td>
                         <div aria-label="Basic Example">
 
+                            @* Boton Editar Paciente *@
                             <a class="btn btn-sm btn-outline-light" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
                                 <span class="fa fa-pencil"> </span>
                             </a>
 
+                            @* Boton Eliminar Paciente *@
                             <button class="btn btn-sm btn-outline-light" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
                                 <span class="fa fa-circle-xmark"> </span>
                             </button>
 
+                            @* Boton Mostrar Detalle *@
                             <button class="btn btn-sm btn-outline-light js-toggle-detail" data-id="@paciente.IdPaciente" style="margin-left:5px;" id="btnMostrarDetalle">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                             </button>
@@ -89,8 +91,7 @@
 
 <style>
 
-
-    /*     // Estilo para la fila de detalle */
+    /* Estilos para el detalle */
     .detail-row td {
         background-color: none;
         color: black;
@@ -101,13 +102,12 @@
         transition: all 0.7s ease;
     }
 
-        /*     Estilo para el hover en la fila de detalle */
-        .detail-row td:hover {
-            background-color: yellow !important; /* leve cambio al pasar el ratón */
-        }
+    /* Estilo para el hover en la fila de detalle */
+    .detail-row td:hover {
+        background-color: yellow !important; /* leve cambio al pasar el ratón */
+    }
 
-
-    /*    Estilo de contenido detallado */
+    /* Estilo de contenido detallado */
     .detail-content {
         background-color: #3b3f44;
         color: #f8f9fa;
@@ -118,11 +118,10 @@
         transition: max-height 0.3s ease; /* transición suave */
     }
 
-    #tablaPacientes{
-    
-        border:1px solid;
-        border-color:yellow;
-
+    /* Estilo de la tabla de pacientes */
+    #tablaPacientes {
+        border: 1px solid;
+        border-color: yellow;
     }
 
 </style>

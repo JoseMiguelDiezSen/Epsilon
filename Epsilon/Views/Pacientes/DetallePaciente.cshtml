@@ -1,5 +1,4 @@
-﻿
-@using Negocio.Persistencia.Modelos
+﻿@using Negocio.Persistencia.Modelos
 @model DatosPacientes
 
 <div>
@@ -34,7 +33,7 @@
 
     <div class="col-md-3">
         <label class="label">Nº de Consultas: </label>
-        <label class="label">@Model.NumeroConsultas</label> 
+        <label class="label">@Model.NumeroConsultas</label>
     </div>
     
     <div class="col-md-3">
@@ -55,23 +54,16 @@
 <hr style="color:yellow">
 @* Acciones *@
 <div class="row" style="margin:10px">
-    @* Informe Clinico (Historial Clinico) (Citas del Paciente) --> Emision Factura?? *@
+    @* Boton para abrir pantalla HistorialPaciente.cshtml *@
     <div class="col-md-4">
-        @* Hermano estamos aqui, debemos partir de este boton para abrir el historial te dejo un ejemplo comentado de como me gustaria*@
-        <button type="button" class="btn btn-outline-light" onclick="return jqAbrirHistorialPaciente(@Model.IdPaciente);"><i class="fa fa-history" aria-hidden="true"></i> Historial Clinico</button>
- 
+        <button type="button" class="btn btn-outline-light" onclick="return jqAbrirHistorialPaciente(@Model.IdPaciente);"><i class="fa fa-history" aria-hidden="true"></i> Historial Clinico</button> 
     </div>
-    @* Radiologia (Ver Radiografias del Paciente)
-        Aqui tendremos que hacer algo parecido porque la accion es la misma redireccionar a una pantalla filtrando por paciente.
-
-    *@
+    @* Boton para abrir pantalla RadiologiaPaciente.cshtml *@
     <div class="col-md-4">
-        <button type="button" class="btn btn-outline-light"><i class="fa-solid fa-circle-radiation" onclick="return jqAbrirRadiografiasPaciente(@Model.IdPaciente);"></i> Ver Radiografias</button>
+        <button type="button" class="btn btn-outline-light" onclick="return jqAbrirRadiografiasPaciente(@Model.IdPaciente);"><i class="fa-solid fa-circle-radiation"></i> Ver Radiografias</button>
     </div>
 
-    @* Enviar Correo a Paciente
-        Esto de momento nada..
-    *@
+    @* Boton para apertuta modal enviar correo electronico a paciente *@
     <div class="col-md-4">
         <button type="button" class="btn btn-outline-light"><i class="fa fa-paper-plane" aria-hidden="true"></i> Envio Email</button>
     </div>
