@@ -74,6 +74,9 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Paciente>().Property(m => m.FechaAlta);
             modelBuilder.Entity<Paciente>().Property(m => m.NumeroConsultas);
             modelBuilder.Entity<Paciente>().Property(m => m.Asegurado);
+            modelBuilder.Entity<Paciente>().Property(p => p.Observaciones);
+            modelBuilder.Entity<Paciente>().Property(p => p.FechaPrimeraCita);
+            modelBuilder.Entity<Paciente>().Property(p => p.FechaUltimaCita);
 
             // Vista [[vDatosUsuarios]]
             modelBuilder.Entity<DatosPacientes>().HasKey(p => p.IdPaciente);
@@ -88,7 +91,9 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosPacientes>().Property(p => p.NumeroConsultas);
             modelBuilder.Entity<DatosPacientes>().Property(p => p.Asegurado);
             modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaNacimiento);
-
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Observaciones);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaPrimeraCita);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaUltimaCita);
 
 
 

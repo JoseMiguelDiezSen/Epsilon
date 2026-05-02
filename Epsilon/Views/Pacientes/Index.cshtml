@@ -72,21 +72,18 @@
         </div>
     </div>
 
-
-    <button id="AddUser" type="button" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddPaciente(this)"><span class="fa fa-plus"></span> Nuevo <b>Paciente</b></button>
-    <button id="ExportarExcel" type="button" class="btn btn-sm btn-outline-dark fa-pull-left" onclick="jqGetModalExportarExcel()"><i class="fa fa-file-import"></i> Importar <b>Pacientes</b></button>
-
-
     <input type="hidden" asp-for="PaginaActual" id="PaginaActual" />
     <input type="hidden" asp-for="RegistrosPorPagina" id="RegistrosPorPagina" />
     <input type="hidden" name="RegistrosPaginaActual" id="RegistrosPaginaActual" value="@Model.Pacientes?.Count()" />
 </form>
 
+<div style="margin-top:10px;">
+    <button id="AddUser" type="button" style="margin-bottom:10px;" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddPaciente(this)"><span class="fa fa-plus"></span> Nuevo <b>Paciente</b></button>
+</div>
 
 
 
-
-<div id="idResultadosFiltro" class="text-center">
+<div id="idResultadosFiltro" class="text-center" style="margin-top:10px;">
     @{
         await Html.RenderPartialAsync("TablaPacientes", Model.Pacientes);
     }

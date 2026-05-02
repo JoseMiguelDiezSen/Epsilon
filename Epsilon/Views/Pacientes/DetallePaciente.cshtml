@@ -1,8 +1,8 @@
 ﻿@using Negocio.Persistencia.Modelos
 @model DatosPacientes
 
-<div>
-    Ficha de Datos del paciente : @Model.NombrePaciente
+<div style="margin-bottom:10px">
+    <div style="text-decoration:underline">Datos Personales del Paciente</div>
 </div>
 
 <div class="row" style="margin:10px">
@@ -32,15 +32,15 @@
     </div>
 
     <div class="col-md-3">
-        <label class="label">Nº de Consultas: </label>
-        <label class="label">@Model.NumeroConsultas</label>
-    </div>
-    
-    <div class="col-md-3">
         <label class="label">Fecha Nacimiento: </label>
         <label class="label">@Model.FechaNacimiento</label>
     </div>
     
+    <div class="col-md-3">
+        <label class="label">Ciudad: </label>
+        <label class="label">@Model.Ciudad</label>
+    </div>
+
     <div class="col-md-3">
         <label class="label">Direccion: </label>
         <label class="label">@Model.Direccion</label>
@@ -51,12 +51,47 @@
         <label class="label">@Model.Ciudad</label>
     </div>
 </div>
+
 <hr style="color:yellow">
+
+<div class="row" style="margin:10px">
+    <div style="margin-bottom:10px">
+        <div style="text-decoration:underline">Datos Clinicos del paciente</div>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Nº de Consultas: </label>
+        <label class="label">@Model.NumeroConsultas</label>
+    </div>
+
+    
+    <div class="col-md-3">
+        <label class="label">Observaciones: </label>
+        <label class="label">@Model.Observaciones</label>
+    </div>
+
+        
+    <div class="col-md-3">
+        <label class="label">F.Primera Cita: </label>
+        <label class="label">@Model.FechaPrimeraCita</label>
+    </div>
+
+        
+    <div class="col-md-3">
+        <label class="label">F. Ultima Cita: </label>
+        <label class="label">@Model.FechaUltimaCita</label>
+    </div>
+
+
+</div>
+
+<hr style="color:yellow">
+
 @* Acciones *@
 <div class="row" style="margin:10px">
     @* Boton para abrir pantalla HistorialPaciente.cshtml *@
     <div class="col-md-4">
-        <button type="button" class="btn btn-outline-light" onclick="return jqAbrirHistorialPaciente(@Model.IdPaciente);"><i class="fa fa-history" aria-hidden="true"></i> Historial Clinico</button> 
+        <button type="button" class="btn btn-outline-light" onclick="return jqAbrirHistorialPaciente(@Model.IdPaciente);"><i class="fa fa-history" aria-hidden="true"></i> Historial Clinico</button>
     </div>
     @* Boton para abrir pantalla RadiologiaPaciente.cshtml *@
     <div class="col-md-4">

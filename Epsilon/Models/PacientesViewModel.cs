@@ -18,5 +18,20 @@ namespace Epsilon.Models
         public IEnumerable<ViewPacientes> Pacientes { get; set; } = Enumerable.Empty<ViewPacientes>();
         public int PaginaActual { get; set; } = 1;
         public int RegistrosPorPagina { get; set; } = 10;
+
+        /// <summary>
+        /// Obtiene o establece la fecha de alta del paciente.
+        /// </summary>
+        public DateTime FechaPrimeraCita { get; set; }
+
+        /// <summary>
+        /// Obtiene o establece la fecha de alta del paciente.
+        /// </summary>
+        public DateTime FechaUltimaCita { get; set; }
+
+        /// <summary>
+        /// Obtiene o establece las observaciones.
+        /// </summary>
+        public string? Observaciones { get; set; }
     }
 }

@@ -65,5 +65,23 @@ namespace Negocio.Persistencia.Modelos
         /// Obtiene o establece la fecha de nacimiento del paciente.
         /// </summary>
         public DateTime FechaNacimiento { get; set; }
+
+        /// <summary>
+        /// Obtiene o establece la fecha de alta del paciente.
+        /// </summary>
+        public DateTime FechaPrimeraCita { get; set; }
+
+
+        /// <summary>
+        /// Obtiene o establece la fecha de alta del paciente.
+        /// </summary>
+        public DateTime FechaUltimaCita { get; set; }
+
+
+        /// <summary>
+        /// Obtiene o establece las observaciones.
+        /// </summary>
+        public string? Observaciones { get; set; }
+
     }
 }
