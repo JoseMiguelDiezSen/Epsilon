@@ -84,5 +84,21 @@ namespace Negocio.Persistencia.Modelos
         /// Obtiene o establece las observaciones.
         /// </summary>
         public string? Observaciones { get; set; }
+
+        /// <summary>
+        /// Obtiene o establece alergias asociadas al individuo.
+        /// </summary>
+        public string? Alergias { get; set; }
+
+        /// <summary>
+        /// Obtiene o establece si el paciente es fumador o no
+        /// </summary>
+        public bool Fumador { get; set; }
+
+        /// <summary>
+        /// Obtiene o establece la descripción de la condición bucal del paciente.
+        /// </summary>
+        public string? CondicionBucal { get; set; }
+
     }
 }

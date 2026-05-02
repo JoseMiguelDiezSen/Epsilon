@@ -77,6 +77,10 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Paciente>().Property(p => p.Observaciones);
             modelBuilder.Entity<Paciente>().Property(p => p.FechaPrimeraCita);
             modelBuilder.Entity<Paciente>().Property(p => p.FechaUltimaCita);
+            modelBuilder.Entity<Paciente>().Property(p => p.Alergias);
+            modelBuilder.Entity<Paciente>().Property(p => p.Fumador);
+            modelBuilder.Entity<Paciente>().Property(p => p.CondicionBucal);
+
 
             // Vista [[vDatosUsuarios]]
             modelBuilder.Entity<DatosPacientes>().HasKey(p => p.IdPaciente);

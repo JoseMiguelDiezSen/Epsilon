@@ -2,7 +2,7 @@
 @model DatosPacientes
 
 @{
-    ViewData["Title"] = "Radiologia" + Model.NombrePaciente;
+    ViewData["Title"] = "Radiologia - " + Model.NombrePaciente;
 }
 @{
     // await Html.RenderPartialAsync("_MensajeOperaciones");
@@ -29,12 +29,6 @@
             <button class="btn btn-outline-dark" id="reset" style="margin-left:10px;">Reset</button>
         </div>
 
-        @* Aqui a continuacion los demas controles del DICOM *@
-        @* ....................
-         ....................
-         .................... *@
-
-        @* Boton para abrir modal fullScreen con la radiografia *@
         <div class="col-md-2">
             <button class="btn btn-outline-dark" id="zoomIn" style="border-radius:30px;"><i class="fa fa-maximize" onclick="abrirVisorFullScreen()"></i><b> VISOR FULL SCREEN</b></button>
         </div>
@@ -55,7 +49,7 @@
             <label><b>Nombre:</b>@Model.NombrePaciente</label><br />
             <label><b>Edad: </b> @Model.NumeroConsultas</label><br />
             <label><b>Observaciones:</b>@Model.Observaciones</label><br />
-            <label><b>Ultima Cita: </b> @Model.FechaUltimaCita</label>
+            <label><b>Ultima Cita: </b> @Model.FechaUltimaCita.ToShortDateString()</label>
         </div>
 
 
@@ -82,20 +76,27 @@
                 <option value="4">Tratamientos</option>
             </select>
 
+
+            
+            <div style="margin-bottom:15px;margin-top:10px;">
+                <a class="btn btn-secondary" href="/Pacientes/Index">
+                    ← Volver a Pacientes
+                </a>
+            </div>
+
+
         </div>
+
+
     </div>
 
 
 
 
 </div>
-</div>
 
-<div style="margin-bottom:15px;">
-    <a class="btn btn-secondary" href="/Pacientes/Index">
-        ← Volver a Pacientes
-    </a>
-</div>
+
+
 
 
 @* <p><strong>ID:</strong> @Model.IdPaciente</p>

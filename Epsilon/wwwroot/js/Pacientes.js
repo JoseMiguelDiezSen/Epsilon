@@ -301,8 +301,6 @@
         })
     }
 
-
-
     $('#updatePacienteModal').dragablito({ handle: ".modal-header" });
 
     $(document).on('click', '.js-toggle-detail', function (e) {
@@ -311,6 +309,9 @@
         // ID del paciente desde el botón
         var id = $(this).data('id');
         if (!id) return;
+
+        // 🔥 guardar estado en sesión del navegador
+        sessionStorage.setItem("detallePacienteAbierto", id);
 
         // Selector de la fila detalle (si ya existe)
         var detailSelector = '#detail-' + id;
@@ -345,6 +346,19 @@
         });
     });
 
+
+    $(function () {
+
+        var id = sessionStorage.getItem("detallePacienteAbierto");
+
+        if (!id) return;
+
+        var $row = $('.js-toggle-detail[data-id="' + id + '"]');
+
+        if ($row.length) {
+            $row.trigger('click');
+        }
+    });
    
     //MostrarGrid = () => {
 
