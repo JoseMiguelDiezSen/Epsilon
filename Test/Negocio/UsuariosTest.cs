@@ -20,13 +20,12 @@ namespace Test.Negocio
         private Mock<IIdentity>? identityFake;
         private Usuario? usuarioFake;
         private Mock<IPrincipal>? principalFake;
-        private Mock<Seguridad>? srvSeguridadFake;
-        private Mock<ILogger<Seguridad>>? loggerFake;
+
         private DbSet<Usuario>? usuariosFake;
 
         // Mocks reutilizados por la mayoría de pruebas: movidos al Setup para evitar duplicación
         private Mock<ILogger<GestionUsuarios>>? loggerMock;
-        private Mock<ISeguridad>? seguridadMock;
+   
         private Mock<IValidadoresProgesfor>? validadoresMock;
 
         [SetUp]
@@ -37,7 +36,7 @@ namespace Test.Negocio
             string nombreUsuarioFake = @"jsm";
             int idUsuarioFake = 1;
 
-            loggerFake = new Mock<ILogger<Seguridad>>();
+
             identityFake = new Mock<IIdentity>();
             identityFake.SetupGet(i => i.Name).Returns(nombreUsuarioFake);
 
@@ -55,12 +54,9 @@ namespace Test.Negocio
             principalFake = new Mock<IPrincipal>();
             principalFake.SetupGet(p => p.Identity).Returns(identityFake.Object);
 
-            // Mock de la clase Seguridad (se usa CallBase=true para permitir ejecutar la lógica real cuando convenga)
-            srvSeguridadFake = new Mock<Seguridad>(contextFake.Object, loggerFake.Object, principalFake.Object) { CallBase = true };
-
             // Mocks compartidos para los servicios de gestión de usuarios (para evitar repetición en cada test)
             loggerMock = new Mock<ILogger<GestionUsuarios>>();
-            seguridadMock = new Mock<ISeguridad>();
+     
             validadoresMock = new Mock<IValidadoresProgesfor>();
         }
 
@@ -94,7 +90,7 @@ namespace Test.Negocio
             contextFake.Setup(c => c.SaveChanges()).Returns(1);
 
             // Creamos el servicio con los mocks configurados
-            var serviceFake = new GestionUsuarios(contextFake.Object, loggerMock!.Object, seguridadMock!.Object, validadoresMock!.Object);
+            var serviceFake = new GestionUsuarios(contextFake.Object, loggerMock!.Object, validadoresMock!.Object);
 
             // Act: modificamos usuario mediante el servicio
             var usuarioAModificar = new Usuario
@@ -129,7 +125,7 @@ namespace Test.Negocio
             contextFake.SetupGet(c => c.Usuarios).Returns(usuariosDbSet);
             contextFake.Setup(c => c.SaveChanges()).Returns(1);
 
-            var service = new GestionUsuarios(contextFake.Object, loggerMock!.Object, seguridadMock!.Object, validadoresMock!.Object);
+            var service = new GestionUsuarios(contextFake.Object, loggerMock!.Object, validadoresMock!.Object);
 
             var nuevo = new Usuario { IdUsuario = 5, Nombre = "Ana", Email = "ana@test.com" };
 
@@ -156,7 +152,7 @@ namespace Test.Negocio
             var dbSetMock = CreateDbSetMock<Usuario>(usuarios.AsQueryable());
             contextFake.SetupGet(c => c.Usuarios).Returns(dbSetMock.Object);
 
-            var service = new GestionUsuarios(contextFake.Object, loggerMock!.Object, seguridadMock!.Object, validadoresMock!.Object);
+            var service = new GestionUsuarios(contextFake.Object, loggerMock!.Object, validadoresMock!.Object);
 
             // Act
             var resultado = service.GetAllUsers().ToList();
@@ -177,7 +173,7 @@ namespace Test.Negocio
             var dbSetMock = CreateDbSetMock<Usuario>(usuarios.AsQueryable());
             contextFake.SetupGet(c => c.Usuarios).Returns(dbSetMock.Object);
 
-            var service = new GestionUsuarios(contextFake.Object, loggerMock!.Object, seguridadMock!.Object, validadoresMock!.Object);
+            var service = new GestionUsuarios(contextFake.Object, loggerMock!.Object, validadoresMock!.Object);
 
             // Act
             var usuario = service.GetUser(10);
@@ -202,7 +198,7 @@ namespace Test.Negocio
 
             contextFake.SetupGet(c => c.Usuarios).Returns(dbSetMock.Object);
 
-            var service = new GestionUsuarios(contextFake.Object, loggerMock!.Object, seguridadMock!.Object, validadoresMock!.Object);
+            var service = new GestionUsuarios(contextFake.Object, loggerMock!.Object, validadoresMock!.Object);
 
             // Act
             var res = service.DeleteUser(20);

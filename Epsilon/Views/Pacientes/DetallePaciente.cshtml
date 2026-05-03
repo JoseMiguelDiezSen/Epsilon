@@ -105,17 +105,22 @@
 @* Acciones *@
 <div class="row" style="margin:10px">
     @* Boton para abrir pantalla HistorialPaciente.cshtml *@
-    <div class="col-md-4">
+    <div class="col-md-3">
         <button type="button" class="btn btn-outline-warning" onclick="return jqAbrirHistorialPaciente(@Model.IdPaciente);"><i class="fa fa-history" aria-hidden="true"></i> Historial Clinico</button>
     </div>
     @* Boton para abrir pantalla RadiologiaPaciente.cshtml *@
-    <div class="col-md-4">
+    <div class="col-md-3">
         <button type="button" class="btn btn-outline-warning" onclick="return jqAbrirRadiografiasPaciente(@Model.IdPaciente);"><i class="fa-solid fa-circle-radiation"></i> Ver Radiografias</button>
     </div>
 
     @* Boton para apertuta modal enviar correo electronico a paciente *@
-    <div class="col-md-4">
+    <div class="col-md-3">
         <button type="button" class="btn btn-outline-warning"><i class="fa fa-paper-plane" aria-hidden="true"></i> Envio Email</button>
+    </div>
+
+    @* Boton para generar informe del paciente *@
+    <div class="col-md-3">
+        <button type="button" class="btn btn-outline-warning" onclick="return jqGenerarInformePaciente(@Model.IdPaciente);"><i class="fa fa-file" aria-hidden="true"></i> Informe </button>
     </div>
 </div>
 

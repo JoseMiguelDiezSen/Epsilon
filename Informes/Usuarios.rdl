@@ -7,9 +7,9 @@
     </am:CreatedBy>
     <am:UpdatedBy>
       <am:Name>SSDTRS</am:Name>
-      <am:Version>18.4.11626.88</am:Version>
+      <am:Version>18.5.11723.231</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-04-11T13:12:30.0968774Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-05-03T10:25:58.1798670Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
   <AutoRefresh>0</AutoRefresh>
@@ -110,28 +110,13 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Image Name="Image2">
-            <Source>Embedded</Source>
-            <Value>=</Value>
-            <Sizing>FitProportional</Sizing>
-            <Top>2.69516cm</Top>
-            <Left>1.53141cm</Left>
-            <Height>1.5cm</Height>
-            <Width>1.5cm</Width>
-            <ZIndex>2</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Image>
           <Rectangle Name="Rectangle1">
             <KeepTogether>true</KeepTogether>
-            <Top>8.97974cm</Top>
+            <Top>9.93224cm</Top>
             <Left>0.60537cm</Left>
-            <Height>1.25646cm</Height>
+            <Height>0.30396cm</Height>
             <Width>15.29229cm</Width>
-            <ZIndex>3</ZIndex>
+            <ZIndex>2</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -157,7 +142,7 @@
             <Left>3.67454cm</Left>
             <Height>0.6cm</Height>
             <Width>4.51083cm</Width>
-            <ZIndex>4</ZIndex>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -187,7 +172,7 @@
             <Left>9.62766cm</Left>
             <Height>0.6cm</Height>
             <Width>4.51083cm</Width>
-            <ZIndex>5</ZIndex>
+            <ZIndex>4</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -217,7 +202,7 @@
             <Left>3.67454cm</Left>
             <Height>0.6cm</Height>
             <Width>4.51083cm</Width>
-            <ZIndex>6</ZIndex>
+            <ZIndex>5</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -247,7 +232,7 @@
             <Left>3.67454cm</Left>
             <Height>0.6cm</Height>
             <Width>4.51083cm</Width>
-            <ZIndex>7</ZIndex>
+            <ZIndex>6</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -277,7 +262,7 @@
             <Left>9.62766cm</Left>
             <Height>0.6cm</Height>
             <Width>5.72792cm</Width>
-            <ZIndex>8</ZIndex>
+            <ZIndex>7</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -307,7 +292,7 @@
             <Left>9.62766cm</Left>
             <Height>0.6cm</Height>
             <Width>4.51083cm</Width>
-            <ZIndex>9</ZIndex>
+            <ZIndex>8</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -337,7 +322,7 @@
             <Left>3.67454cm</Left>
             <Height>0.6cm</Height>
             <Width>4.51083cm</Width>
-            <ZIndex>10</ZIndex>
+            <ZIndex>9</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -367,7 +352,7 @@
             <Left>3.67454cm</Left>
             <Height>0.6cm</Height>
             <Width>4.51083cm</Width>
-            <ZIndex>11</ZIndex>
+            <ZIndex>10</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -397,7 +382,7 @@
             <Left>3.67454cm</Left>
             <Height>0.6cm</Height>
             <Width>4.51083cm</Width>
-            <ZIndex>12</ZIndex>
+            <ZIndex>11</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -427,6 +412,36 @@
             <Left>3.67454cm</Left>
             <Height>0.6cm</Height>
             <Width>4.51083cm</Width>
+            <ZIndex>12</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox13">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Datos del Usuario</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox13</rd:DefaultName>
+            <Top>1.74241cm</Top>
+            <Left>0.60537cm</Left>
+            <Height>0.6cm</Height>
+            <Width>15.29229cm</Width>
             <ZIndex>13</ZIndex>
             <Style>
               <Border>
@@ -438,19 +453,6 @@
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
-          <Rectangle Name="Rectangle2">
-            <KeepTogether>true</KeepTogether>
-            <Top>1.40356cm</Top>
-            <Left>2.16641cm</Left>
-            <Height>0.70083cm</Height>
-            <Width>12.39542cm</Width>
-            <ZIndex>14</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-            </Style>
-          </Rectangle>
         </ReportItems>
         <Height>4.358in</Height>
         <Style />

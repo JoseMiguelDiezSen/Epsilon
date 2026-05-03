@@ -1,4 +1,5 @@
-﻿using Calipso.Security;
+﻿using AspNetCoreGeneratedDocument;
+using Calipso.Security;
 using Epsilon.Attributes;
 using Epsilon.Models;
 using Epsilon.Models.Comun;
@@ -21,17 +22,20 @@ namespace Epsilon.Controllers
         private readonly IRazorRenderService _renderService;
         private IGestionPacientes _gestionPacientes;
         private readonly EpsilonDbContext _context;
+        private IInformes _informes;
         /// <summary>
         /// Constructor del controlador 'Pacientes'
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="seguridad"></param>
         /// <param name="gestionPacientes"></param>
-        public PacientesController(ILogger<PacientesController> logger, IGestionPacientes gestionPacientes, IRazorRenderService renderService, EpsilonDbContext context) : base(logger)
+        /// <param name="informes"></param>
+        public PacientesController(ILogger<PacientesController> logger, IGestionPacientes gestionPacientes, IRazorRenderService renderService, EpsilonDbContext context, IInformes informes) : base(logger) 
         {
             _gestionPacientes = gestionPacientes;
             _renderService = renderService;
             _context = context;
+            _informes = informes;   
         }
 
         public IActionResult Index()
@@ -349,6 +353,63 @@ namespace Epsilon.Controllers
                 }
             };
         }
+
+
+
+        public IActionResult GenerarInformePaciente(int idPaciente)
+        {
+            byte[] data = _informes.GeneraInforme("/Informes/", "Paciente", new Dictionary<String, String> { { "idPaciente", idPaciente.ToString() } });
+            return File(data, "application/pdf");
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //        byte[] data = _informes.GeneraInforme(
+    //"/Informes/",
+    //"Paciente",
+    //new Dictionary<string, string>
+    //{
+    //    { "idPaciente", idPaciente.ToString() },
+    //    { "idMedico", idMedico.ToString() }
+    //});
+
+    //        return File(data, "application/pdf");
+
+
+
+
+
+
+
+
+
+
+            //        byte[] data = _informes.GeneraInforme(
+            //"/Informes/",
+            //"Paciente",
+            //new Dictionary<string, string>
+            //{
+            //    { "idPaciente", idPaciente.ToString() },
+            //    { "fechaInicio", fechaInicio.ToString("yyyy-MM-dd") },
+            //    { "fechaFin", fechaFin.ToString("yyyy-MM-dd") }
+            //});
+
+            //        return File(data, "application/pdf");
+
+
+        }
+
+
+
         #endregion
     }
 }

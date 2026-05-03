@@ -52,6 +52,7 @@
     <DataSource Include="Epsilon.rds" />
   </ItemGroup>
   <ItemGroup>
+    <Report Include="Paciente.rdl" />
     <Report Include="Usuarios.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />

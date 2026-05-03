@@ -18,5 +18,6 @@ namespace Negocio.Servicios
         /// <returns>El informe generado en formato de bytes.</returns>  
         byte[] GeneraInforme(string path, string nombre, Dictionary<string, string> parametros, string formato = "PDF");
 
+
     }
 }

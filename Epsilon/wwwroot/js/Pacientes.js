@@ -13,6 +13,11 @@
         });
     }
 
+
+    jqGenerarInformePaciente = (idPaciente) => {
+        window.open('/Pacientes/GenerarInformePaciente?idPaciente=' + idPaciente, '_blank');
+    }
+
     /* GET: Añadir paciente */
     jqGetModalAddPaciente = () => {
         $.ajax({
