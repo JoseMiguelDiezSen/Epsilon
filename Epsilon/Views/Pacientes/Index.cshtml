@@ -24,7 +24,7 @@
                 <label class="form-label">Nombre</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" placeholder="Ingrese nombre">
+                    <input type="text" class="form-control" name="NombrePaciente" placeholder="Ingrese nombre">
                 </div>
             </div>
             @* DNI *@
@@ -34,7 +34,7 @@
                     <span class="input-group-text">
                         <i class="fa fa-address-card" aria-hidden="true"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Ingrese DNI">
+                    <input type="text" class="form-control" name="DNI" placeholder="Ingrese DNI">
                 </div>
             </div>
             @* E-Mail *@
@@ -42,7 +42,7 @@
                 <label class="form-label">Correo Electrónico</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    <input type="email" class="form-control" placeholder="Ingrese E-mail">
+                    <input type="email" class="form-control" name="EMail" placeholder="Ingrese E-mail">
                 </div>
             </div>
             @* Telefono *@
@@ -50,7 +50,7 @@
                 <label class="form-label">Teléfono</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                    <input type="text" class="form-control" placeholder="Ingrese teléfono" style="padding-right:15px;">
+                    <input type="text" class="form-control" placeholder="Ingrese teléfono" name="Telefono" style="padding-right:15px;">
                 </div>
             </div>
             @* Ciudad *@
@@ -58,14 +58,14 @@
                 <label class="form-label">Ciudad</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" placeholder="Ingrese ciudad">
+                    <input type="text" class="form-control" name="Ciudad" placeholder="Ingrese ciudad">
                 </div>
             </div>
 
-            <div class="col-md-1 fa fa-pull-right" style="margin-top:-35px !important;">
-                <label for="lblBuscar"></label>
-                <button type="submit" style="float:right !important;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
-                    <span class="fa fa-search"></span>
+            @* Boton Busqueda *@
+            <div class="col-md-2">
+                <button type="submit" style="float:left;height:30px;width:100px;margin-top:28.5px;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
+                    <span class="fa fa-search"> BUSCAR</span>
                 </button>
             </div>
 

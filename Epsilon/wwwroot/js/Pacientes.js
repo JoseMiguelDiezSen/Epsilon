@@ -210,6 +210,7 @@
     /* Funcion para el filtrado de usuarios */
     jqPostFiltrar = (ev, form) => {
 
+
         console.log('PaginaActual:', $('#PaginaActual').val());
 
         try {
@@ -237,8 +238,6 @@
                 },
                 error: function (error) {
                     $('#idMsgError').html(err.message == null ? "No se pudo realizar la operacion" : error.message);
-                    OcultarElemento('idDivMsg');
-                    MostrarElemento('idDivMsgError');
                 }
             })
             return false;

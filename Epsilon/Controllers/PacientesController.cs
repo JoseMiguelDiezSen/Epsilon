@@ -81,6 +81,10 @@ namespace Epsilon.Controllers
                 {
                     datosPacientes = datosPacientes.Where(p => p.Telefono == vmPacientes.Telefono);
                 }
+                if (!string.IsNullOrWhiteSpace(vmPacientes.Ciudad))
+                {
+                    datosPacientes = datosPacientes.Where(p => p.Ciudad == vmPacientes.Ciudad);
+                }
 
 
                 vmPacientes.Pacientes = await datosPacientes.
