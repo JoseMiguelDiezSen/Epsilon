@@ -30,12 +30,12 @@ namespace Epsilon.Controllers
         /// <param name="seguridad"></param>
         /// <param name="gestionPacientes"></param>
         /// <param name="informes"></param>
-        public PacientesController(ILogger<PacientesController> logger, IGestionPacientes gestionPacientes, IRazorRenderService renderService, EpsilonDbContext context, IInformes informes) : base(logger) 
+        public PacientesController(ILogger<PacientesController> logger, IGestionPacientes gestionPacientes, IRazorRenderService renderService, EpsilonDbContext context, IInformes informes) : base(logger)
         {
             _gestionPacientes = gestionPacientes;
             _renderService = renderService;
             _context = context;
-            _informes = informes;   
+            _informes = informes;
         }
 
         public IActionResult Index()
@@ -269,7 +269,7 @@ namespace Epsilon.Controllers
         public async Task<JsonResult> ModalImportarExcel()
         {
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
-            FormImportarExcel vmUsuariosExcel = new FormImportarExcel();           
+            FormImportarExcel vmUsuariosExcel = new FormImportarExcel();
             string data = await _renderService.ToStringAsync("FormImportarPacientes", vmUsuariosExcel);
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
             return new JsonResult(jsonResponse);
@@ -287,32 +287,26 @@ namespace Epsilon.Controllers
             return PartialView("DetallePaciente", paciente);
         }
 
-
         public IActionResult HistorialPaciente(int idPaciente)
         {
-            var paciente = _context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+            var paciente = _context.DatosHistoricoPaciente
+                .Where(p => p.IdPaciente == idPaciente)
+                .ToList();
             return View("HistorialPaciente", paciente);
         }
 
         public IActionResult RadiologiaPaciente(int idPaciente)
         {
-            var paciente = _context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+            var paciente = _context.DatosHistoricoPaciente.FirstOrDefault(p => p.IdPaciente == idPaciente);
             return View("RadiologiaPaciente", paciente);
         }
-        //public IActionResult DetallePaciente(int idPaciente)
-        //{
-        //    var paciente = /* aquí cargas lo que necesites */;
-        //    var model = /* construyes tu ViewModel bonito */;
-
-        //    return PartialView("DetallePaciente", model);
-        //}
 
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> ImportarExcel(IFormFile fileExcel)
         {
             JsonResult jsonResult = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
-            List <Paciente> pacientes = new List <Paciente>();
+            List<Paciente> pacientes = new List<Paciente>();
             using (var memoryStream = new MemoryStream())
             {
                 fileExcel.CopyTo(memoryStream);
@@ -355,7 +349,8 @@ namespace Epsilon.Controllers
                     pacientesJSON = await _renderService.ToStringAsync("FormImportarPacientes", pacientesJSON);
                     return jsonResult;
                 }
-            };
+            }
+            ;
         }
 
 
@@ -377,16 +372,16 @@ namespace Epsilon.Controllers
 
 
 
-    //        byte[] data = _informes.GeneraInforme(
-    //"/Informes/",
-    //"Paciente",
-    //new Dictionary<string, string>
-    //{
-    //    { "idPaciente", idPaciente.ToString() },
-    //    { "idMedico", idMedico.ToString() }
-    //});
+            //        byte[] data = _informes.GeneraInforme(
+            //"/Informes/",
+            //"Paciente",
+            //new Dictionary<string, string>
+            //{
+            //    { "idPaciente", idPaciente.ToString() },
+            //    { "idMedico", idMedico.ToString() }
+            //});
 
-    //        return File(data, "application/pdf");
+            //        return File(data, "application/pdf");
 
 
 

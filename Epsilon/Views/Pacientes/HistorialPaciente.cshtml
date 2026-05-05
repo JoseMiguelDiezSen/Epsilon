@@ -1,5 +1,5 @@
 ﻿@using Negocio.Persistencia.Modelos
-@model DatosPacientes
+@model List<DatosHistoricoPaciente>
 
 
 
@@ -8,13 +8,38 @@
 
 <hr />
 
-<p><strong>ID:</strong> @Model.IdPaciente</p>
-<p><strong>Nombre:</strong> @Model.NombrePaciente</p>
-<p><strong>DNI:</strong> @Model.DNI</p>
-<p><strong>Email:</strong> @Model.EMail</p>
-<p><strong>Teléfono:</strong> @Model.Telefono</p>
+<p><strong>ID:</strong> @Model.FirstOrDefault()?.IdPaciente</p>
+<p><strong>Nombre:</strong> @Model.FirstOrDefault()?.NombrePaciente</p>
+<p><strong>DNI:</strong> @Model.FirstOrDefault()?.DNI</p>
+<p><strong>Email:</strong> @Model.FirstOrDefault()?.EMail</p>
+<p><strong>Teléfono:</strong> @Model.FirstOrDefault()?.Telefono</p>
 
 <hr />
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>IdCita</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+             <th>Nombre</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.IdCita</td>
+                <td>@item.FechaInicio</td>
+                <td>@item.FechaFin</td>
+                <td>@item.NombrePaciente</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 
 <p style="color:green;">
     ✔ Si ves esto, el routing y el modelo están vivos

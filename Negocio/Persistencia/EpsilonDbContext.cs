@@ -82,7 +82,7 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Paciente>().Property(p => p.CondicionBucal);
 
 
-            // Vista [[vDatosUsuarios]]
+            // Vista [[vDatosPaciente]]
             modelBuilder.Entity<DatosPacientes>().HasKey(p => p.IdPaciente);
             modelBuilder.Entity<DatosPacientes>().Property(p => p.IdPaciente);
             modelBuilder.Entity<DatosPacientes>().Property(p => p.NombrePaciente);
@@ -98,6 +98,33 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosPacientes>().Property(p => p.Observaciones);
             modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaPrimeraCita);
             modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaUltimaCita);
+
+            // Vista [[vDatosHistoricoPaciente]]
+            //modelBuilder.Entity<DatosHistoricoPaciente>().HasKey(u => u.IdPaciente);
+            modelBuilder.Entity<DatosHistoricoPaciente>().HasKey(u => new { u.IdPaciente, u.IdCita });
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdPaciente);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombrePaciente);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.DNI);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Telefono);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.EMail);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaNacimiento);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Direccion);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Ciudad);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaAlta);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NumeroConsultas);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Asegurado);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.CondicionBucal);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Fumador);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Alergias);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaUltimaCita);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Observaciones);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdMedico);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaInicio);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaFin);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdClinica);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdCita);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaPrimeraCita);
+
 
             // TABLA RADIOLOGIA
             modelBuilder.Entity<Radiografia>().HasKey(p => p.IdRadiografia);
@@ -232,6 +259,8 @@ namespace Negocio.Persistencia
         public virtual DbSet<Modelos.DatosUsuario> DatosUsuarios { get; set; }
 
         public virtual DbSet<Modelos.DatosPacientes> DatosPacientes { get; set; }
+
+        public virtual DbSet<Modelos.DatosHistoricoPaciente> DatosHistoricoPaciente { get; set; }
 
         #endregion
 
