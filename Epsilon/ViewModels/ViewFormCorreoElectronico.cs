@@ -15,5 +15,17 @@ namespace Epsilon.ViewModels
         public string? NombreNuevoCorreo { get; set; }
 
         public SelectList ModelosCorreo { get; set; } = new SelectList(Enumerable.Empty<string>());
+
+
+
+        public string? NombrePaciente { get; set; }
+        public string? EmailPaciente { get; set; }
+
+
+
+        public IFormFile InputAdjuntos { get; set; } // Coincide con name="inputAdjuntos"
+
+        public bool ConAdjuntos { get; set; } // Para el checkbox chkAdjuntos
+        public bool SolicitarRespuesta { get; set; } // Para el che
     }
 }

@@ -104,6 +104,34 @@
         });
     }
 
+    jqAddModeloCorreo = () => {
+
+        const nombre = $("#NombreCorreoNuevo").val();
+        const asunto = $("#asunto").val();
+        const cuerpo = $("#cuerpoMensaje").val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'Pacientes/AddModeloCorreo',
+            data: {
+                nombreCorreo: nombre,
+                asunto: asunto,
+                cuerpoMensaje: cuerpo
+            },
+
+            success: function (response) {
+
+                // Recargar modal con nueva info
+                $('#modalEnvioCorreo .modal-body').html(response.data);
+
+            },
+
+            error: function (xhr, status, error) {
+                console.error("Error al añadir modelo de correo:", error);
+            }
+        });
+    };
+
 
 });
 

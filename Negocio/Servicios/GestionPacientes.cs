@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Negocio.Excepciones;
 using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios.Comun;
@@ -112,5 +113,72 @@ namespace Negocio.Servicios
             logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
             return Context.Pacientes;
         }
+
+        #region EnvioCorreoElectonico
+
+        public bool AddModeloCorreo(CorreosElectronicos correoElectronico)
+        {
+            try
+            {
+                Context.Add(correoElectronico);
+                Context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool EliminarModeloCorreo(int idCorreo)
+        {
+            var correo = Context.CorreoElectronico.Find(idCorreo);
+
+            if (correo == null)
+                return false;
+
+            Context.CorreoElectronico.Remove(correo);
+            Context.SaveChanges();
+            return true;
+        }
+
+        /// <summary>
+        /// Actualiza los datos de un correo electrónico existente
+        /// </summary>
+        /// <param name="correoElectronico"></param>
+        /// <returns></returns>
+        public bool ActualizarDatosCorreo(CorreosElectronicos correoElectronico)
+        {
+            using (var trans = Context.Database.BeginTransaction())
+            {
+                var entity = Context.CorreoElectronico.Update(correoElectronico);
+                Context.SaveChanges();
+                return true;
+            }
+        }
+        /// <summary>
+        /// Alta de un nuevo correo electrónico
+        /// </summary>
+        /// <param name="correoElectronico"></param>
+        /// <returns></returns>
+        //public bool GuardarCorreoNuevo(CorreosElectronicos correoElectronico)
+        //{
+        //    using (var trans = Context.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            Context.Add(correoElectronico);
+        //            Context.SaveChanges();
+        //            trans.Commit();
+        //        }
+        //        catch (ValidacionException ex)
+        //        {
+        //            ex.Message.ToString();
+        //            trans.Rollback();
+        //        }
+        //    }
+        //    return true;
+        //}
+        #endregion
     }
 }

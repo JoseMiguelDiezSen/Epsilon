@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Negocio.Persistencia;
 using Negocio.Servicios;
+using Negocio.Servicios.Negocio.Servicios;
 using Negocio.Validadores.Comun;
 using System;
 using System.Net;
@@ -48,6 +49,8 @@ builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
 builder.Services.AddScoped<IGestionClinica, GestionClinica>();
 builder.Services.AddScoped<IGestionPacientes, GestionPacientes>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
+builder.Services.AddScoped<IGestionEmail, GestionEmail>();
+
 
 //builder.Services.AddScoped<IGestionFinanciera, GestionFinanciera>();
 //builder.Services.AddScoped<IGestion, GestionClinica>();

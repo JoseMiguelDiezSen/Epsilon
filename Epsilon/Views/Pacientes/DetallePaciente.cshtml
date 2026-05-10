@@ -115,7 +115,7 @@
 
     @* Boton para apertuta modal enviar correo electronico a paciente *@
     <div class="col-md-3">
-        <button type="button" class="btn btn-outline-warning"><i class="fa fa-paper-plane" aria-hidden="true"></i> Envio Email</button>
+        <button type="button" class="btn btn-outline-warning" onclick="return jqGetModalCorreoElectronico(@Model.IdPaciente);"><i class="fa fa-paper-plane" aria-hidden="true"></i> Envio Email</button>
     </div>
 
     @* Boton para generar informe del paciente *@

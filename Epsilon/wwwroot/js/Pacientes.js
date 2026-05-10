@@ -13,9 +13,103 @@
         });
     }
 
+    //-------- ((GESTION PACIENTES)) ---------//
 
-    jqGenerarInformePaciente = (idPaciente) => {
-        window.open('/Pacientes/GenerarInformePaciente?idPaciente=' + idPaciente, '_blank');
+    /* Abrir Detalle Paciente */
+    $(document).on('click', '.js-toggle-detail', function (e) {
+        e.preventDefault();
+
+        // ID del paciente desde el botón
+        var id = $(this).data('id');
+        if (!id) return;
+
+        // 🔥 guardar estado en sesión del navegador
+        sessionStorage.setItem("detallePacienteAbierto", id);
+
+        // Selector de la fila detalle (si ya existe)
+        var detailSelector = '#detail-' + id;
+        var $existing = $(detailSelector);
+
+        // Fila actual (paciente)
+        var $row = $(this).closest('tr');
+
+        // Si ya existe → solo mostrar/ocultar
+        if ($existing.length) {
+            $existing.toggle();
+            return;
+        }
+
+        // Contenedor donde se cargará la vista parcial
+        var $content = $('<div class="detail-content">Cargando detalles...</div>');
+
+        // Crear nueva fila debajo con colspan completo
+        $('<tr id="detail-' + id + '" class="detail-row">' +
+            '<td colspan="' + $row.children('td').length + '"></td></tr>')
+            .insertAfter($row)
+            .find('td')
+            .append($content);
+
+        // Llamada al servidor → devuelve la vista parcial (HTML)
+        $.ajax({
+            url: '/Pacientes/DetallePaciente',
+            type: 'GET',
+            data: { idPaciente: id },
+            success: function (res) { $content.html(res); },
+            error: function () { $content.html('Error al cargar'); }
+        });
+    });
+
+    // Guardado en sesion del detalle abierto
+    $(function () {
+
+        var id = sessionStorage.getItem("detallePacienteAbierto");
+
+        if (!id) return;
+
+        var $row = $('.js-toggle-detail[data-id="' + id + '"]');
+
+        if ($row.length) {
+            $row.trigger('click');
+        }
+    });
+
+    /* Funcion para el filtrado de usuarios */
+    jqPostFiltrar = (ev, form) => {
+
+
+        console.log('PaginaActual:', $('#PaginaActual').val());
+
+        try {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $("#idResultadosFiltro").html(response.data === "undefined" ? response : response.data);
+                    $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
+
+                    if (window.PaginadorPrincipal == undefined) {
+                        window.PaginadorPrincipal = $('#idPaginadorPrincipal').paginador({
+                            Formulario: 'id_Form1',
+                            PaginaActual: 'PaginaActual',
+                            RegistrosPorPagina: 'RegistrosPorPagina',
+                            RegistrosPaginaActual: 'RegistrosPaginaActual',
+                            ClassButtons: 'visually-hidden'
+                        });
+                    } else {
+                        window.PaginadorPrincipal.actualiza();
+                    }
+                },
+                error: function (error) {
+                    $('#idMsgError').html(err.message == null ? "No se pudo realizar la operacion" : error.message);
+                }
+            })
+            return false;
+        } catch (ex) {
+            concole.log(ex);
+        }
     }
 
     /* GET: Añadir paciente */
@@ -207,44 +301,7 @@
         }
     }
 
-    /* Funcion para el filtrado de usuarios */
-    jqPostFiltrar = (ev, form) => {
-
-
-        console.log('PaginaActual:', $('#PaginaActual').val());
-
-        try {
-            $.ajax({
-                type: "POST",
-                url: form.action,
-                data: new FormData(form),
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    $("#idResultadosFiltro").html(response.data === "undefined" ? response : response.data);
-                    $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
-
-                    if (window.PaginadorPrincipal == undefined) {
-                        window.PaginadorPrincipal = $('#idPaginadorPrincipal').paginador({
-                            Formulario: 'id_Form1',
-                            PaginaActual: 'PaginaActual',
-                            RegistrosPorPagina: 'RegistrosPorPagina',
-                            RegistrosPaginaActual: 'RegistrosPaginaActual',
-                            ClassButtons: 'visually-hidden'
-                        });
-                    } else {
-                        window.PaginadorPrincipal.actualiza();
-                    }
-                },
-                error: function (error) {
-                    $('#idMsgError').html(err.message == null ? "No se pudo realizar la operacion" : error.message);
-                }
-            })
-            return false;
-        } catch (ex) {
-            concole.log(ex);
-        }
-    }
+    //-------- ((FUNCIONES DE DETALLE PACIENTE)) ---------//
 
     // Funcion para la apertura del historial de un paciente
     jqAbrirHistorialPaciente = (idPaciente) => {
@@ -255,6 +312,213 @@
     jqAbrirRadiografiasPaciente = (idPaciente) => {
         window.location.href = '/Pacientes/RadiologiaPaciente?idPaciente=' + idPaciente;
     }
+
+    // FUncion para generar el informe de un paciente
+    jqGenerarInformePaciente = (idPaciente) => {
+        window.open('/Pacientes/GenerarInformePaciente?idPaciente=' + idPaciente, '_blank');
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    jqGetModalCorreoElectronico = (idPaciente) => {
+
+        var i = idPaciente;
+
+        $.ajax({
+            type: 'GET',
+            url: 'Pacientes/ModalEnvioCorreoPaciente',
+            data: { idPaciente: i },
+
+            success: function (response) {
+
+                // Colocamos el contenido del modal
+                $('#modalEnvioCorreo .modal-body').html(response.data);
+
+                // Preparamos el combo AHORA que el HTML ya existe
+                const modeloCorreo = document.getElementById("ModeloCorreo");
+
+                if (modeloCorreo) {
+                    modeloCorreo.addEventListener("change", function () {
+
+                        const idCorreo = this.value;
+                        if (!idCorreo) return;
+
+                        // Segunda llamada AJAX normal
+                        $.ajax({
+                            type: 'GET',
+                            url: 'Configuracion/GetCorreoInfo',
+                            data: { idCorreo: idCorreo },
+
+                            success: function (response) {
+                                const datos = JSON.parse(response.data);
+
+                                // Cargamos los datos del modelo seleccionado
+                                document.getElementById("asunto").value = datos.Asunto;
+                                document.getElementById("cuerpoMensaje").value = datos.CuerpoMensaje;
+                                document.getElementById("IdCorreo").value = datos.IdCorreo;
+                                document.getElementById("botonEliminarCorreo").style.display = "inline-block";
+
+
+                                /////////////////////////////////////////////////////////////////////////////
+
+                                const chkAdjuntos = document.getElementById("chkAdjuntos");
+                                const chkRespuesta = document.getElementById("chkRespuesta");
+                                const bloque = document.getElementById("bloqueAdjuntos");
+
+                                function actualizarEstadoAdjuntos() {
+
+                                    if (!bloque) return;
+
+                                    if (chkAdjuntos && chkAdjuntos.checked) {
+                                        bloque.style.display = "block";
+                                    } else {
+                                        bloque.style.display = "none";
+                                    }
+                                }
+
+                                if (chkAdjuntos) {
+                                    chkAdjuntos.addEventListener("change", actualizarEstadoAdjuntos);
+                                }
+
+                                if (chkRespuesta) {
+                                    chkRespuesta.addEventListener("change", function () {
+                                        // aquí luego meteremos lógica de respuesta si hace falta
+                                        actualizarEstadoAdjuntos();
+                                    });
+                                }
+
+                                // estado inicial limpio
+                                if (chkAdjuntos) chkAdjuntos.checked = false;
+                                if (chkRespuesta) chkRespuesta.checked = false;
+
+                                actualizarEstadoAdjuntos();
+
+                            },
+
+                            error: function (xhr, status, error) {
+                                console.error("Error obteniendo correo info:", error);
+                            }
+                        });
+
+                    });
+                }
+
+                // Mostrar el modal
+                let modal = new bootstrap.Modal(document.getElementById('modalEnvioCorreo'));
+                modal.show();
+            },
+
+            error: function (xhr, status, error) {
+                console.error("Error cargando modal:", error);
+            }
+        });
+
+    };
+
+
+
+    jqPostEnviarCorreo = (form) => {
+
+        // Recoger los valores
+        //var eMail =
+        //var cuerpo = 
+
+        try {
+            $.ajax({
+                type: 'POST',
+                url: 'Pacientes/EnviarCorreoPaciente',
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    //let modal = new bootstrap.Modal(document.getElementById('addPacienteModal'));
+                    //modal.hide();
+                    alert("Coreo enviado correctamente");
+                },
+
+                error: function (response) {
+                    alert("Ha ocurrido un error al enviar el correo");
+                }
+            })
+            return false;
+        } catch (ex) {
+            console.log(ex);
+        }
+    }
+
+
+
+
+
+
+
+
+
+    // ADD MODELO CORREO
+    jqAddModeloCorreo = () => {
+
+        const btn = $("#botonAñadirCorreo");
+        const nombre = $("#NombreCorreoNuevo").val();
+        const asunto = $("#asunto").val();
+        const cuerpo = $("#cuerpoMensaje").val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'Pacientes/AddModeloCorreo',
+            data: {
+                nombreCorreo: nombre,
+                asunto: asunto,
+                cuerpoMensaje: cuerpo
+            },
+            success: function (response) {
+
+                // Recargar modal con nueva info
+                //$('#modalEnvioCorreo .modal-body').html(response.data);
+                btn.hide();
+            },
+
+            error: function (xhr, status, error) {
+                console.error("Error al añadir modelo de correo:", error);
+            }
+        });
+    };
+
+    // ELIMINAR MODELO CORREO
+    jqPostEliminarModeloCorreo = () => {
+
+
+        const btn = $("#botonEliminarCorreo");
+
+        const id = $("#ModeloCorreo").val();
+        if (!id) return;
+
+        $.ajax({
+            type: 'POST',
+            url: 'Pacientes/EliminarModeloCorreo',
+            data: { idCorreo: id },
+
+            success: function (response) {
+
+                // 👇 si NO devuelves HTML, no lo uses
+                // $('#modalEnvioCorreo .modal-body').html(response.data);
+
+                // 👉 solución simple: limpiar UI
+                $("#ModeloCorreo option:selected").remove();
+                $("#ModeloCorreo").val("");
+
+                $("#asunto").val("");
+                $("#cuerpoMensaje").val("");
+
+                btn.hide();
+            },
+            error: function () {
+                console.error("Error al eliminar modelo de correo");
+                btn.prop("disabled", false);
+            }
+        });
+    }
+
+    //-------- ((EXCEL PACIENTES)) ---------//
 
     jqGetModalExportarExcel = () => {
 
@@ -276,7 +540,6 @@
             }
         })
     }
-
 
     jqPostModalImportarExcel = (form) => {
 
@@ -305,129 +568,7 @@
         })
     }
 
+    //--------------- ((MODALES ARRASTRABLES)) ------------------//
+    $('#modalEnvioCorreo').dragablito({ handle: ".modal-header" });
     $('#updatePacienteModal').dragablito({ handle: ".modal-header" });
-
-    $(document).on('click', '.js-toggle-detail', function (e) {
-        e.preventDefault();
-
-        // ID del paciente desde el botón
-        var id = $(this).data('id');
-        if (!id) return;
-
-        // 🔥 guardar estado en sesión del navegador
-        sessionStorage.setItem("detallePacienteAbierto", id);
-
-        // Selector de la fila detalle (si ya existe)
-        var detailSelector = '#detail-' + id;
-        var $existing = $(detailSelector);
-
-        // Fila actual (paciente)
-        var $row = $(this).closest('tr');
-
-        // Si ya existe → solo mostrar/ocultar
-        if ($existing.length) {
-            $existing.toggle();
-            return;
-        }
-
-        // Contenedor donde se cargará la vista parcial
-        var $content = $('<div class="detail-content">Cargando detalles...</div>');
-
-        // Crear nueva fila debajo con colspan completo
-        $('<tr id="detail-' + id + '" class="detail-row">' +
-            '<td colspan="' + $row.children('td').length + '"></td></tr>')
-            .insertAfter($row)
-            .find('td')
-            .append($content);
-
-        // Llamada al servidor → devuelve la vista parcial (HTML)
-        $.ajax({
-            url: '/Pacientes/DetallePaciente',
-            type: 'GET',
-            data: { idPaciente: id },
-            success: function (res) { $content.html(res); },
-            error: function () { $content.html('Error al cargar'); }
-        });
-    });
-
-
-    $(function () {
-
-        var id = sessionStorage.getItem("detallePacienteAbierto");
-
-        if (!id) return;
-
-        var $row = $('.js-toggle-detail[data-id="' + id + '"]');
-
-        if ($row.length) {
-            $row.trigger('click');
-        }
-    });
-   
-    //MostrarGrid = () => {
-
-    //    if ($('#gridEdiciones').is(':hidden')) {
-    //        $("#gridEdiciones").show();
-    //        $("#gridEdiciones").slideDown(700);
-    //        $("#spnBtn").removeClass('fa fa-chevron-down').addClass('fa fa-chevron-up');
-    //    }
-    //    else if ($('#gridEdiciones').is(':visible')) {
-    //        $("#gridEdiciones").slideUp(700);
-    //        $("#spnBtn").removeClass('fa fa-chevron-up').addClass('fa fa-chevron-down');
-    //    }
-    //}
 });
-//jqCheckAddPeriodo = () => {
-
-//    const date = new Date();
-//    var day = date.getDate();
-//    var month = date.getMonth();
-//    var year = date.getFullYear();
-//    var currentDate = day + "/" + month + "/" + year;
-
-//    var d1 = dateFrom.slit("/");
-//    var d1 = dateTo.slit("/");
-//    var c = dateCheck.slit("/");
-
-//    var from = new Date(d1);
-//    var to = new Date(d2);
-//    var check = new Date(c);
-
-//    if (check > from && check < to) {
-//        $("#addUser").show();
-//    }
-//    else {
-//        $("#addUser").hide();
-//    }
-//}
-
-
-//if (window.PaginadorPrincipal == undefined) {
-//    $('#RegistrosPaginaActual').val($('#idBodyTable tr').length);
-//    window.PaginadorPrincipal = jQuery('#idPaginadorPrincipal').paginador({
-//        Formulario: 'id_Form',
-//        PaginaActual: 'PaginaActual',
-//        RegistrosPorPagina: 'RegistrosPorPagina',
-//        RegistrosPaginaActual: 'RegistrosPaginaActual',
-//        ClassButtons: 'visually-hidden'
-//    });
-//}
-
-
-
-
-/* Actualizacion detalles curso */
-//jqAJAXGet('EjecucionEdiciones/ActualizarDetallesCurso', { 'IdCurso': Curso.IdCurso, IdEdicion: Curso.IdEdicion }
-//    , { not_show_popup: true },
-//    (data) => {
-//        // Cursos
-//        $("#DetallesCursoEjecutado").empty();
-//        $("#DetallesCursoEjecutado").append(data);
-//    },
-//    (data) => {
-//        deferred.reject('Error al actualizar los datos');
-//    },
-//    (res) => {
-//        deferred.reject('Error al conectar con el servidor');
-//    }
-//);

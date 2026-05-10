@@ -17,7 +17,7 @@ namespace Negocio.Servicios
         /// <param name="formato">El formato del informe (por defecto es "PDF").</param>  
         /// <returns>El informe generado en formato de bytes.</returns>  
         byte[] GeneraInforme(string path, string nombre, Dictionary<string, string> parametros, string formato = "PDF");
-
+        public Task<byte[]> RenderReport(string reportPath, string reportName, Dictionary<string, string> parameters, string formatType = "PDF");
 
     }
 }

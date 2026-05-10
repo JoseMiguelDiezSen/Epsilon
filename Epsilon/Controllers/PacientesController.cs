@@ -1,18 +1,17 @@
-﻿using AspNetCoreGeneratedDocument;
-using Calipso.Security;
+﻿using Calipso.Security;
 using Epsilon.Attributes;
 using Epsilon.Models;
 using Epsilon.Models.Comun;
 using Epsilon.Renders;
 using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
+using Negocio.Servicios.Negocio.Servicios;
 using OfficeOpenXml;
-using System.Drawing;
-using System.Linq;
 using System.Text.Json;
 
 namespace Epsilon.Controllers
@@ -23,21 +22,29 @@ namespace Epsilon.Controllers
         private IGestionPacientes _gestionPacientes;
         private readonly EpsilonDbContext _context;
         private IInformes _informes;
+        private readonly IGestionEmail _email;  
+
+
         /// <summary>
         /// Constructor del controlador 'Pacientes'
         /// </summary>
         /// <param name="logger"></param>
-        /// <param name="seguridad"></param>
         /// <param name="gestionPacientes"></param>
         /// <param name="informes"></param>
-        public PacientesController(ILogger<PacientesController> logger, IGestionPacientes gestionPacientes, IRazorRenderService renderService, EpsilonDbContext context, IInformes informes) : base(logger)
+        /// <param name="email"></param>
+        public PacientesController(ILogger<PacientesController> logger, IGestionPacientes gestionPacientes, IRazorRenderService renderService, EpsilonDbContext context, IInformes informes, IGestionEmail email) : base(logger)
         {
             _gestionPacientes = gestionPacientes;
             _renderService = renderService;
             _context = context;
             _informes = informes;
+            _email = email;
         }
 
+        /// <summary>
+        /// Metodo de acceso a la vista principal de pacientes.
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             PacientesViewModel vmPacientes = new PacientesViewModel();
@@ -58,7 +65,6 @@ namespace Epsilon.Controllers
 
             return View("Index", vmPacientes);
         }
-
 
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> FiltrarUsuariosAsync(PacientesViewModel vmPacientes)
@@ -106,8 +112,7 @@ namespace Epsilon.Controllers
             return new JsonResult(jsonResponse);
         }
 
-
-
+        #region CRUD-PACIENTES
 
         /// <summary>
         /// Método para abrir la ventana modal de agregar pacientes
@@ -160,8 +165,6 @@ namespace Epsilon.Controllers
             }
             return result;
         }
-
-        #region ModificarUsuario
 
         [HttpGet, AjaxOnly]
         public async Task<ActionResult> ModalModificarPacienteAsync(int idPaciente)
@@ -230,10 +233,6 @@ namespace Epsilon.Controllers
             return result;
         }
 
-        #endregion
-
-        #region EliminarPaciente
-
         /// <summary>
         /// Metodo para eliminar un paciente
         /// </summary>
@@ -275,6 +274,10 @@ namespace Epsilon.Controllers
             return new JsonResult(jsonResponse);
         }
 
+        #endregion
+
+        #region ACCIONES-DETALLE
+
         /// <summary>
         /// Devuelve una vista parcial que muestra los detalles del paciente que sea identificado.
         /// </summary>
@@ -300,6 +303,211 @@ namespace Epsilon.Controllers
             var paciente = _context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
             return View("RadiologiaPaciente", paciente);
         }
+
+        public IActionResult GenerarInformePaciente(int idPaciente)
+        {
+            byte[] data = _informes.GeneraInforme("/Informes/", "Paciente", new Dictionary<String, String> { { "idPaciente", idPaciente.ToString() } });
+            return File(data, "application/pdf");
+        }
+
+        /// <summary> Abre ventana modal para la configuracion del correo </summary>
+        [HttpGet, AjaxOnly]
+        public async Task<JsonResult> ModalEnvioCorreoPaciente(int idPaciente, int? idCorreo)
+        {
+            JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+            EpsilonDbContext context = _gestionPacientes.Context;
+            ViewFormCorreoElectronico vmConfiguracionCorreo = new ViewFormCorreoElectronico();
+            vmConfiguracionCorreo.ModelosCorreo = new SelectList(context.CorreoElectronico.ToList(), nameof(CorreosElectronicos.IdCorreo), nameof(CorreosElectronicos.NombreCorreo));
+
+            var paciente = context.Pacientes
+                 .Where(p => p.IdPaciente == idPaciente)
+                 .Select(p => new
+                 {
+                     p.NombrePaciente,
+                     p.EMail
+                 })
+                 .FirstOrDefault();
+
+            if (paciente != null)
+            {
+                vmConfiguracionCorreo.NombrePaciente = paciente.NombrePaciente;
+                vmConfiguracionCorreo.EmailPaciente = paciente.EMail;
+            }
+
+            string data = await _renderService.ToStringAsync("FormEnvioCorreo", vmConfiguracionCorreo);
+            jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
+            return new JsonResult(jsonResponse);
+        }
+
+        /// <summary>
+        /// Obtiene los datos del modelo seleccionado
+        /// </summary>
+        /// <param name="idCorreo"></param>
+        /// <returns></returns>
+        [HttpGet, AjaxOnly]
+        public async Task<JsonResult> GetCorreoInfo(int idCorreo)
+        {
+            JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+
+            var context = _gestionPacientes.Context;
+            var correo = context.CorreoElectronico
+                .Where(c => c.IdCorreo == idCorreo)
+                .Select(c => new { c.IdCorreo, c.Asunto, c.CuerpoMensaje, c.NombreCorreo })
+                .FirstOrDefault();
+
+            jsonResponse.Data = JsonSerializer.Serialize(correo);
+            return new JsonResult(jsonResponse);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> EnviarCorreoPaciente(ViewFormCorreoElectronico vmCorreo)
+        {
+            JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+
+            try
+            {
+                switch (vmCorreo.ConAdjuntos, vmCorreo.SolicitarRespuesta) {
+
+                    case (false, false):
+                        _email.EnviarEmailSinAdjunto(vmCorreo.EmailPaciente, vmCorreo.Asunto, vmCorreo.CuerpoMensaje);
+                        break;
+
+                    //case (true, false):
+                    //    _email.EnviarEmailConAdjunto(vmCorreo.EmailPaciente, vmCorreo.Asunto, vmCorreo.CuerpoMensaje,);
+                    //    break;
+
+                    //case (true, true):
+                    //    _email.EnviarEmailConAdjuntoYReply(vmCorreo.EmailPaciente, vmCorreo.Asunto, vmCorreo.CuerpoMensaje);
+                    //    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                jsonResponse.Status = "500";
+                jsonResponse.StatusMessage = "Error: " + ex.Message;
+            }
+            return new JsonResult(jsonResponse);
+        }
+
+        /// <summary> Guarda los datos introducidos en configuracion modelo correo </summary>
+        //[HttpPost, AjaxOnly]
+        //public async Task<JsonResult> AceptarConfiguracionCorreo(CorreoElectronicoViewModel vmModeloCorreo)
+        //{
+        //    JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+        //    EpsilonDbContext context = _gestionPacientes.Context;
+        //    CorreosElectronicos correoElectronico = new CorreosElectronicos();
+
+        //    if (vmModeloCorreo.IdCorreo == 0)
+        //    {
+        //        correoElectronico.NombreCorreo = vmModeloCorreo.NombreCorreoNuevo;
+        //        correoElectronico.Asunto = vmModeloCorreo.Asunto;
+        //        correoElectronico.CuerpoMensaje = vmModeloCorreo.CuerpoMensaje;
+        //        _gestionPacientes.GuardarCorreoNuevo(correoElectronico);
+        //    }
+        //    // Actualizacion
+        //    else
+        //    {
+        //        correoElectronico.IdCorreo = vmModeloCorreo.IdCorreo;
+        //        var modeloSeleccionado = context.CorreoElectronico
+        //            .Where(c => c.IdCorreo == vmModeloCorreo.IdCorreo)
+        //            .Select(c => c.NombreCorreo)
+        //            .FirstOrDefault();
+        //        correoElectronico.NombreCorreo = modeloSeleccionado;
+        //        correoElectronico.Asunto = vmModeloCorreo.Asunto;
+        //        correoElectronico.CuerpoMensaje = vmModeloCorreo.CuerpoMensaje;
+        //        _gestionPacientes.ActualizarDatosCorreo(correoElectronico);
+        //    }
+
+        //    jsonResponse.Data = JsonSerializer.Serialize(correoElectronico);
+        //    return new JsonResult(jsonResponse);
+
+        //}
+
+
+        [HttpPost, AjaxOnly]
+        public JsonResult AddModeloCorreo(string nombreCorreo, string asunto, string cuerpoMensaje)
+        {
+            var response = new JsonResponse("200", "Ok");
+
+            try
+            {
+                var nuevoModeloCorreo = new CorreosElectronicos
+                {
+                    NombreCorreo = nombreCorreo,
+                    Asunto = asunto,
+                    CuerpoMensaje = cuerpoMensaje
+                };
+
+                _gestionPacientes.AddModeloCorreo(nuevoModeloCorreo);
+
+                response.StatusMessage = "Modelo de correo creado correctamente";
+            }
+            catch (Exception ex)
+            {
+                response = new JsonResponse("500", "Error");
+                response.StatusMessage = ex.Message;
+            }
+
+            return new JsonResult(response);
+        }
+
+        /// <summary>
+        /// Elimina un Modelo de correo electronico
+        /// </summary>
+        /// <param name="idCorreo"></param>
+        /// <returns></returns>
+        [HttpPost, AjaxOnly]
+        public async Task<JsonResult> EliminarModeloCorreo(int idCorreo)
+        {
+            JsonResponse response = new JsonResponse("200", "Ok");
+            _gestionPacientes.EliminarModeloCorreo(idCorreo);
+            response.StatusMessage = "Se ha eliminado el modelo de correo";
+            response.Data = "Correo eliminado correctamente";
+            return new JsonResult(response);
+        }
+
+
+
+        #endregion
+
+
+
+
+
+        //        byte[] data = _informes.GeneraInforme(
+        //"/Informes/",
+        //"Paciente",
+        //new Dictionary<string, string>
+        //{
+        //    { "idPaciente", idPaciente.ToString() },
+        //    { "idMedico", idMedico.ToString() }
+        //});
+
+        //        return File(data, "application/pdf");
+
+
+
+
+
+
+
+
+
+
+        //        byte[] data = _informes.GeneraInforme(
+        //"/Informes/",
+        //"Paciente",
+        //new Dictionary<string, string>
+        //{
+        //    { "idPaciente", idPaciente.ToString() },
+        //    { "fechaInicio", fechaInicio.ToString("yyyy-MM-dd") },
+        //    { "fechaFin", fechaFin.ToString("yyyy-MM-dd") }
+        //});
+
+        //        return File(data, "application/pdf");
+
+
+
 
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> ImportarExcel(IFormFile fileExcel)
@@ -349,66 +557,7 @@ namespace Epsilon.Controllers
                     pacientesJSON = await _renderService.ToStringAsync("FormImportarPacientes", pacientesJSON);
                     return jsonResult;
                 }
-            }
-            ;
+            };
         }
-
-
-
-        public IActionResult GenerarInformePaciente(int idPaciente)
-        {
-            byte[] data = _informes.GeneraInforme("/Informes/", "Paciente", new Dictionary<String, String> { { "idPaciente", idPaciente.ToString() } });
-            return File(data, "application/pdf");
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //        byte[] data = _informes.GeneraInforme(
-            //"/Informes/",
-            //"Paciente",
-            //new Dictionary<string, string>
-            //{
-            //    { "idPaciente", idPaciente.ToString() },
-            //    { "idMedico", idMedico.ToString() }
-            //});
-
-            //        return File(data, "application/pdf");
-
-
-
-
-
-
-
-
-
-
-            //        byte[] data = _informes.GeneraInforme(
-            //"/Informes/",
-            //"Paciente",
-            //new Dictionary<string, string>
-            //{
-            //    { "idPaciente", idPaciente.ToString() },
-            //    { "fechaInicio", fechaInicio.ToString("yyyy-MM-dd") },
-            //    { "fechaFin", fechaFin.ToString("yyyy-MM-dd") }
-            //});
-
-            //        return File(data, "application/pdf");
-
-
-        }
-
-
-
-        #endregion
     }
 }

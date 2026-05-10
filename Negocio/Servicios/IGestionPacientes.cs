@@ -1,10 +1,11 @@
-﻿using Negocio.Persistencia.Modelos;
+﻿using Negocio.Excepciones;
+using Negocio.Persistencia.Modelos;
 
 namespace Negocio.Servicios
 {
-    public interface IGestionPacientes: IServicioEpsilon
+    public interface IGestionPacientes : IServicioEpsilon
     {
-        IQueryable <Paciente> GetAllPacientes();
+        IQueryable<Paciente> GetAllPacientes();
 
         /// <summary> Agregar un paciente </summary>
         Paciente AddPaciente(Paciente paciente);
@@ -16,5 +17,11 @@ namespace Negocio.Servicios
         bool DeletePaciente(int idPaciente);
 
         public DatosPacientes? GetDetallePaciente(int idPaciente);
+
+        public bool ActualizarDatosCorreo(CorreosElectronicos correosElectronicos);
+
+        public bool EliminarModeloCorreo(int idCorreo);
+
+        public bool AddModeloCorreo(CorreosElectronicos correoElectronico);
     }
 }

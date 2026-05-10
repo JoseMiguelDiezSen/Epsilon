@@ -107,8 +107,6 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.DNI);
             modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaAlta);
             modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NumeroConsultas);
-
-           
             modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaInicio);
             modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaFin);
             modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Observaciones);
