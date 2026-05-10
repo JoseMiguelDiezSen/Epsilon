@@ -471,10 +471,6 @@ namespace Epsilon.Controllers
 
         #endregion
 
-
-
-
-
         //        byte[] data = _informes.GeneraInforme(
         //"/Informes/",
         //"Paciente",
@@ -485,15 +481,6 @@ namespace Epsilon.Controllers
         //});
 
         //        return File(data, "application/pdf");
-
-
-
-
-
-
-
-
-
 
         //        byte[] data = _informes.GeneraInforme(
         //"/Informes/",
@@ -506,9 +493,6 @@ namespace Epsilon.Controllers
         //});
 
         //        return File(data, "application/pdf");
-
-
-
 
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> ImportarExcel(IFormFile fileExcel)
