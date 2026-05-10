@@ -376,6 +376,7 @@ namespace Epsilon.Controllers
                     //    _email.EnviarEmailConAdjunto(vmCorreo.EmailPaciente, vmCorreo.Asunto, vmCorreo.CuerpoMensaje,);
                     //    break;
 
+
                     //case (true, true):
                     //    _email.EnviarEmailConAdjuntoYReply(vmCorreo.EmailPaciente, vmCorreo.Asunto, vmCorreo.CuerpoMensaje);
                     //    break;
