@@ -369,17 +369,20 @@ namespace Epsilon.Controllers
                 switch (vmCorreo.ConAdjuntos, vmCorreo.SolicitarRespuesta) {
 
                     case (false, false):
-                        _email.EnviarEmailSinAdjunto(vmCorreo.EmailPaciente, vmCorreo.Asunto, vmCorreo.CuerpoMensaje);
+                        _email.EnviarEmailSinAdjunto(vmCorreo.EmailPaciente ?? "", vmCorreo.Asunto ?? "", vmCorreo.CuerpoMensaje ?? ""  );
                         break;
 
-                    //case (true, false):
-                    //    _email.EnviarEmailConAdjunto(vmCorreo.EmailPaciente, vmCorreo.Asunto, vmCorreo.CuerpoMensaje,);
-                    //    break;
+                    case (true, false):
+                        _email.EnviarEmailConAdjunto(vmCorreo.EmailPaciente ?? "", vmCorreo.Asunto ?? "", vmCorreo.CuerpoMensaje ?? "", vmCorreo.InputAdjuntos);
+                        break;
 
-
-                    //case (true, true):
-                    //    _email.EnviarEmailConAdjuntoYReply(vmCorreo.EmailPaciente, vmCorreo.Asunto, vmCorreo.CuerpoMensaje);
-                    //    break;
+                    case (true, true):
+                        _email.EnviarEmailConAdjuntoYReply(vmCorreo.EmailPaciente ?? "", vmCorreo.Asunto ?? "", vmCorreo.CuerpoMensaje ?? "",
+                            "no_responder@gmail.com", // ← replyTo
+                            vmCorreo.InputAdjuntos     // ← adjunto
+                        );
+         
+                        break;
                 }
             }
             catch (Exception ex)

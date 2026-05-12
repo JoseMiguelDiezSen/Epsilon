@@ -87,9 +87,11 @@
             </div>
         </div>
 
-        <input type="checkbox" id="chkAdjuntos" name="ConAdjuntos"> Añadir Adjuntos
-        <input type="checkbox" id="chkRespuesta" name="SolicitarRespuesta"> Solicitar respuesta
+        @* Checkbox Adjuntos y Respuesta *@
+        <input type="checkbox" id="chkAdjuntos" name="ConAdjuntos" value="true"> AÑADIR ADJUNTOS
+        <input type="checkbox" id="chkRespuesta" name="SolicitarRespuesta" value="true"> SOLICITAR RESPUESTA
 
+        @* Input file de los adjuntos (Solo aparece si el checkAdjunto esta marcado) *@
         <div id="bloqueAdjuntos" style="display:none;">
             <div class="input-group">
                 <input name="inputAdjuntos" type="file" class="form-control" id="inputAdjuntos">

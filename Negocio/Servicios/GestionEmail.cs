@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.SqlServer.Server;
+
 
 //using System.IO;
 //using System.Reflection;
@@ -71,6 +74,7 @@ namespace Negocio.Servicios
         {
             try
             {
+                to = "jsm.198969@gmail.com";
                 var from = _emailSettings.User;
                 var password = _emailSettings.Password;
 
@@ -86,7 +90,6 @@ namespace Negocio.Servicios
                     {
                         smtpClient.Credentials = new NetworkCredential(from, password);
                         smtpClient.EnableSsl = false;
-
                         smtpClient.Send(message);
                     }
                 }
@@ -101,29 +104,36 @@ namespace Negocio.Servicios
         /// <summary>  
         /// Envía correo electrónico con informe adjunto
         /// </summary>  
-        public bool EnviarEmailConAdjunto(string reportPath, string reportName, Dictionary<string, string> parameters, string format, string emailTo, string subject, string body)
+        /// Este es el nuevo metodo que espera un archivo adjunto desde el frontend
+        public bool EnviarEmailConAdjunto(string to, string subject, string body, IFormFile adjunto)
         {
-            logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name + "(" + reportPath + "/" + reportName + ")");
             try
             {
-                var result = _informes.RenderReport(reportPath, reportName, parameters, format).GetAwaiter().GetResult();
+                var from = _emailSettings.User;
+                var password = _emailSettings.Password;
 
-                emailTo = "jsm.198969@gmail.com"; // solo para pruebas
+                to = "jsm.198969@gmail.com"; // pruebas
 
-                using (var memoryStream = new MemoryStream(result))
+                using (var message = new MailMessage(from, to))
                 {
-                    using (var message = new MailMessage("no_responder@gmail.com", emailTo))
-                    {
-                        message.Subject = subject;
-                        message.Body = body;
-                        message.Attachments.Add(new Attachment(memoryStream, $"Reporte.{format.ToLower()}"));
+                    message.Subject = subject;
+                    message.Body = body;
+                    message.IsBodyHtml = true;
 
-                        using (var smtpClient = new SmtpClient(_emailSettings.Server, int.Parse(_emailSettings.Port)))
+                    // Archivo Adjunto
+                    if (adjunto != null && adjunto.Length > 0)
+                    {
+                        using (var stream = adjunto.OpenReadStream())
                         {
-                            smtpClient.Credentials = new NetworkCredential(_emailSettings.User, _emailSettings.Password);
-                            smtpClient.UseDefaultCredentials = false;
-                            smtpClient.EnableSsl = false;
-                            smtpClient.SendMailAsync(message).Wait();
+                            var attachment = new Attachment(stream, adjunto.FileName);
+                            message.Attachments.Add(attachment);
+
+                            using (var smtpClient = new SmtpClient(_emailSettings.Server, int.Parse(_emailSettings.Port)))
+                            {
+                                smtpClient.Credentials = new NetworkCredential(from, password);
+                                smtpClient.EnableSsl = true;
+                                smtpClient.Send(message);
+                            }
                         }
                     }
                 }
@@ -136,11 +146,13 @@ namespace Negocio.Servicios
             }
         }
 
+
+
         /// <summary>  
         /// Envía correo electrónico con informe adjunto y respuesta  
         /// </summary>  
         /// <param name="emailTo">El correo electrónico del destinatario.</param>  
-        public bool EnviarEmailConAdjuntoYReply(string emailTo,string subject,string body,string replyto,List<(byte[] Data, string FileName)> documents)
+        public bool EnviarEmailConAdjuntoYReply(string emailTo,string subject,string body,string replyto, IFormFile file)
         {
             logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name + ": " + emailTo);
 
@@ -158,26 +170,24 @@ namespace Negocio.Servicios
                     if (!string.IsNullOrWhiteSpace(replyto))
                         message.ReplyToList.Add(new MailAddress(replyto));
 
-                    if (documents != null)
+                    if (file != null && file.Length > 0)
                     {
-                        foreach (var doc in documents)
-                        {
-                            if (doc.Data == null) continue;
+                        var memoryStream = new MemoryStream();
+                        file.CopyTo(memoryStream);
+                        memoryStream.Position = 0;
 
-                            var memoryStream = new MemoryStream(doc.Data);
-                            memoriaAdjuntos.Add(memoryStream);
+                        memoriaAdjuntos.Add(memoryStream);
 
-                            var attachment = new Attachment(memoryStream, doc.FileName, "application/pdf");
-                            message.Attachments.Add(attachment);
-                        }
+                        var attachment = new Attachment(memoryStream, file.FileName);
+                        message.Attachments.Add(attachment);
                     }
+
                     using (var smtpClient = new SmtpClient(_emailSettings.Server, int.Parse(_emailSettings.Port)))
                     {
                         smtpClient.Credentials = new NetworkCredential(_emailSettings.User, _emailSettings.Password);
                         smtpClient.UseDefaultCredentials = false;
-                        smtpClient.EnableSsl = false;
-
-                        smtpClient.SendMailAsync(message).Wait();
+                        smtpClient.EnableSsl = true;
+                        smtpClient.SendMailAsync(message);
                     }
                 }
                 return true;
@@ -194,5 +204,4 @@ namespace Negocio.Servicios
             }
         }
     }
-
 }
