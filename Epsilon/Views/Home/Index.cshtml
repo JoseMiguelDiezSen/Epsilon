@@ -48,6 +48,23 @@
         </div>
     </div>
 
+
+<script>
+    function abrirWord() {
+        fetch('/Home/AbrirWord', {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log("Word abierto");
+            } else {
+                response.text().then(t => alert(t));
+            }
+        })
+        .catch(err => alert("Error al abrir Word: " + err));
+    }
+</script>
+
     @section Styles {
         <link href="~/css/Home.css" rel="stylesheet" />
     }

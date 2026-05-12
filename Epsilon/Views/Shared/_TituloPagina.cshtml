@@ -8,21 +8,7 @@
     <span class="fa fa-question-circle"></span>
 </button>
 
-<script>
-    function abrirWord() {
-        fetch('/Usuarios/AbrirWord', {
-            method: 'POST'
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log("Word abierto");
-            } else {
-                response.text().then(t => alert(t));
-            }
-        })
-        .catch(err => alert("Error al abrir Word: " + err));
-    }
-</script>
+
 <h4 class="text-center" style="color:white;"><span class="fa fa-user"></span> Usuarios <span class="fa fa-user"></span></h4>
 
 

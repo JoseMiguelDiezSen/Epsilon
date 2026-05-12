@@ -35,7 +35,7 @@
                     <td style="text-align:left"> @paciente.EMail?.ToString()</td>
                     <td style="text-align:left"> @paciente.Ciudad?.ToString()</td>
                     <td>
-                        <input id="checkAsegurado" type="checkbox" @(paciente.Asegurado ? "checked=\" checked\"" : "") disabled />
+                        <input id="checkAsegurado" type="checkbox" @(paciente.Asegurado ? "checked=\" checked\"" : "") disabled/>
                     </td>
                     <td style="text-align:center"> @paciente.FechaAlta.ToShortDateString()</td>
                     <td style="text-align:center"> @paciente.NumeroConsultas.ToString()</td>
@@ -45,17 +45,17 @@
                         <div aria-label="Basic Example">
 
                             @* Boton Editar Paciente *@
-                            <a class="btn btn-sm btn-outline-light" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
+                            <a class="btn btn-sm btn-outline-warning" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
                                 <span class="fa fa-pencil"> </span>
                             </a>
 
                             @* Boton Eliminar Paciente *@
-                            <button class="btn btn-sm btn-outline-light" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-warning" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
                                 <span class="fa fa-circle-xmark"> </span>
                             </button>
 
                             @* Boton Mostrar Detalle *@
-                            <button class="btn btn-sm btn-outline-light js-toggle-detail" data-id="@paciente.IdPaciente" style="margin-left:5px;" id="btnMostrarDetalle">
+                            <button class="btn btn-sm btn-outline-warning js-toggle-detail" data-id="@paciente.IdPaciente" style="margin-left:5px;" id="btnMostrarDetalle">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -122,4 +122,15 @@
         border-color: yellow;
     }
 
+        #tablaPacientes td,
+        #tablaPacientes th {
+            vertical-align: middle !important;
+            padding-top: 0.6rem;
+            padding-bottom: 0.6rem;
+        }
+
+    #checkAsegurado {
+            transform: scale(1.2);
+            accent-color: yellow;
+        }
 </style>
