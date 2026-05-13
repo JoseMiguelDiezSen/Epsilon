@@ -3,13 +3,11 @@
 
 <form id="addPaciente" method="post" asp-action="AgregarPaciente" name="addPaciente" onsubmit="return jqPostAddPaciente(this);">
 
-    <div style="border:1px solid gainsboro;padding:10px">
-
-        <div class="text-center" style="border-radius:100px;margin-bottom:20px;">
-            <img src="~/media/deep.jpg" alt="" height="150px" width="150px" style="border-radius:100px;border:1px solid grey" name="RutaFoto" asp-for="RutaFoto" />
-        </div>
+    <div id="contenedorControles">
 
         <div class="row">
+
+            <h3 class="text-center mb-5">DATOS DEL NUEVO PACIENTE</h3> 
 
             <!-- Primera columna -->
             @* NOMBRE *@

@@ -29,6 +29,10 @@ namespace Epsilon.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        /// <summary>
+        /// Metodo para abrir el documento Word del roadmap.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult AbrirWord()
         {

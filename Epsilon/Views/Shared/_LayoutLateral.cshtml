@@ -32,7 +32,7 @@
             <div class="row">
                 <div>
                     <!-- Icono -->
-                    <div style="width:100%;padding:15px;opacity:0.5;" class="text-center">
+                    <div style="width:100%;padding:15px;" class="text-center">
                         <div style="box-shadow: inset 7px 7px 7px 7px rgba(0.1, 0.1, 0.0, 0.3);">
                             <img src="~/media/JMDnegro.png" alt="JMD" id="iconoHeader" />
                         </div>
@@ -43,7 +43,7 @@
 
         <!-- Menu lateral de opciones -->
         <div class="page">
-            <div class="sidebar" id="sidebar" style="font-family:sans-serif;">
+            <div class="sidebar" id="sidebar" style="font-family:'Segoe UI';">
                 <div class="top-row ps-3 navbar navbar-dark">
                     <div class="container-fluid">
                         @* Boton menu responsive *@
@@ -308,57 +308,54 @@
                     <div id="hideme" class="themeTitle" style="cursor: pointer;"><span style="margin-left:20px;font-size:14px;font-family:sans-serif;">  CERRAR </span> </div>
                 </div>
                 <!-- Seccion (1) : DATOS USUARIO -->
-                <div class="themeName" style="margin-bottom:15px;">&#11088; JMD SOFTWARE &#11088;</div>
+                <div class="themeName" style="margin-bottom:15px;">&#11088; DATOS USUARIO &#11088;</div>
                
                 <!-- Video -->
                 <video style="width:100%;height:99px;background-position: center;" autoplay muted loop>
                     <source src="~/media/videos/Motion.mp4" type="video/mp4" />
                 </video>
                      
-
                 <!-- Datos del usuario -->
-                <div style="margin-top:-95px; line-height: 1em;">
-                    @*         <div>@Model.Nombre</div><br />
-                    <div><@Model.Telefono</div><br /> *@
-                    <br /><br /><br /><br /><br /><br />
+                <div style="margin-top:-70px; line-height: 1em;font-size:9pt;">
+                    <div>
+                        <label>Jose Miguel Diez Sen</label>
+                        <label>Correo Usuario</label> 
+                        <label>jsm1989@gmail.com</label>
+                    </div>
+
+                    <br /><br />
                 </div>
               
-
                 <br />
 
                 <!-- Seccion (2) : MENU OPCIONES -->
-                <div class="themeName" style="margin-bottom:10px;">&#128295; AJUSTES &#128295;</div>
+                <div class="themeName" style="margin-bottom:10px;">&#128295; OPCIONES &#128295;</div>
                 
                 <!-- Listado opciones del Panel Lateral -->
-                <ul id="listadoModalLateral" style="text-align:left;margin-left:5px;font-size:9pt;list-style-type: square;color:yellow;margin-top:20px;">
+                <ul id="listadoModalLateral" style="text-align:left;margin-left:5px;font-size:10pt;list-style:circle;color:yellow;margin-top:15px;">
                     <li><i class="fa fa-address-card-o" aria-hidden="true"></i><a href="@(Url.Content("/MiFichaPersonal"))">Mi Perfil</a></li>
-                    <li><a href="@(Url.Content("/Test"))">Test</a></li>
-                    <li><a href="Pruebas.aspx">Pruebas</a></li>
-                    <li><a href="PruebasjQuery.aspx">Pruebas jQuery</a></li>
-                    <li><a href="Bootstrap.aspx">Bootstrap</a></li>
-                    <!--<li><a href="EmojiIcons.aspx">Emojis</a></li>-->
-                    <li><a href="ControlesEspeciales.aspx">Controles Especiales</a></li>
-                    <li><a href="Login.aspx" onclick="CerrarSesion">Cerrar Sesion</a></li>
+                    <li><a href="@(Url.Content("/Personalizacion"))">Personalizacion</a></li>
+                    <li><a href="@(Url.Content("/Juegos"))">Minijuegos</a></li>
+                    <li><a href="@(Url.Content("/ChatBot"))">ChatBot</a></li>
+                    <li><a href="@(Url.Content("/Test"))">Pruebas</a></li>
+                    <li><a href="@(Url.Content("/Bitcoin"))">Bitcoin</a></li>
                 </ul>
               
                 <!-- Seccion (3) : PERSONALIZACION -->
-                <div class="themeName">PERSONALIZACION</div>
+                <div class="themeName">IDIOMA</div>
 
                 <p style="font-size: 9pt; font-family: arial; color: grey;">
                     Selecciona desde aquí el idioma.
                 </p>
 
                 <!-- Desplegable de seleccion del color -->
-                <select onchange="changeTheme()" id="option" style="border-radius: 5px; margin-bottom: 10px; width: 80%; background-color: teal;">
-                    <option>WHITE</option>
-                    <option selected="selected">SPANICH</option>
+                <select onchange="changeLanguage()" id="option" style="border-radius: 5px; margin-bottom: 10px; width: 80%; background-color: white;" class="form-select">              
+                    <option selected="selected">SPANISH</option>
                     <option>ENGLISH</option>
-                    <option>SKYBLUE</option>
-                    <option>YELLOW</option>
-                    <option>RED</option>
-                    <option>GOLD</option>
-                    <option>PINK</option>
-                    <option>GREEN</option>
+                    <option>FRENCH</option>
+                    <option>PORTUGUESE</option>
+                    <option>RUSSIAN</option>
+                    <option>CHINA</option>
                 </select>
 
                 <br />
@@ -404,6 +401,7 @@
         <input type="hidden" id="fotoUsuario" value="@Context.Session.GetString("FotoPerfil")" />
         <img id="themesBtn" ... />
 
+        @* Script para cargar los datos del usuario *@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
             var image = document.getElementById('themesBtn');

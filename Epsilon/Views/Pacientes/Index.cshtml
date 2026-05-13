@@ -8,27 +8,28 @@
 }
 
 <hr>
-<h4 class="text-center"><span class="fa-solid fa-user-injured"></span> Pacientes <span class="fa-solid fa-user-injured"></span></h4>
+<h4 class="text-center" style="color: #000 !important;"><span class="fa-solid fa-user-injured"></span> Pacientes <span class="fa-solid fa-user-injured"></span></h4>
 <hr>
 
 <form id="id_Form1" method="post" asp-action="FiltrarUsuarios" onsubmit="return jqPostFiltrar(event, this)">
 
-    <button type="button" style="background-color:gainsboro;margin-top:10px;border:1px solid yellow;height:20px;vertical-align:middle" class="accordion"><span class="fa fa-search"></span> Buscador Pacientes</button>
-
-    <div class="panel" style="border-bottom:1px solid gainsboro;border-left:1px solid gainsboro;border-right:1px solid gainsboro; box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
+    <button type="button" style="background-color:gainsboro;margin-top:10px;border:1px solid yellow;" class="accordion"><span class="fa fa-search" style="vertical-align:middle"></span> Buscador Pacientes</button>
+  
+    <div class="panel" style="border-bottom:1px solid yellow;border-left:1px solid yellow;border-right:1px solid yellow; box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);background-color:white">
 
         <div class="form-group row" style="padding:10px;">
 
             @* Nombre *@
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <label class="form-label">Nombre</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                     <input type="text" class="form-control" name="NombrePaciente" placeholder="Ingrese nombre">
                 </div>
             </div>
+
             @* DNI *@
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <label class="form-label">DNI</label>
                 <div class="input-group">
                     <span class="input-group-text">
@@ -37,16 +38,9 @@
                     <input type="text" class="form-control" name="DNI" placeholder="Ingrese DNI">
                 </div>
             </div>
-            @* E-Mail *@
-            <div class="col-md-2">
-                <label class="form-label">Correo Electrónico</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    <input type="email" class="form-control" name="EMail" placeholder="Ingrese E-mail">
-                </div>
-            </div>
+
             @* Telefono *@
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <label class="form-label">Teléfono</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
@@ -63,12 +57,11 @@
             </div>
 
             @* Boton Busqueda *@
-            <div class="col-md-2">
-                <button type="submit" style="float:left;height:30px;width:100px;margin-top:28.5px;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
-                    <span class="fa fa-search"> BUSCAR</span>
+            <div class="col-md-1">
+                <button type="submit" style="float:left;height:32px;width:50px;margin-top:29.5px;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
+                    <span class="fa fa-search"></span>
                 </button>
             </div>
-
         </div>
     </div>
 
@@ -78,7 +71,7 @@
 </form>
 
 <div style="margin-top:10px;">
-    <button id="AddUser" type="button" style="margin-bottom:10px;" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddPaciente(this)"><span class="fa fa-plus"></span> Nuevo <b>Paciente</b></button>
+    <button id="AddUser" type="button" style="margin-bottom:10px;" class="btn btn-sm btn-warning fa-pull-right" onclick="return jqGetModalAddPaciente(this)"><span class="fa fa-plus"></span> Nuevo <b>Paciente</b></button>
 </div>
 
 <div id="idResultadosFiltro" class="text-center" style="margin-top:10px;">
@@ -89,14 +82,16 @@
 
 @* Paginacion *@
 <div id="idPaginadorPrincipal" class="text-center m-1">
-    <a class="btn btn-sm btn-outline-light PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">
+    <a class="btn btn-sm btn-outline-warning PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">
         <i class="fa fa-angle-double-left" aria-hidden="true"></i>
     </a>
     <span class="m-2 TextoPaginacion" style="color:white;">@Model.PaginaActual</span>
-    <a class="btn btn-sm btn-outline-light PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">
+    <a class="btn btn-sm btn-outline-warning PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">
         <i class="fa fa-angle-double-right" aria-hidden="true"></i>
     </a>
 </div>
+
+<br/>
 
 @section Styles {
     <link href="~/css/Pacientes.css" rel="stylesheet" />

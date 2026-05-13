@@ -6,11 +6,12 @@
     <thead>
         @* Cabecera *@
         <tr>
-            <th scope="col" class="text-center" width="1%">#</th>
-            <th scope="col">IDPACIENTE</th>
+            <th scope="col" class="text-center d-none" width="1%">#</th>
+            <th scope="col" class="d-none">IDPACIENTE</th>
             <th scope="col">PACIENTE</th>
+            <th scope="col">DNI</th>
             <th scope="col">TELEFONO</th>
-            <th scope="col">EMAIL</th>
+
             <th scope="col">CIUDAD</th>
             <th scope="col">ASEGURADO</th>
             <th scope="col">F.ALTA</th>
@@ -26,14 +27,14 @@
             foreach (var paciente in Model)
             {
                 <tr id="idFilaPeriodo_" class="text-center">
-                    <td class="text-center">
+                    <td class="text-center d-none">
                         <span class="fa-solid fa-user-injured"></span>
                     </td>
-                    <td style="text-align:left"> @paciente.IdPaciente.ToString()</td>
-                    <td style="text-align:left"> @paciente.NombrePaciente?.ToString()</td>
+                    <td style="text-align:center" class="d-none"> @paciente.IdPaciente.ToString()</td>
+                    <td style="text-align:center"> @paciente.NombrePaciente?.ToString()</td>
+                    <td style="text-align:center"> @paciente.DNI?.ToString()</td>
                     <td style="text-align:center"> @paciente.Telefono.ToString()</td>
-                    <td style="text-align:left"> @paciente.EMail?.ToString()</td>
-                    <td style="text-align:left"> @paciente.Ciudad?.ToString()</td>
+                    <td style="text-align:center"> @paciente.Ciudad?.ToString()</td>
                     <td>
                         <input id="checkAsegurado" type="checkbox" @(paciente.Asegurado ? "checked=\" checked\"" : "") disabled/>
                     </td>
@@ -96,7 +97,7 @@
         border: 1px solid #444 !important; /* marco dark pero visible */
         border-top: none !important; /* evita doble borde con la fila anterior */
         box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.05); /* sombreado interior sutil */
-        padding: 12px;
+        padding: 5px;
         transition: all 0.7s ease;
     }
 
@@ -122,6 +123,7 @@
         border-color: yellow;
     }
 
+    /* Estilo contenido y alto de las rows */
         #tablaPacientes td,
         #tablaPacientes th {
             vertical-align: middle !important;
@@ -129,8 +131,11 @@
             padding-bottom: 0.6rem;
         }
 
-    #checkAsegurado {
-            transform: scale(1.2);
-            accent-color: yellow;
+        #tablaPacientes input[type="checkbox"] {
+            cursor: not-allowed; /* icono prohibido */
         }
+
+            #tablaPacientes input[type="checkbox"]:disabled {
+            
+            }
 </style>
