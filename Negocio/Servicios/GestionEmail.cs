@@ -74,9 +74,10 @@ namespace Negocio.Servicios
         {
             try
             {
-                to = "jsm.198969@gmail.com";
-                var from = _emailSettings.User;
-                var password = _emailSettings.Password;
+                to = "jsm198969@gmail.com";
+                var from = "jsm198969@gmail.com";
+                //var from = _emailSettings.User;
+                //var password = _emailSettings.Password;
 
                 using (var message = new MailMessage())
                 {
@@ -86,10 +87,11 @@ namespace Negocio.Servicios
                     message.Body = body;
                     message.IsBodyHtml = true;
 
-                    using (var smtpClient = new SmtpClient(_emailSettings.Server, int.Parse(_emailSettings.Port)))
+
+                    using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
                     {
-                        smtpClient.Credentials = new NetworkCredential(from, password);
-                        smtpClient.EnableSsl = false;
+                        smtpClient.Credentials = new NetworkCredential("jsm198969@gmail.com", "prlrnmctuqrnpdgu");
+                        smtpClient.EnableSsl = true;
                         smtpClient.Send(message);
                     }
                 }
@@ -109,10 +111,10 @@ namespace Negocio.Servicios
         {
             try
             {
-                var from = _emailSettings.User;
-                var password = _emailSettings.Password;
-
-                to = "jsm.198969@gmail.com"; // pruebas
+                //var from = _emailSettings.User;
+                //var password = _emailSettings.Password;
+                var from = "jsm198969@gmail.com";
+                to = "jsm198969@gmail.com"; // pruebas
 
                 using (var message = new MailMessage(from, to))
                 {
@@ -128,9 +130,9 @@ namespace Negocio.Servicios
                             var attachment = new Attachment(stream, adjunto.FileName);
                             message.Attachments.Add(attachment);
 
-                            using (var smtpClient = new SmtpClient(_emailSettings.Server, int.Parse(_emailSettings.Port)))
+                            using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
                             {
-                                smtpClient.Credentials = new NetworkCredential(from, password);
+                                smtpClient.Credentials = new NetworkCredential("jsm198969@gmail.com", "prlrnmctuqrnpdgu");
                                 smtpClient.EnableSsl = true;
                                 smtpClient.Send(message);
                             }
@@ -160,9 +162,10 @@ namespace Negocio.Servicios
 
             try
             {
-                emailTo = "jsm.198969@gmail.com"; // solo para pruebas
+                emailTo = "jsm198969@gmail.com"; // solo para pruebas
+                var from = "jsm198969@gmail.com";
 
-                using (var message = new MailMessage(_emailSettings.User, emailTo))
+                using (var message = new MailMessage(from, emailTo))
                 {
                     message.Subject = subject;
                     message.Body = body;
@@ -182,12 +185,11 @@ namespace Negocio.Servicios
                         message.Attachments.Add(attachment);
                     }
 
-                    using (var smtpClient = new SmtpClient(_emailSettings.Server, int.Parse(_emailSettings.Port)))
+                    using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
                     {
-                        smtpClient.Credentials = new NetworkCredential(_emailSettings.User, _emailSettings.Password);
-                        smtpClient.UseDefaultCredentials = false;
+                        smtpClient.Credentials = new NetworkCredential("jsm198969@gmail.com", "prlrnmctuqrnpdgu");
                         smtpClient.EnableSsl = true;
-                        smtpClient.SendMailAsync(message);
+                        smtpClient.Send(message);
                     }
                 }
                 return true;
