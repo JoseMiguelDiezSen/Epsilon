@@ -46,17 +46,17 @@
                         <div aria-label="Basic Example">
 
                             @* Boton Editar Paciente *@
-                            <a class="btn btn-sm btn-outline-warning" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
+                            <a class="btn btn-sm btn-outline-light" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
                                 <span class="fa fa-pencil"> </span>
                             </a>
 
                             @* Boton Eliminar Paciente *@
-                            <button class="btn btn-sm btn-outline-warning" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-light" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
                                 <span class="fa fa-circle-xmark"> </span>
                             </button>
 
                             @* Boton Mostrar Detalle *@
-                            <button class="btn btn-sm btn-outline-warning js-toggle-detail" data-id="@paciente.IdPaciente" style="margin-left:5px;" id="btnMostrarDetalle">
+                            <button class="btn btn-sm btn-outline-light js-toggle-detail" data-id="@paciente.IdPaciente" style="margin-left:5px;" id="btnMostrarDetalle">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -103,7 +103,7 @@
 
     /* Estilo para el hover en la fila de detalle */
     .detail-row td:hover {
-        background-color: yellow !important; /* leve cambio al pasar el ratón */
+        background-color: deepskyblue !important; /* leve cambio al pasar el ratón */
     }
 
     /* Estilo de contenido detallado */
@@ -120,7 +120,7 @@
     /* Estilo de la tabla de pacientes */
     #tablaPacientes {
         border: 1px solid;
-        border-color: yellow;
+        border-color: deepskyblue;
     }
 
     /* Estilo contenido y alto de las rows */
@@ -135,7 +135,4 @@
             cursor: not-allowed; /* icono prohibido */
         }
 
-            #tablaPacientes input[type="checkbox"]:disabled {
-            
-            }
 </style>
