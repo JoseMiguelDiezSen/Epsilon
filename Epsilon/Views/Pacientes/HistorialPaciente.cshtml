@@ -5,13 +5,44 @@
 <h4 class="text-center"><span class="fa-solid fa-user-injured"></span> Historial de @Model.FirstOrDefault()?.NombrePaciente <span class="fa-solid fa-user-injured"></span></h4>
 <hr>
 
-<table class="table table-hover table-striped table-info border-1 border-dark">
+
+@* Acciones *@
+<div class="row">
+
+    <div class="col-md-4">
+
+        <button class="btn btn-sm btn-light" style="margin-left:5px;" id="btnGenerarZip">
+            Descargar en Zip
+            <span class="fa fa-file-archive"> </span>
+        </button>
+    </div>
+
+    <div class="col-md-4">
+        <button class="btn btn-sm btn-light" style="margin-left:5px;" id="btnGenerarInforme">
+            Generar Informe
+            <span class="fa fa-file-pdf"> </span>
+        </button>
+    
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-sm btn-light" style="margin-left:5px;" id="btnExportarPdf" onclick="jqGenerarZip()">
+            Generar en ZIP
+            <span class="fa fa-clipboard"> </span>
+        </button>
+    </div>
+</div>
+
+<form id="formZip" method="post" action="/Pacientes/GenerarZipHistorial">
+    <input type="hidden" name="idPaciente" value="@Model.FirstOrDefault()?.IdPaciente" />
+</form>
+
+
+<table class="table table-hover table-striped table-info border-1 border-dark" id="tablaHistorial">
     <thead>
         <tr>
-            <th>IdCita</th>
+            <th class="d-none">IdCita</th>
             <th>Nombre Paciente </th>
             <th>Fecha Alta</th>
-            <th>Nº Consultas</th>
             <th>Inicio Cita</th>
             <th>Fin Cita</th>
             <th>Observaciones</th>
@@ -23,10 +54,9 @@
         @foreach (var cita in Model)
         {
             <tr>
-                <td>@cita.IdCita</td>
+                <td class="d-none">@cita.IdCita</td>
                 <td>@cita.NombrePaciente</td>
                 <td>@cita.FechaAlta.ToShortDateString()</td>
-                <td>@cita.NumeroConsultas</td>
                 <td>@cita.FechaInicio.ToShortDateString()</td>
                 <td>@cita.FechaFin.ToShortDateString()</td>
                 <td>@cita.Observaciones</td>
@@ -37,36 +67,34 @@
     </tbody>
 </table>
 
+<div class="alert alert-secondary mt-3">
 
+    <div class="row text-center">
 
+        <div class="col-md-4">
+            <strong>Total citas:</strong>
+            @Model.Count()
+        </div>
 
+        <div class="col-md-4">
+            <strong>Primera cita:</strong>
+            @Model.Min(x => x.FechaInicio).ToShortDateString()
+        </div>
 
-<div class="row">
+        <div class="col-md-4">
+            <strong>Última cita:</strong>
+            @Model.Max(x => x.FechaInicio).ToShortDateString()
+        </div>
 
-    <div class="col-md-4">
-
-        <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar"> Descargar en Zip
-            <span class="fa fa-book"> </span>
-        </button>
     </div>
 
-    <div class="col-md-4">
-        <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar"> Generar Informe
-            <span class="fa fa-circle-xmark"> </span>
-        </button>
-    
-    </div>
-    <div class="col-md-4">
-        <button class="btn btn-sm btn-outline-dark" style="margin-left:5px;" id="btnEliminar"> Descargar en Pdf
-            <span class="fa fa-circle-xmark"> </span>
-        </button>
-    </div>
 </div>
+@* Aqui quiero el total  *@
 
 
-<div style="margin-bottom:15px;">
+<div style="margin-bottom:15px;" class="fa-align-right">
     <a class="btn btn-secondary" href="/Pacientes">
-        ← Volver a Pacientes
+        <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver a Pacientes
     </a>
 </div>
 
@@ -80,5 +108,37 @@
         background-size: auto;
         background-color: lightskyblue;
     }
+
+
+    /* Estilo contenido y alto de las rows */
+    #tablaHistorial td,
+    #tablaHistorial th {
+        vertical-align: middle !important;
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+        border:1px solid;
+        border-color:white;
+        cursor: not-allowed; /* icono prohibido */
+
+        
+    }
+
+
+    #tablaHistorial{
+        margin-top: 10px;
+    }
+
+
+     #tablaHistorial th {
+
+            background-color:lightslategrey;     
+     
+     }
+
+        /* Estilo para el hover en la fila de detalle */
+        #tablaHistorial td:hover {
+            background-color: yellow !important; /* leve cambio al pasar el ratón */
+            color:orange;
+        }
 
 </style>

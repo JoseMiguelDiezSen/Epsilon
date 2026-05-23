@@ -12,6 +12,8 @@ using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
 using Negocio.Servicios.Negocio.Servicios;
 using OfficeOpenXml;
+using System.IO.Compression;
+using System.Text;
 using System.Text.Json;
 
 namespace Epsilon.Controllers
@@ -296,6 +298,56 @@ namespace Epsilon.Controllers
                 .Where(p => p.IdPaciente == idPaciente)
                 .ToList();
             return View("HistorialPaciente", paciente);
+        }
+
+        public IActionResult GenerarZipHistorial(int idPaciente)
+        {
+            var historial = _context.DatosHistoricoPaciente
+                .Where(c => c.IdPaciente == idPaciente)
+                .Select(c => new
+                {
+                    c.FechaInicio,
+                    c.FechaFin,
+                    c.Observaciones,
+
+                    c.NombrePaciente,
+                    c.NombreMedico,
+                    c.NombreClinica
+                })
+                .OrderByDescending(c => c.FechaInicio)
+                .ToList();
+
+            using var memoryStream = new MemoryStream();
+
+            using (var zip = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+            {
+                var entry = zip.CreateEntry("HistorialClinico.txt");
+
+                using var entryStream = entry.Open();
+                using var writer = new StreamWriter(entryStream, Encoding.UTF8);
+
+                writer.WriteLine($"HISTORIAL CLINICO PACIENTE {idPaciente}");
+                writer.WriteLine("====================================");
+                writer.WriteLine();
+
+                foreach (var cita in historial)
+                {
+                    writer.WriteLine($"Fecha Inicio: {cita.FechaInicio:dd/MM/yyyy}");
+                    writer.WriteLine($"Fecha Fin: {cita.FechaFin:dd/MM/yyyy}");
+                    writer.WriteLine($"Médico: {cita.NombreMedico}");
+                    writer.WriteLine($"Clínica: {cita.NombreClinica}");
+                    writer.WriteLine($"Observaciones: {cita.Observaciones}");
+                    writer.WriteLine("------------------------------------");
+                }
+            }
+
+            var zipBytes = memoryStream.ToArray();
+
+            return File(
+                zipBytes,
+                "application/zip",
+                $"HistorialPaciente_{idPaciente}.zip"
+            );
         }
 
         public IActionResult RadiologiaPaciente(int idPaciente)

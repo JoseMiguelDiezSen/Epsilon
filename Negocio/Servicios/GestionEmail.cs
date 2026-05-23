@@ -1,31 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.SqlServer.Server;
-
-
-//using System.IO;
-//using System.Reflection;
-//using System.Security.Principal;
-//using System.ServiceModel;
-//using System.ServiceModel.Security;
-//using System.Xml.Linq;
-
 using Negocio.Persistencia;
 using Negocio.Servicios.Comun;
 using Negocio.Servicios.Negocio.Servicios;
-//using Microsoft.IdentityModel.Protocols;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Reflection;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Xml.Linq;
-//using Negocio.Utilidades;
-//using System.Reflection;
-//using Negocio.Persistencia.Modelos;
-//using Negocio.Servicios.Comun;
 using Negocio.Utilidades;
 using Negocio.Validadores.Comun;
 using System.Net;
@@ -78,6 +56,14 @@ namespace Negocio.Servicios
                 var from = "jsm198969@gmail.com";
                 //var from = _emailSettings.User;
                 //var password = _emailSettings.Password;
+                
+                // SMTP CLient
+                string host = "smtp.gmail.com";
+                int port = 587;
+
+                // NetworkCredentials
+                string userName = "jsm198969@gmail.com";
+                string passwordApp = "prlrnmctuqrnpdgu";
 
                 using (var message = new MailMessage())
                 {
@@ -87,8 +73,7 @@ namespace Negocio.Servicios
                     message.Body = body;
                     message.IsBodyHtml = true;
 
-
-                    using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
+                    using (var smtpClient = new SmtpClient(host, port))
                     {
                         smtpClient.Credentials = new NetworkCredential("jsm198969@gmail.com", "prlrnmctuqrnpdgu");
                         smtpClient.EnableSsl = true;
@@ -147,8 +132,6 @@ namespace Negocio.Servicios
                 throw;
             }
         }
-
-
 
         /// <summary>  
         /// Envía correo electrónico con informe adjunto y respuesta  

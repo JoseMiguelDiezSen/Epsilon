@@ -520,6 +520,10 @@
 
     //-------- ((EXCEL PACIENTES)) ---------//
 
+
+
+
+
     jqGetModalExportarExcel = () => {
 
         $.ajax({
@@ -567,6 +571,17 @@
             }
         })
     }
+
+
+
+    //--------------------------HISTORIAL CLINICO------------------//
+
+
+
+    jqGenerarZip = () => {
+        document.getElementById("formZip").submit();
+    }
+
 
     //--------------- ((MODALES ARRASTRABLES)) ------------------//
     $('#modalEnvioCorreo').dragablito({ handle: ".modal-header" });

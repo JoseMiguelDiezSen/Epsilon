@@ -19,27 +19,26 @@ namespace Negocio.Utilidades
         /// <summary>
         /// Obtiene o establece el puerto a utilizar
         /// </summary>
-        public string? Port { get; set; }
+        public int? Port { get; set; } = 587;
 
         /// <summary>
         /// Obtiene o establece el emisor del mail
         /// </summary>
-        public string? From { get; set; }
+        public string? From { get; set; } = "jsm198969@gmail.com";
 
         /// <summary>
         /// Obtiene o establece el receptor del mail
         /// </summary>
-        public string? ReplyTo { get; set; }
+        public string? ReplyTo { get; set; } = "noResponder@gmail.com";
 
         /// <summary>
         /// Obtiene o establece el usuario del mail
         /// </summary>
-        public string? User { get; set; }
+        public string? User { get; set; } = "jsm198969@gmail.com";
 
         /// <summary>
-        /// Obtiene o establece el password
+        /// Obtiene o establece el password de la app para el envio de correo.
         /// </summary>
-        public string? Password { get; set; }
+        public string? PasswordApp { get; set; } = "prlrnmctuqrnpdgu";
     }
-
 }

@@ -95,14 +95,15 @@ namespace Negocio.Servicios
             return true;
         }
 
-
+        /// <summary>
+        /// Obtiene los datos del Detalle del paciente
+        /// </summary>
+        /// <param name="idPaciente"></param>
+        /// <returns></returns>
         public DatosPacientes? GetDetallePaciente(int idPaciente)
         {
             return Context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
         }
-
-
-
 
         /// <summary>
         /// Metodo para obtener los pacientes
