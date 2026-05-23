@@ -14,7 +14,7 @@ namespace Negocio.Utilidades
         /// <summary>
         /// Obtiene o establece el servidor a utilizar
         /// </summary>
-        public string? Server { get; set; }
+        public string? Server { get; set; } = "smtp.gmail.com";
 
         /// <summary>
         /// Obtiene o establece el puerto a utilizar

@@ -18,16 +18,6 @@ namespace Negocio.Servicios
     public class GestionEmail : ServicioAbstractoEpsilon, IGestionEmail
     {
         /// <summary>
-        /// Interfaz de informes para generar los adjuntos de los correos electrónicos
-        /// </summary>
-        private readonly IInformes? _informes;
-
-        /// <summary>
-        /// Configuraciones de SSRS
-        /// </summary>
-        protected SSRSSettings _SSRSSettings;
-
-        /// <summary>
         /// Configuraciones de EMail
         /// </summary>
         protected EmailSettings _emailSettings;
@@ -38,10 +28,8 @@ namespace Negocio.Servicios
         /// <param name="context">El contexto de la base de datos.</param>  
         /// <param name="milogger">El logger.</param>  
         /// <param name="informes">El servicio de informes.</param>  
-        public GestionEmail(EpsilonDbContext context, ILogger<GestionEmail> milogger, IValidadoresProgesfor registroValidadores, IInformes informes, IOptions<SSRSSettings> ssrsSettings, IOptions<EmailSettings> emailSettings) : base(context, milogger, registroValidadores)
+        public GestionEmail(EpsilonDbContext context, ILogger<GestionEmail> milogger, IValidadoresProgesfor registroValidadores, IOptions<EmailSettings> emailSettings) : base(context, milogger, registroValidadores)
         {
-            _informes = informes;
-            _SSRSSettings = ssrsSettings.Value;
             _emailSettings = emailSettings.Value;
         }
 
@@ -52,16 +40,15 @@ namespace Negocio.Servicios
         {
             try
             {
+                // From - To
                 to = "jsm198969@gmail.com";
                 var from = "jsm198969@gmail.com";
-                //var from = _emailSettings.User;
-                //var password = _emailSettings.Password;
-                
+
                 // SMTP CLient
                 string host = "smtp.gmail.com";
                 int port = 587;
 
-                // NetworkCredentials
+                // Network Credentials
                 string userName = "jsm198969@gmail.com";
                 string passwordApp = "prlrnmctuqrnpdgu";
 
@@ -75,15 +62,16 @@ namespace Negocio.Servicios
 
                     using (var smtpClient = new SmtpClient(host, port))
                     {
-                        smtpClient.Credentials = new NetworkCredential("jsm198969@gmail.com", "prlrnmctuqrnpdgu");
+                        smtpClient.Credentials = new NetworkCredential(userName, passwordApp);
                         smtpClient.EnableSsl = true;
                         smtpClient.Send(message);
                     }
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogInformation(GetEventId(), ex.Message);
                 throw;
             }
         }
@@ -96,10 +84,17 @@ namespace Negocio.Servicios
         {
             try
             {
-                //var from = _emailSettings.User;
-                //var password = _emailSettings.Password;
+                // From - To
+                to = "jsm198969@gmail.com";
                 var from = "jsm198969@gmail.com";
-                to = "jsm198969@gmail.com"; // pruebas
+
+                // SMTP CLient
+                string host = "smtp.gmail.com";
+                int port = 587;
+
+                // Network Credentials
+                string userName = "jsm198969@gmail.com";
+                string passwordApp = "prlrnmctuqrnpdgu";
 
                 using (var message = new MailMessage(from, to))
                 {
@@ -115,9 +110,9 @@ namespace Negocio.Servicios
                             var attachment = new Attachment(stream, adjunto.FileName);
                             message.Attachments.Add(attachment);
 
-                            using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
+                            using (var smtpClient = new SmtpClient(host, port))
                             {
-                                smtpClient.Credentials = new NetworkCredential("jsm198969@gmail.com", "prlrnmctuqrnpdgu");
+                                smtpClient.Credentials = new NetworkCredential(userName, passwordApp);
                                 smtpClient.EnableSsl = true;
                                 smtpClient.Send(message);
                             }
@@ -145,8 +140,17 @@ namespace Negocio.Servicios
 
             try
             {
-                emailTo = "jsm198969@gmail.com"; // solo para pruebas
+                // From - To
+                emailTo = "jsm198969@gmail.com";
                 var from = "jsm198969@gmail.com";
+
+                // SMTP CLient
+                string host = "smtp.gmail.com";
+                int port = 587;
+
+                // Network Credentials
+                string userName = "jsm198969@gmail.com";
+                string passwordApp = "prlrnmctuqrnpdgu";
 
                 using (var message = new MailMessage(from, emailTo))
                 {
@@ -168,9 +172,9 @@ namespace Negocio.Servicios
                         message.Attachments.Add(attachment);
                     }
 
-                    using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
+                    using (var smtpClient = new SmtpClient(host, port))
                     {
-                        smtpClient.Credentials = new NetworkCredential("jsm198969@gmail.com", "prlrnmctuqrnpdgu");
+                        smtpClient.Credentials = new NetworkCredential(userName, passwordApp);
                         smtpClient.EnableSsl = true;
                         smtpClient.Send(message);
                     }
