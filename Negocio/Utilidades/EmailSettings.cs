@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Negocio.Utilidades
+﻿namespace Negocio.Utilidades
 {
     /// <summary>
     /// Modelo de datos de las opciones de mail
