@@ -140,7 +140,7 @@ namespace Epsilon.Controllers
         /// <param name="vmPaciente"></param>
         /// <returns></returns>
         [HttpPost, AjaxOnly]
-        public async Task<JsonResult> AgregarPacienteAsync(ViewFormAgregarPaciente vmPaciente)
+        public async Task<JsonResult> AgregarPaciente(ViewFormAgregarPaciente vmPaciente)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
@@ -171,7 +171,7 @@ namespace Epsilon.Controllers
         }
 
         [HttpGet, AjaxOnly]
-        public async Task<ActionResult> ModalModificarPacienteAsync(int idPaciente)
+        public async Task<ActionResult> GetModalModificarPaciente(int idPaciente)
         {
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
 
@@ -206,7 +206,7 @@ namespace Epsilon.Controllers
         /// <param name="vmPaciente"></param>
         /// <returns></returns>
         [HttpPost, AjaxOnly]
-        public async Task<JsonResult> ModificarPacienteAsync(ViewFormAgregarPaciente vmPaciente)
+        public async Task<JsonResult> ModificarPaciente(ViewFormAgregarPaciente vmPaciente)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
@@ -228,7 +228,7 @@ namespace Epsilon.Controllers
                 };
 
                 var res = _gestionPacientes.UpdatePaciente(paciente);
-                result = new JsonResult(new { StatusCode = 200, message = "Usuario actualizado correctamente" });
+                result = new JsonResult(new { StatusCode = 200, message = "Paciente actualizado correctamente" });
             }
             catch (Exception ex)
             {
@@ -278,20 +278,6 @@ namespace Epsilon.Controllers
             return PartialView("DetallePaciente", paciente);
         }
 
-        public IActionResult HistorialPaciente(int idPaciente)
-        {
-            var paciente = _context.DatosHistoricoPaciente
-                .Where(p => p.IdPaciente == idPaciente)
-                .ToList();
-            return View("HistorialPaciente", paciente);
-        }
-
-        public IActionResult RadiologiaPaciente(int idPaciente)
-        {
-            var paciente = _context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
-            return View("RadiologiaPaciente", paciente);
-        }
-
         public IActionResult GenerarInformePaciente(int idPaciente)
         {
             byte[] data = _informes.GeneraInforme("/Informes/", "Paciente", new Dictionary<String, String> { { "idPaciente", idPaciente.ToString() } });
@@ -300,7 +286,6 @@ namespace Epsilon.Controllers
 
         #region ENVIO-CORREO
 
-        /// <summary> Abre ventana modal para la configuracion del correo </summary>
         [HttpGet, AjaxOnly]
         public async Task<JsonResult> ModalEnvioCorreoPaciente(int idPaciente)
         {
@@ -424,6 +409,20 @@ namespace Epsilon.Controllers
         }
 
         #endregion
+
+        public IActionResult HistorialPaciente(int idPaciente)
+        {
+            var paciente = _context.DatosHistoricoPaciente
+                .Where(p => p.IdPaciente == idPaciente)
+                .ToList();
+            return View("HistorialPaciente", paciente);
+        }
+
+        public IActionResult RadiologiaPaciente(int idPaciente)
+        {
+            var paciente = _context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+            return View("RadiologiaPaciente", paciente);
+        }
 
         #region EXPORTACIONES-HISTORIAL
 

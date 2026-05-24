@@ -2,7 +2,7 @@
 
 @model IEnumerable<ViewMedicos>
 
-<table class="table table-dark table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
+<table class="table table-light table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
     <thead>
         @* Cabecera *@
         <tr>
@@ -11,10 +11,10 @@
             <th scope="col">MEDICO</th>
             <th scope="col">DNI</th>
             <th scope="col">TELEFONO</th>
-            <th scope="col">CIUDAD</th>
-            <th scope="col">ASEGURADO</th>
+            <th scope="col">NºCOLEGIADO</th>
+            <th scope="col">ACTIVO</th>
             <th scope="col">F.ALTA</th>
-            <th scope="col">Nº CONSULTAS</th>
+            <th scope="col">CLINICA</th>
             <th scope="col">OPERACIONES</th>
         </tr>
     </thead>
@@ -55,7 +55,7 @@
                             </button>
 
                             @* Boton Mostrar Detalle *@
-                            <button class="btn btn-sm btn-outline-light js-toggle-detail" data-id="@medico.IdMedico" style="margin-left:5px;" id="btnMostrarDetalle">
+                            <button class="btn btn-sm btn-outline-dark js-toggle-detail" data-id="@medico.IdMedico" style="margin-left:5px;" id="btnMostrarDetalle">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -88,6 +88,12 @@
         
 
 <style>
+
+
+    th{
+    background-color:darkgrey;
+    
+    }
 
     /* Estilos para el detalle */
     .detail-row td {

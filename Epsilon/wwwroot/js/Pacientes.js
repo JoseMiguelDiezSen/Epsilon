@@ -184,10 +184,9 @@
     /* GET : Actualizar un paciente */
     jqGetModalUpdatePaciente = (idPaciente) => {
         try {
-
             $.ajax({
                 type: 'GET',
-                url: 'Pacientes/ModalModificarPaciente',
+                url: 'Pacientes/GetModalModificarPaciente',
                 data: { idPaciente: idPaciente },
 
                 success: function (response) {
@@ -240,7 +239,7 @@
     jqGetModalDeletePaciente = (idPaciente) => {
         $.ajax({
             type: "GET",
-            url: 'Pacientes/EliminarUsuario',
+            url: 'Pacientes/EliminarPaciente',
             data: { idPaciente: idPaciente },
             success: function (response) {
                 //document.querySelector(".modal-title").textContent = "Eliminar Usuario";
@@ -292,7 +291,7 @@
 
                     //var pagina = $('#PaginaActual').val();
                     //PaginadorPrincipal.irPagina(pagina);
-                    alert("Ha habido un error al eliminar el usuario");
+                    alert("Ha habido un error al eliminar el paciente");
                 }
             })
             return false;
@@ -507,10 +506,6 @@
 
     //-------- ((EXCEL PACIENTES)) ---------//
 
-
-
-
-
     jqGetModalExportarExcel = () => {
 
         $.ajax({
@@ -559,40 +554,8 @@
         })
     }
 
-
-
-    //--------------------------HISTORIAL CLINICO------------------//
-
-    /* POST: Añadir paciente */
-    jqGenerarZip = () => {
-
-        alert("Llega");
-
-        //try {
-        //    $.ajax({
-        //        type: 'POST',
-        //        url: 'Pacientes/GenerarZipHistorial',
-        //        data: new FormData(form),
-        //        contentType: false,
-        //        processData: false,
-        //        success: function (response) {
-    
-        //            alert("Zip generado correctamente");
-        //        },
-
-        //        error: function (response) {
-    
-        //            alert("Ha ocurrido un error");
-        //        }
-        //    })
-        //    return false;
-        //} catch (ex) {
-        //    console.log(ex);
-        //}
-    }
-
-
     //--------------- ((MODALES ARRASTRABLES)) ------------------//
     $('#modalEnvioCorreo').dragablito({ handle: ".modal-header" });
     $('#updatePacienteModal').dragablito({ handle: ".modal-header" });
+    $('#deletePacienteModal').dragablito({ handle: ".modal-header" });
 });
