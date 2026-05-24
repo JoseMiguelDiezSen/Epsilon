@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Negocio.Excepciones;
+﻿using Microsoft.Extensions.Logging;
 using Negocio.Persistencia;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios.Comun;
@@ -11,7 +9,6 @@ namespace Negocio.Servicios
 {
     public class GestionPacientes : ServicioAbstractoEpsilon , IGestionPacientes
     {
-
         /// <summary>
         /// Constructor del servicio
         /// </summary>
@@ -24,7 +21,7 @@ namespace Negocio.Servicios
         /// <summary>
         /// Metodo para añadir pacientes
         /// </summary>
-        /// <param name="paciente"></param>
+        /// <param name="paciente"> Paciente a añadir </param>
         /// <returns></returns>
         public Paciente AddPaciente(Paciente paciente)
         {
@@ -48,7 +45,7 @@ namespace Negocio.Servicios
         /// <summary>
         /// Metodo para actualizar un paciente
         /// </summary>
-        /// <param name="usuario"></param>
+        /// <param name="paciente"> Paciente a actualizar </param>
         /// <returns></returns>
         public Paciente UpdatePaciente(Paciente paciente)
         {
@@ -56,27 +53,6 @@ namespace Negocio.Servicios
             var entity = Context.Pacientes.Update(pacienteActualizado);
             Context.SaveChanges();
             return entity.Entity;
-        }
-
-        public IQueryable<DatosPacientes> GetDatosPacientes()
-        {
-            logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
-            return Context.DatosPacientes;
-        }
-
-        /// <summary>
-        /// Metodo para obtener un paciente
-        /// </summary>
-        /// <param name="idPaciente"></param>
-        /// <returns></returns>
-        public Paciente GetPaciente(int idPaciente)
-        {
-            // Opcion 1
-            var paciente = Context.Pacientes.Where(u => u.IdPaciente == idPaciente).First();
-            return paciente;
-
-            //Opcion 2
-            //return Context.Usuarios.Single(u => u.IdUsuario == idUsuario);
         }
 
         /// <summary>
@@ -93,6 +69,27 @@ namespace Negocio.Servicios
             var paciente1 = Context.Pacientes.Where(u => u.IdPaciente == idPaciente).First();
             Context.Pacientes.Remove(paciente);
             return true;
+        }
+
+        /// <summary>
+        /// Metodo para obtener un paciente mediante su ID
+        /// </summary>
+        /// <param name="idPaciente"> Identificador del paciente </param>
+        /// <returns></returns>
+        public Paciente GetPaciente(int idPaciente)
+        {
+            // Opcion 1
+            var paciente = Context.Pacientes.Where(u => u.IdPaciente == idPaciente).First();
+            return paciente;
+
+            //Opcion 2
+            //return Context.Usuarios.Single(u => u.IdUsuario == idUsuario);
+        }
+
+        public IQueryable<DatosPacientes> GetDatosPacientes()
+        {
+            logger.LogTrace(GetEventId(), MethodBase.GetCurrentMethod()?.Name);
+            return Context.DatosPacientes;
         }
 
         /// <summary>
@@ -117,6 +114,11 @@ namespace Negocio.Servicios
 
         #region EnvioCorreoElectonico
 
+        /// <summary>
+        /// Añade un modelo de correo electronico 
+        /// </summary>
+        /// <param name="correoElectronico"> Modelo de correo electronico a añadir </param>
+        /// <returns></returns>
         public bool AddModeloCorreo(CorreosElectronicos correoElectronico)
         {
             try
@@ -131,6 +133,11 @@ namespace Negocio.Servicios
             }
         }
 
+        /// <summary>
+        /// Elimina un modelo de correo electronico por su ID
+        /// </summary>
+        /// <param name="idCorreo"> Identidicador del modelo de correo electronico </param>
+        /// <returns></returns>
         public bool EliminarModeloCorreo(int idCorreo)
         {
             var correo = Context.CorreoElectronico.Find(idCorreo);
@@ -143,43 +150,6 @@ namespace Negocio.Servicios
             return true;
         }
 
-        /// <summary>
-        /// Actualiza los datos de un correo electrónico existente
-        /// </summary>
-        /// <param name="correoElectronico"></param>
-        /// <returns></returns>
-        public bool ActualizarDatosCorreo(CorreosElectronicos correoElectronico)
-        {
-            using (var trans = Context.Database.BeginTransaction())
-            {
-                var entity = Context.CorreoElectronico.Update(correoElectronico);
-                Context.SaveChanges();
-                return true;
-            }
-        }
-        /// <summary>
-        /// Alta de un nuevo correo electrónico
-        /// </summary>
-        /// <param name="correoElectronico"></param>
-        /// <returns></returns>
-        //public bool GuardarCorreoNuevo(CorreosElectronicos correoElectronico)
-        //{
-        //    using (var trans = Context.Database.BeginTransaction())
-        //    {
-        //        try
-        //        {
-        //            Context.Add(correoElectronico);
-        //            Context.SaveChanges();
-        //            trans.Commit();
-        //        }
-        //        catch (ValidacionException ex)
-        //        {
-        //            ex.Message.ToString();
-        //            trans.Rollback();
-        //        }
-        //    }
-        //    return true;
-        //}
         #endregion
     }
 }
