@@ -44,23 +44,6 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<EstadosUsuario>().Property(u => u.IdEstadoUsuario);
             modelBuilder.Entity<EstadosUsuario>().Property(u => u.EstadoUsuario);
 
-            // T
-
-
-            //TABLA MEDICOS
-            modelBuilder.Entity<Medico>().HasKey(m => m.IdMedico);
-            modelBuilder.Entity<Medico>().Property(m => m.IdMedico);
-            modelBuilder.Entity<Medico>().Property(m => m.NombreMedico);
-            modelBuilder.Entity<Medico>().Property(m => m.DNI);
-            modelBuilder.Entity<Medico>().Property(m => m.NumeroColegiado);
-            modelBuilder.Entity<Medico>().Property(m => m.Especialidad);
-            modelBuilder.Entity<Medico>().Property(m => m.Telefono);
-            modelBuilder.Entity<Medico>().Property(m => m.EMail);
-            modelBuilder.Entity<Medico>().Property(m => m.FechaContratacion);
-            modelBuilder.Entity<Medico>().Property(m => m.Activo);
-            modelBuilder.Entity<Medico>().Property(m => m.Observaciones);
-            modelBuilder.Entity<Medico>().Property(m => m.Foto);
-
             //TABLA PACIENTES
             modelBuilder.Entity<Paciente>().HasKey(m => m.IdPaciente);
             modelBuilder.Entity<Paciente>().Property(m => m.IdPaciente);
@@ -81,39 +64,19 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Paciente>().Property(p => p.Fumador);
             modelBuilder.Entity<Paciente>().Property(p => p.CondicionBucal);
 
-
-            // Vista [[vDatosPaciente]]
-            modelBuilder.Entity<DatosPacientes>().HasKey(p => p.IdPaciente);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.IdPaciente);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.NombrePaciente);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.DNI);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Telefono);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.EMail);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Direccion);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaAlta);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Ciudad);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.NumeroConsultas);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Asegurado);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaNacimiento);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Observaciones);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaPrimeraCita);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaUltimaCita);
-
-            // Vista [[vDatosHistoricoPaciente]]
-            //modelBuilder.Entity<DatosHistoricoPaciente>().HasKey(u => u.IdPaciente);
-            modelBuilder.Entity<DatosHistoricoPaciente>().HasKey(u => new { u.IdPaciente, u.IdCita });
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdPaciente);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombrePaciente);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.DNI);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaAlta);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NumeroConsultas);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaInicio);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaFin);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Observaciones);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombreMedico);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombreClinica);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdCita);
-
+            //TABLA MEDICOS
+            modelBuilder.Entity<Medico>().HasKey(m => m.IdMedico);
+            modelBuilder.Entity<Medico>().Property(m => m.IdMedico);
+            modelBuilder.Entity<Medico>().Property(m => m.NombreMedico);
+            modelBuilder.Entity<Medico>().Property(m => m.DNI);
+            modelBuilder.Entity<Medico>().Property(m => m.NumeroColegiado);
+            modelBuilder.Entity<Medico>().Property(m => m.Especialidad);
+            modelBuilder.Entity<Medico>().Property(m => m.Telefono);
+            modelBuilder.Entity<Medico>().Property(m => m.EMail);
+            modelBuilder.Entity<Medico>().Property(m => m.FechaContratacion);
+            modelBuilder.Entity<Medico>().Property(m => m.Activo);
+            modelBuilder.Entity<Medico>().Property(m => m.Observaciones);
+            modelBuilder.Entity<Medico>().Property(m => m.Foto);
 
             // TABLA RADIOLOGIA
             modelBuilder.Entity<Radiografia>().HasKey(p => p.IdRadiografia);
@@ -191,8 +154,6 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<CorreosElectronicos>().Property(e => e.Asunto);
             modelBuilder.Entity<CorreosElectronicos>().Property(e => e.CuerpoMensaje);
 
-
-
             #endregion
 
             #region VISTAS
@@ -208,6 +169,40 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosUsuario>().Property(e => e.FotoPerfil);
             modelBuilder.Entity<DatosUsuario>().Property(e => e.IdEstadoUsuario);
             modelBuilder.Entity<DatosUsuario>().Property(e => e.EstadoUsuario);
+
+            // Vista [[vDatosPaciente]]
+            modelBuilder.Entity<DatosPacientes>().HasKey(p => p.IdPaciente);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.IdPaciente);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.NombrePaciente);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.DNI);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Telefono);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.EMail);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Direccion);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaAlta);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Ciudad);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.NumeroConsultas);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Asegurado);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaNacimiento);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.Observaciones);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaPrimeraCita);
+            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaUltimaCita);
+
+            // Vista [[vDatosHistoricoPaciente]]
+            modelBuilder.Entity<DatosHistoricoPaciente>().HasKey(u => new { u.IdPaciente, u.IdCita });
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdPaciente);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombrePaciente);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.DNI);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaAlta);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NumeroConsultas);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaInicio);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaFin);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Observaciones);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombreMedico);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombreClinica);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdCita);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombreTratamiento);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Precio);
+            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Duracion);
 
 
             #endregion

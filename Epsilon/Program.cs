@@ -57,7 +57,7 @@ builder.Services.AddScoped<IGestionEmail, GestionEmail>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
-
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
 
 

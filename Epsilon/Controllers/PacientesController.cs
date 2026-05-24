@@ -12,6 +12,8 @@ using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
 using Negocio.Servicios.Negocio.Servicios;
 using OfficeOpenXml;
+using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
 using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
@@ -300,55 +302,7 @@ namespace Epsilon.Controllers
             return View("HistorialPaciente", paciente);
         }
 
-        public IActionResult GenerarZipHistorial(int idPaciente)
-        {
-            var historial = _context.DatosHistoricoPaciente
-                .Where(c => c.IdPaciente == idPaciente)
-                .Select(c => new
-                {
-                    c.FechaInicio,
-                    c.FechaFin,
-                    c.Observaciones,
 
-                    c.NombrePaciente,
-                    c.NombreMedico,
-                    c.NombreClinica
-                })
-                .OrderByDescending(c => c.FechaInicio)
-                .ToList();
-
-            using var memoryStream = new MemoryStream();
-
-            using (var zip = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
-            {
-                var entry = zip.CreateEntry("HistorialClinico.txt");
-
-                using var entryStream = entry.Open();
-                using var writer = new StreamWriter(entryStream, Encoding.UTF8);
-
-                writer.WriteLine($"HISTORIAL CLINICO PACIENTE {idPaciente}");
-                writer.WriteLine("====================================");
-                writer.WriteLine();
-
-                foreach (var cita in historial)
-                {
-                    writer.WriteLine($"Fecha Inicio: {cita.FechaInicio:dd/MM/yyyy}");
-                    writer.WriteLine($"Fecha Fin: {cita.FechaFin:dd/MM/yyyy}");
-                    writer.WriteLine($"Médico: {cita.NombreMedico}");
-                    writer.WriteLine($"Clínica: {cita.NombreClinica}");
-                    writer.WriteLine($"Observaciones: {cita.Observaciones}");
-                    writer.WriteLine("------------------------------------");
-                }
-            }
-
-            var zipBytes = memoryStream.ToArray();
-
-            return File(
-                zipBytes,
-                "application/zip",
-                $"HistorialPaciente_{idPaciente}.zip"
-            );
-        }
 
         public IActionResult RadiologiaPaciente(int idPaciente)
         {
@@ -431,9 +385,7 @@ namespace Epsilon.Controllers
                     case (true, true):
                         _email.EnviarEmailConAdjuntoYReply(vmCorreo.EmailPaciente ?? "", vmCorreo.Asunto ?? "", vmCorreo.CuerpoMensaje ?? "",
                             "no_responder@gmail.com", // ← replyTo
-                            vmCorreo.InputAdjuntos     // ← adjunto
-                        );
-         
+                            vmCorreo.InputAdjuntos);  // ← adjunto
                         break;
                 }
             }
@@ -444,41 +396,6 @@ namespace Epsilon.Controllers
             }
             return new JsonResult(jsonResponse);
         }
-
-        /// <summary> Guarda los datos introducidos en configuracion modelo correo </summary>
-        //[HttpPost, AjaxOnly]
-        //public async Task<JsonResult> AceptarConfiguracionCorreo(CorreoElectronicoViewModel vmModeloCorreo)
-        //{
-        //    JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
-        //    EpsilonDbContext context = _gestionPacientes.Context;
-        //    CorreosElectronicos correoElectronico = new CorreosElectronicos();
-
-        //    if (vmModeloCorreo.IdCorreo == 0)
-        //    {
-        //        correoElectronico.NombreCorreo = vmModeloCorreo.NombreCorreoNuevo;
-        //        correoElectronico.Asunto = vmModeloCorreo.Asunto;
-        //        correoElectronico.CuerpoMensaje = vmModeloCorreo.CuerpoMensaje;
-        //        _gestionPacientes.GuardarCorreoNuevo(correoElectronico);
-        //    }
-        //    // Actualizacion
-        //    else
-        //    {
-        //        correoElectronico.IdCorreo = vmModeloCorreo.IdCorreo;
-        //        var modeloSeleccionado = context.CorreoElectronico
-        //            .Where(c => c.IdCorreo == vmModeloCorreo.IdCorreo)
-        //            .Select(c => c.NombreCorreo)
-        //            .FirstOrDefault();
-        //        correoElectronico.NombreCorreo = modeloSeleccionado;
-        //        correoElectronico.Asunto = vmModeloCorreo.Asunto;
-        //        correoElectronico.CuerpoMensaje = vmModeloCorreo.CuerpoMensaje;
-        //        _gestionPacientes.ActualizarDatosCorreo(correoElectronico);
-        //    }
-
-        //    jsonResponse.Data = JsonSerializer.Serialize(correoElectronico);
-        //    return new JsonResult(jsonResponse);
-
-        //}
-
 
         [HttpPost, AjaxOnly]
         public JsonResult AddModeloCorreo(string nombreCorreo, string asunto, string cuerpoMensaje)
@@ -549,7 +466,11 @@ namespace Epsilon.Controllers
 
         //        return File(data, "application/pdf");
 
-        [HttpPost, AjaxOnly]
+
+
+
+
+
         public async Task<JsonResult> ImportarExcel(IFormFile fileExcel)
         {
             JsonResult jsonResult = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
@@ -599,5 +520,286 @@ namespace Epsilon.Controllers
                 }
             };
         }
+
+        public IActionResult GenerarTxtHistorial(int idPaciente)
+        {
+            var historial = _context.DatosHistoricoPaciente
+                .Where(c => c.IdPaciente == idPaciente)
+                .Select(c => new
+                {
+                    c.FechaInicio,
+                    c.FechaFin,
+                    c.Observaciones,
+                    c.NombrePaciente,
+                    c.NombreMedico,
+                    c.NombreClinica,
+                    c.NombreTratamiento,
+                    c.Precio,
+                    c.Duracion
+                })
+                .OrderByDescending(c => c.FechaInicio)
+                .ToList();
+
+            if (!historial.Any())
+            {
+                return NotFound();
+            }
+
+            var nombrePaciente = historial.First().NombrePaciente ?? "Paciente";
+
+            using var memoryStream = new MemoryStream();
+            using var writer = new StreamWriter(memoryStream, Encoding.UTF8);
+
+            writer.WriteLine($"HISTORIAL CLÍNICO DE {nombrePaciente.ToUpper()}");
+            writer.WriteLine("====================================");
+            writer.WriteLine();
+
+            var totalImporte = historial.Sum(x => x.Precio);
+            var totalDuracion = historial.Sum(x => x.Duracion);
+
+            foreach (var cita in historial)
+            {
+                writer.WriteLine($"Fecha Inicio: {cita.FechaInicio:dd/MM/yyyy}");
+                writer.WriteLine($"Fecha Fin: {cita.FechaFin:dd/MM/yyyy}");
+                writer.WriteLine($"Médico: {cita.NombreMedico}");
+                writer.WriteLine($"Clínica: {cita.NombreClinica}");
+                writer.WriteLine($"Observaciones: {cita.Observaciones}");
+                writer.WriteLine($"Tratamiento: {cita.NombreTratamiento}");
+                writer.WriteLine($"Precio: {cita.Precio}");
+                writer.WriteLine($"Duracion: {cita.Duracion}");
+                writer.WriteLine();
+                writer.WriteLine("-------------TOTALES---------------");
+                writer.WriteLine($"Total Importe: {totalImporte}");
+                writer.WriteLine($"Total Duracion: {totalDuracion}");
+            }
+
+            writer.Flush();
+
+            var txtBytes = memoryStream.ToArray();
+
+            return File(
+                txtBytes,
+                "text/plain",
+                $"HistorialPaciente_{nombrePaciente}.txt"
+            );
+        }
+
+        public IActionResult GenerarListadoPDFHistorial(int idPaciente)
+        {
+            var historial = _context.DatosHistoricoPaciente
+                .Where(c => c.IdPaciente == idPaciente)
+                .Select(c => new
+                {
+                    c.FechaInicio,
+                    c.FechaFin,
+                    c.Observaciones,
+                    c.NombrePaciente,
+                    c.NombreMedico,
+                    c.NombreClinica
+                })
+                .OrderByDescending(c => c.FechaInicio)
+                .ToList();
+
+            if (!historial.Any())
+            {
+                return NotFound();
+            }
+
+            var nombrePaciente = historial.First().NombrePaciente ?? "Paciente";
+
+            var pdfBytes = QuestPDF.Fluent.Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(20);
+
+                    page.Header()
+                        .Text($"Historial clínico de {nombrePaciente}")
+                        .FontSize(16)
+                        .Bold();
+
+                    page.Content().Column(col =>
+                    {
+                        col.Spacing(10);
+
+                        foreach (var c in historial)
+                        {
+                            col.Item().Text($"Fecha: {c.FechaInicio:dd/MM/yyyy} - {c.FechaFin:dd/MM/yyyy}");
+                            col.Item().Text($"Médico: {c.NombreMedico}");
+                            col.Item().Text($"Clínica: {c.NombreClinica}");
+                            col.Item().Text($"Observaciones: {c.Observaciones}");
+                            col.Item().LineHorizontal(1);
+                        }
+                    });
+                });
+            })
+            .GeneratePdf();
+
+            return File(
+                pdfBytes,
+                "application/pdf",
+                $"HistorialPaciente_{nombrePaciente}.pdf"
+            );
+        }
+
+        public IActionResult GenerarPDFTablaHistorial(int idPaciente)
+        {
+            var historial = _context.DatosHistoricoPaciente
+                .Where(c => c.IdPaciente == idPaciente)
+                .Select(c => new
+                {
+                    c.FechaInicio,
+                    c.FechaFin,
+                    c.Observaciones,
+                    c.NombrePaciente,
+                    c.NombreMedico,
+                    c.NombreClinica
+                })
+                .OrderByDescending(c => c.FechaInicio)
+                .ToList();
+
+            if (!historial.Any())
+            {
+                return NotFound();
+            }
+
+            var nombrePaciente = historial.First().NombrePaciente ?? "Paciente";
+
+            var pdfBytes = QuestPDF.Fluent.Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(20);
+
+                    page.Header()
+                        .Text($"Historial clínico de {nombrePaciente}")
+                        .FontSize(16)
+                        .Bold();
+
+                    page.Content().Table(table =>
+                    {
+                        // Columnas
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.RelativeColumn();     // Inicio
+                            columns.RelativeColumn();     // Fin
+                            columns.RelativeColumn();     // Médico
+                            columns.RelativeColumn();     // Clínica
+                            columns.RelativeColumn(2);    // Observaciones
+                        });
+
+                        // Cabecera
+                        table.Header(header =>
+                        {
+                            header.Cell().Element(CellStyle).Text("Inicio");
+                            header.Cell().Element(CellStyle).Text("Fin");
+                            header.Cell().Element(CellStyle).Text("Médico");
+                            header.Cell().Element(CellStyle).Text("Clínica");
+                            header.Cell().Element(CellStyle).Text("Observaciones");
+                        });
+
+                        // Filas
+                        foreach (var c in historial)
+                        {
+                            table.Cell().Element(CellStyle).Text(c.FechaInicio.ToString("dd/MM/yyyy"));
+                            table.Cell().Element(CellStyle).Text(c.FechaFin.ToString("dd/MM/yyyy"));
+                            table.Cell().Element(CellStyle).Text(c.NombreMedico);
+                            table.Cell().Element(CellStyle).Text(c.NombreClinica);
+                            table.Cell().Element(CellStyle).Text(c.Observaciones ?? "");
+                        }
+
+                        static IContainer CellStyle(IContainer container)
+                        {
+                            return container
+                                .Padding(5)
+                                .BorderBottom(1)
+                                .BorderColor(QuestPDF.Helpers.Colors.Grey.Lighten2);
+                        }
+                    });
+                });
+            })
+            .GeneratePdf();
+
+            return File(
+                pdfBytes,
+                "application/pdf",
+                $"HistorialPaciente_{nombrePaciente}.pdf"
+            );
+        }
+
+        public IActionResult GenerarListadoEnZip(int idPaciente)
+        {
+            var historial = _context.DatosHistoricoPaciente
+                .Where(c => c.IdPaciente == idPaciente)
+                .Select(c => new
+                {
+                    c.FechaInicio,
+                    c.FechaFin,
+                    c.Observaciones,
+                    c.NombrePaciente,
+                    c.NombreMedico,
+                    c.NombreClinica
+                })
+                .OrderByDescending(c => c.FechaInicio)
+                .ToList();
+
+            if (!historial.Any())
+            {
+                return NotFound();
+            }
+
+            var nombrePaciente = historial.First().NombrePaciente ?? "Paciente";
+
+            // Generar PDF listado
+            var pdfBytes = QuestPDF.Fluent.Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(20);
+
+                    page.Header()
+                        .Text($"Historial clínico de {nombrePaciente}")
+                        .FontSize(16)
+                        .Bold();
+
+                    page.Content().Column(col =>
+                    {
+                        col.Spacing(10);
+
+                        foreach (var c in historial)
+                        {
+                            col.Item().Text($"Fecha: {c.FechaInicio:dd/MM/yyyy} - {c.FechaFin:dd/MM/yyyy}");
+                            col.Item().Text($"Médico: {c.NombreMedico}");
+                            col.Item().Text($"Clínica: {c.NombreClinica}");
+                            col.Item().Text($"Observaciones: {c.Observaciones}");
+                            col.Item().LineHorizontal(1);
+                        }
+                    });
+                });
+            })
+            .GeneratePdf();
+
+            // Crear ZIP
+            using var memoryStream = new MemoryStream();
+
+            using (var zip = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+            {
+                var entry = zip.CreateEntry($"HistorialClinico_{nombrePaciente}.pdf");
+
+                using var entryStream = entry.Open();
+
+                entryStream.Write(pdfBytes, 0, pdfBytes.Length);
+            }
+
+            var zipBytes = memoryStream.ToArray();
+
+            return File(
+                zipBytes,
+                "application/zip",
+                $"HistorialPaciente_{nombrePaciente}.zip"
+            );
+        }
+
+
     }
 }

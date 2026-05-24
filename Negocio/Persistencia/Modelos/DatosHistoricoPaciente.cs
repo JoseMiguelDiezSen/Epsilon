@@ -59,5 +59,32 @@ namespace Negocio.Persistencia.Modelos
         /// Obtiene o establece la descripción de la condición bucal del paciente.
         /// </summary>
         public string NombreClinica { get; set; }
+
+
+        /// <summary>
+        /// Obtiene o establece la descripción de la condición bucal del paciente.
+        /// </summary>
+        public string NombreTratamiento { get; set; }
+
+
+        /// <summary>
+        /// Obtiene o establece la descripción de la condición bucal del paciente.
+        /// </summary>
+        public double Precio { get; set; }
+
+
+        /// <summary>
+        /// Obtiene o establece la descripción de la condición bucal del paciente.
+        /// </summary>
+        public int Duracion { get; set; }
+
+
+
+
+
+
+
+
     }
+
 }
