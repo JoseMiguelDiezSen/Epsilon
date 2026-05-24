@@ -1,8 +1,10 @@
-﻿using Epsilon.ViewModels;
+﻿using Negocio.Persistencia.Modelos.Comun;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Epsilon.Models
+namespace Negocio.Persistencia.Modelos
 {
-    public class MedicosViewModel
+    [Table("vDatosMedicos")]
+    public class DatosMedicos : EpsilonForModel
     {
         /// <summary>
         /// Obtiene o establece el identificador del médico.
@@ -23,7 +25,7 @@ namespace Epsilon.Models
         /// Obtiene o establece el número de colegiado del médico.
         /// </summary>
         public int NumeroColegiado { get; set; }
-
+        
         /// <summary>
         /// Obtiene o establece el identificador del usuario asociado al médico.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Epsilon.Models
         /// Obtiene o establece la titulación del médico.
         /// </summary>
         public string? Titulacion { get; set; }
-
+        
         /// <summary>
         /// Obtiene o establece las observaciones del médico.
         /// </summary>
@@ -48,11 +50,11 @@ namespace Epsilon.Models
         /// Obtiene o establece si el médico está activo o no.
         /// </summary>
         public bool Activo { get; set; }
-
+        
         /// <summary>
         /// Obtiene o establece la fecha de contratación del médico.
         /// </summary>
-        public string? FechaContratacion { get; set; }
+        public string FechaContratacion { get; set; }
 
         /// <summary>
         /// Obtiene o establece el correo electrónico del médico.
@@ -73,9 +75,5 @@ namespace Epsilon.Models
         /// Obtiene o establece el nombre de la clínica asociada.
         /// </summary>
         public string? NombreClinica { get; set; }
-
-        public IEnumerable<ViewMedicos> Medicos { get; set; } = Enumerable.Empty<ViewMedicos>();
-        public int PaginaActual { get; set; } = 1;
-        public int RegistrosPorPagina { get; set; } = 10;
     }
 }

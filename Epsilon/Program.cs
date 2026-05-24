@@ -48,6 +48,7 @@ builder.Services.AddScoped<IInformes, Informes>();
 builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
 builder.Services.AddScoped<IGestionClinica, GestionClinica>();
 builder.Services.AddScoped<IGestionPacientes, GestionPacientes>();
+builder.Services.AddScoped<IGestionMedicos, GestionMedicos>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
 builder.Services.AddScoped<IGestionEmail, GestionEmail>();
 

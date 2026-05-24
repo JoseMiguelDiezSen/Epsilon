@@ -204,7 +204,23 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Precio);
             modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Duracion);
 
-
+            // Vista [[vDatosMedicos]]
+            modelBuilder.Entity<DatosMedicos>().HasKey(u => new { u.IdMedico });
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.IdMedico);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.NombreMedico);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.DNI);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.NumeroColegiado);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.IdUsuario);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.IdClinica);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.Titulacion);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.Observaciones);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.Activo);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.FechaContratacion);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.EMail);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.Telefono);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.Especialidad);
+            modelBuilder.Entity<DatosMedicos>().Property(u => u.NombreClinica);
+ 
             #endregion
         }
 
@@ -245,6 +261,8 @@ namespace Negocio.Persistencia
         public virtual DbSet<Modelos.DatosPacientes> DatosPacientes { get; set; }
 
         public virtual DbSet<Modelos.DatosHistoricoPaciente> DatosHistoricoPaciente { get; set; }
+
+        public virtual DbSet<Modelos.DatosMedicos> DatosMedicos { get; set; }
 
         #endregion
 

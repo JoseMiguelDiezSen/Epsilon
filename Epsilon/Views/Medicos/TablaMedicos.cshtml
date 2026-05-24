@@ -1,14 +1,14 @@
 ﻿@using Epsilon.ViewModels
 
-@model IEnumerable<ViewPacientes>
+@model IEnumerable<ViewMedicos>
 
 <table class="table table-dark table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
     <thead>
         @* Cabecera *@
         <tr>
             <th scope="col" class="text-center d-none" width="1%">#</th>
-            <th scope="col" class="d-none">IDPACIENTE</th>
-            <th scope="col">PACIENTE</th>
+            <th scope="col" class="d-none">IDMEDICO</th>
+            <th scope="col">MEDICO</th>
             <th scope="col">DNI</th>
             <th scope="col">TELEFONO</th>
             <th scope="col">CIUDAD</th>
@@ -23,39 +23,39 @@
 
         @if (Model.Count() > 0)
         {
-            foreach (var paciente in Model)
+            foreach (var medico in Model)
             {
                 <tr id="idFilaPeriodo_" class="text-center">
                     <td class="text-center d-none">
                         <span class="fa-solid fa-user-injured"></span>
                     </td>
-                    <td style="text-align:center" class="d-none"> @paciente.IdPaciente.ToString()</td>
-                    <td style="text-align:center"> @paciente.NombrePaciente?.ToString()</td>
-                    <td style="text-align:center"> @paciente.DNI?.ToString()</td>
-                    <td style="text-align:center"> @paciente.Telefono.ToString()</td>
-                    <td style="text-align:center"> @paciente.Ciudad?.ToString()</td>
+                    <td style="text-align:center" class="d-none"> @medico.IdMedico.ToString()</td>
+                    <td style="text-align:center"> @medico.NombreMedico?.ToString()</td>
+                    <td style="text-align:center"> @medico.DNI?.ToString()</td>
+                    <td style="text-align:center"> @medico.Telefono.ToString()</td>
+                    <td style="text-align:center"> @medico.NumeroColegiado.ToString()</td>
                     <td>
-                        <input id="checkAsegurado" type="checkbox" @(paciente.Asegurado ? "checked=\" checked\"" : "") disabled/>
+                        <input id="checkAsegurado" type="checkbox" @(medico.Activo ? "checked=\" checked\"" : "") disabled />
                     </td>
-                    <td style="text-align:center"> @paciente.FechaAlta.ToShortDateString()</td>
-                    <td style="text-align:center"> @paciente.NumeroConsultas.ToString()</td>
+                    <td style="text-align:center"> @medico.FechaContratacion</td>
+                    <td style="text-align:center"> @medico.NombreClinica</td>
 
                     @* OPERACIONES *@
                     <td>
                         <div aria-label="Basic Example">
 
                             @* Boton Editar Paciente *@
-                            <a class="btn btn-sm btn-outline-primary" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
+                            <a class="btn btn-sm btn-outline-primary" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(medico.IdMedico))">
                                 <span class="fa fa-pencil"> </span>
                             </a>
 
                             @* Boton Eliminar Paciente *@
-                            <button class="btn btn-sm btn-outline-danger" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-danger" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@medico.IdMedico)">
                                 <span class="fa fa-circle-xmark"> </span>
                             </button>
 
                             @* Boton Mostrar Detalle *@
-                            <button class="btn btn-sm btn-outline-light js-toggle-detail" data-id="@paciente.IdPaciente" style="margin-left:5px;" id="btnMostrarDetalle">
+                            <button class="btn btn-sm btn-outline-light js-toggle-detail" data-id="@medico.IdMedico" style="margin-left:5px;" id="btnMostrarDetalle">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -100,10 +100,10 @@
         transition: all 0.7s ease;
     }
 
-    /* Estilo para el hover en la fila de detalle */
-    .detail-row td:hover {
-        background-color: deepskyblue !important; /* leve cambio al pasar el ratón */
-    }
+        /* Estilo para el hover en la fila de detalle */
+        .detail-row td:hover {
+            background-color: deepskyblue !important; /* leve cambio al pasar el ratón */
+        }
 
     /* Estilo de contenido detallado */
     .detail-content {
@@ -122,7 +122,7 @@
         border-color: deepskyblue;
     }
 
-    /* Estilo contenido y alto de las rows */
+        /* Estilo contenido y alto de las rows */
         #tablaPacientes td,
         #tablaPacientes th {
             vertical-align: middle !important;

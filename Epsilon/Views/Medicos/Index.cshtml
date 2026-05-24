@@ -1,4 +1,4 @@
-﻿@model PacientesViewModel
+﻿@model MedicosViewModel
 
 @{
     ViewData["Title"] = "Medicos";
@@ -11,7 +11,38 @@
 <h4 class="text-center"><span class="fa-solid fa-user-doctor"></span> Medicos <span class="fa-solid fa-user-doctor"></span></h4>
 <hr>
 
+<div id="idResultadosFiltro" class="text-center" style="margin-top:10px;">
+    @{
+        await Html.RenderPartialAsync("TablaMedicos", Model.Medicos);
+    }
+</div>
+
+@* Paginacion *@
+<div id="idPaginadorPrincipal" class="text-center m-1">
+    <a class="btn btn-sm btn-outline-primary PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+    </a>
+    <span class="m-2 TextoPaginacion" style="color:white;">@Model.PaginaActual</span>
+    <a class="btn btn-sm btn-outline-primary PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">
+        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+    </a>
+</div>
+
+<br />
+
+@section Styles {
+    <link href="~/css/Medicos.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/Medicos.js"></script>
+}
+
 @* 
+
+
 
 <input type="hidden" asp-for="IdEdicion" id="IdEdicion" name="IdEdicion" value="@Model.IdEdicion" />
 <input type="hidden" asp-for="IdCurso" id="IdCurso" name="IdCurso" value="@Model.IdCurso" />
@@ -41,34 +72,12 @@
 <br />
 
 @* Creación / Modificación / Eliminacion Edicion *@
-<button id="DeleteEdicion" style="padding:5px !important; margin-right:10px;display:none;" type="button" class="btn btn-sm btn-outline-primary pull-right" onclick="obtieneModalEliminarCurso()"><span class="fa fa-times"></span> Eliminar Edicion</button>
-<button id="ModifyEdicion" type="button" class="btn btn-sm btn-outline-primary pull-right" style="display:none;" onclick="obtieneModalModificarEdicion()"><span class="fa fa-pencil"></span> Modificar Edicion</button>
-<button id="AddEdicion" style="padding:5px !important;display:none;" type="button" class="btn btn-sm btn-outline-primary pull-right" onclick="obtieneModalAgregarEdicion()"><span class="fa fa-plus"></span> Nueva Edicion</button>
 
 <br />
 <br />
 
-<div class="text-center">
+<div class="text-center d-none">
     <p id="p"></p>
     <p id="enlace"><a href="@Url.Action("Index","Home")" id="link"></a> Ir a inicio </p>
 </div>
-
-
-@section Styles {
-    <link href="~/css/Medicos.css" rel="stylesheet" />
-    <link href="~/css/ejecucionediciones.css" rel="stylesheet" />
-    <link href="~/css/viewcomponents/selectorediciones.css" rel="stylesheet" />
-}
-
-@section Scripts {
-    <script src="~/js/viewcomponents/SelectorEdiciones.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/js/ejecucionediciones.js"></script>
-}
-
-@section modals {
-
-
-}
 
