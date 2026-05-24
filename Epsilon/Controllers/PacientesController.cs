@@ -364,7 +364,7 @@ namespace Epsilon.Controllers
 
         /// <summary> Abre ventana modal para la configuracion del correo </summary>
         [HttpGet, AjaxOnly]
-        public async Task<JsonResult> ModalEnvioCorreoPaciente(int idPaciente, int? idCorreo)
+        public async Task<JsonResult> ModalEnvioCorreoPaciente(int idPaciente)
         {
             JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
             EpsilonDbContext context = _gestionPacientes.Context;

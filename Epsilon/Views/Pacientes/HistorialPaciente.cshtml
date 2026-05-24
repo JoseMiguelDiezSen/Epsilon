@@ -7,35 +7,33 @@
 
 
 @* Acciones *@
-<div class="row">
 
-    <div class="col-md-4">
+    <div class="row">
 
-        <button class="btn btn-sm btn-light" style="margin-left:5px;" id="btnGenerarZip">
-            Descargar en Zip
-            <span class="fa fa-file-archive"> </span>
-        </button>
-    </div>
+        <div class="col-md-4">
 
-    <div class="col-md-4">
-        <button class="btn btn-sm btn-light" style="margin-left:5px;" id="btnGenerarInforme">
-            Generar Informe
-            <span class="fa fa-file-pdf"> </span>
-        </button>
+            <button class="btn btn-sm btn-light" style="margin-left:5px;" id="btnGenerarZip">
+                Descargar en Zip
+                <span class="fa fa-file-archive"> </span>
+            </button>
+        </div>
+
+        <div class="col-md-4">
+            <button class="btn btn-sm btn-light" style="margin-left:5px;" id="btnGenerarInforme">
+                Generar Informe
+                <span class="fa fa-file-pdf"> </span>
+            </button>
     
-    </div>
-    <div class="col-md-4">
-        <button class="btn btn-sm btn-light" style="margin-left:5px;" id="btnExportarPdf" onclick="jqGenerarZip()">
-            Generar en ZIP
-            <span class="fa fa-clipboard"> </span>
-        </button>
-    </div>
-</div>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-sm btn-light" style="margin-left:5px;" id="btnExportarPdf" onclick="jqGenerarZip()">
+                Generar en ZIP
+                <span class="fa fa-clipboard"> </span>
+            </button>
 
-<form id="formZip" method="post" action="/Pacientes/GenerarZipHistorial">
-    <input type="hidden" name="idPaciente" value="@Model.FirstOrDefault()?.IdPaciente" />
-</form>
 
+        </div>
+    </div>
 
 <table class="table table-hover table-striped table-info border-1 border-dark" id="tablaHistorial">
     <thead>
@@ -68,7 +66,6 @@
 </table>
 
 <div class="alert alert-secondary mt-3">
-
     <div class="row text-center">
 
         <div class="col-md-4">
@@ -85,14 +82,21 @@
             <strong>Última cita:</strong>
             @Model.Max(x => x.FechaInicio).ToShortDateString()
         </div>
-
     </div>
-
 </div>
-@* Aqui quiero el total  *@
 
 
-<div style="margin-bottom:15px;" class="fa-align-right">
+
+
+<a class="btn btn-sm btn-light fa-pull-left" href="/Pacientes/GenerarZipHistorial?idPaciente=@Model.FirstOrDefault()?.IdPaciente">
+    Generar en ZIP
+    <span class="fa fa-file-archive"></span>
+</a>
+
+
+
+
+<div style="margin-bottom:15px;" class="fa-pull-right">
     <a class="btn btn-secondary" href="/Pacientes">
         <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver a Pacientes
     </a>
@@ -102,43 +106,13 @@
 
 
 
-    body {
-        background-image: url('/media/pattern.png');
-        background-repeat: repeat;
-        background-size: auto;
-        background-color: lightskyblue;
-    }
-
-
-    /* Estilo contenido y alto de las rows */
-    #tablaHistorial td,
-    #tablaHistorial th {
-        vertical-align: middle !important;
-        padding-top: 0.6rem;
-        padding-bottom: 0.6rem;
-        border:1px solid;
-        border-color:white;
-        cursor: not-allowed; /* icono prohibido */
-
-        
-    }
-
-
-    #tablaHistorial{
-        margin-top: 10px;
-    }
-
-
-     #tablaHistorial th {
-
-            background-color:lightslategrey;     
-     
-     }
-
-        /* Estilo para el hover en la fila de detalle */
-        #tablaHistorial td:hover {
-            background-color: yellow !important; /* leve cambio al pasar el ratón */
-            color:orange;
-        }
-
 </style>
+
+
+@section Styles {
+    <link href="~/css/HistorialPaciente.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/js/HistorialPaciente.js" asp-append-version="true"></script>
+}
