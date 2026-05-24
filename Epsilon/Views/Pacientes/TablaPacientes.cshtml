@@ -46,12 +46,12 @@
                         <div aria-label="Basic Example">
 
                             @* Boton Editar Paciente *@
-                            <a class="btn btn-sm btn-outline-light" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
+                            <a class="btn btn-sm btn-outline-primary" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(paciente.IdPaciente))">
                                 <span class="fa fa-pencil"> </span>
                             </a>
 
                             @* Boton Eliminar Paciente *@
-                            <button class="btn btn-sm btn-outline-light" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
+                            <button class="btn btn-sm btn-outline-danger" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@paciente.IdPaciente)">
                                 <span class="fa fa-circle-xmark"> </span>
                             </button>
 

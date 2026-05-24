@@ -39,7 +39,7 @@
                 <td>@cita.NombreClinica</td>
                 <td>@cita.NombreTratamiento</td>
                 <td>@cita.Precio €</td>
-                <td>@cita.Duracion min</td>
+                <td>@((cita.Duracion / 60.0).ToString("0.0")) h</td>
             </tr>
         }
     </tbody>
@@ -100,7 +100,7 @@
 
     <div class="col-md-auto">
         <strong>Total Duracion:</strong>
-        @Model.Sum(x => x.Duracion) min
+        @((Model.Sum(x => x.Duracion) / 60.0).ToString("0.0")) h
     </div>
 
     <div class="col-md-auto">

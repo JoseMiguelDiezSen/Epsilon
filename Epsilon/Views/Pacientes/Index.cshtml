@@ -13,9 +13,9 @@
 
 <form id="id_Form1" method="post" asp-action="FiltrarUsuarios" onsubmit="return jqPostFiltrar(event, this)">
 
-    <button type="button" style="background-color:black;margin-top:10px;border:1px solid skyblue;" class="accordion"><span class="fa fa-search" style="vertical-align:middle;color:white"></span>Buscador Pacientes</button>
+    <button type="button" style="background-color:black;margin-top:10px;border:1px solid deepskyblue;" class="accordion"><span class="fa fa-search" style="vertical-align:middle;color:white;margin-top:-5px;margin-right:5px;"></span><span style="color:white">Buscador Pacientes</span></button>
   
-    <div class="panel" style="border-bottom:1px solid skyblue;border-left:1px solid skyblue;border-right:1px solid skyblue; box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);background-color:darkslategray">
+    <div class="panel" style="border-bottom:1px solid deepskyblue;border-left:1px solid skyblue;border-right:1px solid deepskyblue; box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);background-color:darkslategray">
 
         <div class="form-group row" style="padding:10px;">
 
@@ -58,7 +58,7 @@
 
             @* Boton Busqueda *@
             <div class="col-md-1">
-                <button type="submit" style="float:left;height:32px;width:50px;margin-top:29.5px;" class="btn btn-sm btn-outline-dark fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
+                <button type="submit" style="float:left;height:32px;width:50px;margin-top:21.5px;" class="btn btn-sm btn-outline-light fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
                     <span class="fa fa-search"></span>
                 </button>
             </div>

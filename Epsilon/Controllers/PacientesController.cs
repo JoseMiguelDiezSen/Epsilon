@@ -266,22 +266,6 @@ namespace Epsilon.Controllers
 
         #endregion
 
-        #region ImportarPacientes
-
-        [HttpGet, AjaxOnly]
-        public async Task<JsonResult> ModalImportarExcel()
-        {
-            JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
-            FormImportarExcel vmUsuariosExcel = new FormImportarExcel();
-            string data = await _renderService.ToStringAsync("FormImportarPacientes", vmUsuariosExcel);
-            jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
-            return new JsonResult(jsonResponse);
-        }
-
-        #endregion
-
-        #region ACCIONES-DETALLE
-
         /// <summary>
         /// Devuelve una vista parcial que muestra los detalles del paciente que sea identificado.
         /// </summary>
@@ -302,8 +286,6 @@ namespace Epsilon.Controllers
             return View("HistorialPaciente", paciente);
         }
 
-
-
         public IActionResult RadiologiaPaciente(int idPaciente)
         {
             var paciente = _context.DatosPacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
@@ -315,6 +297,8 @@ namespace Epsilon.Controllers
             byte[] data = _informes.GeneraInforme("/Informes/", "Paciente", new Dictionary<String, String> { { "idPaciente", idPaciente.ToString() } });
             return File(data, "application/pdf");
         }
+
+        #region ENVIO-CORREO
 
         /// <summary> Abre ventana modal para la configuracion del correo </summary>
         [HttpGet, AjaxOnly]
@@ -439,87 +423,9 @@ namespace Epsilon.Controllers
             return new JsonResult(response);
         }
 
-
-
         #endregion
 
-        //        byte[] data = _informes.GeneraInforme(
-        //"/Informes/",
-        //"Paciente",
-        //new Dictionary<string, string>
-        //{
-        //    { "idPaciente", idPaciente.ToString() },
-        //    { "idMedico", idMedico.ToString() }
-        //});
-
-        //        return File(data, "application/pdf");
-
-        //        byte[] data = _informes.GeneraInforme(
-        //"/Informes/",
-        //"Paciente",
-        //new Dictionary<string, string>
-        //{
-        //    { "idPaciente", idPaciente.ToString() },
-        //    { "fechaInicio", fechaInicio.ToString("yyyy-MM-dd") },
-        //    { "fechaFin", fechaFin.ToString("yyyy-MM-dd") }
-        //});
-
-        //        return File(data, "application/pdf");
-
-
-
-
-
-
-        public async Task<JsonResult> ImportarExcel(IFormFile fileExcel)
-        {
-            JsonResult jsonResult = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
-
-            List<Paciente> pacientes = new List<Paciente>();
-            using (var memoryStream = new MemoryStream())
-            {
-                fileExcel.CopyTo(memoryStream);
-                using (var package = new ExcelPackage(memoryStream))
-                {
-                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-                    if (worksheet == null)
-                    {
-                        throw new Exception("Excepcion");
-                    }
-                    var hoja1 = package.Workbook.Worksheets[0];
-                    if (!"Pacientes".Equals(hoja1.Name, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        throw new Exception("Excepcion");
-                    }
-                    //Calculo de rows y cols
-                    int rowCount = worksheet.Dimension.Rows;
-                    int colCount = worksheet.Dimension.Columns;
-                    //Row 2 : Omite Cabecera
-                    for (int row = 2; row < rowCount; row++)
-                    {
-                        var paciente = new Paciente();
-                        paciente.NombrePaciente = hoja1.GetValue(row, 1).ToString();
-                        paciente.DNI = hoja1.GetValue(row, 2).ToString();
-                        paciente.Telefono = Convert.ToInt32(hoja1.GetValue(row, 3));
-                        paciente.EMail = hoja1.GetValue(row, 4).ToString();
-                        paciente.FechaNacimiento = Convert.ToDateTime(hoja1.GetValue(row, 5).ToString());
-                        paciente.Direccion = hoja1.GetValue(row, 6).ToString();
-                        paciente.Ciudad = hoja1.GetValue(row, 7).ToString();
-                        paciente.FechaAlta = Convert.ToDateTime(hoja1.GetValue(row, 8).ToString());
-                        paciente.NumeroConsultas = Convert.ToInt32(hoja1.GetValue(row, 9));
-                        paciente.Asegurado = Convert.ToBoolean(hoja1.GetValue(row, 10));
-
-                        if (!string.IsNullOrEmpty(paciente.NombrePaciente))
-                        {
-                            pacientes.Add(paciente);
-                        }
-                    }
-                    string pacientesJSON = JsonSerializer.Serialize(pacientes);
-                    pacientesJSON = await _renderService.ToStringAsync("FormImportarPacientes", pacientesJSON);
-                    return jsonResult;
-                }
-            };
-        }
+        #region EXPORTACIONES-HISTORIAL
 
         public IActionResult GenerarTxtHistorial(int idPaciente)
         {
@@ -568,10 +474,12 @@ namespace Epsilon.Controllers
                 writer.WriteLine($"Precio: {cita.Precio}");
                 writer.WriteLine($"Duracion: {cita.Duracion}");
                 writer.WriteLine();
-                writer.WriteLine("-------------TOTALES---------------");
-                writer.WriteLine($"Total Importe: {totalImporte}");
-                writer.WriteLine($"Total Duracion: {totalDuracion}");
+                writer.WriteLine("----------------------------");
+
             }
+            writer.WriteLine("-------------TOTALES---------------");
+            writer.WriteLine($"Total Importe: {totalImporte}");
+            writer.WriteLine($"Total Duracion: {totalDuracion}");
 
             writer.Flush();
 
@@ -595,7 +503,10 @@ namespace Epsilon.Controllers
                     c.Observaciones,
                     c.NombrePaciente,
                     c.NombreMedico,
-                    c.NombreClinica
+                    c.NombreClinica,
+                    c.NombreTratamiento,
+                    c.Precio,
+                    c.Duracion
                 })
                 .OrderByDescending(c => c.FechaInicio)
                 .ToList();
@@ -606,6 +517,9 @@ namespace Epsilon.Controllers
             }
 
             var nombrePaciente = historial.First().NombrePaciente ?? "Paciente";
+
+            var totalImporte = historial.Sum(x => x.Precio);
+            var totalDuracion = historial.Sum(x => x.Duracion);
 
             var pdfBytes = QuestPDF.Fluent.Document.Create(container =>
             {
@@ -628,8 +542,16 @@ namespace Epsilon.Controllers
                             col.Item().Text($"Médico: {c.NombreMedico}");
                             col.Item().Text($"Clínica: {c.NombreClinica}");
                             col.Item().Text($"Observaciones: {c.Observaciones}");
+                            col.Item().Text($"Tratamiento: {c.NombreTratamiento}");
+                            col.Item().Text($"Precio: {c.Precio}");
+                            col.Item().Text($"Duracion: {c.Duracion}");
                             col.Item().LineHorizontal(1);
                         }
+                     
+                        col.Item().LineHorizontal(1);
+                        col.Item().Text("TOTALES").Bold();
+                        col.Item().Text($"Total Importe: {totalImporte}");
+                        col.Item().Text($"Total Duracion: {totalDuracion}");
                     });
                 });
             })
@@ -653,7 +575,10 @@ namespace Epsilon.Controllers
                     c.Observaciones,
                     c.NombrePaciente,
                     c.NombreMedico,
-                    c.NombreClinica
+                    c.NombreClinica,
+                    c.NombreTratamiento,
+                    c.Precio,
+                    c.Duracion
                 })
                 .OrderByDescending(c => c.FechaInicio)
                 .ToList();
@@ -664,6 +589,9 @@ namespace Epsilon.Controllers
             }
 
             var nombrePaciente = historial.First().NombrePaciente ?? "Paciente";
+
+            var totalImporte = historial.Sum(x => x.Precio);
+            var totalDuracion = historial.Sum(x => x.Duracion);
 
             var pdfBytes = QuestPDF.Fluent.Document.Create(container =>
             {
@@ -686,6 +614,9 @@ namespace Epsilon.Controllers
                             columns.RelativeColumn();     // Médico
                             columns.RelativeColumn();     // Clínica
                             columns.RelativeColumn(2);    // Observaciones
+                            columns.RelativeColumn(2);    // Tratamiento
+                            columns.RelativeColumn();     // Precio
+                            columns.RelativeColumn();     // Duracion
                         });
 
                         // Cabecera
@@ -696,6 +627,9 @@ namespace Epsilon.Controllers
                             header.Cell().Element(CellStyle).Text("Médico");
                             header.Cell().Element(CellStyle).Text("Clínica");
                             header.Cell().Element(CellStyle).Text("Observaciones");
+                            header.Cell().Element(CellStyle).Text("Tratamiento");
+                            header.Cell().Element(CellStyle).Text("Precio");
+                            header.Cell().Element(CellStyle).Text("Duracion");
                         });
 
                         // Filas
@@ -706,7 +640,19 @@ namespace Epsilon.Controllers
                             table.Cell().Element(CellStyle).Text(c.NombreMedico);
                             table.Cell().Element(CellStyle).Text(c.NombreClinica);
                             table.Cell().Element(CellStyle).Text(c.Observaciones ?? "");
+                            table.Cell().Element(CellStyle).Text(c.NombreTratamiento ?? "");
+                            table.Cell().Element(CellStyle).Text(c.Precio.ToString("C"));
+                            table.Cell().Element(CellStyle).Text(c.Duracion.ToString());
                         }
+
+                        table.Cell().Element(CellStyle).Text("");
+                        table.Cell().Element(CellStyle).Text("");
+                        table.Cell().Element(CellStyle).Text("");
+                        table.Cell().Element(CellStyle).Text("");
+                        table.Cell().Element(CellStyle).Text("");
+                        table.Cell().Element(CellStyle).Text("TOTALES");
+                        table.Cell().Element(CellStyle).Text(totalImporte.ToString("C"));
+                        table.Cell().Element(CellStyle).Text(totalDuracion.ToString());
 
                         static IContainer CellStyle(IContainer container)
                         {
@@ -738,7 +684,10 @@ namespace Epsilon.Controllers
                     c.Observaciones,
                     c.NombrePaciente,
                     c.NombreMedico,
-                    c.NombreClinica
+                    c.NombreClinica,
+                    c.NombreTratamiento,
+                    c.Precio,
+                    c.Duracion
                 })
                 .OrderByDescending(c => c.FechaInicio)
                 .ToList();
@@ -748,6 +697,8 @@ namespace Epsilon.Controllers
                 return NotFound();
             }
 
+            var totalImporte = historial.Sum(x => x.Precio);
+            var totalDuracion = historial.Sum(x => x.Duracion);
             var nombrePaciente = historial.First().NombrePaciente ?? "Paciente";
 
             // Generar PDF listado
@@ -772,8 +723,16 @@ namespace Epsilon.Controllers
                             col.Item().Text($"Médico: {c.NombreMedico}");
                             col.Item().Text($"Clínica: {c.NombreClinica}");
                             col.Item().Text($"Observaciones: {c.Observaciones}");
+                            col.Item().Text($"Tratamiento: {c.NombreTratamiento}");
+                            col.Item().Text($"Precio: {c.Precio.ToString("C")}");
+                            col.Item().Text($"Duracion: {c.Duracion}");
                             col.Item().LineHorizontal(1);
                         }
+
+                        col.Item().Text("TOTALES").Bold();
+                        col.Item().Text($"Total Importe: {totalImporte}");
+                        col.Item().Text($"Total Duracion: {totalDuracion}");
+
                     });
                 });
             })
@@ -800,6 +759,90 @@ namespace Epsilon.Controllers
             );
         }
 
+        #endregion
 
+        //        byte[] data = _informes.GeneraInforme(
+        //"/Informes/",
+        //"Paciente",
+        //new Dictionary<string, string>
+        //{
+        //    { "idPaciente", idPaciente.ToString() },
+        //    { "idMedico", idMedico.ToString() }
+        //});
+
+        //        return File(data, "application/pdf");
+
+        //        byte[] data = _informes.GeneraInforme(
+        //"/Informes/",
+        //"Paciente",
+        //new Dictionary<string, string>
+        //{
+        //    { "idPaciente", idPaciente.ToString() },
+        //    { "fechaInicio", fechaInicio.ToString("yyyy-MM-dd") },
+        //    { "fechaFin", fechaFin.ToString("yyyy-MM-dd") }
+        //});
+
+        //        return File(data, "application/pdf");
+
+        [HttpGet, AjaxOnly]
+        public async Task<JsonResult> ModalImportarExcel()
+        {
+            JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
+            FormImportarExcel vmUsuariosExcel = new FormImportarExcel();
+            string data = await _renderService.ToStringAsync("FormImportarPacientes", vmUsuariosExcel);
+            jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
+            return new JsonResult(jsonResponse);
+        }
+
+        public async Task<JsonResult> ImportarExcel(IFormFile fileExcel)
+        {
+            JsonResult jsonResult = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
+
+            List<Paciente> pacientes = new List<Paciente>();
+            using (var memoryStream = new MemoryStream())
+            {
+                fileExcel.CopyTo(memoryStream);
+                using (var package = new ExcelPackage(memoryStream))
+                {
+                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                    if (worksheet == null)
+                    {
+                        throw new Exception("Excepcion");
+                    }
+                    var hoja1 = package.Workbook.Worksheets[0];
+                    if (!"Pacientes".Equals(hoja1.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        throw new Exception("Excepcion");
+                    }
+                    //Calculo de rows y cols
+                    int rowCount = worksheet.Dimension.Rows;
+                    int colCount = worksheet.Dimension.Columns;
+                    //Row 2 : Omite Cabecera
+                    for (int row = 2; row < rowCount; row++)
+                    {
+                        var paciente = new Paciente();
+                        paciente.NombrePaciente = hoja1.GetValue(row, 1).ToString();
+                        paciente.DNI = hoja1.GetValue(row, 2).ToString();
+                        paciente.Telefono = Convert.ToInt32(hoja1.GetValue(row, 3));
+                        paciente.EMail = hoja1.GetValue(row, 4).ToString();
+                        paciente.FechaNacimiento = Convert.ToDateTime(hoja1.GetValue(row, 5).ToString());
+                        paciente.Direccion = hoja1.GetValue(row, 6).ToString();
+                        paciente.Ciudad = hoja1.GetValue(row, 7).ToString();
+                        paciente.FechaAlta = Convert.ToDateTime(hoja1.GetValue(row, 8).ToString());
+                        paciente.NumeroConsultas = Convert.ToInt32(hoja1.GetValue(row, 9));
+                        paciente.Asegurado = Convert.ToBoolean(hoja1.GetValue(row, 10));
+
+                        if (!string.IsNullOrEmpty(paciente.NombrePaciente))
+                        {
+                            pacientes.Add(paciente);
+                        }
+                    }
+                    string pacientesJSON = JsonSerializer.Serialize(pacientes);
+                    pacientesJSON = await _renderService.ToStringAsync("FormImportarPacientes", pacientesJSON);
+                    return jsonResult;
+                }
+            }
+            ;
+        }
     }
 }

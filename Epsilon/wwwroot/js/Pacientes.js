@@ -313,12 +313,12 @@
         window.location.href = '/Pacientes/RadiologiaPaciente?idPaciente=' + idPaciente;
     }
 
-    // FUncion para generar el informe de un paciente
+    // Funcion para generar el informe de un paciente
     jqGenerarInformePaciente = (idPaciente) => {
         window.open('/Pacientes/GenerarInformePaciente?idPaciente=' + idPaciente, '_blank');
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //-------- ((ENVIO CORREO)) ---------//
 
     jqGetModalCorreoElectronico = (idPaciente) => {
 
@@ -415,13 +415,8 @@
 
     };
 
-
-
+    // ENVIO CORREO
     jqPostEnviarCorreo = (form) => {
-
-        // Recoger los valores
-        //var eMail =
-        //var cuerpo = 
 
         try {
             $.ajax({
@@ -445,14 +440,6 @@
             console.log(ex);
         }
     }
-
-
-
-
-
-
-
-
 
     // ADD MODELO CORREO
     jqAddModeloCorreo = () => {
