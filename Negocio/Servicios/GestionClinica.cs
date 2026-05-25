@@ -9,7 +9,7 @@ namespace Negocio.Servicios
 {
     public class GestionClinica : ServicioAbstractoEpsilon, IGestionClinica
     {
-        public GestionClinica(EpsilonDbContext context, ILogger <GestionUsuarios> logger, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
+        public GestionClinica(EpsilonDbContext context, ILogger <GestionClinica> logger, IValidadoresProgesfor registroValidadores) : base(context, logger, registroValidadores)
         {
             logger.LogTrace(GetEventId(), "Servicion iniciado");
         }
@@ -18,6 +18,13 @@ namespace Negocio.Servicios
         {
             var tratamientos = Context.Tratamientos.ToList();
             return Context.Tratamientos.AsNoTracking();
+        }
+
+
+        public virtual IQueryable<DatosTratamientos> GetTratamientos()
+        {
+            var tratamientos = Context.Tratamientos.ToList();
+            return Context.DatosTratamientos.AsNoTracking();
         }
     }
 }

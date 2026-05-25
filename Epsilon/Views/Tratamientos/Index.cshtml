@@ -1,4 +1,4 @@
-﻿@model UsuariosViewModel
+﻿@model TratamientosViewModel
 @{
     ViewData["Title"] = "Tratamientos";
 }
@@ -7,6 +7,23 @@
 <h4 class="text-center"><span class="fa-solid fa-file-medical"></span> Tratamientos <span class="fa-solid fa-file-medical"></span></h4>
 <hr>
 
+
+<div id="idResultadosFiltro" class="text-center" style="margin-top:10px;">
+    @{
+        await Html.RenderPartialAsync("TablaTratamientos", Model.Tratamientos);
+    }
+</div>
+
+@* Paginacion *@
+<div id="idPaginadorPrincipal" class="text-center m-1">
+    <a class="btn btn-sm btn-outline-primary PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+    </a>
+    <span class="m-2 TextoPaginacion" style="color:white;">@Model.PaginaActual</span>
+    <a class="btn btn-sm btn-outline-primary PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">
+        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+    </a>
+</div>
 
 <button id="AddUser" type="button" class="btn btn-sm btn-outline-primary fa-pull-right" onclick="return jqGetModalAddUser()"><span class="fa fa-plus"></span> Nuevo <b>Tratamiento</b></button>
 
@@ -118,6 +135,10 @@
 
         </div>
     </div>
+
+
+
+
 </div>
 
 @section Scripts {

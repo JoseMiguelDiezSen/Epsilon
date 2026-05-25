@@ -1,0 +1,134 @@
+﻿@using Epsilon.ViewModels
+
+@model IEnumerable<ViewTratamiento>
+
+<table class="table table-light table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
+    <thead>
+        @* Cabecera *@
+        <tr>
+            <th scope="col" class="text-center d-none" width="1%">#</th>
+            <th scope="col" class="d-none">IDTRATAMIENTO</th>
+            <th scope="col">TRATAMIENTO</th>
+            <th scope="col">DURACION</th>
+            <th scope="col">COLOR</th>
+            <th scope="col">PRECIO</th>
+            <th scope="col">ACCIONES</th>
+        </tr>
+    </thead>
+
+    <tbody id="idBodyTable">
+
+        @if (Model.Count() > 0)
+        {
+            foreach (var tratamiento in Model)
+            {
+                <tr id="idFilaPeriodo_" class="text-center">
+                    <td class="text-center d-none">
+                        <span class="fa-solid fa-file-medical"></span>
+                    </td>
+                    <td style="text-align:center" class="d-none"> @tratamiento.IdTratamiento.ToString()</td>
+                    <td style="text-align:center"> @tratamiento.NomreTratamiento?.ToString()</td>
+                    <td style="text-align:center"> @tratamiento.Duracion</td>
+                    <td style="text-align:center"> @tratamiento.Color?.ToString()</td>
+                    <td style="text-align:center"> @tratamiento.Precio.ToString()</td>
+                   
+                    @* OPERACIONES *@
+                    <td>
+                        <div aria-label="Basic Example">
+
+                            @* Boton Editar Tratamiento *@
+                            <a class="btn btn-sm btn-outline-primary" id="btnEditar" data-id="" onclick="jqGetModalUpdateTratamiento(@(tratamiento.IdTratamiento))">
+                                <span class="fa fa-pencil"> </span>
+                            </a>
+
+                            @* Boton Eliminar Tratamiento *@
+                            <button class="btn btn-sm btn-outline-danger" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeleteTratamiento(@tratamiento.IdTratamiento)">
+                                <span class="fa fa-circle-xmark"> </span>
+                            </button>
+
+                            @* Boton Mostrar Detalle *@
+                            <button class="btn btn-sm btn-outline-dark js-toggle-detail" data-id="@tratamiento.IdTratamiento" style="margin-left:5px;" id="btnMostrarDetalle">
+                                <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+
+        @* SI NO HAY RESULTADOS *@
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">
+                    <span class="text-black-50 m-2">(No hay resultados)</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function toggleDetail(id, btn) {
+        const detail = document.getElementById('detail-' + id);
+        // Alterna solo la fila actual
+        detail.style.display = detail.style.display === 'none' ? '' : 'none';
+    }
+</script>
+
+
+        
+
+<style>
+
+
+    th {
+        background-color: darkgrey;
+    }
+
+    /* Estilos para el detalle */
+    .detail-row td {
+        background-color: none;
+        color: black;
+        border: 1px solid #444 !important; /* marco dark pero visible */
+        border-top: none !important; /* evita doble borde con la fila anterior */
+        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.05); /* sombreado interior sutil */
+        padding: 5px;
+        transition: all 0.7s ease;
+    }
+
+        /* Estilo para el hover en la fila de detalle */
+        .detail-row td:hover {
+            background-color: deepskyblue !important; /* leve cambio al pasar el ratón */
+        }
+
+    /* Estilo de contenido detallado */
+    .detail-content {
+        background-color: #3b3f44;
+        color: #f8f9fa;
+        padding: 12px;
+        border-radius: 0 0 6px 6px;
+        box-shadow: inset 0 0 6px rgba(255,255,255,0.05);
+        overflow: hidden; /* ocultar contenido al cerrar */
+        transition: max-height 0.3s ease; /* transición suave */
+    }
+
+    /* Estilo de la tabla de pacientes */
+    #tablaPacientes {
+        border: 1px solid;
+        border-color: deepskyblue;
+    }
+
+        /* Estilo contenido y alto de las rows */
+        #tablaPacientes td,
+        #tablaPacientes th {
+            vertical-align: middle !important;
+            padding-top: 0.6rem;
+            padding-bottom: 0.6rem;
+        }
+
+        #tablaPacientes input[type="checkbox"] {
+            cursor: not-allowed; /* icono prohibido */
+        }
+
+</style>

@@ -78,6 +78,14 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Medico>().Property(m => m.Observaciones);
             modelBuilder.Entity<Medico>().Property(m => m.Foto);
 
+            //TABLA TRATAMIENTOS
+            modelBuilder.Entity<Tratamiento>().HasKey(m => m.IdTratamiento);
+            modelBuilder.Entity<Tratamiento>().Property(m => m.IdTratamiento);
+            modelBuilder.Entity<Tratamiento>().Property(m => m.NombreTratamiento);
+            modelBuilder.Entity<Tratamiento>().Property(m => m.Duracion);
+            modelBuilder.Entity<Tratamiento>().Property(m => m.Color);
+            modelBuilder.Entity<Tratamiento>().Property(m => m.Precio);
+
             // TABLA RADIOLOGIA
             modelBuilder.Entity<Radiografia>().HasKey(p => p.IdRadiografia);
             modelBuilder.Entity<Radiografia>().Property(p => p.IdRadiografia);
@@ -120,10 +128,11 @@ namespace Negocio.Persistencia
             //modelBuilder.Entity<Medicos>().Property(m => m.Observaviones);
             //modelBuilder.Entity<Medicos>().Property(m => m.Foto);
 
-            //TABLA TRATAMIENTOS
-            modelBuilder.Entity<Tratamiento>().HasKey(m => m.IdTratamiento);
-            modelBuilder.Entity<Tratamiento>().Property(m => m.IdTratamiento);
-            modelBuilder.Entity<Tratamiento>().Property(m => m.NombreTratamiento);
+
+
+
+
+
 
             //modelBuilder.Entity<Tratamiento>().Property(m => m.Precio);
 
@@ -220,7 +229,14 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<DatosMedicos>().Property(u => u.Telefono);
             modelBuilder.Entity<DatosMedicos>().Property(u => u.Especialidad);
             modelBuilder.Entity<DatosMedicos>().Property(u => u.NombreClinica);
- 
+
+            // Vista [[vDatosTratamientos]]
+            modelBuilder.Entity<DatosTratamientos>().HasKey(t => t.IdTratamiento);
+            modelBuilder.Entity<DatosTratamientos>().Property(t => t.NombreTratamiento);
+            modelBuilder.Entity<DatosTratamientos>().Property(t => t.Duracion);
+            modelBuilder.Entity<DatosTratamientos>().Property(t => t.Color);
+            modelBuilder.Entity<DatosTratamientos>().Property(t => t.Precio);
+
             #endregion
         }
 
@@ -263,6 +279,8 @@ namespace Negocio.Persistencia
         public virtual DbSet<Modelos.DatosHistoricoPaciente> DatosHistoricoPaciente { get; set; }
 
         public virtual DbSet<Modelos.DatosMedicos> DatosMedicos { get; set; }
+
+        public virtual DbSet<Modelos.DatosTratamientos> DatosTratamientos { get; set; }
 
         #endregion
 

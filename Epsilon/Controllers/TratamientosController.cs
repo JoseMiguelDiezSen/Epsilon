@@ -6,11 +6,9 @@ using Epsilon.Renders;
 using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Negocio.Persistencia;
+using Microsoft.EntityFrameworkCore;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
-
-
 
 namespace Epsilon.Controllers
 {
@@ -33,23 +31,23 @@ namespace Epsilon.Controllers
 
         public IActionResult Index()
         {
-            //PacientesViewModel vmUsuarios = new PacientesViewModel();
+            TratamientosViewModel vmTratamientos = new TratamientosViewModel();
 
+            IQueryable<DatosTratamientos> datosTratamientos = _gestionClinica
+                .GetTratamientos()
+                .AsNoTracking()
+                .OrderBy(x => x.IdTratamiento)
+                .Skip((vmTratamientos.PaginaActual - 1) * vmTratamientos.RegistrosPorPagina)
+                .Take(vmTratamientos.RegistrosPorPagina);
 
-            //IQueryable<Paciente> pacientes = _gestionPacientes.Context.Pacientes;
+            var tratamientos = datosTratamientos
+                .ToList() // aquí materializas
+                .Select(x => new ViewTratamiento(x)) // aquí usas tu constructor
+                .ToList();
 
+            vmTratamientos.Tratamientos = tratamientos;
 
-            //IEnumerable<ViewPacientes> pacientes = new List<ViewPacientes>();
-
-            //pacientes = pacientes.Skip((vmUsuarios.PaginaActual - 1) * vmUsuarios.RegistrosPorPagina).Take(vmUsuarios.RegistrosPorPagina);
-
-            //if (pacientes.Any())
-            //{
-            //    pacientes = pacientes.Select(x => new ViewUsuario(x)).ToList();
-            //}
-
-            //vmUsuarios.Pacientes = pacientes;
-            return View("Index");
+            return View("Index", vmTratamientos);
         }
 
         #region AgregarTratamiento
@@ -105,13 +103,5 @@ namespace Epsilon.Controllers
         }
 
         #endregion
-
-
-
-
-
-
-
-
     }
 }

@@ -5,5 +5,7 @@ namespace Negocio.Servicios
     public interface IGestionClinica : IServicioEpsilon
     {
         IQueryable <Tratamiento> GetAllTratamientos();
+
+        public IQueryable<DatosTratamientos> GetTratamientos();
     }
 }
