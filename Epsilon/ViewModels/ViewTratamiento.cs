@@ -18,8 +18,6 @@ namespace Epsilon.ViewModels
 
         public string NomreTratamiento { get; set; }
 
-        
-
         //public SelectList? NombreTratamiento { get; set; } = new SelectList(Enumerable.Empty<string>());
 
         public int Duracion { get; set; }
