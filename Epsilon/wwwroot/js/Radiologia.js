@@ -1,6 +1,6 @@
 ﻿jQuery(function () {
 
-    /*Script para la lectura de radiografias*/
+    /* Script para la lectura de radiografias */
     cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
     cornerstoneWADOImageLoader.external.dicomParser = dicomParser;
 
@@ -25,15 +25,41 @@
     const element = document.getElementById("dicomViewer");
     cornerstone.enable(element);
 
-    const imageId = "wadouri:https://localhost:7176/Media/Radiografias/1.dcm";
+    /* Muestra el texto de estado del visor */
+    mostrarTexto = (texto) => {
+        document.getElementById("textoVisor").innerText = texto;
+    }
 
-    cornerstone.loadImage(imageId).then(function (image) {
-        cornerstone.displayImage(element, image);
+    /* Cambio de radiografia */
+    $("#listadoRadiografias").change(function () {
+
+        mostrarTexto("Cargando visor...");
+
+        const rutaDicom = $(this).val();
+        const imageId = "wadouri:https://localhost:7176" + rutaDicom;
+
+        cornerstone.loadImage(imageId).then(function (image) {
+            cornerstone.displayImage(element, image);
+            mostrarTexto("");
+        });
+
     });
 
-
-    /*Funcion que pretende abrir fullScreen con radiografia, no se ejecuta aun */
+    /* FullScreen */
     abrirVisorFullScreen = () => {
-        alert("Visor abriendo");
+
+        const visor = document.getElementById("dicomViewer");
+
+        if (visor.requestFullscreen) {
+
+            visor.requestFullscreen();
+
+            setTimeout(function () {
+                cornerstone.resize(visor, true);
+            }, 200);
+
+        }
+
     }
+
 });

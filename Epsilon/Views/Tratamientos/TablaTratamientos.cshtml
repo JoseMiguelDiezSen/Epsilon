@@ -29,7 +29,11 @@
                     <td style="text-align:center" class="d-none"> @tratamiento.IdTratamiento.ToString()</td>
                     <td style="text-align:center"> @tratamiento.NomreTratamiento?.ToString()</td>
                     <td style="text-align:center"> @tratamiento.Duracion</td>
-                    <td style="text-align:center"> @tratamiento.Color?.ToString()</td>
+                    <td style="text-align:center">
+                        <div class="color-box"
+                             style="background-color:@tratamiento.Color">
+                        </div>
+                    </td>
                     <td style="text-align:center"> @tratamiento.Precio.ToString()</td>
                    
                     @* OPERACIONES *@
@@ -80,6 +84,16 @@
         
 
 <style>
+
+    .color-box {
+        width: 25px;
+        height: 25px;
+        border-radius: 6px;
+        margin: auto;
+        border: 1px solid #555;
+        box-shadow: 0 0 4px rgba(0,0,0,0.3);
+    }
+
 
 
     th {
