@@ -17,17 +17,7 @@
     @* Zona de controles de manipulacion de DICOM *@
     <div class="row" style="margin-bottom:10px;border:1px solid white;padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
 
-       
-
-
-        @* Botones normales, los que me propusiste en su momento *@
-        @*   <div class="col-md-2">
-            <button id="zoomIn">Zoom +</button>
-            <button id="zoomOut">Zoom -</button>
-            <button id="reset">Reset</button>
-        </div> *@
-
-        @* Botones bootstrap (Mas bonitos), mi propuesta *@
+        @* Botones bootstrap  *@
         <div class="col-md-2">
             <button class="btn btn-light" id="zoomIn" style="border-radius:30px;"><b>+</b></button>
             <button class="btn btn-light" id="zoomOut" style="border-radius:30px;width:35px;"><b>-</b></button>
@@ -38,22 +28,12 @@
 
         @* Boton que quiero que abra un visor FULL SCREN *@
         <div class="col-md-2">
-            <button class="btn btn-light" id="zoomIn" style="border-radius:30px;" onclick="abrirVisorFullScreen()"><i class="fa fa-maximize"></i><b> VISOR FULL SCREEN</b></button>
+            <button class="btn btn-light" id="abrirVisor" style="border-radius:30px;" onclick="abrirVisorFullScreen()"><i class="fa fa-maximize"></i><b> VISOR FULL SCREEN</b></button>
         </div>
     </div>
 
-
-    @* VISOR + TEXTO ENCIMA *@
-    <div id="textoVisor" style="
-    top:10px;
-    left:0;
-    width:100%;
-    text-align:center;
-    color:white;
-    font-weight:bold;
-    height:0;
-    overflow:visible;
-    "></div>
+    @* TEXTO DE CARGA *@
+    <div id="textoVisor" style="top:10px;left:0;width:100%;text-align:center;color:white;font-weight:bold;height:0;overflow:visible;"></div>
 
     @* Contenedor de la DICOM *@
     <div class="col-md-10" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-top:20px;">
@@ -77,6 +57,7 @@
             <label>Seleccione Radiografia</label>
             <select name="ListadoRadiografias" class="form-control form-select" title="Listado Radiografias" id="listadoRadiografias" style="margin-bottom:5px;">
                 <option value="" selected disabled>(Seleccione una opcion)</option>
+                <option value="/Media/Radiografias/5.dcm">R-00 (05-09-2026)</option>
                 <option value="/Media/Radiografias/1.dcm">R-01 (17-03-2026)</option>
                 <option value="/Media/Radiografias/2.dcm">R-02 (21-03-2026)</option>
                 <option value="/Media/Radiografias/3.dcm">R-03 (27-05-2026)</option>
@@ -111,7 +92,6 @@
 }
 
 @section Modals {
-    @* Modal FullScreen??? o no vale esto?? *@
     <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="modalRadiografia">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -129,6 +109,12 @@
     </div>
 }
 
+
 @section Styles {
     <link href="~/css/Radiologia.css" rel="stylesheet" />
+        <style>
+        .logo { filter: brightness(0) invert(1); }
+        .layout-shadow { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+    </style>
 }
+
