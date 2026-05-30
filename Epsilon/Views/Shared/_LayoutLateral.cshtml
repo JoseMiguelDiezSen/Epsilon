@@ -3,374 +3,374 @@
 <head>
     <!--Icono de la pestaña -->
     <link rel="icon" type="image/png" href="~/media/epsilonIcono.ico" sizes="38x38">
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-        <!--Titulo de la pestaña-->
-        <title>@ViewData["Title"] - EPSILON</title>
-        <!-- Referencias a bootstrap -->
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-utilities.min.css" />
-        <link rel="stylesheet" href="~/css/bootstrap-float-label.css" />
-        <!-- Referencia a FontAwesome -->
-        <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <!--Titulo de la pestaña-->
+    <title>@ViewData["Title"] - EPSILON</title>
+    <!-- Referencias a bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-utilities.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-float-label.css" />
+    <!-- Referencia a FontAwesome -->
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
 
-        <!--Script para el menu lateral-->
-        <script src="~/js/switch/jquery.js"></script>
+    <!--Script para el menu lateral-->
+    <script src="~/js/switch/jquery.js"></script>
         
-        <!-- Enlace a los estilos -->
-        <link rel="stylesheet" href="~/css/siteLateral.css" />
+    <!-- Enlace a los estilos -->
+    <link rel="stylesheet" href="~/css/siteLateral.css" />
         
-        <!-- Referencia al JS y el CSS del menu lateral-->
-        <link href="~/js/switch/themeswitch.css" rel="stylesheet" />
-        <script src="~/js/modallateral/theamswitcher.js"></script>
+    <!-- Referencia al JS y el CSS del menu lateral-->
+    <link href="~/js/switch/themeswitch.css" rel="stylesheet" />
+    <script src="~/js/modallateral/theamswitcher.js"></script>
 
-        @RenderSection("Styles", required: false)
-    </head>
-    <body>
-        <header>
-            <div class="row">
-                <div>
-                    <!-- Icono -->
-                    <div style="width:100%;padding:15px;" class="text-center">
-                        <div style="box-shadow: inset 7px 7px 7px 7px rgba(0.1, 0.1, 0.0, 0.3);">
-                            <img src="~/media/JMDnegro.png" alt="JMD" id="iconoHeader" />
-                        </div>
+    @RenderSection("Styles", required: false)
+</head>
+<body class="@ViewBag.Theme">
+    <header>
+        <div class="row">
+            <div>
+                <!-- Icono -->
+                <div style="width:100%;padding:15px;" class="text-center">
+                    <div class="logoContainer">
+                        <img src="~/media/@ViewBag.LogoHeader" alt="JMD" id="iconoHeader" />
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Menu lateral de opciones -->
-        <div class="page">
-            <div class="sidebar" id="sidebar" style="font-family:'Segoe UI';">
-                <div class="top-row ps-3 navbar navbar-dark">
-                    <div class="container-fluid">
-                        @* Boton menu responsive *@
-                        <button title="Navigation menu" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" class="navbar-toggler"
-                                aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </div>
+    <!-- Menu lateral de opciones -->
+    <div class="page">
+        <div class="sidebar" id="sidebar" style="font-family:'Segoe UI';">
+            <div class="top-row ps-3 navbar navbar-dark">
+                <div class="container-fluid">
+                    @* Boton menu responsive *@
+                    <button title="Navigation menu" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" class="navbar-toggler"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                 </div>
-                <div class="container navbar-collapse collapse">
-                    <nav class="flex-column navbar  navbar-expand-sm navbar-toggleable-sm navbar-light navbar navbar-expand-sm border-bottom box-shadow">
+            </div>
+            <div class="container navbar-collapse collapse">
+                <nav class="flex-column navbar  navbar-expand-sm navbar-toggleable-sm navbar-light navbar navbar-expand-sm border-bottom box-shadow">
 
-                        @* INICIO *@
-                        <div class="nav-item">
+                    @* INICIO *@
+                    <div class="nav-item">
                           
                         <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Home") ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="fa fa-home" aria-hidden="true"></i> Inicio
-                            </a>
+                            <i class="fa fa-home" aria-hidden="true"></i> Inicio
+                        </a>
+                    </div>
+
+                    @* GRUPO DE OPCIONES (1) *@
+                    <div class="nav-group">
+
+                            
+                        @* TITULO DE LA SECCION *@
+                        <div class="nav-title px-1">
+                            <i class="fa fa-chevron-right me-1"></i>Gestión Pacientes
                         </div>
 
-                        @* GRUPO DE OPCIONES (1) *@
-                        <div class="nav-group">
-                            
-                            
-                            @* TITULO DE LA SECCION *@
-                            <div class="nav-title px-1">
-                                <i class="fa fa-chevron-right me-1"></i>Gestión Pacientes
-                            </div>
-
-                            @* PACIENTES *@
-                            <div class="nav-items">
-                                @* Item 1: PACIENTES *@
-                                <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
+                        @* PACIENTES *@
+                        <div class="nav-items">
+                            @* Item 1: PACIENTES *@
+                            <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
                                 <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Pacientes") ? "active" : "")" asp-controller="Pacientes" asp-action="Index">
-                                        <i class="fa-solid fa-user-injured"></i> Pacientes
-                                    </a>
-                                </div>
+                                    <i class="fa-solid fa-user-injured"></i> Pacientes
+                                </a>
+                            </div>
                             
-                                @* ESCANER 3D *@
-                                <li class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link  @(Context.Request.Path.StartsWithSegments("/Escaner3D") ? "active" : "")" asp-controller="Escaner3D" asp-action="Index">
-                                        <i class="fa fa-cube"></i>Escaner 3D
-                                    </a>
-                                </li>
+                            @* ESCANER 3D *@
+                            <li class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link  @(Context.Request.Path.StartsWithSegments("/Escaner3D") ? "active" : "")" asp-controller="Escaner3D" asp-action="Index">
+                                    <i class="fa fa-cube"></i>Escaner 3D
+                                </a>
+                            </li>
 
-                                @* INFORMES *@
-                                <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Informes") ? "active" : "")" asp-controller="Informes" asp-action="Index">
-                                        <i class="fa fa-clipboard" aria-hidden="true"></i>Informes
-                                    </a>
-                                </div>
+                            @* INFORMES *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Informes") ? "active" : "")" asp-controller="Informes" asp-action="Index">
+                                    <i class="fa fa-clipboard" aria-hidden="true"></i>Informes
+                                </a>
                             </div>
                         </div>
+                    </div>
 
-                        @* GRUPO DE OPCIONES (2) *@
-                        <div class="nav-group">
+                    @* GRUPO DE OPCIONES (2) *@
+                    <div class="nav-group">
    
-                            @* TITULO DE LA SECCION *@
-                            <div class="nav-title px-1">
-                                <i class="fa-solid fa fa-chevron-right me-1"></i>Gestión Doctores
-                            </div>
+                        @* TITULO DE LA SECCION *@
+                        <div class="nav-title px-1">
+                            <i class="fa-solid fa fa-chevron-right me-1"></i>Gestión Doctores
+                        </div>
    
-                            <div class="nav-items">
+                        <div class="nav-items">
 
-                                @* Item 1: Doctores *@
-                                <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Medicos") ? "active" : "")" asp-controller="Medicos" asp-action="Index">
-                                        <i class="fa fa-user-md"></i>Medicos
-                                    </a>
-                                </div>
+                            @* Item 1: Doctores *@
+                            <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Medicos") ? "active" : "")" asp-controller="Medicos" asp-action="Index">
+                                    <i class="fa fa-user-md"></i>Medicos
+                                </a>
+                            </div>
 
-                                @* Item 2: Agenda *@
-                                <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-controller="Agenda" asp-action="Index">
-                                        <i class="fa-regular fa-calendar-days"></i> Agenda
-                                    </a>
-                                </div>
+                            @* Item 2: Agenda *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-controller="Agenda" asp-action="Index">
+                                    <i class="fa-regular fa-calendar-days"></i> Agenda
+                                </a>
                             </div>
                         </div>
+                    </div>
 
-                        @* GRUPO DE OPCIONES (3) *@
-                        <div class="nav-group">
-                            @* TITULO DE LA SECCION *@
-                            <div class="nav-title px-1">
-                                <i class="fa-solid fa fa-chevron-right me-1"></i>Usuarios
+                    @* GRUPO DE OPCIONES (3) *@
+                    <div class="nav-group">
+                        @* TITULO DE LA SECCION *@
+                        <div class="nav-title px-1">
+                            <i class="fa-solid fa fa-chevron-right me-1"></i>Usuarios
+                        </div>
+                        <div class="nav-items">
+
+                            @* Item 1: Usuarios *@
+                            <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Usuarios") ? "active" : "")"
+                                       asp-controller="Usuarios" asp-action="Index">
+                                    <span class="fa fa-user" aria-hidden="true"></span>Usuarios
+                                </a>
                             </div>
-                            <div class="nav-items">
 
-                                @* Item 1: Usuarios *@
-                                <div class="nav-item px-1" style="margin-left:-15px;margin-top:3px;">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Usuarios") ? "active" : "")"
-                                           asp-controller="Usuarios" asp-action="Index">
-                                        <span class="fa fa-user" aria-hidden="true"></span>Usuarios
-                                    </a>
-                                </div>
-
-                                @* Item 2: Permisos Usuarios *@
-                                <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-area="" asp-controller="Permisos" asp-action="Index">
-                                        <span class="fa fa-key" aria-hidden="true"></span>Permisos
-                                    </a>
-                                </div>
+                            @* Item 2: Permisos Usuarios *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Permisos") ? "active" : "")" asp-area="" asp-controller="Permisos" asp-action="Index">
+                                    <span class="fa fa-key" aria-hidden="true"></span>Permisos
+                                </a>
                             </div>
                         </div>
+                    </div>
 
-                        @* GRUPO DE OPCIONES (4) *@
-                        <div class="nav-group">
+                    @* GRUPO DE OPCIONES (4) *@
+                    <div class="nav-group">
                             
-                            @* TITULO DE LA SECCION *@
-                            <div class="nav-title px-1">
-                                <i class="fa-solid fa fa-chevron-right me-1"></i>Gestion Centro
-                            </div>
+                        @* TITULO DE LA SECCION *@
+                        <div class="nav-title px-1">
+                            <i class="fa-solid fa fa-chevron-right me-1"></i>Gestion Centro
+                        </div>
                             
-                            <div class="nav-items">
+                        <div class="nav-items">
 
-                                @* Item 1: Facturacion *@
-                                <div class="nav-item px-1" style="margin-top:3px;margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Facturacion") ? "active" : "")" asp-controller="Facturacion" asp-action="Index">
-                                        <i class="fa fa-eur" aria-hidden="true"></i>Facturacion
-                                    </a>
-                                </div>
+                            @* Item 1: Facturacion *@
+                            <div class="nav-item px-1" style="margin-top:3px;margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Facturacion") ? "active" : "")" asp-controller="Facturacion" asp-action="Index">
+                                    <i class="fa fa-eur" aria-hidden="true"></i>Facturacion
+                                </a>
+                            </div>
 
-                                @* Item 2: Tratamientos *@
-                                <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "active" : "")" asp-controller="Tratamientos" asp-action="Index">
-                                        <i class="fa-solid fa-file-medical"></i> Tratamientos
-                                    </a>
-                                </div>
+                            @* Item 2: Tratamientos *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "active" : "")" asp-controller="Tratamientos" asp-action="Index">
+                                    <i class="fa-solid fa-file-medical"></i> Tratamientos
+                                </a>
+                            </div>
 
-                                @* Item 3: Estadistica *@
-                                <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Estadistica") ? "active" : "")" asp-controller="Estadistica" asp-action="Index">
-                                        <i class="fa fa-pie-chart" aria-hidden="true"></i>Estadistica
-                                    </a>
-                                </div>
+                            @* Item 3: Estadistica *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Estadistica") ? "active" : "")" asp-controller="Estadistica" asp-action="Index">
+                                    <i class="fa fa-pie-chart" aria-hidden="true"></i>Estadistica
+                                </a>
+                            </div>
 
-                                @* Item 4: Stock *@
-                                <div class="nav-item px-1" style="margin-left:-15px">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Stock") ? "active" : "")" asp-controller="Stock" asp-action="Index">
-                                        <i class="fa fa-medkit"></i>Stock
-                                    </a>
-                                </div>
+                            @* Item 4: Stock *@
+                            <div class="nav-item px-1" style="margin-left:-15px">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Stock") ? "active" : "")" asp-controller="Stock" asp-action="Index">
+                                    <i class="fa fa-medkit"></i>Stock
+                                </a>
                             </div>
                         </div>
+                    </div>
 
-                        @* GRUPO DE OPCIONES (5) *@
-                        <div class="nav-group">
-                            @* TITULO DE LA SECCION *@
-                            <div class="nav-title px-1">
-                                <i class="fa-solid fa fa-chevron-right me-1"></i>Administración del sistema
-                            </div>
+                    @* GRUPO DE OPCIONES (5) *@
+                    <div class="nav-group">
+                        @* TITULO DE LA SECCION *@
+                        <div class="nav-title px-1">
+                            <i class="fa-solid fa fa-chevron-right me-1"></i>Administración del sistema
+                        </div>
 
-                            <div class="nav-items">
+                        <div class="nav-items">
 
-                                @* Item 1: Configuracion *@
-                                <div class="nav-item px-1" style="margin-top:3px;">
+                            @* Item 1: Configuracion *@
+                            <div class="nav-item px-1" style="margin-top:3px;">
                                 <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Configuracion") ? "active" : "")" asp-controller="Configuracion" asp-action="Index" style="margin-left:-15px">
-                                        <i class="fa fa-gear" aria-hidden="true"></i> Configuracion
-                                    </a>
-                                </div>
-                                @* Item 2: Logging *@
-                                <div class="nav-item px-1">
-                                    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Logging") ? "active" : "")" asp-controller="Logging" asp-action="Index" style="margin-left:-15px">
-                                        <i class="fa-solid fa-chart-bar" aria-hidden="true"></i> Logs
-                                    </a>
-                                </div>
+                                    <i class="fa fa-gear" aria-hidden="true"></i> Configuracion
+                                </a>
+                            </div>
+                            @* Item 2: Logging *@
+                            <div class="nav-item px-1">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Logging") ? "active" : "")" asp-controller="Logging" asp-action="Index" style="margin-left:-15px">
+                                    <i class="fa-solid fa-chart-bar" aria-hidden="true"></i> Logs
+                                </a>
                             </div>
                         </div>
-                        @* Item 3: Cerrar Sesion *@
-                        <div class="nav-item px-1" style="margin-top:3px;">
-                            <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Login") ? "active" : "")" asp-controller="Login" asp-action="Index" style="margin-left:-15px;background-color:orangered;color:gainsboro">
-                                <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesion
-                            </a>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-
-            <main role="main">
-                <!--<div class="top-row"><h1>@ViewData["Title"]</h1></div>-->
-                <article class="content" style="height:45%;">
-                    <div class="text-center">
-                        <h1>
-                            <font size="6" color="navy">@ViewData["Area"]</font>
-                        </h1>
-
                     </div>
-                    @RenderBody()
-                </article>
-            </main>
-        </div>
-
-        @* Footer del _Layout *@
-        <footer class="footer">
-            <div class="container text-center">
-                <p style="text-align: center;">
-                    © Copyright 2026 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
-                    are trademarks of <a asp-area="" asp-page="/Login"> The JMD Corporation"</a>. All rights Reserved.
-                </p>
-            </div>
-        </footer>
-
-        @* ///////////////////////////////////////////////////////////////////////////// *@
-
-        <div class="main-modal-loading" style="display:none" id="modal-loading">
-            <div class="main-modal-loading-content container">
-                <div class="row">
-                    <div class="col-3 loading-spinner"></div>
-                    <div class="col-9 m-1">Procesando petición...</div>
-                </div>
-                <div class="row">
-                    <div class="col-12 text-center small text-warning">Esperando respuesta del servidor</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="main-popup-alert" style="display:none" id="main-popup-alert">
-            <div class="main-popup-alert-content container">
-                <div class="row" style="border-bottom:solid silver 1px">
-                    <div class="col-1"><span class="text-xl-center text-danger fa fa-warning" style="font-size:xx-large"></span></div>
-                    <div id="idTitleAlertError" class="col-10 text-black m-1" style="font-size:large; font-weight:bold"></div>
-                </div>
-                <div class="row" style="margin-top:3px;">
-                    <div id="idMsgAlertError" class="col-12 small text-black"></div>
-                </div>
-                <div class="">
-                    <a id="idCloseAlert" class="pull-right btn btn-sm btn-outline-secondary" onclick="$('#main-popup-alert').hide()">Cerrar</a>
-                </div>
-            </div>
-        </div>
-
-        <div id="popup">
-        </div>
-
-        <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" id="main-modal" data-bs-focus="false">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"></h5>
-
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-
+                    @* Item 3: Cerrar Sesion *@
+                    <div class="nav-item px-1" style="margin-top:3px;">
+                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Login") ? "active" : "")" asp-controller="Login" asp-action="Index" style="margin-left:-15px;background-color:orangered;color:gainsboro">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesion
+                        </a>
                     </div>
-                    <div class="modal-body">
-                    </div>
-                </div>
+                </nav>
             </div>
         </div>
 
+        <main role="main">
+            <!--<div class="top-row"><h1>@ViewData["Title"]</h1></div>-->
+            <article class="content" style="height:45%;">
+                <div class="text-center">
+                    <h1>
+                        <font size="6" color="navy">@ViewData["Area"]</font>
+                    </h1>
 
-        @* MODAL LATERAL *@
-        <div id="secectionBox">
+                </div>
+                @RenderBody()
+            </article>
+        </main>
+    </div>
+
+    @* Footer del _Layout *@
+    <footer class="footer">
+        <div class="container text-center">
+            <p style="text-align: center;">
+                © Copyright 2026 The JSM Company, all rights reserved. JSM<sup>® </sup>and JMD Logo<sup>® </sup>
+                are trademarks of <a asp-area="" asp-page="/Login"> The JMD Corporation"</a>. All rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    @* ///////////////////////////////////////////////////////////////////////////// *@
+
+    <div class="main-modal-loading" style="display:none" id="modal-loading">
+        <div class="main-modal-loading-content container">
+            <div class="row">
+                <div class="col-3 loading-spinner"></div>
+                <div class="col-9 m-1">Procesando petición...</div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center small text-warning">Esperando respuesta del servidor</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-popup-alert" style="display:none" id="main-popup-alert">
+        <div class="main-popup-alert-content container">
+            <div class="row" style="border-bottom:solid silver 1px">
+                <div class="col-1"><span class="text-xl-center text-danger fa fa-warning" style="font-size:xx-large"></span></div>
+                <div id="idTitleAlertError" class="col-10 text-black m-1" style="font-size:large; font-weight:bold"></div>
+            </div>
+            <div class="row" style="margin-top:3px;">
+                <div id="idMsgAlertError" class="col-12 small text-black"></div>
+            </div>
+            <div class="">
+                <a id="idCloseAlert" class="pull-right btn btn-sm btn-outline-secondary" onclick="$('#main-popup-alert').hide()">Cerrar</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup">
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" id="main-modal" data-bs-focus="false">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @* MODAL LATERAL *@
+    <div id="secectionBox">
             
-            <div id="themeContainer" style="border:1px solid yellow;">
+        <div id="themeContainer" style="border:1px solid yellow;">
                                 
-                <div class="row">
+            <div class="row">
 
-                    @*  <div id="hideme" style="background:url('/media/hideme.png') no-repeat left center;height:40px;margin-bottom:20px;">CERRAR</div> *@
-                    <div id="hideme" class="themeTitle" style="cursor: pointer;"><span style="margin-left:20px;font-size:14px;font-family:sans-serif;">  CERRAR </span> </div>
-                </div>
-                <!-- Seccion (1) : DATOS USUARIO -->
-                <div class="themeName" style="margin-bottom:15px;">&#11088; DATOS USUARIO &#11088;</div>
-               
-                <!-- Video -->
-                <video style="width:100%;height:99px;background-position: center;" autoplay muted loop>
-                    <source src="~/media/videos/Motion.mp4" type="video/mp4" />
-                </video>
-                     
-                <!-- Datos del usuario -->
-                <div style="margin-top:-70px; line-height: 1em;font-size:9pt;">
-                    <div>
-                        <label>Jose Miguel Diez Sen</label>
-                        <label>Correo Usuario</label> 
-                        <label>jsm1989@gmail.com</label>
-                    </div>
-
-                    <br /><br />
-                </div>
-              
-                <br />
-
-                <!-- Seccion (2) : MENU OPCIONES -->
-                <div class="themeName" style="margin-bottom:10px;">&#128295; OPCIONES &#128295;</div>
-                
-                <!-- Listado opciones del Panel Lateral -->
-                <ul id="listadoModalLateral" style="text-align:left;margin-left:5px;font-size:10pt;list-style:circle;color:yellow;margin-top:15px;">
-                    <li><i class="fa fa-address-card-o" aria-hidden="true"></i><a href="@(Url.Content("/MiFichaPersonal"))">Mi Perfil</a></li>
-                    <li><a href="@(Url.Content("/Personalizacion"))">Personalizacion</a></li>
-                    <li><a href="@(Url.Content("/Juegos"))">Minijuegos</a></li>
-                    <li><a href="@(Url.Content("/ChatBot"))">ChatBot</a></li>
-                    <li><a href="@(Url.Content("/Test"))">Pruebas</a></li>
-                    <li><a href="@(Url.Content("/Bitcoin"))">Bitcoin</a></li>
-                </ul>
-              
-                <!-- Seccion (3) : PERSONALIZACION -->
-                <div class="themeName">IDIOMA</div>
-
-                <p style="font-size: 9pt; font-family: arial; color: grey;">
-                    Selecciona desde aquí el idioma.
-                </p>
-
-                <!-- Desplegable de seleccion del color -->
-                <select onchange="changeLanguage()" id="option" style="border-radius: 5px; margin-bottom: 10px; width: 80%; background-color: white;" class="form-select">              
-                    <option selected="selected">SPANISH</option>
-                    <option>ENGLISH</option>
-                    <option>FRENCH</option>
-                    <option>PORTUGUESE</option>
-                    <option>RUSSIAN</option>
-                    <option>CHINA</option>
-                </select>
-
-                <br />
-                <br />
-             
+                @*  <div id="hideme" style="background:url('/media/hideme.png') no-repeat left center;height:40px;margin-bottom:20px;">CERRAR</div> *@
+                <div id="hideme" class="themeTitle" style="cursor: pointer;"><span style="margin-left:20px;font-size:14px;font-family:sans-serif;">  CERRAR </span> </div>
             </div>
-            <!--Fin 'secectionBox'-->
+            <!-- Seccion (1) : DATOS USUARIO -->
+            <div class="themeName" style="margin-bottom:15px;">&#11088; DATOS USUARIO &#11088;</div>
+               
+            <!-- Video -->
+            <video style="width:100%;height:99px;background-position: center;" autoplay muted loop>
+                <source src="~/media/videos/Motion.mp4" type="video/mp4" />
+            </video>
+                     
+            <!-- Datos del usuario -->
+            <div style="margin-top:-70px; line-height: 1em;font-size:9pt;">
+                <div>
+                    <label>Jose Miguel Diez Sen</label>
+                    <label>Correo Usuario</label>
+                    <label>jsm1989@gmail.com</label>
+                </div>
+
+                <br /><br />
+            </div>
+              
+            <br />
+
+            <!-- Seccion (2) : MENU OPCIONES -->
+            <div class="themeName" style="margin-bottom:10px;">&#128295; OPCIONES &#128295;</div>
+                
+            <!-- Listado opciones del Panel Lateral -->
+            <ul id="listadoModalLateral" style="text-align:left;margin-left:5px;font-size:10pt;list-style:circle;color:yellow;margin-top:15px;">
+                <li><i class="fa fa-address-card-o" aria-hidden="true"></i><a href="@(Url.Content("/MiFichaPersonal"))">Mi Perfil</a></li>
+                <li><a href="@(Url.Content("/Personalizacion"))">Personalizacion</a></li>
+                <li><a href="@(Url.Content("/Juegos"))">Minijuegos</a></li>
+                <li><a href="@(Url.Content("/ChatBot"))">ChatBot</a></li>
+                <li><a href="@(Url.Content("/Test"))">Pruebas</a></li>
+                <li><a href="@(Url.Content("/Bitcoin"))">Bitcoin</a></li>
+            </ul>
+              
+            <!-- Seccion (3) : PERSONALIZACION -->
+            <div class="themeName">IDIOMA</div>
+
+            <p style="font-size: 9pt; font-family: arial; color: grey;">
+                Selecciona desde aquí el idioma.
+            </p>
+
+            <!-- Desplegable de seleccion del color -->
+            <select onchange="changeLanguage()" id="option" style="border-radius: 5px; margin-bottom: 10px; width: 80%; background-color: white;" class="form-select">
+                <option selected="selected">SPANISH</option>
+                <option>ENGLISH</option>
+                <option>FRENCH</option>
+                <option>PORTUGUESE</option>
+                <option>RUSSIAN</option>
+                <option>CHINA</option>
+            </select>
+
+            <br />
+            <br />
+             
         </div>
+        <!--Fin 'secectionBox'-->
+    </div>
 
-        <img id="themesBtn" style="height:80px;border-top: 1px solid yellow; border-left: 1px solid yellow; border-bottom: 1px solid yellow;position: fixed;top: 58px;right: 0;width: 80px;background-size: cover;cursor: pointer;" class="imgUserClass" />
+    <img id="themesBtn" style="height:80px;border-top: 1px solid yellow; border-left: 1px solid yellow; border-bottom: 1px solid yellow;position: fixed;top: 58px;right: 0;width: 80px;background-size: cover;cursor: pointer;" class="imgUserClass" />
 
 
 
 
-        @*
+    @*
 
         <input type="hidden" id="fotoUsuario" value="@Context.Session.GetString("FotoPerfil")" /> *@
 
@@ -382,46 +382,54 @@
 
 
 
-        @RenderSection("Modals", required: false)
+    @RenderSection("Modals", required: false)
 
 
-        <script>window.webapp_root = '@Url.Content("~/")'</script>
+    <script>window.webapp_root = '@Url.Content("~/")'</script>
 
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js"></script>
-        @*  <script src="~/js/plugins/PopupLoader.js" asp-append-version="true"></script> *@
-        @* <script src="~/js/plugins/Draggable.js"></script>*@
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @*  <script src="~/js/plugins/PopupLoader.js" asp-append-version="true"></script> *@
+    @* <script src="~/js/plugins/Draggable.js"></script>*@
+
     
-    
-        @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 
-        <input type="hidden" id="fotoUsuario" value="@Context.Session.GetString("FotoPerfil")" />
-        <img id="themesBtn" ... />
+    <input type="hidden" id="fotoUsuario" value="@Context.Session.GetString("FotoPerfil")" />
+    <img id="themesBtn" ... />
 
-        @* Script para cargar los datos del usuario *@
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-            var image = document.getElementById('themesBtn');
-            var inputFoto = document.getElementById('fotoUsuario');
+    @* Script para cargar los datos del usuario *@
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var image = document.getElementById('themesBtn');
+        var inputFoto = document.getElementById('fotoUsuario');
 
-            if (!image || !inputFoto) {
-            console.warn("themesBtn o fotoUsuario no encontrados");
-            return;
-            }
+        if (!image || !inputFoto) {
+        console.warn("themesBtn o fotoUsuario no encontrados");
+        return;
+        }
 
-            var rutaFoto = "/media/defaultUserImage.jpg";
-            var fotoBase64 = inputFoto.value;
+        var rutaFoto = "/media/defaultUserImage.jpg";
+        var fotoBase64 = inputFoto.value;
 
-            if (fotoBase64 && fotoBase64 !== "") {
-            rutaFoto = "data:image/jpeg;base64," + fotoBase64;
-            }
+        if (fotoBase64 && fotoBase64 !== "") {
+        rutaFoto = "data:image/jpeg;base64," + fotoBase64;
+        }
 
-            image.src = rutaFoto;
-            });
-        </script>
-    </body>
+        image.src = rutaFoto;
+        });
+    </script>
+
+
+    <style>
+        .logoContainer {
+        box-shadow: inset 7px 7px 7px 7px rgba(0.1, 0.1, 0.0, 0.3);
+        }
+    </style>
+
+</body>
 </html>
 

@@ -7,7 +7,13 @@
 @{
     // await Html.RenderPartialAsync("_MensajeOperaciones");
 }
+@{
+    ViewBag.LogoHeader = "JMDPequeño.png";
+}
 
+@{
+    ViewBag.Theme = "theme-dark";
+}
 
 <hr style="color:white;">
 <h4 class="text-center" style="color:white"><span class="fa-solid fa-circle-radiation"></span> Radiologia <span class="fa-solid fa-circle-radiation"></span></h4>
@@ -36,7 +42,7 @@
     <div id="textoVisor" style="top:10px;left:0;width:100%;text-align:center;color:white;font-weight:bold;height:0;overflow:visible;"></div>
 
     @* Contenedor de la DICOM *@
-    <div class="col-md-10" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-top:20px;">
+    <div class="col-md-10" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-top:20px; display:flex;justify-content:center;">
         <div id="dicomViewer" style="width: 100%; height: 562px; border: 1px solid #333;"></div>
     </div>
 
@@ -58,7 +64,8 @@
             <select name="ListadoRadiografias" class="form-control form-select" title="Listado Radiografias" id="listadoRadiografias" style="margin-bottom:5px;">
                 <option value="" selected disabled>(Seleccione una opcion)</option>
                 <option value="/Media/Radiografias/5.dcm">R-00 (05-09-2026)</option>
-                <option value="/Media/Radiografias/1.dcm">R-01 (17-03-2026)</option>
+                 <option value="/Media/Radiografias/6.dcm">R-00 (05-09-2026)</option>
+                <option value="/Media/Radiografias/7.dcm">R-01 (17-03-2026)</option>
                 <option value="/Media/Radiografias/2.dcm">R-02 (21-03-2026)</option>
                 <option value="/Media/Radiografias/3.dcm">R-03 (27-05-2026)</option>
                 <option value="/Media/Radiografias/4.dcm">R-04 (05-09-2026)</option>
@@ -88,6 +95,9 @@
     <script src="/dicom/dicomParser.min.js"></script>
     <script src="/dicom/cornerstone.min.js"></script>
     <script src="/dicom/cornerstoneWADOImageLoader.bundle.min.js"></script>
+@*     <script src="/dicom/cornerstoneMath.min.js"></script>
+    <script src="/dicom/hammer.min.js"></script> *@
+    <script src="/dicom/cornerstoneTools.min.js"></script>
     <script src="~/js/Radiologia.js" asp-append-version="true"></script>
 }
 
@@ -112,9 +122,21 @@
 
 @section Styles {
     <link href="~/css/Radiologia.css" rel="stylesheet" />
-        <style>
-        .logo { filter: brightness(0) invert(1); }
-        .layout-shadow { box-shadow: 0 0 10px rgba(255,255,255,0.2); }
-    </style>
 }
 
+
+
+                    <style>
+
+.theme-dark .logoContainer {
+    box-shadow: inset 7px 7px 7px 7px rgba(255,255,255,0.2);
+}
+
+    #dicomViewer {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    }
+
+                    </style>

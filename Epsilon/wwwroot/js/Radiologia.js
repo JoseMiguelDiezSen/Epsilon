@@ -1,8 +1,19 @@
 ﻿jQuery(function () {
 
+
+
+    cornerstoneTools.external.cornerstone = cornerstone;
+    //cornerstoneTools.external.Hammer = Hammer;
+    //cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
+    //cornerstoneTools.init();
+    //console.log(cornerstoneTools.version);
+    //console.log("Hammer =", typeof Hammer);
+    //console.log("cornerstoneMath =", typeof cornerstoneMath);
+
     /* Script para la lectura de radiografias */
     cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
     cornerstoneWADOImageLoader.external.dicomParser = dicomParser;
+
 
     cornerstone.registerImageLoader(
         'wadouri',
@@ -56,10 +67,25 @@
 
             setTimeout(function () {
                 cornerstone.resize(visor, true);
-            }, 200);
+            }, 150);
 
         }
 
     }
+    // FULLSCREEN resize
+    document.addEventListener("fullscreenchange", function () {
+        const element = document.getElementById("dicomViewer");
 
+        setTimeout(function () {
+            cornerstone.resize(element, true);
+        }, 50);
+    });
+
+    // AUTO RESIZE estable (clave)
+    const observer = new ResizeObserver(() => {
+        const element = document.getElementById("dicomViewer");
+        cornerstone.resize(element, true);
+    });
+
+    observer.observe(document.getElementById("dicomViewer"));
 });
