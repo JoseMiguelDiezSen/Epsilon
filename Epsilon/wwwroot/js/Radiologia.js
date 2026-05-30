@@ -1,11 +1,10 @@
 ﻿jQuery(function () {
 
-
-
     cornerstoneTools.external.cornerstone = cornerstone;
-    //cornerstoneTools.external.Hammer = Hammer;
-    //cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
-    //cornerstoneTools.init();
+    cornerstoneTools.external.Hammer = Hammer;
+    cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
+    cornerstoneTools.init();
+
     //console.log(cornerstoneTools.version);
     //console.log("Hammer =", typeof Hammer);
     //console.log("cornerstoneMath =", typeof cornerstoneMath);
