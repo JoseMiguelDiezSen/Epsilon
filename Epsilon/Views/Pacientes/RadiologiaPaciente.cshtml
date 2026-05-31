@@ -8,87 +8,165 @@
     // await Html.RenderPartialAsync("_MensajeOperaciones");
 }
 @{
-    ViewBag.LogoHeader = "JMDPequeño.png";
+    ViewBag.LogoHeader = "blanco.transparente2.png";
 }
-
 @{
     ViewBag.Theme = "theme-dark";
 }
 
 <hr style="color:white;">
-<h4 class="text-center" style="color:white"><span class="fa-solid fa-circle-radiation"></span> Radiologia <span class="fa-solid fa-circle-radiation"></span></h4>
+<h4 class="text-center" style="color:white">
+    <span class="fa-solid fa-circle-radiation"></span> Radiologia <span class="fa-solid fa-circle-radiation"></span>
+</h4>
 <hr style="color:white;">
 
-<div class="row">
-    @* Zona de controles de manipulacion de DICOM *@
-    <div class="row" style="margin-bottom:10px;border:1px solid white;padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
 
-        @* Botones bootstrap  *@
-        <div class="col-md-2">
-            <button class="btn btn-light" id="zoomIn" style="border-radius:30px;"><b>+</b></button>
-            <button class="btn btn-light" id="zoomOut" style="border-radius:30px;width:35px;"><b>-</b></button>
-            <button class="btn btn-light" id="reset" style="margin-left:10px;">Reset</button>
-        </div>
+@* ===================== CONTROLES ===================== *@
+<div class="row" style="margin-bottom:10px;border:1px solid white;padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-left:10px;width:99%;">
 
-        @* HAY QUE ELEGIR O UNOS U OTROS BOTONES *@
+    <div class="col-md-12">
 
-        @* Boton que quiero que abra un visor FULL SCREN *@
-        <div class="col-md-2">
-            <button class="btn btn-light" id="abrirVisor" style="border-radius:30px;" onclick="abrirVisorFullScreen()"><i class="fa fa-maximize"></i><b> VISOR FULL SCREEN</b></button>
-        </div>
+        <button class="btn btn-light" id="zoomIn" style="border-radius:30px;">
+            <i class="fa fa-plus"></i>
+        </button>
+
+        <button class="btn btn-light" id="zoomOut" style="border-radius:30px;width:35px;">
+            <i class="fa fa-minus"></i>
+        </button>
+
+        <label>Brillo</label>
+        <input type="range" id="brightness" min="-500" max="500" value="0">
+
+        <label>Contraste</label>
+        <input type="range" id="contrast" min="1" max="4000" value="4095">
+
+        <label for="tamanio">Tamaño</label>
+        <input type="range" id="tamanio" min="0" max="100" value="50">
+
+        <span id="tamanioValue"></span>
+
+        <label class="switch">
+            <input type="checkbox" id="toggleBtn">
+            <span class="slider"></span>
+        </label>
+
+        <span id="toggleState">🔒</span>
+
+        <button class="btn btn-light fa-pull-right" id="abrirVisor"
+                style="border-radius:30px;"
+                onclick="abrirVisorFullScreen()">
+            <i class="fa fa-maximize"></i> <b>Full Screen</b>
+        </button>
+
+        <button class="btn btn-light" id="reset" style="margin-left:10px;">
+            <i class="fa fa-repeat"></i> <b>Reset</b>
+        </button>
+
     </div>
+
+</div>
+
+
+@* ===================== VISOR + 3 COLUMNAS ===================== *@
+<div class="row">
 
     @* TEXTO DE CARGA *@
-    <div id="textoVisor" style="top:10px;left:0;width:100%;text-align:center;color:white;font-weight:bold;height:0;overflow:visible;"></div>
-
-    @* Contenedor de la DICOM *@
-    <div class="col-md-10" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-top:20px; display:flex;justify-content:center;">
-        <div id="dicomViewer" style="width: 100%; height: 562px; border: 1px solid #333;"></div>
+    <div id="textoVisor"
+         style="position:absolute; top:10px; left:0; width:100%; text-align:center; color:white; font-weight:bold;">
     </div>
 
-    @* Espacio lateral para datos del paciente *@
-    <div class="col-md-2" style="border:1px solid white">
-        
-        @* Datos del paciente *@
-        <div class="col-md-12" style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
-            <h3 class="text-center">DATOS DEL PACIENTE</h3>
-            <label><b>Nombre:</b>@Model.NombrePaciente</label><br />
-            <label><b>Edad: </b> @Model.NumeroConsultas</label><br />
-            <label><b>Observaciones:</b>@Model.Observaciones</label><br />
-            <label><b>Ultima Cita: </b> @Model.FechaUltimaCita.ToShortDateString()</label>
+    @* COLUMNA 1 *@
+    <div class="col-md-2" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-top:20px;border:1px solid white;">
+
+
+        <div style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+            <h3 class="text-center">THUMBNAILS</h3>
+
+            <label><b>Nombre:</b> @Model.NombrePaciente</label><br />
+            <label><b>Edad:</b> @Model.NumeroConsultas</label><br />
+
         </div>
 
-        @* Selector para seleccionar una radiografia concreta del paciente *@
-        <div class="col-md-12" style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+ 
+            <label>Brillo</label><br/>
+        <input type="range" id="brightness" min="-500" max="500" value="0"><br />
+
+        <label>Contraste</label><br />
+        <input type="range" id="contrast" min="1" max="4000" value="4095"><br />
+
+        <label for="tamanio">Tamaño</label><br />
+            <input type="range" id="tamanio" min="0" max="100" value="50">
+
+
+    </div>
+
+    @* COLUMNA 2 *@
+    <div class="col-md-8"
+         style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-top:20px; display:flex;justify-content:center;">
+
+        <div id="dicomViewer"
+             style="width: 100%; height: 562px; border: 1px solid #333;">
+        </div>
+
+    </div>
+
+    @* COLUMNA 3 *@
+    <div class="col-md-2" style="border:1px solid white;margin-top:20px;">
+
+        <div style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
+            <h3 class="text-center">DATOS DEL PACIENTE</h3>
+
+            <label><b>Nombre:</b> @Model.NombrePaciente</label><br />
+            <label><b>Edad:</b> @Model.NumeroConsultas</label><br />
+            <label><b>Observaciones:</b> @Model.Observaciones</label><br />
+            <label><b>Ultima Cita:</b> @Model.FechaUltimaCita.ToShortDateString()</label>
+        </div>
+
+        <div style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25); margin-top:10px;">
+
             <label>Seleccione Radiografia</label>
-            <select name="ListadoRadiografias" class="form-control form-select" title="Listado Radiografias" id="listadoRadiografias" style="margin-bottom:5px;">
+            <select name="ListadoRadiografias"
+                    class="form-control form-select"
+                    id="listadoRadiografias"
+                    style="margin-bottom:5px;">
+
                 <option value="" selected disabled>(Seleccione una opcion)</option>
                 <option value="/Media/Radiografias/5.dcm">R-00 (05-09-2026)</option>
-                 <option value="/Media/Radiografias/6.dcm">R-00 (05-09-2026)</option>
+                <option value="/Media/Radiografias/6.dcm">R-00 (05-09-2026)</option>
                 <option value="/Media/Radiografias/7.dcm">R-01 (17-03-2026)</option>
                 <option value="/Media/Radiografias/2.dcm">R-02 (21-03-2026)</option>
                 <option value="/Media/Radiografias/3.dcm">R-03 (27-05-2026)</option>
                 <option value="/Media/Radiografias/4.dcm">R-04 (05-09-2026)</option>
+
             </select>
 
-            @* Selector para seleccionar una posicion de la radiografia previamente seleccionada *@
             <label>Seleccione Posicion</label>
-            <select name="posicionRadiografias" class="form-control form-select" title="Posicion de la radiografia" id="Posicion" style="margin-bottom:5px;">
+            <select name="posicionRadiografias"
+                    class="form-control form-select"
+                    id="Posicion"
+                    style="margin-bottom:5px;">
+
                 <option value="" selected disabled>(Seleccione una opcion)</option>
                 <option value="2">Frontal</option>
                 <option value="3">Lateral Izquierdo</option>
                 <option value="4">Lateral Derecho</option>
-                <option value="4">Inferior</option>
+                <option value="5">Inferior</option>
+
             </select>
+
         </div>
 
-        @* Boton de volver a la pantalla Pacientes *@
-        <div style="margin-bottom:15px;margin-top:10px;">
-            <a class="btn btn-secondary" href="/Pacientes">
-                ← Volver a Pacientes
-            </a>
-        </div>
     </div>
+
+</div>
+
+    @* Boton de volver a la pantalla Pacientes *@
+    <div style="margin-bottom:15px;margin-top:10px;">
+        <a class="btn btn-secondary" href="/Pacientes">
+            ← Volver a Pacientes
+        </a>
+    </div>
+
 </div>
 
 @section Scripts {
@@ -129,17 +207,70 @@
 
 
 
-                    <style>
 
-.theme-dark .logoContainer {
-    box-shadow: inset 7px 7px 7px 7px rgba(255,255,255,0.2);
-}
+@* Bloqueo Acciones ??*@
+<script>
+    const toggle = document.getElementById("toggleBtn");
+    const state = document.getElementById("toggleState");
 
-    #dicomViewer {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
+    toggle.addEventListener("change", () => {
+    state.textContent = toggle.checked ? "🔓" : "🔒";
+    });
+</script>
+
+<style>
+    
+    input#contrast {
+    accent-color: #4da3ff;
     }
 
-                    </style>
+    input#brightness {
+    accent-color: yellow;
+    }
+
+    .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+    }
+
+    .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .3s;
+    border-radius: 26px;
+    }
+
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    }
+
+    input:checked + .slider {
+    background-color: #4CAF50;
+    }
+
+    input:checked + .slider:before {
+    transform: translateX(24px);
+    }
+</style>
+          
