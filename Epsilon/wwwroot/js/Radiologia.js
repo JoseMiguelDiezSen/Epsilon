@@ -6,11 +6,18 @@
     let points = [];
     let currentImage = null;
 
+    let rectStart = null;
+    let rectEnd = null;
+    let rectFinished = false;
+    let rectState = 0; // 0 = nada, 1 = inicio, 2 = cerrado
+
+    let measurePoints = [];
     // Indica si las herramientas de interacción están bloqueadas
     // true  = bloqueadas
     // false = activas
     let locked = false;
 
+    let pixelSpacing = [1, 1];
 
     // Configuracion del tamaño mininmo de la radiografia para evitar que desaparezca
     const clampScale = (value) => {
@@ -65,16 +72,13 @@
     // Habilita el contenedor para que Cornerstone pueda renderizar imágenes DICOM
     cornerstone.enable(element);
 
-
-
-
     // Herramienta de desplazamiento (Pan)
     cornerstoneTools.addTool(cornerstoneTools.PanTool);
 
     // Herramienta de zoom mediante rueda del ratón
     cornerstoneTools.addTool(cornerstoneTools.ZoomMouseWheelTool);
 
-    // APLICAR ESTADO DE HERRAMIENTAS
+    // Control de bloqueo
     const applyToolState = () => {
 
         if (locked) {
@@ -86,16 +90,11 @@
             $("#zoomIn, #zoomOut, #tamanio, #brightness, #contrast").prop("disabled", true);
 
         } else {
-
             // Activa desplazamiento con botón izquierdo
-            cornerstoneTools.setToolActive("Pan", {
-                mouseButtonMask: 1
-            });
+            cornerstoneTools.setToolActive("Pan", {mouseButtonMask: 1});
 
             // Activa zoom con rueda del ratón
-            cornerstoneTools.setToolActive("ZoomMouseWheel", {
-                mouseButtonMask: 0
-            });
+            cornerstoneTools.setToolActive("ZoomMouseWheel", { mouseButtonMask: 0 });
 
             // Habilita controles de la interfaz
             $("#zoomIn, #zoomOut, #tamanio, #brightness, #contrast").prop("disabled", false);
@@ -103,44 +102,6 @@
     }
 
     applyToolState();
-
-    // Se ejecuta cuando el usuario selecciona una radiografía distinta en el desplegable.
-    $("#listadoRadiografias").change(function () {
-
-        // Muestra mensaje temporal mientras se carga la imagen
-        mostrarTexto("Cargando visor...");
-
-        // Obtiene la ruta DICOM seleccionada
-        const rutaDicom = $(this).val();
-
-        // Construye la URL completa que utilizará Cornerstone
-        const imageId = "wadouri:https://localhost:7176" + rutaDicom;
-
-        // Carga la imagen DICOM seleccionada
-        cornerstone.loadImage(imageId).then(function (image) {
-
-            // Renderiza la imagen en el visor
-            cornerstone.displayImage(element, image);
-
-            setTimeout(drawPoints, 0);
-            currentImage = image;
-
-            // Obtiene el viewport actual de la imagen recién cargada
-            const viewport = cornerstone.getViewport(element);
-
-            // Guarda los valores VOI originales de la imagen
-            // para poder utilizarlos posteriormente como referencia
-            // en ajustes de brillo, contraste o reset.
-            baseVOI = {
-                windowCenter: viewport.voi.windowCenter,
-                windowWidth: viewport.voi.windowWidth
-            };
-
-            // Oculta el mensaje de carga
-            mostrarTexto("");
-        });
-
-    });
 
     // Actualiza en el visor los valores actuales de los sliders de brillo y contraste tomando como referencia el VOI original de la imagen cargada.
     const updateVOI = () => {
@@ -166,7 +127,6 @@
         // Aplica los cambios al visor
         cornerstone.setViewport(element, viewport);
     }
-
 
     // -------------------- CONTROLES ---------------//
 
@@ -246,6 +206,7 @@
         applyToolState();
     });
 
+    /// ----------------------------- FIN CONTROLES----------------------------------------//
     abrirVisorFullScreen = function () {
 
         const visor = document.getElementById("dicomViewer");
@@ -261,35 +222,231 @@
         document.getElementById("textoVisor").innerText = texto;
     }
 
+    // Se ejecuta cuando el usuario selecciona una radiografía distinta en el desplegable.
+    $("#listadoRadiografias").change(function () {
 
+        // Muestra mensaje temporal mientras se carga la imagen
+        mostrarTexto("Cargando visor...");
+
+        // Obtiene la ruta DICOM seleccionada
+        const rutaDicom = $(this).val();
+
+        // Construye la URL completa que utilizará Cornerstone
+        const imageId = "wadouri:https://localhost:7176" + rutaDicom;
+
+        // Carga la imagen DICOM seleccionada
+        cornerstone.loadImage(imageId).then(function (image) {
+
+            // Renderiza la imagen en el visor
+            cornerstone.displayImage(element, image);
+            toolMode = "draw";
+            setTimeout(drawPoints, 0);
+
+            const spacingTag = image.data.string('x00280030');
+
+            pixelSpacing = spacingTag
+                ? spacingTag.split("\\").map(Number)
+                : [1, 1];
+
+            currentImage = image;
+
+            // Obtiene el viewport actual de la imagen recién cargada
+            const viewport = cornerstone.getViewport(element);
+
+            // Guarda los valores VOI originales de la imagen
+            // para poder utilizarlos posteriormente como referencia
+            // en ajustes de brillo, contraste o reset.
+            baseVOI = {
+                windowCenter: viewport.voi.windowCenter,
+                windowWidth: viewport.voi.windowWidth
+            };
+
+            // Oculta el mensaje de carga
+            mostrarTexto("");
+        });
+
+    });
+
+
+    // DIBUJO _ MEDICION
+    //element.addEventListener("mousedown", function (e) {
+
+    //    const coords = cornerstone.pageToPixel(element, e.clientX, e.clientY);
+
+    //    if (measurePoints.length === 2) {
+    //        measurePoints = [];
+    //    }
+
+    //    measurePoints.push(coords);
+
+    //    cornerstone.updateImage(element);
+    //});
+
+    // DIBUJO - Linea de Medicion
+    //element.addEventListener("cornerstoneimagerendered", function (e) {
+
+    //    const ctx = e.detail.canvasContext;
+    //    if (!ctx) return;
+
+    //    ctx.save();
+    //    ctx.strokeStyle = "red";
+    //    ctx.fillStyle = "red";
+
+    //    if (measurePoints.length === 2) {
+
+    //        const p1 = measurePoints[0];
+    //        const p2 = measurePoints[1];
+
+    //        ctx.beginPath();
+    //        ctx.moveTo(p1.x, p1.y);
+    //        ctx.lineTo(p2.x, p2.y);
+    //        ctx.stroke();
+
+    //        const dist = getDistanceMM(p1, p2).toFixed(2);
+    //        ctx.fillText(dist + " mm", p2.x + 5, p2.y + 5);
+    //    }
+
+    //    ctx.restore();
+    //});
     element.addEventListener("mousedown", function (e) {
 
-        const coords = cornerstone.pageToPixel(element, e.pageX, e.pageY);
+        if (toolMode === "none") return;
 
-        points.push(coords);
+        const coords = cornerstone.pageToPixel(element, e.clientX, e.clientY);
+
+        if (toolMode === "point") {
+
+            measurePoints.push(coords);
+        }
+
+        if (toolMode === "line") {
+
+            if (measurePoints.length === 2) {
+                measurePoints = [];
+            }
+
+            measurePoints.push(coords);
+        }
+
+        if (toolMode === "rectangle") {
+
+            const coords = cornerstone.pageToPixel(element, e.clientX, e.clientY);
+
+            // 0 -> inicio
+            if (!rectStart) {
+                rectStart = coords;
+                rectEnd = null;
+                return;
+            }
+
+            // 1 -> cierre
+            if (!rectEnd) {
+                rectEnd = coords;
+                cornerstone.updateImage(element);
+                return;
+            }
+
+            // 2 -> reset + nuevo inicio
+            rectStart = coords;
+            rectEnd = null;
+        }
 
         cornerstone.updateImage(element);
     });
 
 
+
+
     element.addEventListener("cornerstoneimagerendered", function (e) {
-        console.log("RENDER OK");
 
-        const enabledElement = cornerstone.getEnabledElement(element);
-        const context = enabledElement.canvas.getContext("2d");
+        const ctx = e.detail.canvasContext;
+        if (!ctx) return;
 
-        context.save();
-        context.fillStyle = "red";
+        ctx.save();
+        ctx.strokeStyle = "red";
+        ctx.fillStyle = "red";
 
-        points.forEach(p => {
-            context.beginPath();
-            context.arc(p.x, p.y, 5, 0, Math.PI * 2);
-            context.fill();
-        });
+        // PUNTOS (modo point o line)
+        if (toolMode === "point" || toolMode === "line") {
 
-        context.restore();
+            measurePoints.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        // LÍNEA
+        if (toolMode === "line" && measurePoints.length === 2) {
+
+            const p1 = measurePoints[0];
+            const p2 = measurePoints[1];
+
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+
+            const dist = getDistanceMM(p1, p2).toFixed(2);
+            ctx.fillText(dist + " mm", p2.x + 5, p2.y + 5);
+        }
+
+        // RECTÁNGULO
+        if (toolMode === "rectangle" && rectStart && rectEnd) {
+
+            const p1 = rectStart;
+            const p2 = rectEnd || rectStart;
+
+            const x = Math.min(p1.x, p2.x);
+            const y = Math.min(p1.y, p2.y);
+            const w = Math.abs(p1.x - p2.x);
+            const h = Math.abs(p1.y - p2.y);
+
+            ctx.strokeStyle = "yellow";
+            ctx.strokeRect(x, y, w, h);
+        }
+
+        ctx.restore();
     });
 
+    // Calcular Distancia
+    function getDistanceMM(p1, p2) {
+        const dx = (p2.x - p1.x) * pixelSpacing[1];
+        const dy = (p2.y - p1.y) * pixelSpacing[0];
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    // DIBUJO _ PUNTOS
+    //element.addEventListener("mousedown", function (e) {
+  
+    //    const coords = cornerstone.pageToPixel(element, e.pageX, e.pageY);
+
+    //    points.push(coords);
+
+    //    cornerstone.updateImage(element);
+    //});
+
+
+    // DIBUJO - Puntos
+    //element.addEventListener("cornerstoneimagerendered", function (e) {
+    //    console.log("RENDER OK");
+    //    const enabledElement = cornerstone.getEnabledElement(element);
+    //    const context = enabledElement.canvas.getContext("2d");
+
+    //    context.save();
+    //    context.fillStyle = "red";
+
+    //    points.forEach(p => {
+    //        context.beginPath();
+    //        context.arc(p.x, p.y, 5, 0, Math.PI * 2);
+    //        context.fill();
+    //    });
+
+    //    context.restore();
+    //});
+
+
+    // Dibujar Puntos
     function drawPoints() {
 
         const enabledElement = cornerstone.getEnabledElement(element);
@@ -307,6 +464,15 @@
         });
         ctx.restore();
     }
+
+    $("#toolMode").change(function () {
+        toolMode = $(this).val();
+        measurePoints = [];
+        cornerstone.updateImage(element);
+    });
+
+
+    //////////////////////////////////////////////////////////////////
 
     // Cuando el visor sale de pantalla completa,se debe recalcular el tamaño para adaptarse al nuevo espacio disponible.
     document.addEventListener("fullscreenchange", function () {
