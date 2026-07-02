@@ -54,6 +54,7 @@ $(document).ready(function () {
 
     /////////////////////////////////////////////////////////////////////////////
 
+
     /*Funcion para expandir y contraer menu principal*/
     mostrarOcultarMenuNew = () => {
         const sidebarStateKey = 'sidebarStateNew';
