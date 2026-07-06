@@ -73,6 +73,7 @@ $(document).ready(function () {
                 // no slideUp
             }
 
+
             // Toggle en tiempo real (solo toggle class)
             $title.off('click').on('click', function () {
                 const isExpanded = $group.hasClass('expanded');
