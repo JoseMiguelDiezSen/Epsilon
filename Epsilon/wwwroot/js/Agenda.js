@@ -37,7 +37,16 @@ document.addEventListener('DOMContentLoaded', function () {
         headerToolbar: {
             left: 'prevYear,prev,next,nextYear today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            right: 'multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay'
+        },
+
+        // Textos de los botones de la barra de herramientas
+        buttonText: {
+            today: 'Hoy',
+            month: 'Mes',
+            week: 'Semana',
+            day: 'Día',
+            multiMonthYear: 'Año'
         },
 
         // Habilitar selección de celdas y edición completa (mover y expandir/comprimir)
@@ -62,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         eventContent: function (arg) {
             var timeHtml = arg.timeText ? '<span class="fc-event-time-custom">' + arg.timeText + '</span> ' : '';
             var titleHtml = '<span class="fc-event-title-custom">' + arg.event.title + '</span>';
-            var btnDelete = '<span class="fc-event-quick-delete" title="Eliminar cita del mapa" onclick="jqEliminarCitaDesdeMapa(' + arg.event.id + ', event)"><i class="fa-solid fa-xmark"></i></span>';
+            var btnDelete = '<span class="fc-event-quick-delete" title="Eliminar cita del mapa" onclick="jqGetModalDeleteCita(' + arg.event.id + ', event)"><i class="fa-solid fa-xmark"></i></span>';
 
             return {
                 html: '<div class="fc-event-inner-wrap">' + timeHtml + titleHtml + btnDelete + '</div>'
@@ -267,68 +276,93 @@ function jqPostModificarCita(form) {
 }
 
 /**
- * Elimina una cita médica desde el botón del modal de modificación vía AJAX (POST).
+ * Abre el modal para confirmar la eliminación de una cita médica (sin alert/confirm).
+ * Cierra previamente el modal de modificar cita si estuviera abierto.
  * @param {number|string} idCita - Identificador de la cita a eliminar.
+ * @param {Event} [event] - Evento DOM opcional (si se invoca desde el icono del mapa).
  */
-function jqPostEliminarCitaDesdeModal(idCita) {
-    if (confirm("¿Estás seguro de que deseas eliminar esta cita médica? Esta acción no se puede deshacer.")) {
-        $.ajax({
-            type: 'POST',
-            url: '/Agenda/EliminarCita',
-            data: { idCita: idCita },
-            success: function (response) {
-                // Cerramos la ventana modal
-                var modalEl = document.getElementById('modificarCitaModal');
-                var modal = bootstrap.Modal.getInstance(modalEl);
-                if (modal) {
-                    modal.hide();
-                } else {
-                    $(modalEl).modal('hide');
-                }
-
-                // Refrescamos el calendario
-                if (calendar) {
-                    calendar.refetchEvents();
-                }
-
-                alert("Cita eliminada correctamente.");
-            },
-            error: function () {
-                alert("No se pudo eliminar la cita médica.");
-            }
-        });
-    }
-    return false;
-}
-
-/**
- * Permite eliminar una cita directamente pulsando el icono 'x' dentro del bloque en el mapa del calendario.
- * @param {number|string} idCita - Identificador de la cita.
- * @param {Event} event - Evento DOM para detener propagación y evitar apertura del modal.
- */
-function jqEliminarCitaDesdeMapa(idCita, event) {
+function jqGetModalDeleteCita(idCita, event) {
     if (event) {
         event.stopPropagation();
         event.preventDefault();
     }
 
-    if (confirm("¿Estás seguro de que deseas eliminar esta cita médica directamente desde el calendario?")) {
-        $.ajax({
-            type: 'POST',
-            url: '/Agenda/EliminarCita',
-            data: { idCita: idCita },
-            success: function (response) {
-                // Refrescamos el calendario
-                if (calendar) {
-                    calendar.refetchEvents();
-                }
-                alert("Cita eliminada correctamente.");
-            },
-            error: function () {
-                alert("No se pudo eliminar la cita médica.");
-            }
-        });
+    // Si el modal de modificar cita estaba abierto, lo cerramos
+    var modalModificarEl = document.getElementById('modificarCitaModal');
+    if (modalModificarEl) {
+        var modalModificar = bootstrap.Modal.getInstance(modalModificarEl);
+        if (modalModificar) {
+            modalModificar.hide();
+        } else {
+            $(modalModificarEl).modal('hide');
+        }
     }
+
+    $.ajax({
+        type: 'GET',
+        url: '/Agenda/ModalEliminarCita',
+        data: { idCita: idCita },
+        success: function (response) {
+            // Inserta la vista en el modal como HTML
+            $('#deleteCitaModal .modal-body').html(response.data);
+
+            // Abre el modal (Bootstrap 5)
+            var modalEl = document.getElementById('deleteCitaModal');
+            var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+            modal.show();
+        },
+        error: function () {
+            alert("No se pudo cargar la confirmación de eliminación.");
+        }
+    });
+
+    return false;
+}
+
+/**
+ * Envía la petición de eliminación de cita médica tras confirmar en el modal (POST vía AJAX).
+ * @param {HTMLFormElement} form - Formulario deleteCitaModalForm enviado.
+ */
+function jqPostDeleteCita(form) {
+    var idCita = form.querySelector('input[name="IdCita"]')?.value;
+    if (!idCita) return false;
+
+    $.ajax({
+        type: 'POST',
+        url: '/Agenda/EliminarCita',
+        data: { idCita: idCita },
+        success: function (response) {
+            // Cerramos el modal de eliminación
+            var modalEl = document.getElementById('deleteCitaModal');
+            var modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) {
+                modal.hide();
+            } else {
+                $(modalEl).modal('hide');
+            }
+
+            // Refrescamos el calendario
+            if (calendar) {
+                calendar.refetchEvents();
+            }
+
+            alert("Cita eliminada correctamente.");
+        },
+        error: function () {
+            alert("No se pudo eliminar la cita médica.");
+        }
+    });
+
+    return false; // Evita el submit tradicional
+}
+
+// Aliases para retrocompatibilidad
+function jqPostEliminarCitaDesdeModal(idCita) {
+    return jqGetModalDeleteCita(idCita);
+}
+
+function jqEliminarCitaDesdeMapa(idCita, event) {
+    return jqGetModalDeleteCita(idCita, event);
 }
 
 /**

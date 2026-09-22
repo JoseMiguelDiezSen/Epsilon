@@ -1,18 +1,626 @@
-﻿body {
-    background-image: url('/media/pattern.png');
+/* ==========================================================
+   ESTILOS MODERNOS PARA LA ESTACIÓN DE RADIOLOGÍA PACS
+   ========================================================== */
+
+body {
+    background-color: #0b0f17;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+        url('/media/pattern.png');
     background-repeat: repeat;
-    background-size: auto;
-    background-color: #141414;
-    text-decoration-color: white;
-    color: white;
+    color: #e2e8f0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
 }
+
 .theme-dark .logoContainer {
-    box-shadow: inset 7px 7px 7px 7px rgba(255,255,255,0.2);
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.15);
+}
+
+/* ==========================================================
+   ENCABEZADO
+   ========================================================== */
+.rad-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 12px 0 18px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rad-header h4 {
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rad-header .rad-icon-glow {
+    color: #38bdf8;
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+    animation: pulse-glow 3s infinite alternate;
+}
+
+@keyframes pulse-glow {
+    0% { filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.4)); }
+    100% { filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.8)); }
+}
+
+/* ==========================================================
+   BARRA DE CONTROLES SUPERIOR
+   ========================================================== */
+.control-bar {
+    background: rgba(18, 24, 38, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 10px 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.control-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    width: 100%;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-divider {
+    width: 1px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 0 4px;
+}
+
+/* Botones circulares de control */
+.btn-rad-tool {
+    width: 36px;
+    height: 36px;
+    border-radius: 50% !important;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.btn-rad-tool:hover {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: #38bdf8;
+    color: #38bdf8;
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+.btn-rad-tool:active {
+    transform: translateY(0);
+}
+
+.btn-rad-tool:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Botones de acción rectangulares estilizados */
+.btn-rad-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.btn-rad-action:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-rad-action.btn-fullscreen:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: #818cf8;
+    color: #c7d2fe;
+    box-shadow: 0 0 14px rgba(99, 102, 241, 0.4);
+}
+
+.btn-rad-action.btn-reset:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: #f87171;
+    color: #fca5a5;
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
+}
+
+/* Sliders estilizados con barra claramente visible */
+.slider-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slider-label {
+    font-size: 0.74rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 58px;
+}
+
+/* Sliders nativos con barra de progreso de color */
+input[type="range"].rad-range {
+    width: 95px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+/* Barra de progreso para Brillo (amarillo) */
+input#brightness,
+input#fs_brightness {
+    accent-color: yellow;
+}
+
+/* Barra de progreso para Contraste (azul) */
+input#contrast,
+input#fs_contrast {
+    accent-color: #4da3ff;
+}
+
+/* Barra de progreso para Escala (verde) */
+input#tamanio,
+input#fs_tamanio {
+    accent-color: #10b981;
+}
+
+/* Switch toggle moderno */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 22px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #334155;
+    transition: .25s ease;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #e2e8f0;
+    transition: .25s ease;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+input:checked + .slider {
+    background-color: #ef4444;
+    border-color: #f87171;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+    background-color: #ffffff;
+}
+
+#toggleState {
+    font-size: 0.95rem;
+    margin-left: 2px;
+}
+
+/* Select de herramientas moderno */
+.rad-select {
+    background-color: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    font-size: 0.82rem;
+    border-radius: 8px;
+    padding: 6px 12px;
+    transition: all 0.2s ease;
+}
+
+.rad-select:focus {
+    background-color: #1e293b;
+    border-color: #38bdf8;
+    color: #fff;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    outline: none;
+}
+
+/* ==========================================================
+   TARJETAS LATERALES (COLUMNAS 1 Y 3)
+   ========================================================== */
+.rad-card {
+    background: rgba(18, 24, 38, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    margin-bottom: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.rad-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.rad-card-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.rad-card-title i {
+    font-size: 0.85rem;
+}
+
+/* Filas de información del paciente */
+.rad-info-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.rad-info-row:last-child {
+    margin-bottom: 0;
+}
+
+.rad-info-label {
+    font-size: 0.7rem;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.rad-info-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    word-break: break-word;
+}
+
+.rad-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+}
+
+/* ==========================================================
+   LISTA DE MINIATURAS (THUMBNAILS - COLUMNA 1)
+   ========================================================== */
+.thumbnails-container {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.thumbnails-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.thumbnails-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.thumbnails-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+.thumbnail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    color: inherit;
+}
+
+.thumbnail-item:hover {
+    background: rgba(56, 189, 248, 0.08);
+    border-color: rgba(56, 189, 248, 0.3);
+    transform: translateX(2px);
+}
+
+.thumbnail-item.active {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: #38bdf8;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+}
+
+.thumbnail-icon-box {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.thumbnail-item.active .thumbnail-icon-box {
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+.thumbnail-meta {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.thumbnail-code {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.thumbnail-date {
+    font-size: 0.68rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* ==========================================================
+   VISOR DICOM CENTRAL (COLUMNA 2)
+   ========================================================== */
+.viewer-wrapper {
+    position: relative;
+    width: 100%;
+    height: 580px;
+    background: #000000;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
 }
 
 #dicomViewer {
     width: 100%;
     height: 100%;
-    overflow: hidden;
     position: relative;
+    cursor: default;
+}
+
+#dicomViewer.drawing-mode {
+    cursor: crosshair !important;
+}
+
+/* Overlay HUD clínico */
+.hud-tag {
+    position: absolute;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #38bdf8;
+    background: rgba(10, 15, 25, 0.75);
+    backdrop-filter: blur(4px);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    pointer-events: none;
+    z-index: 5;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.hud-top-left {
+    top: 10px;
+    left: 10px;
+}
+
+.hud-top-right {
+    top: 10px;
+    right: 10px;
+    text-align: right;
+}
+
+.hud-bottom-left {
+    bottom: 10px;
+    left: 10px;
+}
+
+.hud-bottom-right {
+    bottom: 10px;
+    right: 10px;
+    text-align: right;
+}
+
+/* Mensaje y spinner de carga en el visor */
+#textoVisor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 10px;
+    padding: 12px 24px;
+    color: #e2e8f0;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+#textoVisor.show {
+    display: flex;
+}
+
+/* ==========================================================
+   BOTÓN VOLVER
+   ========================================================== */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #94a3b8;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #f8fafc;
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateX(-3px);
+}
+
+.btn-rad-action.btn-clear:hover {
+    background: rgba(245, 158, 11, 0.18);
+    border-color: #f59e0b;
+    color: #fde68a;
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+}
+
+/* ==========================================================
+   BARRA FLOTANTE DE CONTROLES EN PANTALLA COMPLETA (INFERIOR)
+   ========================================================== */
+.fullscreen-floating-bar {
+    display: none; /* Oculta en modo normal */
+    position: absolute;
+    bottom: 24px; /* Posicionada en la parte inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(18, 24, 38, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 30px;
+    padding: 6px 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), 0 0 25px rgba(56, 189, 248, 0.2);
+    z-index: 100;
+    align-items: center;
+    gap: 12px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Mostrar la barra flotante al entrar en pantalla completa */
+:fullscreen .fullscreen-floating-bar,
+:-webkit-full-screen .fullscreen-floating-bar,
+.viewer-wrapper.fullscreen-mode .fullscreen-floating-bar {
+    display: flex !important;
+    animation: fsSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fsSlideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* Ajustes del visor al ocupar toda la pantalla */
+.viewer-wrapper:fullscreen,
+.viewer-wrapper:-webkit-full-screen,
+.viewer-wrapper.fullscreen-mode {
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+    border: none !important;
 }

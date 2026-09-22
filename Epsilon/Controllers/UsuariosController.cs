@@ -1,4 +1,4 @@
-﻿
+
 using Calipso.Security;
 using Epsilon.Attributes;
 using Epsilon.Models;
@@ -527,6 +527,93 @@ namespace Epsilon.Controllers
                 }
             }
             ;
+        }
+
+        #endregion
+
+        #region ActualizarPerfilLateral
+
+        /// <summary>
+        /// Actualiza los datos básicos del perfil (nombre, email, teléfono, foto) desde el panel lateral
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> ActualizarPerfilLateral(string? nombre, string? email, int? telefono, IFormFile? foto)
+        {
+            try
+            {
+                var idUsuario = HttpContext.Session.GetInt32("IdUsuario");
+                Usuario? usuario = null;
+
+                if (idUsuario != null && idUsuario > 0)
+                {
+                    usuario = _gestionUsuarios.Context.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario.Value);
+                }
+
+                if (usuario == null)
+                {
+                    var nombreSesion = HttpContext.Session.GetString("Usuario");
+                    if (!string.IsNullOrEmpty(nombreSesion))
+                    {
+                        usuario = _gestionUsuarios.Context.Usuarios.FirstOrDefault(u => u.Nombre == nombreSesion);
+                    }
+                }
+
+                if (usuario == null)
+                {
+                    return Json(new { success = false, message = "No se ha encontrado la sesión del usuario." });
+                }
+
+                if (!string.IsNullOrWhiteSpace(nombre))
+                {
+                    usuario.Nombre = nombre.Trim();
+                }
+
+                if (email != null)
+                {
+                    usuario.Email = email.Trim();
+                }
+
+                if (telefono.HasValue)
+                {
+                    usuario.Telefono = telefono.Value;
+                }
+
+                string? fotoBase64 = null;
+                if (foto != null && foto.Length > 0)
+                {
+                    using var ms = new MemoryStream();
+                    await foto.CopyToAsync(ms);
+                    usuario.FotoPerfil = ms.ToArray();
+                    fotoBase64 = Convert.ToBase64String(usuario.FotoPerfil);
+                    HttpContext.Session.SetString("FotoPerfil", fotoBase64);
+                }
+                else
+                {
+                    fotoBase64 = HttpContext.Session.GetString("FotoPerfil");
+                }
+
+                _gestionUsuarios.Context.SaveChanges();
+
+                // Actualizar las variables de sesión
+                HttpContext.Session.SetInt32("IdUsuario", usuario.IdUsuario);
+                HttpContext.Session.SetString("Usuario", usuario.Nombre ?? "");
+                HttpContext.Session.SetString("Email", usuario.Email ?? "");
+                HttpContext.Session.SetString("Telefono", usuario.Telefono > 0 ? usuario.Telefono.ToString() : "");
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Perfil actualizado correctamente.",
+                    nombre = usuario.Nombre,
+                    email = usuario.Email,
+                    telefono = usuario.Telefono > 0 ? usuario.Telefono.ToString() : "",
+                    fotoBase64 = fotoBase64
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error al actualizar el perfil: " + ex.Message });
+            }
         }
 
         #endregion

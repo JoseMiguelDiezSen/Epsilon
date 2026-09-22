@@ -1,0 +1,29 @@
+@using Epsilon.ViewModels
+@model ViewFormAgregarCita
+
+<form id="deleteCitaModalForm" method="post" onsubmit="return jqPostDeleteCita(this);" style="border:1px solid gainsboro;padding:10px">
+
+    <input type="hidden" name="IdCita" id="IdCita" value="@Model.IdCita" />
+
+    <div class="row">
+
+        <div class="form-group row md-1">
+            <div class="col-md-12 m-2">
+                <label class="text-center col-md-12 col-form-label">
+                    ¿Desea eliminar la cita de <strong>@Model.NombrePaciente</strong> con el Dr./Dra. <strong>@Model.NombreMedico</strong> del día <strong>@Model.FechaInicio.ToString("dd/MM/yyyy")</strong> a las <strong>@Model.FechaInicio.ToString("HH:mm")</strong>?
+                </label>
+            </div>
+        </div>
+
+        @* BOTONES *@
+        <div class="text-center">
+            <button id="btnEliminarCitaConfirm" type="submit" class="btn btn-outline-success m-2">
+                <span class="fa fa-check"></span> Aceptar
+            </button>
+            <button id="btnCancelarEliminarCita" type="button" class="btn btn-outline-danger m-2" data-bs-dismiss="modal">
+                <span class="fa fa-circle-xmark"></span> Cancelar
+            </button>
+        </div>
+
+    </div>
+</form>

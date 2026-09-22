@@ -27,35 +27,23 @@ $(document).ready(function() {
 	});
 	
 	/* Settings Button */
-	$('#themesBtn').click(function() {
-	  $('#secectionBox').animate({
-		right:'0'
-	  }, 500, function() {
-		// Animation complete.
-	  });
-		$('#themesBtn').animate({
-		
-		right:'-85'
-	  }, 100, function() {
-		// Animation complete.
-	  });
-	}); 
-
-
-	$('#hideme').click(function() {
-		$('#secectionBox').animate({
-		right:'-999'
-	  }, 500, function() {
-		// Animation complete.
-	  });
-	  
-	  $('#themesBtn').animate({
-		right:'0'
-	  }, 700, function() {
-		// Animation complete.
-	  }); 
+	$(document).on('click', '#themesBtn', function(e) {
+		e.preventDefault();
+		if (window.toggleModalLateral) {
+			window.toggleModalLateral(true);
+		} else {
+			$('#secectionBox').stop().animate({ right: '0' }, 400);
+			$('#themesBtn').stop().animate({ right: '-90' }, 150);
+		}
 	});
 
+	$(document).on('click', '#hideme', function(e) {
+		e.preventDefault();
+		if (window.toggleModalLateral) {
+			window.toggleModalLateral(false);
+		} else {
+			$('#secectionBox').stop().animate({ right: '-999' }, 400);
+			$('#themesBtn').stop().animate({ right: '0' }, 400);
+		}
+	});
 });
-
-

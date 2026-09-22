@@ -1,73 +1,356 @@
+/* =========================================================
+   Estilos del Panel Lateral Fijo Derecho (Mi Perfil)
+   Estilo coincidente con el menú lateral: fondo azul y cuadrícula blanca
+   ========================================================= */
 
-
-    /* Imagen lateral fija (NEGRO) */
-    
-    /* Estilos del panel lateral fijo */
-    #secectionBox {background: #262626;width: 193px;position: fixed;right: -999px;top: 58px;color: white;text-align: center;}
-
-    /* Estilos del Div de cierre del panel lateral fijo */
-#hideme {
-    background: url('../../media/hideme.png') no-repeat right 0;
-    padding-right: 148px;
-    margin-right:20px;
+#secectionBox {
+    background-color: #2d5f8b;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-position: 0 0;
+    width: 275px;
+    position: fixed;
+    right: -999px;
+    top: 88px;
+    color: #ffffff;
+    text-align: center;
+    border-left: 1px solid rgba(255, 255, 255, 0.28);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+    border-bottom-left-radius: 8px;
+    box-shadow: -6px 8px 25px rgba(0, 0, 0, 0.35);
+    z-index: 1050;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
 }
 
-    /* Estilos del Div de cierre del panel lateral fijo (Seleccionado)*/
-    #hideme:hover{background-position:right -44px;color: orangered; }
-
-
-    #themeContainer{-webkit-box-shadow: 0 2px 9px 2px rgba(0,0,0,0.14);-moz-box-shadow: 0 2px 9px 2px rgba(0,0,0,0.14);box-shadow: 0 2px 9px 2px rgba(0,0,0,0.14);border:1px solid rgba(23,24,26,0.15);-webkit-border-top-left-radius: 2px;-webkit-border-bottom-left-radius: 2px;-moz-border-radius-topleft: 2px;-moz-border-radius-bottomleft: 2px;border-top-left-radius: 2px;border-bottom-left-radius: 2px;}
-
-    /*Texto boton Cerrar*/
-    .themeTitle{font-size:15px;height:44px;line-height:44px;text-align:center;color: white;background-color: #43434D;background-image: -webkit-linear-gradient(top, #43434D, #1D1C21);background-image: -moz-linear-gradient(top, #43434D, #1D1C21);background-image: -o-linear-gradient(top, #43434D, #1D1C21);background-image: -ms-linear-gradient(top, #43434D, #1D1C21);background-image: linear-gradient(top, #43434D, #1D1C21);border-top: 1px solid #60606F;}
-
-    /* Estilo de los titulos */
-    .themeName{font-size:12px;height:41px;line-height:41px;text-align:center;border-top:1px solid #444;border-bottom:1px solid #444;padding:0 8px}
-
-
-    /*Estilo de las imagenes del panel lateral fijo*/
-    #secectionBox .images {width: 165px;border-bottom: 0;padding-bottom: 10px;position: relative;z-index: 1000000;background: #333;}
-
-    #secectionBox .images img{border: 2px solid #60606F;width:25px;height:24px;margin-right:7px;margin-bottom:7px;z-index:1000;}
-
-    #secectionBox .images img.active,#secectionBox .images img:hover {border: 2px solid #D33800;}
-
-
-
-
-
-
-
-
-	/* ESTILOS -> ANCHO DE 240PX A 500PX (VERDE) */
-	@media only screen and (min-width: 240px) and (max-width: 500px) {
-    
-    
-    /* Imagen lateral fija (VERDE) */
-    #themesBtn {height: 60px;background: url(../../images/yo.jpg) no-repeat 0 0;position: fixed;top: 58px;right: 0;width: 60px;background-size: cover;cursor: pointer;}
-
-    /* Estilos del panel lateral fijo (VERDE) */
-    #secectionBox {background: #262626;width: 193px;position: fixed;right: -999px;top: 58px;color: white;text-align: center;
+#themeContainer {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    padding: 0;
 }
 
-   /* Estilo de los titulos */
-   .themeName{font-size:10px;height:41px;line-height:41px;text-align:center;border-top:1px solid #444;border-bottom:1px solid #444;padding:0 6px}
+/* Cabecera / Botón Cerrar */
+.themeTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    height: 38px;
+    line-height: 38px;
+    padding: 0 14px;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.22);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
 
+.themeTitle:hover {
+    background: rgba(239, 68, 68, 0.35);
+    color: #ffffff;
+}
 
+.themeTitle i {
+    font-size: 14px;
+}
 
+/* Títulos de sección */
+.themeName {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* Contenedor del avatar y edición de foto */
+.lateral-avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 12px auto 8px auto;
+}
+
+.lateral-avatar-label {
+    position: relative;
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.lateral-avatar-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    background-color: #ffffff;
+    display: block;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.lateral-avatar-label:hover .lateral-avatar-img {
+    filter: brightness(0.85);
+    transform: scale(1.02);
+}
+
+.lateral-avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    box-sizing: border-box;
+}
+
+.lateral-avatar-overlay i {
+    font-size: 18px;
+    margin-bottom: 2px;
+}
+
+.lateral-avatar-label:hover .lateral-avatar-overlay {
+    opacity: 1;
+}
+
+.lateral-avatar-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #2d5f8b;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.lateral-avatar-label:hover .lateral-avatar-badge {
+    transform: scale(1.15);
+    background-color: #10b981;
+}
+
+/* Formulario de edición del perfil lateral */
+.lateral-profile-form {
+    padding: 8px 16px 16px 16px;
+    text-align: left;
+}
+
+.lateral-form-group {
+    margin-bottom: 10px;
+}
+
+.lateral-form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.lateral-form-group label i {
+    margin-right: 5px;
+    width: 14px;
+    text-align: center;
+    color: #bae6fd;
+}
+
+.lateral-input {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 6px 10px;
+    font-size: 12.5px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.lateral-input:focus {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #ffffff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.35);
+}
+
+.lateral-input::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* Botón Guardar */
+.btn-lateral-save {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.20);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+
+.btn-lateral-save:hover {
+    background: rgba(255, 255, 255, 0.32);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
+}
+
+.btn-lateral-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Alerta de estado / feedback */
+.lateral-feedback {
+    margin-top: 8px;
+    font-size: 11.5px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    text-align: center;
+    display: none;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.lateral-feedback.success {
+    background: rgba(34, 197, 94, 0.25);
+    border: 1px solid rgba(74, 222, 128, 0.45);
+    color: #bbf7d0;
+}
+
+.lateral-feedback.error {
+    background: rgba(239, 68, 68, 0.25);
+    border: 1px solid rgba(248, 113, 113, 0.45);
+    color: #fecaca;
+}
+
+/* Estado sin sesión */
+.lateral-guest-box {
+    padding: 24px 16px;
+    text-align: center;
+}
+
+.lateral-guest-icon {
+    font-size: 42px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 12px;
+}
+
+.lateral-guest-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #ffffff;
+}
+
+.lateral-guest-desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.btn-lateral-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 18px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-lateral-login:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Botón flotante derecho (gatillo del panel) */
+#themesBtn {
+    height: 80px;
+    width: 80px;
+    position: fixed;
+    top: 88px;
+    right: 0;
+    border-top: 2px solid rgba(255, 255, 255, 0.85);
+    border-left: 2px solid rgba(255, 255, 255, 0.85);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.85);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    box-shadow: -3px 4px 12px rgba(0, 0, 0, 0.35);
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    z-index: 1040;
+    object-fit: cover;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+#themesBtn:hover {
+    box-shadow: -5px 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media only screen and (max-width: 500px) {
+    #secectionBox {
+        width: 260px;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    #themesBtn {
+        height: 60px;
+        width: 60px;
     }
+}

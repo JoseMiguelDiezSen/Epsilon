@@ -22,8 +22,8 @@
     <link rel="stylesheet" href="~/css/siteLateral.css" />
         
     <!-- Referencia al JS y el CSS del menu lateral-->
-    <link href="~/js/switch/themeswitch.css" rel="stylesheet" />
-    <script src="~/js/modallateral/theamswitcher.js"></script>
+    <link href="~/js/switch/themeswitch.css" rel="stylesheet" asp-append-version="true" />
+    <script src="~/js/modallateral/theamswitcher.js" asp-append-version="true"></script>
 
     @RenderSection("Styles", required: false)
 </head>
@@ -215,7 +215,7 @@
                     </div>
                     @* Item 3: Cerrar Sesion *@
                     <div class="nav-item" style="margin-top:6px;">
-                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Login") ? "active" : "")" asp-controller="Login" asp-action="Index" style="background-color:orangered;color:white;">
+                        <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Login") ? "active" : "")" asp-controller="Login" asp-action="Logout" style="background-color:orangered;color:white;">
                             <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesion
                         </a>
                     </div>
@@ -314,93 +314,102 @@
     </div>
 
 
+    @{
+        var idUsuarioSesion = Context.Session.GetInt32("IdUsuario");
+        var nombreSesion = Context.Session.GetString("Usuario");
+        var emailSesion = Context.Session.GetString("Email");
+        var telefonoSesion = Context.Session.GetString("Telefono");
+        var fotoSesion = Context.Session.GetString("FotoPerfil");
+        var estaAutenticado = !string.IsNullOrEmpty(nombreSesion);
+        var rutaFotoActual = !string.IsNullOrEmpty(fotoSesion)
+            ? "data:image/jpeg;base64," + fotoSesion
+            : Url.Content("~/media/defaultUserImage.jpg");
+    }
+
     @* MODAL LATERAL *@
     <div id="secectionBox">
             
-        <div id="themeContainer" style="border:1px solid yellow;">
+        <div id="themeContainer">
                                 
-            <div class="row">
-
-                @*  <div id="hideme" style="background:url('/media/hideme.png') no-repeat left center;height:40px;margin-bottom:20px;">CERRAR</div> *@
-                <div id="hideme" class="themeTitle" style="cursor: pointer;"><span style="margin-left:20px;font-size:14px;font-family:sans-serif;">  CERRAR </span> </div>
+            @* Botón Cerrar *@
+            <div id="hideme" class="themeTitle" onclick="toggleModalLateral(false)" style="cursor: pointer;">
+                <span><i class="fa fa-user-circle me-1"></i> MI PERFIL</span>
+                <span><i class="fa fa-times"></i> CERRAR</span>
             </div>
-            <!-- Seccion (1) : DATOS USUARIO -->
-            <div class="themeName" style="margin-bottom:15px;">&#11088; DATOS USUARIO &#11088;</div>
-               
-            <!-- Video -->
-            <video style="width:100%;height:99px;background-position: center;" autoplay muted loop>
+
+            <!-- Video / GIF superior (intacto) -->
+            <video style="width:100%;height:135px;background-position: center;object-fit:cover;display:block;" autoplay muted loop>
                 <source src="~/media/videos/Motion.mp4" type="video/mp4" />
             </video>
-                     
-            <!-- Datos del usuario -->
-            <div style="margin-top:-70px; line-height: 1em;font-size:9pt;">
-                <div>
-                    <label>Jose Miguel Diez Sen</label>
-                    <label>Correo Usuario</label>
-                    <label>jsm1989@gmail.com</label>
+
+            @if (estaAutenticado)
+            {
+                <!-- Sección : DATOS USUARIO -->
+                <div class="themeName"><i class="fa fa-id-card me-1"></i> DATOS DE USUARIO</div>
+
+                <!-- Avatar con opción de cambiar foto haciendo clic directo en ella -->
+                <div class="lateral-avatar-wrapper">
+                    <label for="lateralFotoInput" class="lateral-avatar-label" title="Haz clic en la foto para cambiarla">
+                        <img id="lateralAvatarImg" class="lateral-avatar-img" src="@rutaFotoActual" alt="Foto de perfil" />
+                        <div class="lateral-avatar-overlay">
+                            <i class="fa fa-camera"></i>
+                            <span>Cambiar</span>
+                        </div>
+                        <span class="lateral-avatar-badge" title="Cambiar foto de perfil">
+                            <i class="fa fa-camera"></i>
+                        </span>
+                    </label>
+                    <input type="file" id="lateralFotoInput" name="foto" accept="image/*" style="display:none;" />
                 </div>
 
-                <br /><br />
-            </div>
-              
-            <br />
+                <!-- Formulario de edición rápida -->
+                <form id="lateralProfileForm" class="lateral-profile-form" onsubmit="return guardarPerfilLateral(event);">
+                    <div class="lateral-form-group">
+                        <label><i class="fa fa-user"></i> Nombre</label>
+                        <input type="text" id="lateralNombre" name="nombre" class="lateral-input" value="@nombreSesion" placeholder="Nombre completo" required />
+                    </div>
 
-            <!-- Seccion (2) : MENU OPCIONES -->
-            <div class="themeName" style="margin-bottom:10px;">&#128295; OPCIONES &#128295;</div>
-                
-            <!-- Listado opciones del Panel Lateral -->
-            <ul id="listadoModalLateral" style="text-align:left;margin-left:5px;font-size:10pt;list-style:circle;color:yellow;margin-top:15px;">
-                <li><i class="fa fa-address-card-o" aria-hidden="true"></i><a href="@(Url.Content("/MiFichaPersonal"))">Mi Perfil</a></li>
-                <li><a href="@(Url.Content("/Personalizacion"))">Personalizacion</a></li>
-                <li><a href="@(Url.Content("/Juegos"))">Minijuegos</a></li>
-                <li><a href="@(Url.Content("/ChatBot"))">ChatBot</a></li>
-                <li><a href="@(Url.Content("/Test"))">Pruebas</a></li>
-                <li><a href="@(Url.Content("/Bitcoin"))">Bitcoin</a></li>
-            </ul>
-              
-            <!-- Seccion (3) : PERSONALIZACION -->
-            <div class="themeName">IDIOMA</div>
+                    <div class="lateral-form-group">
+                        <label><i class="fa fa-envelope"></i> Correo</label>
+                        <input type="email" id="lateralEmail" name="email" class="lateral-input" value="@emailSesion" placeholder="ejemplo@correo.com" />
+                    </div>
 
-            <p style="font-size: 9pt; font-family: arial; color: grey;">
-                Selecciona desde aquí el idioma.
-            </p>
+                    <div class="lateral-form-group">
+                        <label><i class="fa fa-phone"></i> Teléfono</label>
+                        <input type="tel" id="lateralTelefono" name="telefono" class="lateral-input" value="@telefonoSesion" placeholder="Número de teléfono" />
+                    </div>
 
-            <!-- Desplegable de seleccion del color -->
-            <select onchange="changeLanguage()" id="option" style="border-radius: 5px; margin-bottom: 10px; width: 80%; background-color: white;" class="form-select">
-                <option selected="selected">SPANISH</option>
-                <option>ENGLISH</option>
-                <option>FRENCH</option>
-                <option>PORTUGUESE</option>
-                <option>RUSSIAN</option>
-                <option>CHINA</option>
-            </select>
+                    <button type="submit" id="btnGuardarLateral" class="btn-lateral-save">
+                        <i class="fa fa-save"></i> Guardar Cambios
+                    </button>
 
-            <br />
-            <br />
-             
+                    <div id="lateralFeedback" class="lateral-feedback"></div>
+                </form>
+            }
+            else
+            {
+                <!-- Estado sin sesión -->
+                <div class="themeName"><i class="fa fa-lock me-1"></i> ACCESO</div>
+
+                <div class="lateral-guest-box">
+                    <div class="lateral-guest-icon">
+                        <i class="fa fa-user-slash"></i>
+                    </div>
+                    <div class="lateral-guest-title">Sesión no iniciada</div>
+                    <div class="lateral-guest-desc">Inicia sesión para ver y editar tu perfil.</div>
+                    <a href="@(Url.Action("Index", "Login"))" class="btn-lateral-login">
+                        <i class="fa fa-sign-in"></i> Iniciar Sesión
+                    </a>
+                </div>
+            }
+
         </div>
         <!--Fin 'secectionBox'-->
     </div>
 
-    <img id="themesBtn" style="height:80px;border-top: 1px solid yellow; border-left: 1px solid yellow; border-bottom: 1px solid yellow;position: fixed;top: 58px;right: 0;width: 80px;background-size: cover;cursor: pointer;" class="imgUserClass" />
-
-
-
-
-    @*
-
-        <input type="hidden" id="fotoUsuario" value="@Context.Session.GetString("FotoPerfil")" /> *@
-
-
-
-
-
-
-
-
+    <img id="themesBtn" src="@rutaFotoActual" onclick="toggleModalLateral(true)" style="height:80px; width:80px; position:fixed; top:88px; right:0; cursor:pointer; z-index:1040; object-fit:cover; border-top: 2px solid rgba(255,255,255,0.85); border-left: 2px solid rgba(255,255,255,0.85); border-bottom: 2px solid rgba(255,255,255,0.85); border-top-left-radius: 8px; border-bottom-left-radius: 8px; box-shadow: -3px 4px 12px rgba(0,0,0,0.35);" class="imgUserClass" title="@(estaAutenticado ? nombreSesion : "Iniciar sesión")" alt="Perfil" />
 
     @RenderSection("Modals", required: false)
-
 
     <script>window.webapp_root = '@Url.Content("~/")'</script>
 
@@ -409,35 +418,195 @@
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js"></script>
-    @*  <script src="~/js/plugins/PopupLoader.js" asp-append-version="true"></script> *@
-    @* <script src="~/js/plugins/Draggable.js"></script>*@
 
-    
     @RenderSection("Scripts", required: false)
 
-    <input type="hidden" id="fotoUsuario" value="@Context.Session.GetString("FotoPerfil")" />
-    <img id="themesBtn" ... />
+    <input type="hidden" id="fotoUsuario" value="@fotoSesion" />
 
-    @* Script para cargar los datos del usuario *@
+    @* Script para interacción y actualización del perfil lateral *@
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        var image = document.getElementById('themesBtn');
-        var inputFoto = document.getElementById('fotoUsuario');
+        // Función garantizada para abrir y cerrar el panel lateral
+        function toggleModalLateral(abrir) {
+            var box = document.getElementById('secectionBox');
+            var btn = document.getElementById('themesBtn');
+            if (!box) return;
 
-        if (!image || !inputFoto) {
-        console.warn("themesBtn o fotoUsuario no encontrados");
-        return;
+            if (window.jQuery) {
+                if (abrir) {
+                    $(box).stop().animate({ right: '0px' }, 400);
+                    if (btn) $(btn).stop().animate({ right: '-90px' }, 150);
+                } else {
+                    $(box).stop().animate({ right: '-999px' }, 400);
+                    if (btn) $(btn).stop().animate({ right: '0px' }, 400);
+                }
+            } else {
+                if (abrir) {
+                    box.style.right = '0px';
+                    if (btn) btn.style.right = '-90px';
+                } else {
+                    box.style.right = '-999px';
+                    if (btn) btn.style.right = '0px';
+                }
+            }
         }
+        window.toggleModalLateral = toggleModalLateral;
 
-        var rutaFoto = "/media/defaultUserImage.jpg";
-        var fotoBase64 = inputFoto.value;
-
-        if (fotoBase64 && fotoBase64 !== "") {
-        rutaFoto = "data:image/jpeg;base64," + fotoBase64;
+        // Delegación de eventos con jQuery
+        if (window.jQuery) {
+            $(document).on('click', '#themesBtn', function (e) {
+                e.preventDefault();
+                toggleModalLateral(true);
+            });
+            $(document).on('click', '#hideme', function (e) {
+                e.preventDefault();
+                toggleModalLateral(false);
+            });
         }
+        // Previsualización y subida automática al seleccionar una foto
+        document.getElementById('lateralFotoInput')?.addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var lateralAvatar = document.getElementById('lateralAvatarImg');
+                    if (lateralAvatar) {
+                        lateralAvatar.src = event.target.result;
+                    }
+                    var triggerBtn = document.getElementById('themesBtn');
+                    if (triggerBtn) {
+                        triggerBtn.src = event.target.result;
+                    }
+                };
+                reader.readAsDataURL(file);
 
-        image.src = rutaFoto;
+                // Subir y guardar automáticamente la foto en el servidor
+                subirFotoLateralDirecta(file);
+            }
         });
+
+        // Función para guardar automáticamente la nueva foto al seleccionarla
+        function subirFotoLateralDirecta(file) {
+            var feedback = document.getElementById('lateralFeedback');
+            if (feedback) {
+                feedback.className = 'lateral-feedback';
+                feedback.style.display = 'block';
+                feedback.style.background = 'rgba(255, 255, 255, 0.2)';
+                feedback.style.color = '#ffffff';
+                feedback.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Guardando foto...';
+            }
+
+            var formData = new FormData();
+            formData.append('foto', file);
+
+            fetch('@Url.Action("ActualizarPerfilLateral", "Usuarios")', {
+                method: 'POST',
+                body: formData
+            })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                if (data.success) {
+                    if (feedback) {
+                        feedback.className = 'lateral-feedback success';
+                        feedback.innerHTML = '<i class="fa fa-check"></i> ¡Foto de perfil actualizada!';
+                        feedback.style.display = 'block';
+                        setTimeout(function () {
+                            $(feedback).fadeOut();
+                        }, 3500);
+                    }
+                    if (data.fotoBase64) {
+                        var nuevaRuta = 'data:image/jpeg;base64,' + data.fotoBase64;
+                        var triggerBtn = document.getElementById('themesBtn');
+                        if (triggerBtn) triggerBtn.src = nuevaRuta;
+                        var lateralAvatar = document.getElementById('lateralAvatarImg');
+                        if (lateralAvatar) lateralAvatar.src = nuevaRuta;
+                    }
+                } else {
+                    if (feedback) {
+                        feedback.className = 'lateral-feedback error';
+                        feedback.textContent = data.message || 'No se pudo guardar la foto';
+                        feedback.style.display = 'block';
+                    }
+                }
+            })
+            .catch(function (err) {
+                if (feedback) {
+                    feedback.className = 'lateral-feedback error';
+                    feedback.textContent = 'Error al enviar la imagen';
+                    feedback.style.display = 'block';
+                }
+            });
+        }
+
+        // Guardar cambios del perfil lateral vía AJAX
+        function guardarPerfilLateral(e) {
+            e.preventDefault();
+
+            var btn = document.getElementById('btnGuardarLateral');
+            var feedback = document.getElementById('lateralFeedback');
+            var fileInput = document.getElementById('lateralFotoInput');
+            var nombre = document.getElementById('lateralNombre').value;
+            var email = document.getElementById('lateralEmail').value;
+            var telefono = document.getElementById('lateralTelefono').value;
+
+            var formData = new FormData();
+            formData.append('nombre', nombre);
+            formData.append('email', email);
+            formData.append('telefono', telefono);
+
+            if (fileInput && fileInput.files.length > 0) {
+                formData.append('foto', fileInput.files[0]);
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Guardando...';
+            feedback.style.display = 'none';
+
+            fetch('@Url.Action("ActualizarPerfilLateral", "Usuarios")', {
+                method: 'POST',
+                body: formData
+            })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-save"></i> Guardar Cambios';
+
+                if (data.success) {
+                    feedback.className = 'lateral-feedback success';
+                    feedback.textContent = data.message || 'Cambios guardados con éxito';
+                    feedback.style.display = 'block';
+
+                    // Actualizar imagen del botón flotante lateral
+                    if (data.fotoBase64) {
+                        var nuevaRuta = 'data:image/jpeg;base64,' + data.fotoBase64;
+                        var triggerBtn = document.getElementById('themesBtn');
+                        if (triggerBtn) {
+                            triggerBtn.src = nuevaRuta;
+                        }
+                        var lateralAvatar = document.getElementById('lateralAvatarImg');
+                        if (lateralAvatar) {
+                            lateralAvatar.src = nuevaRuta;
+                        }
+                    }
+
+                    setTimeout(function () {
+                        $(feedback).fadeOut();
+                    }, 4000);
+                } else {
+                    feedback.className = 'lateral-feedback error';
+                    feedback.textContent = data.message || 'Error al guardar los datos';
+                    feedback.style.display = 'block';
+                }
+            })
+            .catch(function (err) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa fa-save"></i> Guardar Cambios';
+                feedback.className = 'lateral-feedback error';
+                feedback.textContent = 'Error de conexión con el servidor';
+                feedback.style.display = 'block';
+            });
+
+            return false;
+        }
     </script>
 
 

@@ -42,5 +42,8 @@ namespace Epsilon.ViewModels
 
         public List<Negocio.Persistencia.Modelos.Medico>? MedicosDisponibles { get; set; }
         public List<Negocio.Persistencia.Modelos.Clinica>? ClinicasDisponibles { get; set; }
+
+        public string? NombrePaciente { get; set; }
+        public string? NombreMedico { get; set; }
     }
 }

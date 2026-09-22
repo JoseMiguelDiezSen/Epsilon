@@ -1,505 +1,613 @@
-﻿jQuery(function () {
+jQuery(function () {
 
-    const MIN_SCALE = 0.3;
+    const MIN_SCALE = 0.2;
     const MAX_SCALE = 5;
 
-    let points = [];
+    // Estado del visor y de las herramientas
     let currentImage = null;
-
-    let rectStart = null;
-    let rectEnd = null;
-    let rectFinished = false;
-    let rectState = 0; // 0 = nada, 1 = inicio, 2 = cerrado
-
-    let measurePoints = [];
-    // Indica si las herramientas de interacción están bloqueadas
-    // true  = bloqueadas
-    // false = activas
+    let baseVOI = null;
     let locked = false;
-
+    let toolMode = "none";
     let pixelSpacing = [1, 1];
 
-    // Configuracion del tamaño mininmo de la radiografia para evitar que desaparezca
+    // Herramienta Puntos
+    let points = [];
+
+    // Herramienta Línea (Medición)
+    let linePoints = [];
+    let linePreviewPoint = null;
+
+    // Herramienta Rectángulo
+    let isDrawingRect = false;
+    let rectStart = null;
+    let rectEnd = null;
+    let rectPreview = null;
+
+    // Limitador de escala de zoom
     const clampScale = (value) => {
         return Math.min(MAX_SCALE, Math.max(MIN_SCALE, value));
     };
 
+    // ==========================================================
     // INICIALIZACIÓN DE CORNERSTONE Y DEPENDENCIAS
-    
-    // Se enlazan las librerías externas que utiliza CornerstoneTools
+    // ==========================================================
     cornerstoneTools.external.cornerstone = cornerstone;
     cornerstoneTools.external.Hammer = Hammer;
     cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
-
-    // Inicializa CornerstoneTools
     cornerstoneTools.init();
 
-    // Se enlazan las dependencias necesarias para cargar imágenes DICOM
     cornerstoneWADOImageLoader.external.cornerstone = cornerstone;
     cornerstoneWADOImageLoader.external.dicomParser = dicomParser;
+    cornerstone.registerImageLoader('wadouri', cornerstoneWADOImageLoader.wadouri.loadImage);
 
-    // Registra el cargador de imágenes DICOM mediante protocolo WADO-URI
-    cornerstone.registerImageLoader('wadouri',cornerstoneWADOImageLoader.wadouri.loadImage);
-
-    // Configuración de WebWorkers para procesar imágenes DICOM
     cornerstoneWADOImageLoader.webWorkerManager.initialize({
-
-        // Número máximo de workers simultáneos
         maxWebWorkers: 1,
-
-        // Los workers se crean únicamente cuando son necesarios
         startWebWorkersOnDemand: true,
-
-        // Permite utilizar WebWorkers para decodificar imágenes
         decodeConfig: {
             useWebWorkers: true
         },
-
         taskConfiguration: {
-
-            // Configuración de la tarea de decodificación DICOM
             decodeTask: {
-
-                // Evita cargar todos los códecs al arrancar la página
                 initializeCodecsOnStartup: false
             }
         }
     });
 
-    // Obtiene la referencia al contenedor HTML donde se mostrará la radiografía
     const element = document.getElementById("dicomViewer");
-
-    // Habilita el contenedor para que Cornerstone pueda renderizar imágenes DICOM
     cornerstone.enable(element);
 
-    // Herramienta de desplazamiento (Pan)
+    // Herramientas nativas de navegación
     cornerstoneTools.addTool(cornerstoneTools.PanTool);
-
-    // Herramienta de zoom mediante rueda del ratón
     cornerstoneTools.addTool(cornerstoneTools.ZoomMouseWheelTool);
 
-    // Control de bloqueo
-    const applyToolState = () => {
+    // ==========================================================
+    // ACTUALIZACIÓN DE HUD Y ESTADOS
+    // ==========================================================
+    const updateHUD = () => {
+        if (!currentImage) return;
+        const viewport = cornerstone.getViewport(element);
+        if (!viewport) return;
 
+        // Zoom y modo
+        const zoomPercent = Math.round((viewport.scale || 1) * 100);
+        let modoTexto = "PAN";
+        if (toolMode === "point") modoTexto = "PUNTO";
+        else if (toolMode === "line") modoTexto = "LÍNEA";
+        else if (toolMode === "rectangle") modoTexto = isDrawingRect ? "DIBUJANDO..." : "RECTÁNGULO";
+
+        $("#hudZoom").text(`ZOOM: ${zoomPercent}% | MODO: ${modoTexto}`);
+
+        // Ventana (VOI)
+        if (viewport.voi) {
+            const wc = Math.round(viewport.voi.windowCenter);
+            const ww = Math.round(viewport.voi.windowWidth);
+            $("#hudVOI").text(`WC: ${wc} | WW: ${ww}`);
+        }
+    };
+
+    const applyToolState = () => {
         if (locked) {
-            // Deshabilita las herramientas de Cornerstone
             cornerstoneTools.setToolDisabled("Pan");
             cornerstoneTools.setToolDisabled("ZoomMouseWheel");
-
-            // Deshabilita controles de la interfaz
-            $("#zoomIn, #zoomOut, #tamanio, #brightness, #contrast").prop("disabled", true);
-
+            $("#zoomIn, #zoomOut, #tamanio, #fs_tamanio, #brightness, #fs_brightness, #contrast, #fs_contrast, #toolMode, #fs_toolMode, #reset, #fs_reset, #limpiarDibujos, #fs_limpiarDibujos").prop("disabled", true);
+            $("#dicomViewer").removeClass("drawing-mode");
         } else {
-            // Activa desplazamiento con botón izquierdo
-            cornerstoneTools.setToolActive("Pan", {mouseButtonMask: 1});
-
-            // Activa zoom con rueda del ratón
+            $("#zoomIn, #zoomOut, #tamanio, #fs_tamanio, #brightness, #fs_brightness, #contrast, #fs_contrast, #toolMode, #fs_toolMode, #reset, #fs_reset, #limpiarDibujos, #fs_limpiarDibujos").prop("disabled", false);
             cornerstoneTools.setToolActive("ZoomMouseWheel", { mouseButtonMask: 0 });
 
-            // Habilita controles de la interfaz
-            $("#zoomIn, #zoomOut, #tamanio, #brightness, #contrast").prop("disabled", false);
+            if (toolMode === "none") {
+                cornerstoneTools.setToolActive("Pan", { mouseButtonMask: 1 });
+                $("#dicomViewer").removeClass("drawing-mode");
+            } else {
+                // Al estar dibujando, desactivamos Pan para que no interfiera el arrastre
+                cornerstoneTools.setToolDisabled("Pan");
+                $("#dicomViewer").addClass("drawing-mode");
+            }
         }
-    }
+        updateHUD();
+    };
 
     applyToolState();
 
-    // Actualiza en el visor los valores actuales de los sliders de brillo y contraste tomando como referencia el VOI original de la imagen cargada.
-    const updateVOI = () => {
-
-        // Obtiene el viewport actual del visor
+    // ==========================================================
+    // AJUSTES VOI (BRILLO Y CONTRASTE) - SINCRONIZADOS
+    // ==========================================================
+    const updateVOI = (source) => {
         const viewport = cornerstone.getViewport(element);
-
-        // Si no existe viewport, VOI o referencia inicial,
-        // no es posible aplicar ajustes.
         if (!viewport || !viewport.voi || !baseVOI) return;
 
-        // Obtiene los valores actuales de los sliders
-        const brightness = parseInt($("#brightness").val() || 0);
-        const contrast = parseInt($("#contrast").val() || 0);
+        let brightness, contrast;
 
-        // Ajusta brillo (Window Center)
+        if (source === "fullscreen") {
+            brightness = parseInt($("#fs_brightness").val() || 0);
+            contrast = parseInt($("#fs_contrast").val() || 0);
+            $("#brightness").val(brightness);
+            $("#contrast").val(contrast);
+        } else {
+            brightness = parseInt($("#brightness").val() || 0);
+            contrast = parseInt($("#contrast").val() || 0);
+            $("#fs_brightness").val(brightness);
+            $("#fs_contrast").val(contrast);
+        }
+
         viewport.voi.windowCenter = baseVOI.windowCenter - brightness;
+        viewport.voi.windowWidth = Math.max(1, baseVOI.windowWidth + (contrast - 2000));
 
-        // Ajusta contraste (Window Width)
-        // Se fuerza un mínimo de 1 para evitar valores inválidos.
-        viewport.voi.windowWidth = Math.max(1, baseVOI.windowWidth + contrast);
-
-        // Aplica los cambios al visor
         cornerstone.setViewport(element, viewport);
-    }
+        updateHUD();
+    };
 
-    // -------------------- CONTROLES ---------------//
+    $("#brightness, #contrast").on("input", () => updateVOI("base"));
+    $("#fs_brightness, #fs_contrast").on("input", () => updateVOI("fullscreen"));
 
-    // Sincroniza los sliders de brillo y contraste con el visor DICOM. Cada modificación ejecuta updateVOI() y actualiza la imagen en tiempo real.
-    $("#brightness, #contrast").on("input", updateVOI);
-
-    // Incrementa el nivel de zoom del visor.
+    // ==========================================================
+    // CONTROLES DE ZOOM Y RESET - SINCRONIZADOS
+    // ==========================================================
     $("#zoomIn").click(function () {
-
         const viewport = cornerstone.getViewport(element);
-
-        // Si no hay imagen cargada no se realiza ninguna acción
         if (!viewport) return;
-
-        viewport.scale = clampScale(viewport.scale + 0.1);
-
+        viewport.scale = clampScale(viewport.scale + 0.15);
         cornerstone.setViewport(element, viewport);
+        const scaleVal = Math.round(viewport.scale * 50);
+        $("#tamanio, #fs_tamanio").val(scaleVal);
+        updateHUD();
     });
 
-    // Reduce el nivel de zoom del visor.
     $("#zoomOut").click(function () {
-
         const viewport = cornerstone.getViewport(element);
-
-        // Si no hay imagen cargada no se realiza ninguna acción
         if (!viewport) return;
-
-        viewport.scale = clampScale(viewport.scale - 0.1);
-
+        viewport.scale = clampScale(viewport.scale - 0.15);
         cornerstone.setViewport(element, viewport);
+        const scaleVal = Math.round(viewport.scale * 50);
+        $("#tamanio, #fs_tamanio").val(scaleVal);
+        updateHUD();
     });
 
-    // Boton de reset
-    $("#reset").click(function () {
-
-        //if (!currentImage || !baseVOI) return;
-
-        //cornerstone.displayImage(element, currentImage);
-
-        //requestAnimationFrame(() => {
-
-        //    const viewport = cornerstone.getViewport(element);
-        //    if (!viewport) return;
-
-        //    viewport.voi.windowCenter = baseVOI.windowCenter;
-        //    viewport.voi.windowWidth = baseVOI.windowWidth;
-        //    viewport.scale = baseVOI.scale || 1;
-
-        //    cornerstone.setViewport(element, viewport);
-
-        //    $("#brightness").val(0);
-        //    $("#contrast").val(0);
-        //    $("#tamanio").val(50);
-        //});
-    });
-
-    // Ajusta directamente la escala del visor a partir del valor seleccionado en el slider.
     $("#tamanio").on("input", function () {
-
         const viewport = cornerstone.getViewport(element);
         if (!viewport) return;
-
-        const value = $(this).val();
-
-        viewport.scale = clampScale(value / 50);
-
+        const val = $(this).val();
+        $("#fs_tamanio").val(val);
+        viewport.scale = clampScale(val / 50);
         cornerstone.setViewport(element, viewport);
+        updateHUD();
     });
 
-    // Bloqueo de DCM
+    $("#fs_tamanio").on("input", function () {
+        const viewport = cornerstone.getViewport(element);
+        if (!viewport) return;
+        const val = $(this).val();
+        $("#tamanio").val(val);
+        viewport.scale = clampScale(val / 50);
+        cornerstone.setViewport(element, viewport);
+        updateHUD();
+    });
+
+    // ==========================================================
+    // LIMPIAR ANOTACIONES Y RESET
+    // ==========================================================
+    const limpiarDibujos = () => {
+        points = [];
+        linePoints = [];
+        linePreviewPoint = null;
+        rectStart = null;
+        rectEnd = null;
+        rectPreview = null;
+        isDrawingRect = false;
+
+        cornerstone.updateImage(element);
+        updateHUD();
+    };
+
+    $("#limpiarDibujos, #fs_limpiarDibujos").click(limpiarDibujos);
+
+    $("#reset, #fs_reset").click(function () {
+        if (!currentImage || !baseVOI) return;
+
+        const viewport = cornerstone.getViewport(element);
+        if (viewport) {
+            viewport.voi.windowCenter = baseVOI.windowCenter;
+            viewport.voi.windowWidth = baseVOI.windowWidth;
+            viewport.scale = baseVOI.scale || 1;
+            viewport.translation.x = 0;
+            viewport.translation.y = 0;
+            cornerstone.setViewport(element, viewport);
+        }
+
+        $("#brightness, #fs_brightness").val(0);
+        $("#contrast, #fs_contrast").val(2000);
+        $("#tamanio, #fs_tamanio").val(50);
+        $("#toolMode, #fs_toolMode").val("none");
+        toolMode = "none";
+        applyToolState();
+
+        limpiarDibujos();
+    });
+
     $("#toggleBtn").change(function () {
-
         locked = this.checked;
-
         $("#toggleState").text(locked ? "🔒" : "🔓");
-
         applyToolState();
     });
 
-    /// ----------------------------- FIN CONTROLES----------------------------------------//
-    abrirVisorFullScreen = function () {
-
-        const visor = document.getElementById("dicomViewer");
-
-        visor.requestFullscreen();
-
-        setTimeout(function () {
-            cornerstone.resize(visor, true);
-        }, 150);
+    const setModoHerramienta = (nuevoModo) => {
+        toolMode = nuevoModo;
+        $("#toolMode").val(toolMode);
+        $("#fs_toolMode").val(toolMode);
+        // Cancelar dibujos en curso si cambia de herramienta
+        isDrawingRect = false;
+        rectPreview = null;
+        linePreviewPoint = null;
+        applyToolState();
+        cornerstone.updateImage(element);
     };
 
-    mostrarTexto = (texto) => {
-        document.getElementById("textoVisor").innerText = texto;
-    }
-
-    // Se ejecuta cuando el usuario selecciona una radiografía distinta en el desplegable.
-    $("#listadoRadiografias").change(function () {
-
-        // Muestra mensaje temporal mientras se carga la imagen
-        mostrarTexto("Cargando visor...");
-
-        // Obtiene la ruta DICOM seleccionada
-        const rutaDicom = $(this).val();
-
-        // Construye la URL completa que utilizará Cornerstone
-        const imageId = "wadouri:https://localhost:7176" + rutaDicom;
-
-        // Carga la imagen DICOM seleccionada
-        cornerstone.loadImage(imageId).then(function (image) {
-
-            // Renderiza la imagen en el visor
-            cornerstone.displayImage(element, image);
-            toolMode = "draw";
-            setTimeout(drawPoints, 0);
-
-            const spacingTag = image.data.string('x00280030');
-
-            pixelSpacing = spacingTag
-                ? spacingTag.split("\\").map(Number)
-                : [1, 1];
-
-            currentImage = image;
-
-            // Obtiene el viewport actual de la imagen recién cargada
-            const viewport = cornerstone.getViewport(element);
-
-            // Guarda los valores VOI originales de la imagen
-            // para poder utilizarlos posteriormente como referencia
-            // en ajustes de brillo, contraste o reset.
-            baseVOI = {
-                windowCenter: viewport.voi.windowCenter,
-                windowWidth: viewport.voi.windowWidth
-            };
-
-            // Oculta el mensaje de carga
-            mostrarTexto("");
-        });
-
+    $("#toolMode").change(function () {
+        setModoHerramienta($(this).val());
     });
 
+    $("#fs_toolMode").change(function () {
+        setModoHerramienta($(this).val());
+    });
 
-    // DIBUJO _ MEDICION
-    //element.addEventListener("mousedown", function (e) {
+    // Cancelar dibujo en curso con tecla Escape
+    $(document).on("keydown", function (e) {
+        if (e.key === "Escape") {
+            if (isDrawingRect) {
+                isDrawingRect = false;
+                rectStart = null;
+                rectPreview = null;
+                cornerstone.updateImage(element);
+                updateHUD();
+            } else if (linePoints.length === 1) {
+                linePoints = [];
+                linePreviewPoint = null;
+                cornerstone.updateImage(element);
+                updateHUD();
+            }
+        }
+    });
 
-    //    const coords = cornerstone.pageToPixel(element, e.clientX, e.clientY);
+    // ==========================================================
+    // CARGA DE RADIOGRAFÍAS (DICOM)
+    // ==========================================================
+    const mostrarCargador = (mostrar, texto) => {
+        const $spinner = $("#textoVisor");
+        if (mostrar) {
+            $("#textoVisorMsg").text(texto || "Cargando estudio DICOM...");
+            $spinner.addClass("show");
+        } else {
+            $spinner.removeClass("show");
+        }
+    };
 
-    //    if (measurePoints.length === 2) {
-    //        measurePoints = [];
-    //    }
+    const cargarRadiografia = (rutaDicom, studyTitle) => {
+        if (!rutaDicom) return;
 
-    //    measurePoints.push(coords);
+        mostrarCargador(true, "Cargando radiografía...");
 
-    //    cornerstone.updateImage(element);
-    //});
+        // Construir URL absoluta dinámica según el origen actual
+        const origin = window.location.origin;
+        const imageId = "wadouri:" + origin + (rutaDicom.startsWith("/") ? "" : "/") + rutaDicom;
 
-    // DIBUJO - Linea de Medicion
-    //element.addEventListener("cornerstoneimagerendered", function (e) {
+        cornerstone.loadImage(imageId).then(function (image) {
+            currentImage = image;
+            cornerstone.displayImage(element, image);
 
-    //    const ctx = e.detail.canvasContext;
-    //    if (!ctx) return;
+            // Leer espaciado de píxel de los metadatos DICOM (tag 0028,0030)
+            const spacingTag = image.data ? image.data.string('x00280030') : null;
+            pixelSpacing = spacingTag ? spacingTag.split("\\").map(Number) : [1, 1];
+            if (isNaN(pixelSpacing[0]) || isNaN(pixelSpacing[1])) {
+                pixelSpacing = [1, 1];
+            }
 
-    //    ctx.save();
-    //    ctx.strokeStyle = "red";
-    //    ctx.fillStyle = "red";
+            const viewport = cornerstone.getViewport(element);
+            baseVOI = {
+                windowCenter: viewport.voi.windowCenter,
+                windowWidth: viewport.voi.windowWidth,
+                scale: viewport.scale || 1
+            };
 
-    //    if (measurePoints.length === 2) {
+            // Sincronizar controles (base y pantalla completa)
+            $("#brightness, #fs_brightness").val(0);
+            $("#contrast, #fs_contrast").val(2000);
+            const initialScale = Math.round(viewport.scale * 50);
+            $("#tamanio, #fs_tamanio").val(initialScale);
 
-    //        const p1 = measurePoints[0];
-    //        const p2 = measurePoints[1];
+            // Sincronizar HUD
+            $("#hudStudy").text("ESTUDIO: " + (studyTitle || rutaDicom.split("/").pop()));
+            updateHUD();
 
-    //        ctx.beginPath();
-    //        ctx.moveTo(p1.x, p1.y);
-    //        ctx.lineTo(p2.x, p2.y);
-    //        ctx.stroke();
+            // Sincronizar miniaturas y selectores
+            $(".thumbnail-item").removeClass("active");
+            $(`.thumbnail-item[data-dcm='${rutaDicom}']`).addClass("active");
+            $("#listadoRadiografias").val(rutaDicom);
 
-    //        const dist = getDistanceMM(p1, p2).toFixed(2);
-    //        ctx.fillText(dist + " mm", p2.x + 5, p2.y + 5);
-    //    }
+            mostrarCargador(false);
+        }).catch(function (error) {
+            console.error("Error al cargar la imagen DICOM:", error);
+            mostrarCargador(true, "Error al cargar la imagen DICOM.");
+            setTimeout(() => mostrarCargador(false), 3000);
+        });
+    };
 
-    //    ctx.restore();
-    //});
+    // Eventos de selección de radiografía
+    $("#listadoRadiografias").change(function () {
+        const rutaDicom = $(this).val();
+        const texto = $(this).find("option:selected").text();
+        cargarRadiografia(rutaDicom, texto);
+    });
+
+    $(".thumbnail-item").on("click", function () {
+        const rutaDicom = $(this).data("dcm");
+        const code = $(this).data("code");
+        const date = $(this).data("date");
+        cargarRadiografia(rutaDicom, `${code} (${date})`);
+    });
+
+    // Cargar automáticamente el primer estudio si existe
+    const primerEstudio = $("#listadoRadiografias option:not([disabled])").first().val();
+    if (primerEstudio) {
+        const primerTexto = $("#listadoRadiografias option:not([disabled])").first().text();
+        cargarRadiografia(primerEstudio, primerTexto);
+    }
+
+    // ==========================================================
+    // INTERACCIÓN DE DIBUJO Y MEDICIÓN (MOUSEDOWN / MOUSEMOVE)
+    // ==========================================================
+
+    // Clavado e inicio de puntos / rectángulos
     element.addEventListener("mousedown", function (e) {
-
-        if (toolMode === "none") return;
+        if (e.button !== 0 || locked || !currentImage || toolMode === "none") return;
 
         const coords = cornerstone.pageToPixel(element, e.clientX, e.clientY);
 
+        // 1. MODO PUNTO
         if (toolMode === "point") {
-
-            measurePoints.push(coords);
+            points.push(coords);
+            cornerstone.updateImage(element);
+            return;
         }
 
+        // 2. MODO LÍNEA (Medición en 2 clics)
         if (toolMode === "line") {
-
-            if (measurePoints.length === 2) {
-                measurePoints = [];
+            if (linePoints.length === 0 || linePoints.length === 2) {
+                linePoints = [coords];
+                linePreviewPoint = coords;
+            } else if (linePoints.length === 1) {
+                linePoints.push(coords);
+                linePreviewPoint = null;
             }
-
-            measurePoints.push(coords);
+            cornerstone.updateImage(element);
+            return;
         }
 
+        // 3. MODO RECTÁNGULO (2 clics: 1º inicia y expande en tiempo real, 2º clava)
         if (toolMode === "rectangle") {
-
-            const coords = cornerstone.pageToPixel(element, e.clientX, e.clientY);
-
-            // 0 -> inicio
-            if (!rectStart) {
+            if (!isDrawingRect) {
+                // PRIMER CLIC: Fija inicio y empieza el modo interactivo
                 rectStart = coords;
+                rectPreview = coords;
                 rectEnd = null;
-                return;
-            }
-
-            // 1 -> cierre
-            if (!rectEnd) {
+                isDrawingRect = true;
+            } else {
+                // SEGUNDO CLIC: Fija el final y clava el rectángulo
                 rectEnd = coords;
-                cornerstone.updateImage(element);
-                return;
+                rectPreview = null;
+                isDrawingRect = false;
             }
-
-            // 2 -> reset + nuevo inicio
-            rectStart = coords;
-            rectEnd = null;
+            cornerstone.updateImage(element);
+            updateHUD();
+            return;
         }
-
-        cornerstone.updateImage(element);
     });
 
+    // Desplazamiento dinámico (mousemove) para ver cómo se va ampliando el rectángulo
+    element.addEventListener("mousemove", function (e) {
+        if (locked || !currentImage || toolMode === "none") return;
 
+        const coords = cornerstone.pageToPixel(element, e.clientX, e.clientY);
 
+        if (toolMode === "rectangle" && isDrawingRect && rectStart) {
+            rectPreview = coords;
+            cornerstone.updateImage(element);
+        } else if (toolMode === "line" && linePoints.length === 1) {
+            linePreviewPoint = coords;
+            cornerstone.updateImage(element);
+        }
+    });
 
+    // ==========================================================
+    // RENDERIZADO EN CANVAS (CORNERSTONEIMAGERENDERED)
+    // ==========================================================
     element.addEventListener("cornerstoneimagerendered", function (e) {
-
         const ctx = e.detail.canvasContext;
         if (!ctx) return;
 
         ctx.save();
-        ctx.strokeStyle = "red";
-        ctx.fillStyle = "red";
 
-        // PUNTOS (modo point o line)
-        if (toolMode === "point" || toolMode === "line") {
-
-            measurePoints.forEach(p => {
+        // 1. RENDERIZAR PUNTOS
+        if (points.length > 0) {
+            points.forEach((p, idx) => {
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                ctx.arc(p.x, p.y, 4.5, 0, Math.PI * 2);
+                ctx.fillStyle = "#ef4444";
                 ctx.fill();
+                ctx.strokeStyle = "#ffffff";
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
             });
         }
 
-        // LÍNEA
-        if (toolMode === "line" && measurePoints.length === 2) {
+        // 2. RENDERIZAR LÍNEA
+        if (linePoints.length >= 1) {
+            const p1 = linePoints[0];
+            const p2 = linePoints.length === 2 ? linePoints[1] : linePreviewPoint;
 
-            const p1 = measurePoints[0];
-            const p2 = measurePoints[1];
+            if (p1 && p2) {
+                const isPreview = linePoints.length === 1;
 
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = isPreview ? "#38bdf8" : "#22c55e";
+                ctx.lineWidth = 2;
+                if (isPreview) {
+                    ctx.setLineDash([4, 4]);
+                } else {
+                    ctx.setLineDash([]);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
 
-            const dist = getDistanceMM(p1, p2).toFixed(2);
-            ctx.fillText(dist + " mm", p2.x + 5, p2.y + 5);
+                // Puntos extremos
+                [p1, p2].forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
+                    ctx.fillStyle = isPreview ? "#38bdf8" : "#22c55e";
+                    ctx.fill();
+                });
+
+                // Etiqueta de distancia
+                const distMM = getDistanceMM(p1, p2).toFixed(2);
+                const midX = (p1.x + p2.x) / 2;
+                const midY = (p1.y + p2.y) / 2;
+                drawLabelBadge(ctx, `${distMM} mm`, midX + 6, midY - 6);
+            }
         }
 
-        // RECTÁNGULO
-        if (toolMode === "rectangle" && rectStart && rectEnd) {
-
+        // 3. RENDERIZAR RECTÁNGULO
+        if (rectStart && (rectEnd || (isDrawingRect && rectPreview))) {
             const p1 = rectStart;
-            const p2 = rectEnd || rectStart;
+            const p2 = isDrawingRect ? rectPreview : rectEnd;
 
-            const x = Math.min(p1.x, p2.x);
-            const y = Math.min(p1.y, p2.y);
-            const w = Math.abs(p1.x - p2.x);
-            const h = Math.abs(p1.y - p2.y);
+            if (p1 && p2) {
+                const x = Math.min(p1.x, p2.x);
+                const y = Math.min(p1.y, p2.y);
+                const w = Math.abs(p1.x - p2.x);
+                const h = Math.abs(p1.y - p2.y);
 
-            ctx.strokeStyle = "yellow";
-            ctx.strokeRect(x, y, w, h);
+                const widthMM = (w * pixelSpacing[1]).toFixed(1);
+                const heightMM = (h * pixelSpacing[0]).toFixed(1);
+
+                if (isDrawingRect) {
+                    // MIENTRAS SE DESPLAZA: Trazo dinámico discontinuo con relleno sutil
+                    ctx.setLineDash([6, 5]);
+                    ctx.strokeStyle = "#38bdf8";
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x, y, w, h);
+
+                    ctx.fillStyle = "rgba(56, 189, 248, 0.15)";
+                    ctx.fillRect(x, y, w, h);
+                    ctx.setLineDash([]);
+
+                    // Etiqueta de tamaño en tiempo real
+                    drawLabelBadge(ctx, `${widthMM} x ${heightMM} mm`, x, y - 6);
+                } else {
+                    // CLAVADO (FIJO): Trazo sólido brillante con anclajes en las 4 esquinas
+                    ctx.setLineDash([]);
+                    ctx.strokeStyle = "#fbbf24";
+                    ctx.lineWidth = 2.5;
+                    ctx.strokeRect(x, y, w, h);
+
+                    ctx.fillStyle = "rgba(251, 191, 36, 0.08)";
+                    ctx.fillRect(x, y, w, h);
+
+                    // Anclajes en esquinas
+                    drawHandle(ctx, x, y);
+                    drawHandle(ctx, x + w, y);
+                    drawHandle(ctx, x, y + h);
+                    drawHandle(ctx, x + w, y + h);
+
+                    // Etiqueta permanente
+                    drawLabelBadge(ctx, `ROI: ${widthMM} x ${heightMM} mm`, x, y - 6);
+                }
+            }
         }
 
         ctx.restore();
     });
 
-    // Calcular Distancia
+    // ==========================================================
+    // FUNCIONES AUXILIARES DE DIBUJO Y CÁLCULO
+    // ==========================================================
     function getDistanceMM(p1, p2) {
         const dx = (p2.x - p1.x) * pixelSpacing[1];
         const dy = (p2.y - p1.y) * pixelSpacing[0];
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    // DIBUJO _ PUNTOS
-    //element.addEventListener("mousedown", function (e) {
-  
-    //    const coords = cornerstone.pageToPixel(element, e.pageX, e.pageY);
-
-    //    points.push(coords);
-
-    //    cornerstone.updateImage(element);
-    //});
-
-
-    // DIBUJO - Puntos
-    //element.addEventListener("cornerstoneimagerendered", function (e) {
-    //    console.log("RENDER OK");
-    //    const enabledElement = cornerstone.getEnabledElement(element);
-    //    const context = enabledElement.canvas.getContext("2d");
-
-    //    context.save();
-    //    context.fillStyle = "red";
-
-    //    points.forEach(p => {
-    //        context.beginPath();
-    //        context.arc(p.x, p.y, 5, 0, Math.PI * 2);
-    //        context.fill();
-    //    });
-
-    //    context.restore();
-    //});
-
-
-    // Dibujar Puntos
-    function drawPoints() {
-
-        const enabledElement = cornerstone.getEnabledElement(element);
-        if (!enabledElement || !enabledElement.canvas) return;
-
-        const ctx = enabledElement.canvas.getContext("2d");
-
+    function drawLabelBadge(ctx, text, x, y) {
         ctx.save();
-        ctx.fillStyle = "red";
+        ctx.font = "bold 11px ui-monospace, SFMono-Regular, Consolas, monospace";
+        const metrics = ctx.measureText(text);
+        const padding = 5;
+        const boxHeight = 18;
+        const boxWidth = metrics.width + padding * 2;
 
-        points.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
-            ctx.fill();
-        });
+        const drawY = Math.max(boxHeight + 2, y);
+
+        // Fondo oscuro del badge
+        ctx.fillStyle = "rgba(11, 15, 25, 0.88)";
+        ctx.fillRect(x, drawY - boxHeight, boxWidth, boxHeight);
+
+        // Borde fino
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, drawY - boxHeight, boxWidth, boxHeight);
+
+        // Texto blanco
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText(text, x + padding, drawY - 5);
         ctx.restore();
     }
 
-    $("#toolMode").change(function () {
-        toolMode = $(this).val();
-        measurePoints = [];
-        cornerstone.updateImage(element);
-    });
+    function drawHandle(ctx, x, y) {
+        ctx.save();
+        ctx.fillStyle = "#fbbf24";
+        ctx.fillRect(x - 3.5, y - 3.5, 7, 7);
+        ctx.strokeStyle = "#1e293b";
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(x - 3.5, y - 3.5, 7, 7);
+        ctx.restore();
+    }
 
+    // ==========================================================
+    // PANTALLA COMPLETA Y RESIZE OBSERVER
+    // ==========================================================
+    abrirVisorFullScreen = function () {
+        const visorWrapper = document.querySelector(".viewer-wrapper");
+        if (visorWrapper.requestFullscreen) {
+            visorWrapper.requestFullscreen();
+        } else if (visorWrapper.webkitRequestFullscreen) {
+            visorWrapper.webkitRequestFullscreen();
+        }
+        $(".viewer-wrapper").addClass("fullscreen-mode");
 
-    //////////////////////////////////////////////////////////////////
-
-    // Cuando el visor sale de pantalla completa,se debe recalcular el tamaño para adaptarse al nuevo espacio disponible.
-    document.addEventListener("fullscreenchange", function () {
         setTimeout(function () {
             cornerstone.resize(element, true);
-        }, 50);
+        }, 150);
+    };
+
+    salirVisorFullScreen = function () {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+        $(".viewer-wrapper").removeClass("fullscreen-mode");
+    };
+
+    document.addEventListener("fullscreenchange", function () {
+        const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        $(".viewer-wrapper").toggleClass("fullscreen-mode", isFs);
+        setTimeout(function () {
+            cornerstone.resize(element, true);
+        }, 80);
     });
 
-    // =========================
-    // RESIZE OBSERVER (AJUSTE AUTOMÁTICO)
-    // =========================
-    //
-    // Observa cambios en el tamaño del contenedor del visor
-    // (dicomViewer) y ajusta automáticamente el render de Cornerstone.
-    //
-    // Esto evita problemas de escalado cuando:
-    // - cambia el tamaño de la ventana
-    // - se activa/desactiva fullscreen
-    // - cambia el layout de la página
-    // - se redimensionan paneles o contenedores
     const observer = new ResizeObserver(() => {
-
-        // Recalcula el tamaño del visor DICOM
         cornerstone.resize(element, true);
-
     });
-
-    // Activa la observación del elemento del visor
     observer.observe(element);
 });

@@ -1,4 +1,4 @@
-﻿using Calipso.Security;
+using Calipso.Security;
 using Epsilon.Renders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +41,11 @@ namespace Epsilon.Controllers
 
             if (user != null)
             {
+                HttpContext.Session.SetInt32("IdUsuario", user.IdUsuario);
+                HttpContext.Session.SetString("Usuario", user.Nombre ?? "");
+                HttpContext.Session.SetString("Email", user.Email ?? "");
+                HttpContext.Session.SetString("Telefono", user.Telefono > 0 ? user.Telefono.ToString() : "");
+
                 if (user.FotoPerfil != null && user.FotoPerfil.Length > 0)
                 {
                     var fotoBase64 = Convert.ToBase64String(user.FotoPerfil);
@@ -92,8 +97,20 @@ namespace Epsilon.Controllers
                     _gestionUsuarios.Context.SaveChanges();
                 }
 
-                // Aquí podrías meter sesión si quieres
-                HttpContext.Session.SetString("Usuario", user.Nombre);
+                HttpContext.Session.SetInt32("IdUsuario", user.IdUsuario);
+                HttpContext.Session.SetString("Usuario", user.Nombre ?? "");
+                HttpContext.Session.SetString("Email", user.Email ?? "");
+                HttpContext.Session.SetString("Telefono", user.Telefono > 0 ? user.Telefono.ToString() : "");
+
+                if (user.FotoPerfil != null && user.FotoPerfil.Length > 0)
+                {
+                    var fotoBase64 = Convert.ToBase64String(user.FotoPerfil);
+                    HttpContext.Session.SetString("FotoPerfil", fotoBase64);
+                }
+                else
+                {
+                    HttpContext.Session.SetString("FotoPerfil", "");
+                }
 
                 return Json(new
                 {
@@ -109,6 +126,12 @@ namespace Epsilon.Controllers
                     message = "Error al validar el login con Google"
                 });
             }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
         }
     }
 }

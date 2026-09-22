@@ -405,6 +405,50 @@ namespace Epsilon.Controllers
         }
 
         /// <summary>
+        /// Carga la vista parcial modal FormDeleteCita para confirmar la eliminación de una cita médica.
+        /// </summary>
+        /// <param name="idCita">Identificador de la cita médica a eliminar</param>
+        [HttpGet, AjaxOnly]
+        public async Task<ActionResult> ModalEliminarCita(int idCita)
+        {
+            JsonResponse? jsonResponse;
+
+            try
+            {
+                var cita = _gestionCitas.GetCita(idCita);
+                if (cita == null)
+                {
+                    jsonResponse = new JsonResponse("404", "No se encontró la cita especificada.", string.Empty);
+                    return new JsonResult(jsonResponse);
+                }
+
+                var paciente = _gestionCitas.GetPacientes().FirstOrDefault(p => p.IdPaciente == cita.IdPaciente);
+                var medico = _gestionCitas.GetMedicos().FirstOrDefault(m => m.IdMedico == cita.IdMedico);
+
+                ViewFormAgregarCita vm = new ViewFormAgregarCita
+                {
+                    IdCita = cita.IdCita,
+                    IdPaciente = cita.IdPaciente,
+                    IdMedico = cita.IdMedico,
+                    FechaInicio = cita.FechaInicio,
+                    FechaFin = cita.FechaFin,
+                    NombrePaciente = paciente?.NombrePaciente ?? "el paciente",
+                    NombreMedico = medico?.NombreMedico ?? "el médico"
+                };
+
+                string html = await _renderService.ToStringAsync("FormDeleteCita", vm);
+                jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", html);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al preparar modal de eliminar cita con Id {IdCita}", idCita);
+                jsonResponse = new JsonResponse("500", "Error al cargar el formulario de eliminación: " + ex.Message, string.Empty);
+            }
+
+            return new JsonResult(jsonResponse);
+        }
+
+        /// <summary>
         /// Elimina una cita médica por su identificador.
         /// </summary>
         [HttpPost, AjaxOnly]

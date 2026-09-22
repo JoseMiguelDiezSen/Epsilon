@@ -1,215 +1,325 @@
-﻿@using Negocio.Persistencia.Modelos
+@using Negocio.Persistencia.Modelos
 @model DatosPacientes
 
 @{
-    ViewData["Title"] = "Radiologia - " + Model.NombrePaciente;
-}
-@{
-    // await Html.RenderPartialAsync("_MensajeOperaciones");
-}
-@{
+    ViewData["Title"] = "Radiología - " + Model.NombrePaciente;
     ViewBag.LogoHeader = "blanco.transparente2.png";
-}
-@{
     ViewBag.Theme = "theme-dark";
 }
 
-<hr style="color:white;">
-<h4 class="text-center" style="color:white">
-    <span class="fa-solid fa-circle-radiation"></span> Radiologia <span class="fa-solid fa-circle-radiation"></span>
-</h4>
-<hr style="color:white;">
+<!-- ENCABEZADO -->
+<div class="rad-header">
+    <h4>
+        <i class="fa-solid fa-circle-radiation rad-icon-glow"></i>
+        Radiología Clínica
+        <i class="fa-solid fa-circle-radiation rad-icon-glow"></i>
+    </h4>
+</div>
 
-<div class="row control-bar" style="border:1px solid;padding:5px;">
-
+<!-- ===================== BARRA DE CONTROLES SUPERIOR ===================== -->
+<div class="row control-bar">
     <div class="col-md-12 control-wrapper">
 
-        <!-- GRUPO 1 -->
+        <!-- GRUPO 1: ZOOM +/- -->
         <div class="control-group">
-            @* (1)-Aumentar Zoom *@
-            <button class="btn btn-light" id="zoomIn" style="border-radius:30px;">
+            <button class="btn-rad-tool" id="zoomIn" title="Aumentar Zoom (+)">
                 <i class="fa fa-plus"></i>
             </button>
-
-            @* (1)-Disminuir Zoom *@
-            <button class="btn btn-light" id="zoomOut" style="border-radius:30px;width:35px;">
+            <button class="btn-rad-tool" id="zoomOut" title="Disminuir Zoom (-)">
                 <i class="fa fa-minus"></i>
             </button>
         </div>
 
-        <!-- GRUPO 2 -->
+        <div class="control-divider"></div>
+
+        <!-- GRUPO 2: BRILLO, CONTRASTE Y ESCALA -->
         <div class="control-group">
-            @* (2)-Brillo *@
-            <label>Brillo</label>
-            <input type="range" id="brightness" min="-500" max="500" value="0">
+            <div class="slider-container" title="Ajustar Brillo">
+                <span class="slider-label"><i class="fa-solid fa-sun text-warning"></i> Brillo</span>
+                <input type="range" id="brightness" class="rad-range" min="-500" max="500" value="0">
+            </div>
 
-            @* (2)-Contraste *@
-            <label>Contraste</label>
-            <input type="range" id="contrast" min="1" max="4000" value="4095">
+            <div class="slider-container" title="Ajustar Contraste">
+                <span class="slider-label"><i class="fa-solid fa-circle-half-stroke text-info"></i> Contraste</span>
+                <input type="range" id="contrast" class="rad-range" min="1" max="4000" value="4095">
+            </div>
 
-            @* (2)-Tamaño *@
-            <label for="tamanio">Tamaño</label>
-            <input type="range" id="tamanio" min="0" max="100" value="50">
-
-            <span id="tamanioValue"></span>
+            <div class="slider-container" title="Ajustar Escala / Tamaño">
+                <span class="slider-label"><i class="fa-solid fa-magnifying-glass text-success"></i> Escala</span>
+                <input type="range" id="tamanio" class="rad-range" min="0" max="100" value="50">
+            </div>
         </div>
 
-        <!-- GRUPO 3 -->
+        <div class="control-divider"></div>
+
+        <!-- GRUPO 3: BLOQUEO DE CONTROLES -->
         <div class="control-group">
-            <label class="switch">
+            <label class="switch" title="Bloquear / Desbloquear interacción del visor">
                 <input type="checkbox" id="toggleBtn">
                 <span class="slider"></span>
             </label>
-            <span id="toggleState">🔒</span>
+            <span id="toggleState" title="Estado de bloqueo">🔓</span>
         </div>
 
-        <!-- GRUPO 4 -->
+        <div class="control-divider"></div>
+
+        <!-- GRUPO 4: HERRAMIENTAS DE DIBUJO / MEDIDA -->
         <div class="control-group">
-            <select id="toolMode" name="toolMode" class="form-select" style="width:200px;">
-                <option value="" selected disabled hidden>Selecciona herramienta</option>
-                <option value="none">✋ Sin herramienta</option>
+            <select id="toolMode" name="toolMode" class="form-select form-select-sm rad-select" style="width:190px;">
+                <option value="none" selected>✋ Navegación (Pan)</option>
                 <option value="point">📍 Punto</option>
-                <option value="line">📏 Línea</option>
+                <option value="line">📏 Línea (Medición)</option>
                 <option value="rectangle">⬛ Rectángulo</option>
-                <option value="circle">⚪ Círculo</option>
             </select>
         </div>
 
-        <!-- GRUPO 5 -->
-        <div class="control-group">
-            <button class="btn btn-light" id="abrirVisor"
-                    style="border-radius:30px;"
-                    onclick="abrirVisorFullScreen()">
-                <i class="fa fa-maximize"></i> <b>Full Screen</b>
-            </button>
-        </div>
+        <div class="control-divider"></div>
 
-        <!-- GRUPO 7 -->
+        <!-- GRUPO 5: ACCIONES (LIMPIAR, RESET, FULLSCREEN) -->
         <div class="control-group">
-            <button class="btn btn-light" id="reset" style="border-radius:30px;">
-                <i class="fa fa-repeat"></i>
+            <button class="btn-rad-action btn-clear" id="limpiarDibujos" title="Borrar todas las anotaciones y dibujos">
+                <i class="fa-solid fa-eraser"></i> <span>Limpiar</span>
+            </button>
+            <button class="btn-rad-action btn-reset" id="reset" title="Restablecer valores originales">
+                <i class="fa fa-rotate-left"></i> <span>Reset</span>
+            </button>
+            <button class="btn-rad-action btn-fullscreen" id="abrirVisor" onclick="abrirVisorFullScreen()" title="Pantalla completa">
+                <i class="fa fa-maximize"></i> <span>Pantalla Completa</span>
             </button>
         </div>
 
     </div>
 </div>
 
-@* ===================== VISOR + 3 COLUMNAS ===================== *@
+<!-- ===================== CONTENEDOR 3 COLUMNAS ===================== -->
 <div class="row">
 
-    @* TEXTO DE CARGA *@
-    <div id="textoVisor"
-         style="position:absolute; top:10px; left:0; width:100%; text-align:center; color:white; font-weight:bold;">
-    </div>
+    <!-- COLUMNA 1: THUMBNAILS / ESTUDIOS DEL PACIENTE -->
+    <div class="col-md-2">
+        <div class="rad-card">
+            <div class="rad-card-title">
+                <i class="fa-solid fa-images text-info"></i> Estudios DCM
+            </div>
+            <div class="thumbnails-container" id="thumbnailsList">
+                <div class="thumbnail-item" data-dcm="/Media/Radiografias/5.dcm" data-code="R-00" data-date="05-09-2026">
+                    <div class="thumbnail-icon-box">
+                        <i class="fa-solid fa-x-ray"></i>
+                    </div>
+                    <div class="thumbnail-meta">
+                        <div class="thumbnail-code">R-00</div>
+                        <div class="thumbnail-date">05/09/2026</div>
+                    </div>
+                </div>
 
-    @* COLUMNA 1 *@
-    <div class="col-md-2" style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-top:20px;border:1px solid white;">
+                <div class="thumbnail-item" data-dcm="/Media/Radiografias/6.dcm" data-code="R-00" data-date="05-09-2026">
+                    <div class="thumbnail-icon-box">
+                        <i class="fa-solid fa-x-ray"></i>
+                    </div>
+                    <div class="thumbnail-meta">
+                        <div class="thumbnail-code">R-00 (Alt)</div>
+                        <div class="thumbnail-date">05/09/2026</div>
+                    </div>
+                </div>
 
+                <div class="thumbnail-item" data-dcm="/Media/Radiografias/7.dcm" data-code="R-01" data-date="17-03-2026">
+                    <div class="thumbnail-icon-box">
+                        <i class="fa-solid fa-x-ray"></i>
+                    </div>
+                    <div class="thumbnail-meta">
+                        <div class="thumbnail-code">R-01</div>
+                        <div class="thumbnail-date">17/03/2026</div>
+                    </div>
+                </div>
 
-        <div style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
-            <h3 class="text-center">THUMBNAILS</h3>
+                <div class="thumbnail-item" data-dcm="/Media/Radiografias/2.dcm" data-code="R-02" data-date="21-03-2026">
+                    <div class="thumbnail-icon-box">
+                        <i class="fa-solid fa-x-ray"></i>
+                    </div>
+                    <div class="thumbnail-meta">
+                        <div class="thumbnail-code">R-02</div>
+                        <div class="thumbnail-date">21/03/2026</div>
+                    </div>
+                </div>
 
-            <label><b>Nombre:</b> @Model.NombrePaciente</label><br />
-            <label><b>Edad:</b> @Model.NumeroConsultas</label><br />
+                <div class="thumbnail-item" data-dcm="/Media/Radiografias/3.dcm" data-code="R-03" data-date="27-05-2026">
+                    <div class="thumbnail-icon-box">
+                        <i class="fa-solid fa-x-ray"></i>
+                    </div>
+                    <div class="thumbnail-meta">
+                        <div class="thumbnail-code">R-03</div>
+                        <div class="thumbnail-date">27/05/2026</div>
+                    </div>
+                </div>
 
+                <div class="thumbnail-item" data-dcm="/Media/Radiografias/4.dcm" data-code="R-04" data-date="05-09-2026">
+                    <div class="thumbnail-icon-box">
+                        <i class="fa-solid fa-x-ray"></i>
+                    </div>
+                    <div class="thumbnail-meta">
+                        <div class="thumbnail-code">R-04</div>
+                        <div class="thumbnail-date">05/09/2026</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
- 
-            <label>Brillo</label><br/>
-        <input type="range" id="brightness" min="-500" max="500" value="0"><br />
-
-        <label>Contraste</label><br />
-        <input type="range" id="contrast" min="1" max="4000" value="4095"><br />
-
-        <label for="tamanio">Tamaño</label><br />
-            <input type="range" id="tamanio" min="0" max="100" value="50">
-
-        <br />
-      
-
-
-
+        <div class="rad-card">
+            <div class="rad-card-title">
+                <i class="fa-solid fa-user-check text-primary"></i> Paciente
+            </div>
+            <div class="rad-info-row">
+                <span class="rad-info-label">Nombre</span>
+                <span class="rad-info-value">@Model.NombrePaciente</span>
+            </div>
+            <div class="rad-info-row mt-2">
+                <span class="rad-info-label">Historial</span>
+                <span class="rad-badge">@Model.NumeroConsultas consultas</span>
+            </div>
+        </div>
     </div>
 
-    @* COLUMNA 2 *@
-    <div class="col-md-8"
-         style="padding:5px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);margin-top:20px; display:flex;justify-content:center;">
+    <!-- COLUMNA 2: VISOR DICOM PRINCIPAL -->
+    <div class="col-md-8">
+        <div class="viewer-wrapper">
+            <!-- BARRA DE CONTROLES FLOTANTE EN PANTALLA COMPLETA -->
+            <div class="fullscreen-floating-bar" id="fsFloatingBar">
+                <div class="control-group">
+                    <div class="slider-container" title="Ajustar Brillo">
+                        <span class="slider-label"><i class="fa-solid fa-sun text-warning"></i> Brillo</span>
+                        <input type="range" id="fs_brightness" class="rad-range" min="-500" max="500" value="0">
+                    </div>
 
-        <div id="dicomViewer"
-             style="width: 100%; height: 562px; border: 1px solid #333;">
+                    <div class="slider-container" title="Ajustar Contraste">
+                        <span class="slider-label"><i class="fa-solid fa-circle-half-stroke text-info"></i> Contraste</span>
+                        <input type="range" id="fs_contrast" class="rad-range" min="1" max="4000" value="2000">
+                    </div>
+
+                    <div class="slider-container" title="Ajustar Escala / Zoom">
+                        <span class="slider-label"><i class="fa-solid fa-magnifying-glass text-success"></i> Escala</span>
+                        <input type="range" id="fs_tamanio" class="rad-range" min="0" max="100" value="50">
+                    </div>
+                </div>
+
+                <div class="control-divider"></div>
+
+                <div class="control-group">
+                    <select id="fs_toolMode" class="form-select form-select-sm rad-select" style="width:175px;" title="Herramientas de dibujo">
+                        <option value="none" selected>✋ Navegación (Pan)</option>
+                        <option value="point">📍 Punto</option>
+                        <option value="line">📏 Línea (Medición)</option>
+                        <option value="rectangle">⬛ Rectángulo</option>
+                    </select>
+                </div>
+
+                <div class="control-divider"></div>
+
+                <div class="control-group">
+                    <button class="btn-rad-tool" id="fs_limpiarDibujos" title="Limpiar dibujos y anotaciones">
+                        <i class="fa-solid fa-eraser"></i>
+                    </button>
+                    <button class="btn-rad-tool" id="fs_reset" title="Restablecer vista original (Reset)">
+                        <i class="fa fa-rotate-left"></i>
+                    </button>
+                    <button class="btn-rad-tool" id="fs_exitBtn" title="Salir de Pantalla Completa" onclick="salirVisorFullScreen()">
+                        <i class="fa-solid fa-compress"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- HUD CLÍNICO -->
+            <div class="hud-tag hud-top-left" id="hudPatient">PACIENTE: @Model.NombrePaciente.ToUpper()</div>
+            <div class="hud-tag hud-top-right" id="hudStudy">ESTUDIO: SIN CARGAR</div>
+            <div class="hud-tag hud-bottom-left" id="hudZoom">ZOOM: 100% | MODO: PAN</div>
+            <div class="hud-tag hud-bottom-right" id="hudVOI">WC: -- | WW: --</div>
+
+            <!-- SPINNER DE CARGA -->
+            <div id="textoVisor">
+                <i class="fa-solid fa-circle-notch fa-spin text-info"></i>
+                <span id="textoVisorMsg">Cargando estudio DICOM...</span>
+            </div>
+
+            <!-- CANVAS DE CORNERSTONE -->
+            <div id="dicomViewer"></div>
         </div>
-
     </div>
 
-    @* COLUMNA 3 *@
-    <div class="col-md-2" style="border:1px solid white;margin-top:20px;">
-
-        <div style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);">
-            <h3 class="text-center">DATOS DEL PACIENTE</h3>
-
-            <label><b>Nombre:</b> @Model.NombrePaciente</label><br />
-            <label><b>Edad:</b> @Model.NumeroConsultas</label><br />
-            <label><b>Observaciones:</b> @Model.Observaciones</label><br />
-            <label><b>Ultima Cita:</b> @Model.FechaUltimaCita.ToShortDateString()</label>
+    <!-- COLUMNA 3: DATOS DEL PACIENTE Y SELECTORES -->
+    <div class="col-md-2">
+        <div class="rad-card">
+            <div class="rad-card-title">
+                <i class="fa-solid fa-id-card text-info"></i> Datos Paciente
+            </div>
+            <div class="rad-info-row">
+                <span class="rad-info-label"><i class="fa-solid fa-user"></i> Nombre</span>
+                <span class="rad-info-value">@Model.NombrePaciente</span>
+            </div>
+            <div class="rad-info-row mt-2">
+                <span class="rad-info-label"><i class="fa-solid fa-list-ol"></i> Consultas</span>
+                <span class="rad-info-value">@Model.NumeroConsultas</span>
+            </div>
+            <div class="rad-info-row mt-2">
+                <span class="rad-info-label"><i class="fa-solid fa-notes-medical"></i> Observaciones</span>
+                <span class="rad-info-value text-muted" style="font-size:0.78rem;">
+                    @(string.IsNullOrWhiteSpace(Model.Observaciones) ? "Sin observaciones registradas." : Model.Observaciones)
+                </span>
+            </div>
+            <div class="rad-info-row mt-2">
+                <span class="rad-info-label"><i class="fa-regular fa-calendar-check"></i> Última Cita</span>
+                <span class="rad-badge">@Model.FechaUltimaCita.ToShortDateString()</span>
+            </div>
         </div>
 
-        <div style="padding:15px;box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25); margin-top:10px;">
+        <div class="rad-card">
+            <div class="rad-card-title">
+                <i class="fa-solid fa-x-ray text-warning"></i> Selección DCM
+            </div>
 
-            <label>Seleccione Radiografia</label>
+            <label class="rad-info-label mb-1" for="listadoRadiografias">
+                <i class="fa-solid fa-file-medical"></i> Radiografía
+            </label>
             <select name="ListadoRadiografias"
-                    class="form-control form-select"
-                    id="listadoRadiografias"
-                    style="margin-bottom:5px;">
-
-                <option value="" selected disabled>(Seleccione una opcion)</option>
+                    class="form-select form-select-sm rad-select w-100 mb-3"
+                    id="listadoRadiografias">
+                <option value="" selected disabled>(Seleccione estudio)</option>
                 <option value="/Media/Radiografias/5.dcm">R-00 (05-09-2026)</option>
-                <option value="/Media/Radiografias/6.dcm">R-00 (05-09-2026)</option>
+                <option value="/Media/Radiografias/6.dcm">R-00 Alt (05-09-2026)</option>
                 <option value="/Media/Radiografias/7.dcm">R-01 (17-03-2026)</option>
                 <option value="/Media/Radiografias/2.dcm">R-02 (21-03-2026)</option>
                 <option value="/Media/Radiografias/3.dcm">R-03 (27-05-2026)</option>
                 <option value="/Media/Radiografias/4.dcm">R-04 (05-09-2026)</option>
-
             </select>
 
-            <label>Seleccione Posicion</label>
+            <label class="rad-info-label mb-1" for="Posicion">
+                <i class="fa-solid fa-arrows-up-down-left-right"></i> Posición
+            </label>
             <select name="posicionRadiografias"
-                    class="form-control form-select"
-                    id="Posicion"
-                    style="margin-bottom:5px;">
-
-                <option value="" selected disabled>(Seleccione una opcion)</option>
+                    class="form-select form-select-sm rad-select w-100"
+                    id="Posicion">
+                <option value="" selected disabled>(Seleccione posición)</option>
                 <option value="2">Frontal</option>
                 <option value="3">Lateral Izquierdo</option>
                 <option value="4">Lateral Derecho</option>
                 <option value="5">Inferior</option>
-
             </select>
-
         </div>
-
     </div>
 
 </div>
 
-    @* Boton de volver a la pantalla Pacientes *@
-    <div style="margin-bottom:15px;margin-top:10px;">
-        <a class="btn btn-secondary" href="/Pacientes">
-            ← Volver a Pacientes
-        </a>
-    </div>
-
+<!-- BOTÓN VOLVER -->
+<div style="margin-bottom:15px; margin-top:16px;">
+    <a class="btn-back" href="/Pacientes">
+        <i class="fa-solid fa-arrow-left"></i> Volver a Pacientes
+    </a>
 </div>
 
 @section Scripts {
-
     <script src="/dicom/cornerstone.min.js"></script>
     <script src="/dicom/hammer.min.js"></script>
     <script src="/dicom/cornerstoneMath.min.js"></script>
     <script src="/dicom/cornerstoneTools.min.js"></script>
     <script src="/dicom/cornerstoneWADOImageLoader.bundle.min.js"></script>
     <script src="/dicom/dicomParser.min.js"></script>
-
-
     <script src="~/js/Radiologia.js" asp-append-version="true"></script>
 }
 
@@ -219,107 +329,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-center">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i> Radiografia
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Radiografía
                     </h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Aquí se insertará el contenido dinámico -->
+                    <!-- Contenido dinámico si se requiere -->
                 </div>
             </div>
         </div>
     </div>
 }
 
-
 @section Styles {
-    <link href="~/css/Radiologia.css" rel="stylesheet" />
+    <link href="~/css/Radiologia.css" rel="stylesheet" asp-append-version="true" />
 }
-
-
-
-
-@* Bloqueo Acciones ??*@
-<script>
-    const toggle = document.getElementById("toggleBtn");
-    const state = document.getElementById("toggleState");
-
-    toggle.addEventListener("change", () => {
-    state.textContent = toggle.checked ? "🔓" : "🔒";
-    });
-</script>
-
-<style>
-    
-    input#contrast {
-    accent-color: #4da3ff;
-    }
-
-    input#brightness {
-    accent-color: yellow;
-    }
-
-    .switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 26px;
-    }
-
-    .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-    }
-
-    .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .3s;
-    border-radius: 26px;
-    }
-
-    .slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: .3s;
-    border-radius: 50%;
-    }
-
-    input:checked + .slider {
-    background-color: #4CAF50;
-    }
-
-    input:checked + .slider:before {
-    transform: translateX(24px);
-    }
-
-    .control-wrapper {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    }
-
-    /* Cada índice = bloque */
-    .control-group {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* juntos dentro del grupo */
-    }
-
-    /* Esto es lo que reparte el espacio entre grupos */
-    .control-group:not(:last-child) {
-    margin-right: auto;
-    }
-</style>
-          
