@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
     options.PageViewLocationFormats.Add("/Pages/Partials/{0}" + RazorViewEngine.ViewExtension);
@@ -54,9 +55,9 @@ builder.Services.AddScoped<IGestionEmail, GestionEmail>();
 builder.Services.AddScoped<IGestionCitas, GestionCitas>();
 
 
+
 //builder.Services.AddScoped<IGestionFinanciera, GestionFinanciera>();
 //builder.Services.AddScoped<IGestion, GestionClinica>();
-builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
@@ -82,7 +83,6 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
-
 
 app.MapControllerRoute(
     name: "default",

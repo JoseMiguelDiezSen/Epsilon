@@ -27,6 +27,7 @@ namespace Negocio.Servicios
 
         /// <summary>
         /// Crea una nueva cita en la base de datos y le asocia su tratamiento si se ha seleccionado.
+        /// También crea automáticamente un registro de facturación con el precio del tratamiento.
         /// </summary>
         public Citas AddCita(Citas cita, int? idTratamiento)
         {
@@ -50,6 +51,7 @@ namespace Negocio.Servicios
                 ? idTratamiento.Value
                 : Context.Tratamientos.OrderBy(t => t.IdTratamiento).Select(t => t.IdTratamiento).FirstOrDefault();
 
+            double precioTratamiento = 0;
             if (tratamientoIdFinal > 0)
             {
                 CitaTratamiento relacion = new CitaTratamiento
@@ -59,7 +61,24 @@ namespace Negocio.Servicios
                 };
                 Context.CitaTratamientos.Add(relacion);
                 Context.SaveChanges();
+
+                // Obtenemos el precio del tratamiento para la facturación
+                var tratamiento = Context.Tratamientos.FirstOrDefault(t => t.IdTratamiento == tratamientoIdFinal);
+                if (tratamiento != null)
+                {
+                    precioTratamiento = tratamiento.Precio;
+                }
             }
+
+            // Creamos automáticamente el registro de facturación con el precio del tratamiento
+            Facturacion registroFacturacion = new Facturacion
+            {
+                IdCita = cita.IdCita,
+                Importe = precioTratamiento,
+                FechaFactura = cita.FechaInicio
+            };
+            Context.Facturacion.Add(registroFacturacion);
+            Context.SaveChanges();
 
             // Registramos el hueco en la tabla Agenda marcando Disponible = false (0 = ocupado)
             Agenda entradaAgenda = new Agenda
@@ -119,7 +138,7 @@ namespace Negocio.Servicios
         }
 
         /// <summary>
-        /// Elimina una cita médica y sus registros vinculados en CitaTratamientos y Agenda.
+        /// Elimina una cita médica y sus registros vinculados en CitaTratamientos, Agenda y Facturacion.
         /// </summary>
         public bool DeleteCita(int idCita)
         {
@@ -141,6 +160,13 @@ namespace Negocio.Servicios
             if (entradasAgenda.Any())
             {
                 Context.Agenda.RemoveRange(entradasAgenda);
+            }
+
+            // Eliminamos el registro de facturación asociado
+            var registroFacturacion = Context.Facturacion.FirstOrDefault(f => f.IdCita == idCita);
+            if (registroFacturacion != null)
+            {
+                Context.Facturacion.Remove(registroFacturacion);
             }
 
             // Eliminamos la cita
@@ -204,7 +230,7 @@ namespace Negocio.Servicios
         }
 
         /// <summary>
-        /// Actualiza los datos de una cita médica existente y sincroniza su tratamiento y el registro en la Agenda.
+        /// Actualiza los datos de una cita médica existente y sincroniza su tratamiento, facturación y el registro en la Agenda.
         /// </summary>
         public bool UpdateCita(Citas citaModificada, int? idTratamiento)
         {
@@ -234,6 +260,7 @@ namespace Negocio.Servicios
                 ? idTratamiento.Value
                 : (relacionTratamiento?.IdTratamiento ?? Context.Tratamientos.OrderBy(t => t.IdTratamiento).Select(t => t.IdTratamiento).FirstOrDefault());
 
+            double precioTratamiento = 0;
             if (tratamientoModifId > 0)
             {
                 if (relacionTratamiento != null)
@@ -248,6 +275,31 @@ namespace Negocio.Servicios
                         IdTratamiento = tratamientoModifId
                     });
                 }
+
+                // Obtenemos el precio del tratamiento para actualizar la facturación
+                var tratamiento = Context.Tratamientos.FirstOrDefault(t => t.IdTratamiento == tratamientoModifId);
+                if (tratamiento != null)
+                {
+                    precioTratamiento = tratamiento.Precio;
+                }
+            }
+
+            // Actualizamos el registro de facturación asociado
+            var registroFacturacion = Context.Facturacion.FirstOrDefault(f => f.IdCita == citaModificada.IdCita);
+            if (registroFacturacion != null)
+            {
+                registroFacturacion.Importe = precioTratamiento;
+                registroFacturacion.FechaFactura = citaModificada.FechaInicio;
+            }
+            else
+            {
+                // Si no existe, lo creamos
+                Context.Facturacion.Add(new Facturacion
+                {
+                    IdCita = citaModificada.IdCita,
+                    Importe = precioTratamiento,
+                    FechaFactura = citaModificada.FechaInicio
+                });
             }
 
             // Sincronizamos con el registro correspondiente en la tabla Agenda
@@ -272,6 +324,7 @@ namespace Negocio.Servicios
             }
 
             Context.SaveChanges();
+
             return true;
         }
     }

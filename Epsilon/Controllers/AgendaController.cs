@@ -5,8 +5,10 @@ using Epsilon.Renders;
 using Epsilon.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
+
 
 namespace Epsilon.Controllers
 {
@@ -33,10 +35,12 @@ namespace Epsilon.Controllers
         public AgendaController(
             ILogger<AgendaController> logger,
             IGestionCitas gestionCitas,
-            IRazorRenderService renderService) : base(logger)
+            IRazorRenderService renderService)
+
         {
             _gestionCitas = gestionCitas;
             _renderService = renderService;
+
         }
 
         /// <summary>
@@ -215,7 +219,7 @@ namespace Epsilon.Controllers
         /// Acción POST invocada por AJAX para insertar una nueva cita en la base de datos.
         /// </summary>
         [HttpPost, AjaxOnly]
-        public JsonResult AgregarCita(ViewFormAgregarCita vm)
+        public async Task<JsonResult> AgregarCita(ViewFormAgregarCita vm)
         {
             try
             {
@@ -236,6 +240,11 @@ namespace Epsilon.Controllers
                 };
 
                 _gestionCitas.AddCita(cita, vm.IdTratamiento);
+
+                // Notificar a los clientes conectados que hubo un cambio en facturación
+                Console.WriteLine("📢 Enviando notificación SignalR de actualización de facturación");
+         
+                Console.WriteLine("✅ Notificación SignalR enviada");
 
                 return new JsonResult(new { StatusCode = 200, message = "Cita creada con éxito." });
             }

@@ -1,16 +1,49 @@
-﻿<hr style="color:black;">
-<h4 class="text-center"><span class="fa-solid fa-sack-dollar"></span> Facturacion <span class="fa-solid fa-sack-dollar"></span></h4>
-<hr style ="color:black;">
+﻿@model Epsilon.Models.FacturacionViewModel
 
+<hr style="color:black;">
+<h4 class="text-center"><span class="fa-solid fa-sack-dollar"></span> Facturación - Consultas Planificadas <span class="fa-solid fa-sack-dollar"></span></h4>
+<hr style="color:black;">
 
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Resumen de Facturación</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <h3 class="text-primary">@Model.TotalFacturacion.ToString("C")</h3>
+                                <p class="text-muted">Total Facturación</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <h3 class="text-success">@Model.TotalCitas</h3>
+                                <p class="text-muted">Consultas Planificadas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<button type="button" id="botonEliminarCorreo" class="btn btn-outline-light" onclick="return jqGetModalCalcularFactura();" aria-hidden="true" @* disabled *@>
-    CALCULAR FACTURA
-</button>
-
-
-
-
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Facturación por Período (Consultas Planificadas)</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="myChart" width="1200" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Modals {
     @* Modal agregar paciente *@
@@ -27,42 +60,14 @@
             </div>
         </div>
     </div>
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 @section Scripts {
     <script src="~/js/charts/chart.umd.min.js"></script>
     <script src="~/js/charts/chart.min.js"></script>
     <script src="~/js/Facturacion.js" asp-append-version="true"></script>
+    
 }
-
-
-
-
 
 @section Styles {
     <link href="~/css/Facturacion.css" rel="stylesheet" />

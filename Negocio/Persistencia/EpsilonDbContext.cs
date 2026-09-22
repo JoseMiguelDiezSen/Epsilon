@@ -131,6 +131,13 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Agenda>().Property(a => a.Disponible);
             modelBuilder.Entity<Agenda>().Property(a => a.IdCita);
 
+            //TABLA FACTURACION
+            modelBuilder.Entity<Facturacion>().HasKey(f => f.IdFactura);
+            modelBuilder.Entity<Facturacion>().Property(f => f.IdFactura);
+            modelBuilder.Entity<Facturacion>().Property(f => f.Importe);
+            modelBuilder.Entity<Facturacion>().Property(f => f.FechaFactura);
+            modelBuilder.Entity<Facturacion>().Property(f => f.IdCita);
+
 
 
 
@@ -278,6 +285,9 @@ namespace Negocio.Persistencia
         //Tabla agenda médica
         public virtual DbSet<Modelos.Agenda> Agenda { get; set; }
 
+        //Tabla facturación
+        public virtual DbSet<Modelos.Facturacion> Facturacion { get; set; }
+
         #endregion
 
         #region COLECCION_VISTAS
@@ -296,8 +306,6 @@ namespace Negocio.Persistencia
         #endregion
 
         ExtensionesEpsilon _extensiones;
-
-        EpsilonDbContext _context;
 
         #region Funciones SQL de usuario
 
