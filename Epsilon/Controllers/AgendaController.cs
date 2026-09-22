@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 using Negocio.Persistencia.Modelos;
 using Negocio.Servicios;
+using Epsilon.Hubs;
 
 
 namespace Epsilon.Controllers
@@ -19,6 +20,8 @@ namespace Epsilon.Controllers
     {
         private readonly IRazorRenderService _renderService;
         private readonly IGestionCitas _gestionCitas;
+        // Permite notificar por SignalR a la página de Facturación cuando cambia una cita
+        private readonly IHubContext<FacturacionHub> _hubContext;
 
         // Paleta de colores para diferenciar citas por doctor si el tratamiento no tiene color
         private readonly string[] _coloresDoctores = new[]
@@ -35,12 +38,13 @@ namespace Epsilon.Controllers
         public AgendaController(
             ILogger<AgendaController> logger,
             IGestionCitas gestionCitas,
-            IRazorRenderService renderService)
+            IRazorRenderService renderService,
+            IHubContext<FacturacionHub> hubContext)
 
         {
             _gestionCitas = gestionCitas;
             _renderService = renderService;
-
+            _hubContext = hubContext;
         }
 
         /// <summary>
@@ -242,9 +246,7 @@ namespace Epsilon.Controllers
                 _gestionCitas.AddCita(cita, vm.IdTratamiento);
 
                 // Notificar a los clientes conectados que hubo un cambio en facturación
-                Console.WriteLine("📢 Enviando notificación SignalR de actualización de facturación");
-         
-                Console.WriteLine("✅ Notificación SignalR enviada");
+                await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
 
                 return new JsonResult(new { StatusCode = 200, message = "Cita creada con éxito." });
             }
@@ -352,7 +354,7 @@ namespace Epsilon.Controllers
         /// Acción POST invocada por AJAX para guardar las modificaciones de una cita médica.
         /// </summary>
         [HttpPost, AjaxOnly]
-        public JsonResult ModificarCita(ViewFormAgregarCita vm)
+        public async Task<JsonResult> ModificarCita(ViewFormAgregarCita vm)
         {
             try
             {
@@ -375,6 +377,8 @@ namespace Epsilon.Controllers
                 bool resultado = _gestionCitas.UpdateCita(cita, vm.IdTratamiento);
                 if (resultado)
                 {
+                    // Notificar a los clientes conectados que hubo un cambio en facturación
+                    await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
                     return new JsonResult(new { StatusCode = 200, message = "Cita modificada correctamente." });
                 }
 
@@ -461,13 +465,15 @@ namespace Epsilon.Controllers
         /// Elimina una cita médica por su identificador.
         /// </summary>
         [HttpPost, AjaxOnly]
-        public JsonResult EliminarCita(int idCita)
+        public async Task<JsonResult> EliminarCita(int idCita)
         {
             try
             {
                 bool resultado = _gestionCitas.DeleteCita(idCita);
                 if (resultado)
                 {
+                    // Notificar a los clientes conectados que hubo un cambio en facturación
+                    await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
                     return new JsonResult(new { StatusCode = 200, message = "Cita eliminada correctamente." });
                 }
 

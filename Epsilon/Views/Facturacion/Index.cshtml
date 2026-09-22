@@ -15,13 +15,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="text-center">
-                                <h3 class="text-primary">@Model.TotalFacturacion.ToString("C")</h3>
+                                @* Estos ids permiten actualizar los totales en tiempo real por SignalR *@
+                                <h3 class="text-primary" id="totalFacturacion">@Model.TotalFacturacion.ToString("C")</h3>
                                 <p class="text-muted">Total Facturación</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="text-center">
-                                <h3 class="text-success">@Model.TotalCitas</h3>
+                                <h3 class="text-success" id="totalCitas">@Model.TotalCitas</h3>
                                 <p class="text-muted">Consultas Planificadas</p>
                             </div>
                         </div>
@@ -38,6 +39,7 @@
                     <h5 class="card-title mb-0">Facturación por Período (Consultas Planificadas)</h5>
                 </div>
                 <div class="card-body">
+                    @* Lienzo donde Facturacion.js dibuja el chart (mismo estilo que Estadística) *@
                     <canvas id="myChart" width="1200" height="400"></canvas>
                 </div>
             </div>
@@ -63,8 +65,17 @@
 }
 
 @section Scripts {
+    @* Librería del cliente SignalR (permite recibir notificaciones del servidor) *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    @* Librerías de Chart.js para dibujar el gráfico *@
     <script src="~/js/charts/chart.umd.min.js"></script>
     <script src="~/js/charts/chart.min.js"></script>
+    <script>
+        // Datos iniciales del modelo: se serializan en camelCase para que coincidan con lo que usa Facturacion.js
+        const datosChartIniciales = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.DatosChart, new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase }));
+        const totalFacturacionInicial = @Model.TotalFacturacion;
+        const totalCitasInicial = @Model.TotalCitas;
+    </script>
     <script src="~/js/Facturacion.js" asp-append-version="true"></script>
     
 }

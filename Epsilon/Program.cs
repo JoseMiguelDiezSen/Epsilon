@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(); // Activa SignalR en la aplicación
 builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
     options.PageViewLocationFormats.Add("/Pages/Partials/{0}" + RazorViewEngine.ViewExtension);
@@ -53,6 +53,7 @@ builder.Services.AddScoped<IGestionMedicos, GestionMedicos>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
 builder.Services.AddScoped<IGestionEmail, GestionEmail>();
 builder.Services.AddScoped<IGestionCitas, GestionCitas>();
+builder.Services.AddScoped<IGestionFacturacion, GestionFacturacion>(); // Servicio que consulta los registros de facturación
 
 
 
@@ -89,5 +90,7 @@ app.MapControllerRoute(
     pattern: "{controller=Login}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// Expone el Hub de SignalR en la URL /facturacionHub para que el cliente se conecte
+app.MapHub<Epsilon.Hubs.FacturacionHub>("/facturacionHub");
 
 app.Run();
