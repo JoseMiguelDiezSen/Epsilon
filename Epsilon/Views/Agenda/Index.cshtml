@@ -1,25 +1,26 @@
-﻿@{
-    ViewData["Title"] = "Agenda";
-}
 @{
-    // await Html.RenderPartialAsync("_MensajeOperaciones");
+    ViewData["Title"] = "Agenda";
 }
 @{
     ViewBag.LogoHeader = "JMDNegro.png";
 }
-<hr>
-<h4 class="text-center"><span class="fa fa-calendar-days"></span> Agenda <span class="fa fa-calendar-days"></span></h4>
-<hr>
-<!DOCTYPE html>
-<html lang='en'>
-<head>
 
-</head>
-<body>
-    <div id='calendar'></div>
-</body>
-</html>
+<hr>
+<h4 class="text-center" style="color: #000 !important;">
+    <span class="fa fa-calendar-days"></span> Agenda <span class="fa fa-calendar-days"></span>
+</h4>
+<hr>
 
+@* Botón Nueva Cita con estilo outline-dark *@
+<div style="margin-top:10px; margin-bottom:15px;">
+    <button id="btnAddCita" type="button" class="btn btn-sm btn-outline-dark fa-pull-right" onclick="return jqGetModalAddCita()">
+        <span class="fa fa-plus"></span> Nueva <b>Cita</b>
+    </button>
+</div>
+<div class="clearfix" style="clear: both; margin-bottom: 10px;"></div>
+
+<!-- Contenedor del calendario FullCalendar -->
+<div id='calendar'></div>
 
 @section Styles {
     <link href="~/css/Agenda.css" rel="stylesheet" />
@@ -27,16 +28,17 @@
 
 @section Scripts {
     <script src="~/js/site.js"></script>
-    <script src="~/js/Agenda.js" asp-append-version="true"></script>
     <script src="~/js/calendar/core/index.global.min.js"></script>
-    <script src="~/js/calendar/daygrid/index.global.min.js"></script>
     <script src="~/js/calendar/interaction/index.global.min.js"></script>
-    <script src="~/js/calendar/locale/es.js"></script>
+    <script src="~/js/calendar/daygrid/index.global.min.js"></script>
     <script src="~/js/calendar/timegrid/index.global.min.js"></script>
     <script src="~/js/calendar/multimonth/index.global.min.js"></script>
+    <script src="~/js/calendar/locale/es.js"></script>
+    <script src="~/js/Agenda.js" asp-append-version="true"></script>
 }
+
 @section Modals {
-    @* Modal agregar usuario *@
+    @* Modal agregar cita *@
     <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="addCitaModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -47,44 +49,24 @@
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Aquí se insertará el contenido dinámico -->
+                    <!-- Aquí se insertará el formulario FormAddCita dinámicamente -->
                 </div>
             </div>
         </div>
     </div>
 
-    @* Modal modificar usuario *@
-    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="updateUserModal">
+    @* Modal modificar / eliminar cita *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="modificarCitaModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-center">
-                        <span class="fa fa-pencil-square" aria-hidden="true"></span>
-
-                        Modificar datos del Usuario
+                        <i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Detalle de la Cita
                     </h5>
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Aquí se insertará el contenido dinámico -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @* Modal eliminar usuario *@
-    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="deleteUserModal">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center">
-                        <i class="fa fa-user-times" aria-hidden="true"></i>
-                        Eliminar usuario
-                    </h5>
-                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Aquí se insertará el contenido dinámico -->
+                    <!-- Aquí se insertará el formulario FormModificarCita dinámicamente -->
                 </div>
             </div>
         </div>

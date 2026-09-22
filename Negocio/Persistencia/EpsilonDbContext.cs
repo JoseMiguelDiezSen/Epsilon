@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Negocio.Persistencia.Extensiones;
@@ -77,6 +77,7 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Medico>().Property(m => m.Activo);
             modelBuilder.Entity<Medico>().Property(m => m.Observaciones);
             modelBuilder.Entity<Medico>().Property(m => m.Foto);
+            modelBuilder.Entity<Medico>().Property(m => m.IdClinica);
 
             //TABLA TRATAMIENTOS
             modelBuilder.Entity<Tratamiento>().HasKey(m => m.IdTratamiento);
@@ -109,24 +110,26 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Citas>().HasKey(e => e.IdCita);
             modelBuilder.Entity<Citas>().Property(e => e.IdCita);
             modelBuilder.Entity<Citas>().Property(e => e.IdClinica);
-            //modelBuilder.Entity<Citas>().Property(e => e.Duracion);
+            modelBuilder.Entity<Citas>().Property(e => e.FechaInicio);
+            modelBuilder.Entity<Citas>().Property(e => e.FechaFin);
             modelBuilder.Entity<Citas>().Property(e => e.IdPaciente);
             modelBuilder.Entity<Citas>().Property(e => e.IdMedico);
             modelBuilder.Entity<Citas>().Property(e => e.Observaciones);
 
+            //TABLA CITA TRATAMIENTOS
+            modelBuilder.Entity<CitaTratamiento>().HasKey(ct => ct.IdCitaTratamiento);
+            modelBuilder.Entity<CitaTratamiento>().Property(ct => ct.IdCitaTratamiento);
+            modelBuilder.Entity<CitaTratamiento>().Property(ct => ct.IdCita);
+            modelBuilder.Entity<CitaTratamiento>().Property(ct => ct.IdTratamiento);
+
             //TABLA AGENDA
-            //modelBuilder.Entity<Medicos>().HasKey(m => m.IdMedico);
-            //modelBuilder.Entity<Medicos>().Property(m => m.IdMedico);
-            //modelBuilder.Entity<Medicos>().Property(m => m.NombreMedico);
-            //modelBuilder.Entity<Medicos>().Property(m => m.DNI);
-            //modelBuilder.Entity<Medicos>().Property(m => m.NumeroColegiado);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Especialidad);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Telefono);
-            //modelBuilder.Entity<Medicos>().Property(m => m.EMail);
-            //modelBuilder.Entity<Medicos>().Property(m => m.FechaContratacion);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Activo);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Observaviones);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Foto);
+            modelBuilder.Entity<Agenda>().HasKey(a => a.IdAgenda);
+            modelBuilder.Entity<Agenda>().Property(a => a.IdAgenda);
+            modelBuilder.Entity<Agenda>().Property(a => a.IdMedico);
+            modelBuilder.Entity<Agenda>().Property(a => a.HoraInicio);
+            modelBuilder.Entity<Agenda>().Property(a => a.HoraFin);
+            modelBuilder.Entity<Agenda>().Property(a => a.Disponible);
+            modelBuilder.Entity<Agenda>().Property(a => a.IdCita);
 
 
 
@@ -266,6 +269,14 @@ namespace Negocio.Persistencia
         //Tabla correos electronicos
         public virtual DbSet<Modelos.CorreosElectronicos> CorreoElectronico { get; set; }
 
+        //Tabla citas
+        public virtual DbSet<Modelos.Citas> Citas { get; set; }
+
+        //Tabla cita tratamientos
+        public virtual DbSet<Modelos.CitaTratamiento> CitaTratamientos { get; set; }
+
+        //Tabla agenda médica
+        public virtual DbSet<Modelos.Agenda> Agenda { get; set; }
 
         #endregion
 

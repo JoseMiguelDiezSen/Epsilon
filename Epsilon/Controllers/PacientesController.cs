@@ -1,4 +1,4 @@
-﻿using Calipso.Security;
+using Calipso.Security;
 using Epsilon.Attributes;
 using Epsilon.Models;
 using Epsilon.Models.Comun;
@@ -412,8 +412,13 @@ namespace Epsilon.Controllers
 
         public IActionResult HistorialPaciente(int idPaciente)
         {
+            var pacienteInfo = _context.Pacientes.FirstOrDefault(p => p.IdPaciente == idPaciente);
+            ViewBag.NombrePaciente = pacienteInfo?.NombrePaciente ?? "Paciente";
+            ViewBag.IdPaciente = idPaciente;
+
             var paciente = _context.DatosHistoricoPaciente
                 .Where(p => p.IdPaciente == idPaciente)
+                .OrderByDescending(p => p.FechaInicio)
                 .ToList();
             return View("HistorialPaciente", paciente);
         }

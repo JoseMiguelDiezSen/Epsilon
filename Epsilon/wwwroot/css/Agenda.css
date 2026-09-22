@@ -1,18 +1,232 @@
-﻿
-.fc-day-today {
-    background-color: yellow;
-}
+/* ==========================================================================
+   ESTILOS DE LA AGENDA Y FULLCALENDAR - EPSILON
+   ========================================================================== */
 
 
 
+/* Tarjeta contenedora del calendario con fondo blanco sólido para aislar los datos */
 #calendar {
-    height: 1000px;
-    background-color: blue;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+    border: 1px solid #e1ecf6;
 }
 
-body {
-    background-color: white;
-    background-image: url('/media/pattern.png');
-    background-repeat: repeat;
-    background-size: auto;
+/* Barra superior de herramientas de FullCalendar con fondo suave */
+.fc-toolbar {
+    background: linear-gradient(180deg, #fdfefe 0%, #f4f8fd 100%);
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid #e2edf7;
+    margin-bottom: 16px !important;
+}
+
+.fc-toolbar-title {
+    font-size: 1.35rem !important;
+    font-weight: 700;
+    color: #1e3a5f;
+}
+
+/* Cabecera de columnas de los días (Lunes, Martes...) con fondo suave */
+.fc-col-header-cell {
+    background: linear-gradient(180deg, #f7fafd 0%, #eaf1fa 100%) !important;
+    padding: 9px 0 !important;
+    border-color: #dbe7f3 !important;
+    color: #2d4564 !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Resaltado suave para el día actual */
+.fc-day-today {
+    background-color: #f0f7ff !important;
+}
+
+/* ==========================================================================
+   BOTONES MODERNOS Y CLAROS DEL CALENDARIO (AVANZAR, RETROCEDER, VISTAS)
+   ========================================================================== */
+
+/* Botón base claro y moderno */
+.fc .fc-button-primary {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border: 1px solid #cde0f3 !important;
+    color: #3b597b !important;
+    font-size: 0.86rem !important;
+    font-weight: 600 !important;
+    padding: 6px 14px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    text-transform: capitalize;
+    transition: all 0.15s ease-in-out !important;
+    outline: none !important;
+}
+
+/* Efecto hover suave y luminoso */
+.fc .fc-button-primary:hover {
+    background: #edf5fe !important;
+    background-color: #edf5fe !important;
+    border-color: #9ac2f4 !important;
+    color: #1d4ed8 !important;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.12) !important;
+    transform: translateY(-1px);
+}
+
+.fc .fc-button-primary:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+}
+
+/* Vista activa seleccionada (mes, semana, día) */
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    background-color: #2563eb !important;
+    border-color: #1d4ed8 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* Botón 'Hoy' */
+.fc .fc-today-button {
+    font-weight: 700 !important;
+    border-color: #bfdbfe !important;
+    background: #f0f7ff !important;
+    color: #1d4ed8 !important;
+}
+
+.fc .fc-today-button:disabled {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    opacity: 0.7 !important;
+}
+
+/* Iconos de flechas en prev y next */
+.fc .fc-button .fc-icon {
+    font-size: 1.15em;
+    vertical-align: -1px;
+}
+
+/* Grupo de botones pegados con esquinas redondeadas */
+.fc .fc-button-group {
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.fc .fc-button-group > .fc-button {
+    border-radius: 0 !important;
+    margin: 0 !important;
+}
+
+.fc .fc-button-group > .fc-button:first-child {
+    border-top-left-radius: 6px !important;
+    border-bottom-left-radius: 6px !important;
+}
+
+.fc .fc-button-group > .fc-button:last-child {
+    border-top-right-radius: 6px !important;
+    border-bottom-right-radius: 6px !important;
+}
+
+/* ==========================================================================
+   ESTILOS DE LOS BLOQUES DE CITAS MÉDICAS Y TIRADORES DE EXPANDIR (RESIZE)
+   ========================================================================== */
+
+/* Bloque del evento con fondo sólido de color */
+.fc-event,
+.fc-daygrid-event,
+.fc-timegrid-event {
+    cursor: pointer;
+    border: none !important;
+    border-radius: 5px !important;
+    margin-bottom: 2px;
+    padding: 2px 6px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.fc-event:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.05);
+}
+
+/* Contenedor interno del evento personalizado */
+.fc-event-inner-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: #ffffff !important;
+    font-size: 0.85rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Texto de la hora dentro del bloque */
+.fc-event-time-custom {
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-right: 4px;
+    opacity: 0.9;
+}
+
+/* Texto del título dentro del bloque */
+.fc-event-title-custom {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1;
+}
+
+/* Botón rápido para eliminar cita desde el mapa */
+.fc-event-quick-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin-left: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 0.75rem;
+    line-height: 1;
+    opacity: 0.7;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.fc-event:hover .fc-event-quick-delete {
+    opacity: 1;
+}
+
+.fc-event-quick-delete:hover {
+    background-color: rgba(220, 53, 69, 0.95);
+    color: #ffffff;
+}
+
+/* Asegurar que el texto sea siempre blanco dentro del bloque */
+.fc-event-main,
+.fc-event-title,
+.fc-event-time {
+    color: #ffffff !important;
+}
+
+/* Tiradores para expandir o comprimir citas (resizers) */
+.fc-event-resizer {
+    display: block !important;
+    z-index: 15 !important;
+}
+
+.fc-event-resizer-end {
+    cursor: se-resize;
+}
+
+.fc-timegrid-event .fc-event-resizer-end {
+    cursor: s-resize;
+    height: 8px;
 }

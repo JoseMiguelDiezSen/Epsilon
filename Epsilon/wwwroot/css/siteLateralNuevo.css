@@ -1,4 +1,4 @@
-﻿/* tamaño de fuente grande para encabezado h1 */
+/* tamaño de fuente grande para encabezado h1 */
 h1 {
     font-size: 2rem;
 }
@@ -82,99 +82,109 @@ main {
     min-width: 252px;*/ /* ancho mínimo */
     /*min-height: auto;*/ /* altura mínima toda la pantalla */
     /*box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.2);
-}*/
-
+/* Preload: Evitar cualquier animación o chispazo al cargar la página */
+.preload,
+.preload *,
+.preload *::before,
+.preload *::after {
+    transition: none !important;
+    animation: none !important;
+}
 
 /* Pongo esto*/
 .layout-nuevo .sidebar {
-    width: 260px;
-    background: grey;
-
+    width: 250px;
+    background-color: #2d5f8b !important; /* Azul más claro, fresco y luminoso para clínica dental */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px) !important;
+    background-size: 22px 22px !important;
+    background-position: 0 0 !important;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: 1px solid rgba(255, 255, 255, 0.20);
 }
 
 .layout-nuevo .nav-item {
     position: relative;
-   /* display: flex;*/
-    align-items: center;
-    padding: 0px 5px;
-    margin: 0px 0;
-    border-radius: 50px;
-    color: rgba(255, 255, 255, 0.75);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .layout-nuevo .nav-link {
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    margin: 0px 10px;
-    height: 36px;
-    border-radius: 7px;
-    color: rgba(255, 255, 255, 0.75);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
-    cursor: pointer; /* Cambia el cursor al pasar sobre el link */
-    padding: .25rem 1rem; /* Espaciado interno: 0.25rem arriba/abajo y 1rem izquierda/derecha */
-    position: relative;
-    transition: transform 0.2s ease;
-    border-top: 1px solid yellow !important;
-    border-left: 1px solid yellow !important;
-    border-right: 1px solid yellow !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 10px !important;
+    margin: 2px 8px !important;
+    height: 34px !important;
+    border-radius: 4px !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    position: relative !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease !important;
+    backdrop-filter: blur(4px);
 }
 
-    .layout-nuevo .nav-link:hover {
-        background-color: white;
-        color:black;
-        color: #ffffff;
-        transform: translateX(4px);
+    .layout-nuevo .nav-link:hover,
+    .sidebar .layout-nuevo .nav-item .nav-link:hover,
+    .layout-nuevo .nav-item .nav-link:hover,
+    .sidebar .nav-item .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.22) !important;
+        color: #ffffff !important;
+        border-color: rgba(255, 255, 255, 0.40) !important;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15) !important;
+        transform: translateX(3px) !important;
+        text-shadow: none !important;
     }
 
-
-    .layout-nuevo .nav-link.active {
-        display: flex;
-        align-items: center;
-        height: 35px;
-        padding: 0 14px !important;
-        border-radius: 7px;
-        background: rgba(99, 102, 241, 0.18);
-        color: #ffffff;
-        box-sizing: border-box;
+    /* Estado activo sutil como el hover */
+    .layout-nuevo .nav-link.active,
+    .sidebar .nav-link.active {
+        display: flex !important;
+        align-items: center !important;
+        height: 34px !important;
+        padding: 0 10px !important;
+        margin: 2px 8px !important;
+        border-radius: 4px !important;
+        background-color: rgba(255, 255, 255, 0.26) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.45) !important;
+        border-left: 3px solid #ffffff !important;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15) !important;
+        transform: translateX(3px) !important;
+        font-weight: 600 !important;
+        text-shadow: none !important;
     }
 
-    .layout-nuevo .nav-link i {
-        width: 18px;
-        min-width: 18px;
-        text-align: center;
-        flex-shrink: 0;
-    }
-    .layout-nuevo .nav-link.active {
-        background: rgba(99,102,241,0.25);
-        color: white;
-        position: relative;
-        padding-right: 36px; /* espacio para el icono */
+    .layout-nuevo .nav-link i,
+    .layout-nuevo .nav-link span.fa {
+        width: 18px !important;
+        min-width: 18px !important;
+        text-align: center !important;
+        margin-right: 8px !important;
+        flex-shrink: 0 !important;
+        font-size: 13px !important;
+        color: #e0f2fe !important;
     }
 
-        /* ICONO ACTIVE A LA DERECHA */
-        .layout-nuevo .nav-link.active::after {
-            content: "\f00c";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ffd54a;
-            font-size: 12px;
-        }
+    .layout-nuevo .nav-link:hover i,
+    .layout-nuevo .nav-link:hover span.fa,
+    .layout-nuevo .nav-link.active i,
+    .layout-nuevo .nav-link.active span.fa {
+        color: #ffffff !important;
+    }
+
+    .layout-nuevo .nav-link.active::after,
+    .sidebar .nav-link.active::after {
+        display: none !important;
+        content: "" !important;
+    }
 
 
     /* Fila superior de la sidebar (puede contener logo o botones) */
@@ -203,7 +213,8 @@ main {
     .sidebar .container {
         padding-left: 0; /* elimina padding izquierdo */
         padding-right: 0; /* elimina padding derecho */
-        background-color: black; /* fondo azul */
+        background-color: transparent !important;
+        background-image: none !important;
     }
     /* Navbar dentro de la sidebar */
 
@@ -236,147 +247,88 @@ main {
     .sidebar .fa {
         width: 1.5rem; /* ancho fijo para íconos font-awesome */
     }
-    /* Cada opción del menú lateral */
-
-    .sidebar .nav-item {
-        font-size: 1rem; /* tamaño de fuente */
-        padding-bottom: 0.25rem; /* espacio inferior */
-        color: white; /* color gris oscuro */
-        font-weight: normal; /* peso normal */
+    /* Cada opción del menú lateral - espaciado uniforme */
+    .sidebar .nav-item,
+    .sidebar .nav-item:first-of-type,
+    .sidebar .nav-item:last-of-type {
+        font-size: 1rem;
+        padding: 0 !important;
+        margin: 0 !important;
+        color: white;
+        font-weight: normal;
     }
-
-        /* Primer item del menú: padding superior reducido */
-        .sidebar .nav-item:first-of-type {
-            padding-top: .1rem; /* padding superior reducido */
-        }
-
-        /* Último item del menú: padding inferior extra */
-        .sidebar .nav-item:last-of-type {
-            padding-bottom: 1rem; /* padding inferior extra */
-        }
-
-
-
-
-    /* Estilo al pasar el raton por las opciones del menu */
-    .sidebar .nav-item .nav-link:hover {
-        box-shadow: 6px 8px 12px rgba(0, 0, 0, 0.25); /* Sombra para dar efecto de elevación */
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.25); /* Sombra ligera al texto */
-        background-size: 100% 100%; /* se expande de izquierda a derecha */
-        color: white; /* mantiene el texto negro también en hover */
-        background-color: black; /* Fondo claro al pasar el ratón */
-
-        transform: translate(10px,4px); /* aproximadamente 1cm en pantalla estándar */
-        transition: transform 0.5s ease, box-shadow 0.5s ease;
-    }
-
-    /* Titulos del menu (Al estar en la pagina) */
-    .sidebar .nav-link.active {
-        content: "\f00c";
-        background-color: cornflowerblue !important;
-        color: white !important;
-        font-weight: 600 !important;
-        border-top: 1px solid white !important;
-        /*transform: translateX(10px);*/ /* aproximadamente 1cm en pantalla estándar */
-    }
-
-
 
 /* Estilo del ultimo item del grupo */
 .sidebar .nav-title:last-of-type {
-    border-bottom: 1px solid white;
-}
-
-
-
-
-
-
-
-    /* Estilo del ultimo item del grupo */
-    .sidebar .nav-item:last-of-type {
-        margin-bottom: 3px !important;
-        padding-bottom: 0rem !important;
-        margin-left:20px;
-
-           }
-
-
-.sidebar .nav-link.active::after {
-    content: "\f00c"; /* icono a tu elección, por ejemplo tick ✔ de FontAwesome */
-    font-family: "Font Awesome 6 Free"; /* asegúrate de tener FA cargado */
-    font-weight: 900;
-    background: transparent;
-    margin-left: 5px;
-    color: yellow;
-    float: right;
-    display: block !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 /* -------------- Navbar Styles ------------------ */
 
-/* Estilo de los TITULOS del menu */
+/* Estilo de los TITULOS del menu - Más altos y cómodos para clínica dental */
 .nav-title {
     font-weight: 600;
     cursor: pointer;
     user-select: none;
-    padding: 5px 10px;
-    color: #343a40;
-    transition: background 0.2s;
-    background-color: black; /* fondo verde negro secciones (Se puede comentar, queda bien) */
-    color: white;
-    border-top: 1px solid white;
+    padding: 9px 14px !important;
+    min-height: 38px;
+    box-sizing: border-box;
+    background-color: #21476d; /* fondo azul coordinado para clínica dental */
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
 
     /* Titulos del menu (Al pasar raton) */
     .nav-title:hover {
-        background-color: darkslategrey;
+        background-color: #2b5987;
+        color: #ffffff;
+        transition: background-color 0.2s ease;
     }
 
-/* Estilos de los items */
+/* Estilos de los items desplegables - Sin fondo para que la cuadrícula se vea al 100% */
 .nav-items {
     display: none; /* colapsado por defecto */
-    margin-left: 15px;
-    transition: max-height 360ms cubic-bezier(.22,.9,.35,1), opacity 220ms ease;
-    will-change: max-height, opacity;
+    margin: 2px 0 4px 0 !important;
+    background: transparent !important; /* fondo quitado para que se vea la cuadrícula */
+    padding: 4px 0 !important;
+    border-left: 2px solid rgba(255, 255, 255, 0.25);
 }
 
 /* expandido */
 .nav-group.expanded .nav-items {
     display: block;
-    max-height: 500px;
 }
 
 /* Grupo de items */
 .nav-group {
     padding-top: 2px;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-    /* Titulo (expandido) */
+    /* Titulo (expandido) - Azul clínico dental elegante */
     .nav-group.expanded .nav-title {
-        background-color: yellow; /* Cuando el grupo está expandido el titulo se pone amarillo */
-        color: #212529;
+        background: linear-gradient(90deg, #0284c7 0%, #0369a1 100%) !important;
+        color: #ffffff !important;
     }
 
         /* Para que la flecha cambie de color al expandir */
         .nav-group.expanded .nav-title .fa {
-            color: #0d6efd;
+            color: #ffffff !important;
         }
 
     .nav-group .fa {
+        display: inline-block;
         transition: transform 0.2s ease;
     }
 
     .nav-group.expanded .nav-title .fa {
         transform: rotate(90deg);
         position: relative;
-        top: 5px;
+        top: 4px;
     }
 
     .nav-group .nav-items {
         display: none;
-        transition: all 0.3s ease;
     }
 
 /*Estilo del icono situado center en el centro del header*/

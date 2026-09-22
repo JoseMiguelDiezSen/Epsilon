@@ -1,198 +1,453 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+/**
+ * ============================================================================
+ * EPSILON - MÓDULO DE AGENDA Y CALENDARIO (FullCalendar)
+ * ============================================================================
+ * Manejo de citas médicas con FullCalendar:
+ * - Carga dinámica de citas desde el servidor (JSON) con bloques de color sólidos.
+ * - Creación de citas mediante modal Bootstrap y llamada AJAX.
+ * - Modificación de citas al hacer clic sobre el evento en el calendario (modal).
+ * - Eliminación de citas desde el modal o directamente desde el mapa.
+ * - Arrastrar (drop) y expandir/comprimir (resize) habilitados con persistencia en BD.
+ * - Alertas estándar del navegador (alert / confirm).
+ * ============================================================================
+ */
+
+// Variable global del calendario para poder invocar refetchEvents desde cualquier función
+var calendar = null;
+
+document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    if (!calendarEl) {
+        console.warn("Elemento #calendar no encontrado.");
+        return;
+    }
 
-        /* Vista inicial del calendario */
+    // Inicialización de FullCalendar
+    calendar = new FullCalendar.Calendar(calendarEl, {
+
+        // Vista inicial e idioma
         initialView: 'dayGridMonth',
-
-        /* Configuración de idioma */
         locale: 'es',
 
-        /* Botones del header y su orden */
+        // Forzar renderizado en bloques de color sólidos en todas las vistas
+        eventDisplay: 'block',
+
+        // Barra de herramientas superior
         headerToolbar: {
-            left: 'prevYear,prev,next,nextYear',
+            left: 'prevYear,prev,next,nextYear today',
             center: 'title',
-            right: 'timeGridWeek,dayGridMonth,multiMonthYear,today'
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
 
-        // Permitir selección y edición de eventos
+        // Habilitar selección de celdas y edición completa (mover y expandir/comprimir)
         selectable: true,
-
-        /* Permitir arrastrar y soltar eventos para editarlos */
         editable: true,
+        eventStartEditable: true,      // Permite arrastrar la cita a otro día u hora
+        eventDurationEditable: true,   // Permite expandir o comprimir la duración de la cita
+        eventResizableFromStart: true, // Permite redimensionar desde el inicio o desde el fin
 
-        /* Rango de horas visible en las vistas de tiempo */
+        // Rango de horas visible en vistas de día y semana
         slotMinTime: '08:00:00',
-        slotMaxTime: '20:00:00',
+        slotMaxTime: '21:00:00',
+        height: 720,
 
-        height: 650,
+        // Carga dinámica de eventos desde el controlador AgendaController
+        events: '/Agenda/GetEventosCalendario',
 
-        /* Fecha inicial del calendario */
-        initialDate: '2026-04-01',
+        /**
+         * Renderizado personalizado del contenido de cada evento:
+         * Muestra la hora (si existe), el título y un icono de borrado rápido en el mapa.
+         */
+        eventContent: function (arg) {
+            var timeHtml = arg.timeText ? '<span class="fc-event-time-custom">' + arg.timeText + '</span> ' : '';
+            var titleHtml = '<span class="fc-event-title-custom">' + arg.event.title + '</span>';
+            var btnDelete = '<span class="fc-event-quick-delete" title="Eliminar cita del mapa" onclick="jqEliminarCitaDesdeMapa(' + arg.event.id + ', event)"><i class="fa-solid fa-xmark"></i></span>';
 
-        /* Eventos de prueba */
-        events: [
-            { title: 'Evento OK', start: '2026-04-07' },
-            { title: 'Otro evento', start: '2026-04-12' },
-            {
-                title: 'Reunión 1 😎',
-                start: '2026-04-01T10:00:00',
-                end: '2026-04-01T11:30:00',
-                color: 'yellow',
-                background:'blue'
-            },
-            {
-                title: 'Reunión 2 😎',
-                start: '2026-04-03T18:00:00',
-                end: '2026-04-03T18:30:00',
-                color: 'black',
-            },
-            {
-                title: 'Reunión 3 😎',
-                start: '2026-04-25T10:00:00',
-                end: '2026-04-25T11:30:00',
-                color: 'yellow',
-                background: 'blue'
-            },
-            {
-                title: 'Reunión 4 😎',
-                start: '2026-04-14T18:00:00',
-                end: '2026-04-14T18:30:00'
-            },
-            {
-                title: 'Reunión 3 😎',
-                start: '2026-04-18T13:00:00',
-                end: '2026-04-18T15:30:00'
-            }
-        ],
-
-
-        /* Vistas y formato de título */
-        views: {
-            dayGridMonth: { // name of view
-                titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' }
-                // other view-specific options here
-                //{ year: 'numeric', month: 'long' }                  // like 'September 2009', for month view
-                //{ year: 'numeric', month: 'short', day: 'numeric' } // like 'Sep 13 2009', for week views
-                //{ year: 'numeric', month: 'long', day: 'numeric' }  // like 'September 8 2009', for day views
-            },
-            dayGrid: {
-                // options apply to dayGridMonth, dayGridWeek, and dayGridDay views
-            },
-            timeGrid: {
-                // options apply to timeGridWeek and timeGridDay views
-            },
-            week: {
-                // options apply to dayGridWeek and timeGridWeek views
-            },
-            day: {
-                // options apply to dayGridDay and timeGridDay views
-            }
+            return {
+                html: '<div class="fc-event-inner-wrap">' + timeHtml + titleHtml + btnDelete + '</div>'
+            };
         },
 
-        // Nueva Cita
+        /**
+         * EVENTO: Clic en una fecha o celda vacía del calendario
+         * Abre la ventana modal para registrar una nueva cita en esa fecha/hora.
+         */
         dateClick: function (info) {
-
-            console.log("Nueva cita en:", info.date);
-
-            // aquí irá tu modal de CREAR
-            $.ajax({
-                type: 'GET',
-                url: 'Agenda/ModalAgregarCita',
-                data: { date: info.date.toISOString() },
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    // Inserta la vista en el modal como HTML
-                    $('#addCitaModal .modal-body').html(response.data);
-
-                    // Abre el modal (Bootstrap 5)
-                    let modal = new bootstrap.Modal(document.getElementById('addCitaModal'));
-                    modal.show();
-                },
-                error: function (response) {
-                    alert("No se pudo realizar la operacion");
-                }
-            });
+            jqGetModalAddCita(info.dateStr);
         },
 
-        //eventClick: function (info) {
-        //    console.log(info.event.extendedProps);
-        //    // ejemplo: extendedProps que definimos al crear el evento
-        //    let tipoAccion = info.event.extendedProps.tipoAccion;
+        /**
+         * EVENTO: Arrastrar y soltar cita a una nueva fecha u hora
+         */
+        eventDrop: function (info) {
+            jqActualizarFechaCita(info);
+        },
 
-        //    switch (tipoAccion) {
-        //        case 'editar':
-        //            console.log("Editar cita:", info.event);
-        //            alert("Editar Cita");
-        //            //abrirModalEditar(info.event);
-        //            break;
-        //        case 'eliminar':
-                 
+        /**
+         * EVENTO: Expandir o comprimir la duración de una cita (Resize)
+         */
+        eventResize: function (info) {
+            jqActualizarFechaCita(info);
+        },
 
-        //                if (confirm("¿Eliminar esta cita?")) {
-        //                    info.event.remove(); // la quita del calendario
-        //                    // Opcional: aquí también llamas a tu backend para borrarla de la BBDD
-        //                    $.ajax({
-        //                        type: 'POST',
-        //                        url: 'Agenda/EliminarCita',
-        //                        data: { id: info.event.id }, // necesitarás un ID
-        //                        success: function (resp) {
-        //                            alert("Cita eliminada correctamente");
-        //                        },
-        //                        error: function () {
-        //                            alert("Error al eliminar");
-        //                        }
-        //                    });
-        //                }
-                    
-        //            break;
-        //        case 'mostrar':
-        //            mostrarInfo(info.event);
-        //            break;
-        //        default:
-        //            console.log("Acción por defecto", info.event.title);
-        //    }
-
-
-
-
-
-
-
-        //}
-
-        // Y Elimnar Cita como lo hacemos??
-
-
+        /**
+         * EVENTO: Clic sobre una cita existente
+         * Abre la ventana modal para ver los datos, modificarlos o eliminar la cita.
+         */
         eventClick: function (info) {
-            console.log("Clic en evento:", info.event);
-
-            // Definimos un tipoAccion temporal para test
-            // Por ahora, solo alternamos para pruebas
-            let tipoAccion = prompt("Acción para este evento: 'editar' o 'eliminar'", "editar");
-
-            switch (tipoAccion) {
-                case 'editar':
-                    alert("Editar cita: " + info.event.title);
-                    console.log("Editar cita:", info.event);
-                    break;
-                case 'eliminar':
-                    alert("Eliminar cita: " + info.event.title);
-                    console.log("Eliminar cita:", info.event);
-                    break;
-                default:
-                    alert("Acción no reconocida");
-                    console.log("Acción por defecto:", info.event);
-            }
+            jqGetModalModificarCita(info.event.id);
         }
+    });
 
-            // DE momento no tocamos esto
-            //dateClick: function (info) {
-            //    DotNet.invokeMethodAsync('YourAssemblyName', 'OnDateClicked', info.dateStr);
-            //}
-        });
-
+    // Renderizamos el calendario en pantalla
     calendar.render();
 });
+
+/**
+ * Formatea un objeto Date en formato ISO local (YYYY-MM-DDTHH:mm:ss) sin desfase UTC.
+ * @param {Date} date - Fecha a formatear.
+ * @returns {string|null} Cadena local con formato ISO.
+ */
+function formatFechaLocal(date) {
+    if (!date) return null;
+    var anio = date.getFullYear();
+    var mes = String(date.getMonth() + 1).padStart(2, '0');
+    var dia = String(date.getDate()).padStart(2, '0');
+    var horas = String(date.getHours()).padStart(2, '0');
+    var minutos = String(date.getMinutes()).padStart(2, '0');
+    var segundos = String(date.getSeconds()).padStart(2, '0');
+    return anio + '-' + mes + '-' + dia + 'T' + horas + ':' + minutos + ':' + segundos;
+}
+
+/**
+ * Abre el modal de agregar cita cargando la vista parcial desde el servidor vía AJAX.
+ * @param {string} [fechaStr] - Fecha opcional seleccionada en el calendario.
+ */
+function jqGetModalAddCita(fechaStr) {
+    var params = fechaStr ? { date: fechaStr } : {};
+
+    $.ajax({
+        type: 'GET',
+        url: '/Agenda/ModalAgregarCita',
+        data: params,
+        success: function (response) {
+            // Inserta la vista parcial FormAddCita en el modal
+            $('#addCitaModal .modal-body').html(response.data);
+
+            // Abre el modal de Bootstrap
+            var modalEl = document.getElementById('addCitaModal');
+            var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+            modal.show();
+        },
+        error: function () {
+            alert("No se pudo cargar el formulario de nueva cita.");
+        }
+    });
+}
+
+/**
+ * Abre el modal de modificar/eliminar cita cargando la vista parcial desde el servidor vía AJAX.
+ * @param {number|string} idCita - Identificador de la cita a consultar.
+ */
+function jqGetModalModificarCita(idCita) {
+    $.ajax({
+        type: 'GET',
+        url: '/Agenda/ModalModificarCita',
+        data: { idCita: idCita },
+        success: function (response) {
+            // Inserta la vista parcial FormModificarCita en el modal
+            $('#modificarCitaModal .modal-body').html(response.data);
+
+            // Abre el modal de Bootstrap
+            var modalEl = document.getElementById('modificarCitaModal');
+            var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+            modal.show();
+        },
+        error: function () {
+            alert("No se pudo cargar los detalles de la cita médica.");
+        }
+    });
+}
+
+/**
+ * Envía los datos del formulario de creación de cita al servidor vía AJAX (POST).
+ * @param {HTMLFormElement} form - Formulario enviado.
+ */
+function jqPostAddCita(form) {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: '/Agenda/AgregarCita',
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response && response.statusCode && response.statusCode !== 200) {
+                    alert(response.message || "No se pudo guardar la cita.");
+                    return;
+                }
+
+                // Cerramos la ventana modal
+                var modalEl = document.getElementById('addCitaModal');
+                var modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) {
+                    modal.hide();
+                } else {
+                    $(modalEl).modal('hide');
+                }
+
+                // Refrescamos el calendario
+                if (calendar) {
+                    calendar.refetchEvents();
+                }
+
+                alert("Cita creada correctamente.");
+            },
+            error: function (xhr) {
+                var msg = "Ocurrió un error al guardar la cita médica.";
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    msg = xhr.responseJSON.message;
+                }
+                alert(msg);
+            }
+        });
+    } catch (ex) {
+        console.error("Error en jqPostAddCita:", ex);
+    }
+    return false; // Evita el submit tradicional
+}
+
+/**
+ * Envía los datos del formulario de modificación de cita al servidor vía AJAX (POST).
+ * @param {HTMLFormElement} form - Formulario enviado con los cambios.
+ */
+function jqPostModificarCita(form) {
+    try {
+        $.ajax({
+            type: 'POST',
+            url: '/Agenda/ModificarCita',
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response && response.statusCode && response.statusCode !== 200) {
+                    alert(response.message || "No se pudo modificar la cita.");
+                    return;
+                }
+
+                // Cerramos la ventana modal
+                var modalEl = document.getElementById('modificarCitaModal');
+                var modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) {
+                    modal.hide();
+                } else {
+                    $(modalEl).modal('hide');
+                }
+
+                // Refrescamos el calendario para reflejar los cambios
+                if (calendar) {
+                    calendar.refetchEvents();
+                }
+
+                alert("Cita modificada correctamente.");
+            },
+            error: function (xhr) {
+                var msg = "Ocurrió un error al modificar la cita médica.";
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    msg = xhr.responseJSON.message;
+                }
+                alert(msg);
+            }
+        });
+    } catch (ex) {
+        console.error("Error en jqPostModificarCita:", ex);
+    }
+    return false; // Evita el submit tradicional
+}
+
+/**
+ * Elimina una cita médica desde el botón del modal de modificación vía AJAX (POST).
+ * @param {number|string} idCita - Identificador de la cita a eliminar.
+ */
+function jqPostEliminarCitaDesdeModal(idCita) {
+    if (confirm("¿Estás seguro de que deseas eliminar esta cita médica? Esta acción no se puede deshacer.")) {
+        $.ajax({
+            type: 'POST',
+            url: '/Agenda/EliminarCita',
+            data: { idCita: idCita },
+            success: function (response) {
+                // Cerramos la ventana modal
+                var modalEl = document.getElementById('modificarCitaModal');
+                var modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) {
+                    modal.hide();
+                } else {
+                    $(modalEl).modal('hide');
+                }
+
+                // Refrescamos el calendario
+                if (calendar) {
+                    calendar.refetchEvents();
+                }
+
+                alert("Cita eliminada correctamente.");
+            },
+            error: function () {
+                alert("No se pudo eliminar la cita médica.");
+            }
+        });
+    }
+    return false;
+}
+
+/**
+ * Permite eliminar una cita directamente pulsando el icono 'x' dentro del bloque en el mapa del calendario.
+ * @param {number|string} idCita - Identificador de la cita.
+ * @param {Event} event - Evento DOM para detener propagación y evitar apertura del modal.
+ */
+function jqEliminarCitaDesdeMapa(idCita, event) {
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    if (confirm("¿Estás seguro de que deseas eliminar esta cita médica directamente desde el calendario?")) {
+        $.ajax({
+            type: 'POST',
+            url: '/Agenda/EliminarCita',
+            data: { idCita: idCita },
+            success: function (response) {
+                // Refrescamos el calendario
+                if (calendar) {
+                    calendar.refetchEvents();
+                }
+                alert("Cita eliminada correctamente.");
+            },
+            error: function () {
+                alert("No se pudo eliminar la cita médica.");
+            }
+        });
+    }
+}
+
+/**
+ * Actualiza la fecha y hora de una cita en base de datos al moverla (drop) o redimensionarla (resize) en el calendario.
+ * @param {object} info - Objeto del evento de FullCalendar (contiene event y la función revert).
+ */
+function jqActualizarFechaCita(info) {
+    var idCita = info.event.id;
+    var fechaInicio = formatFechaLocal(info.event.start);
+    var fechaFin = formatFechaLocal(info.event.end);
+
+    $.ajax({
+        type: 'POST',
+        url: '/Agenda/ActualizarFechaCita',
+        data: {
+            idCita: idCita,
+            fechaInicio: fechaInicio,
+            fechaFin: fechaFin
+        },
+        success: function (response) {
+            console.log("Cita actualizada en BD con éxito.");
+        },
+        error: function () {
+            if (info.revert) {
+                info.revert();
+            }
+            alert("No se pudo actualizar la fecha o duración de la cita en el servidor.");
+        }
+    });
+}
+
+/**
+ * Filtra los médicos disponibles en el desplegable según la clínica seleccionada.
+ * Oculta/inhabilita los optgroups o médicos que no pertenezcan a la clínica elegida.
+ * Si el médico que estaba seleccionado no pertenece a la clínica elegida, resetea la selección a vacía.
+ * @param {string} formId - Identificador del formulario ('addCitaForm' o 'modificarCitaForm').
+ * @param {string|number} idClinica - Identificador de la clínica seleccionada.
+ */
+function jqFiltrarMedicosPorClinica(formId, idClinica) {
+    var form = document.getElementById(formId);
+    if (!form) return;
+
+    var selectMedico = form.querySelector('select[name="IdMedico"]');
+    if (!selectMedico) return;
+
+    var valorSeleccionado = selectMedico.value;
+    var sigueSiendoValido = false;
+
+    // Buscamos los optgroups de médicos por clínica
+    var optgroups = selectMedico.querySelectorAll('optgroup');
+    if (optgroups && optgroups.length > 0) {
+        optgroups.forEach(function (grp) {
+            var grpClinica = grp.getAttribute('data-idclinica');
+            // Si no hay clínica seleccionada, se muestran todos los grupos
+            var mostrar = (!idClinica || idClinica === "" || grpClinica === String(idClinica));
+
+            grp.style.display = mostrar ? "" : "none";
+            grp.disabled = !mostrar;
+
+            var options = grp.querySelectorAll('option');
+            options.forEach(function (opt) {
+                opt.style.display = mostrar ? "" : "none";
+                opt.disabled = !mostrar;
+                if (mostrar && opt.value === valorSeleccionado) {
+                    sigueSiendoValido = true;
+                }
+            });
+        });
+    } else {
+        // En caso de opciones directas sin optgroup
+        var options = selectMedico.querySelectorAll('option');
+        options.forEach(function (opt) {
+            if (!opt.value) return; // Opción por defecto
+            var optClinica = opt.getAttribute('data-clinica');
+            var mostrar = (!idClinica || idClinica === "" || optClinica === String(idClinica));
+
+            opt.style.display = mostrar ? "" : "none";
+            opt.disabled = !mostrar;
+            if (mostrar && opt.value === valorSeleccionado) {
+                sigueSiendoValido = true;
+            }
+        });
+    }
+
+    // Si el médico seleccionado ya no es válido para la clínica elegida, resetear
+    if (!sigueSiendoValido && valorSeleccionado) {
+        selectMedico.value = "";
+    }
+}
+
+/**
+ * Cuando se selecciona un médico, sincroniza automáticamente la clínica correspondiente
+ * en el desplegable de Clínicas del formulario y ajusta la visibilidad.
+ * @param {string} formId - Identificador del formulario.
+ * @param {HTMLSelectElement} selectMedico - Elemento select del médico.
+ */
+function jqAutoseleccionarClinica(formId, selectMedico) {
+    if (!selectMedico) return;
+
+    var selectedOption = selectMedico.options[selectMedico.selectedIndex];
+    if (!selectedOption || !selectedOption.value) return;
+
+    var idClinica = selectedOption.getAttribute('data-clinica');
+    if (!idClinica) {
+        var parentOptgroup = selectedOption.closest('optgroup');
+        if (parentOptgroup) {
+            idClinica = parentOptgroup.getAttribute('data-idclinica');
+        }
+    }
+
+    if (idClinica && idClinica !== "0") {
+        var form = document.getElementById(formId);
+        if (form) {
+            var selectClinica = form.querySelector('select[name="IdClinica"]');
+            if (selectClinica && selectClinica.value !== String(idClinica)) {
+                selectClinica.value = idClinica;
+                // Ajustamos los grupos para mostrar solo los médicos de esta clínica
+                jqFiltrarMedicosPorClinica(formId, idClinica);
+            }
+        }
+    }
+}

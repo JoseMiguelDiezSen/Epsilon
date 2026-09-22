@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
@@ -51,7 +51,9 @@ namespace Negocio.Persistencia.Modelos
         // Para almacenar la foto en formato binario (varbinary(100))
         public byte[]? Foto { get; set; }
 
-
-
+        /// <summary>
+        /// Identificador de la clínica a la que está adscrito el médico.
+        /// </summary>
+        public int? IdClinica { get; set; }
     }
 }

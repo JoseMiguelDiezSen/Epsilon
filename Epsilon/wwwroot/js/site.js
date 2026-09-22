@@ -1,4 +1,4 @@
-﻿
+
 $(document).ready(function () {
     //    $('#modal-loading').PopupLoader();
 
@@ -18,74 +18,25 @@ $(document).ready(function () {
         $(this).addClass('visually-hidden');
     });
 
-    // Lo MIO
+    // Gestión del menú lateral - Persistencia en localStorage sin chispazo
+    const sidebarStateKey = 'sidebarState';
 
-    /*Funcion para expandir y contraer menu principal*/
     mostrarOcultarMenu = () => {
-        const sidebarStateKey = 'sidebarState';
-        let savedState = JSON.parse(localStorage.getItem(sidebarStateKey) || '{}');
-        $('.nav-group').each(function (index) {
-            const $group = $(this);
-            const $title = $group.find('.nav-title');
-            const $items = $group.find('.nav-items');
+        $('.sidebar .nav-group .nav-title').off('click').on('click', function () {
+            const $group = $(this).closest('.nav-group');
+            $group.toggleClass('expanded');
 
-            // Restaurar estado guardado al cargar (sin animación)
-            if (savedState[index]) {
-                $group.addClass('expanded');
-                // no slideDown, CSS manejará visualmente
-            } else {
-                $group.removeClass('expanded');
-                // no slideUp
-            }
-
-            // Toggle en tiempo real (solo toggle class)
-            $title.off('click').on('click', function () {
-                const isExpanded = $group.hasClass('expanded');
-                $group.toggleClass('expanded');
-
-                // Guardar estado actualizado
-                savedState[index] = !isExpanded;
-                localStorage.setItem(sidebarStateKey, JSON.stringify(savedState));
+            // Guardar persistencia del estado en localStorage
+            const saved = {};
+            $('.sidebar .nav-group').each(function (idx) {
+                saved[idx] = $(this).hasClass('expanded');
             });
+            try {
+                localStorage.setItem(sidebarStateKey, JSON.stringify(saved));
+            } catch (e) {}
         });
-    }
+    };
 
     mostrarOcultarMenu();
-
-    /////////////////////////////////////////////////////////////////////////////
-
-
-    /*Funcion para expandir y contraer menu principal*/
-    mostrarOcultarMenuNew = () => {
-        const sidebarStateKey = 'sidebarStateNew';
-        let savedState = JSON.parse(localStorage.getItem(sidebarStateKey) || '{}');
-        $('.nav-group').each(function (index) {
-            const $group = $(this);
-            const $title = $group.find('.nav-title');
-            const $items = $group.find('.nav-items');
-
-            // Restaurar estado guardado al cargar (sin animación)
-            if (savedState[index]) {
-                $group.addClass('expanded');
-                // no slideDown, CSS manejará visualmente
-            } else {
-                $group.removeClass('expanded');
-                // no slideUp
-            }
-
-
-            // Toggle en tiempo real (solo toggle class)
-            $title.off('click').on('click', function () {
-                const isExpanded = $group.hasClass('expanded');
-                $group.toggleClass('expanded');
-
-                // Guardar estado actualizado
-                savedState[index] = !isExpanded;
-                localStorage.setItem(sidebarStateKey, JSON.stringify(savedState));
-            });
-        });
-    }
-
-    mostrarOcultarMenuNew();
 
 });

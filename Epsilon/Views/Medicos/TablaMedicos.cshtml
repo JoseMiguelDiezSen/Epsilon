@@ -1,61 +1,61 @@
-﻿@using Epsilon.ViewModels
+@using Epsilon.ViewModels
 
 @model IEnumerable<ViewMedicos>
 
-<table class="table table-light table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
+<table class="table table-light table-hover table-group-divider table-responsive table-sm" id="tablaMedicos">
     <thead>
         @* Cabecera *@
         <tr>
             <th scope="col" class="text-center d-none" width="1%">#</th>
             <th scope="col" class="d-none">IDMEDICO</th>
-            <th scope="col">MEDICO</th>
+            <th scope="col">MÉDICO</th>
             <th scope="col">DNI</th>
-            <th scope="col">TELEFONO</th>
-            <th scope="col">NºCOLEGIADO</th>
+            <th scope="col">TELÉFONO</th>
+            <th scope="col">Nº COLEGIADO</th>
             <th scope="col">ACTIVO</th>
-            <th scope="col">F.ALTA</th>
-            <th scope="col">CLINICA</th>
+            <th scope="col">F. CONTRATACIÓN</th>
+            <th scope="col">CLÍNICA</th>
             <th scope="col">OPERACIONES</th>
         </tr>
     </thead>
 
     <tbody id="idBodyTable">
 
-        @if (Model.Count() > 0)
+        @if (Model != null && Model.Any())
         {
             foreach (var medico in Model)
             {
-                <tr id="idFilaPeriodo_" class="text-center">
+                <tr id="idFilaMedico_@medico.IdMedico" class="text-center">
                     <td class="text-center d-none">
-                        <span class="fa-solid fa-user-injured"></span>
+                        <span class="fa-solid fa-user-doctor"></span>
                     </td>
                     <td style="text-align:center" class="d-none"> @medico.IdMedico.ToString()</td>
                     <td style="text-align:center"> @medico.NombreMedico?.ToString()</td>
                     <td style="text-align:center"> @medico.DNI?.ToString()</td>
-                    <td style="text-align:center"> @medico.Telefono.ToString()</td>
+                    <td style="text-align:center"> @medico.Telefono?.ToString()</td>
                     <td style="text-align:center"> @medico.NumeroColegiado.ToString()</td>
                     <td>
-                        <input id="checkAsegurado" type="checkbox" @(medico.Activo ? "checked=\" checked\"" : "") disabled />
+                        <input id="checkActivo_@medico.IdMedico" type="checkbox" @(medico.Activo ? "checked=\"checked\"" : "") disabled />
                     </td>
                     <td style="text-align:center"> @medico.FechaContratacion</td>
                     <td style="text-align:center"> @medico.NombreClinica</td>
 
                     @* OPERACIONES *@
                     <td>
-                        <div aria-label="Basic Example">
+                        <div aria-label="Operaciones Médicos">
 
-                            @* Boton Editar Paciente *@
-                            <a class="btn btn-sm btn-outline-primary" id="btnEditar" data-id="" onclick="jqGetModalUpdatePaciente(@(medico.IdMedico))">
-                                <span class="fa fa-pencil"> </span>
+                            @* Boton Editar Médico *@
+                            <a class="btn btn-sm btn-outline-primary" id="btnEditar_@medico.IdMedico" title="Editar Médico" onclick="return jqGetModalUpdateMedico(@(medico.IdMedico))">
+                                <span class="fa fa-pencil"></span>
                             </a>
 
-                            @* Boton Eliminar Paciente *@
-                            <button class="btn btn-sm btn-outline-danger" style="margin-left:5px;" id="btnEliminar" onclick="jqGetModalDeletePaciente(@medico.IdMedico)">
-                                <span class="fa fa-circle-xmark"> </span>
+                            @* Boton Eliminar Médico *@
+                            <button class="btn btn-sm btn-outline-danger" style="margin-left:5px;" id="btnEliminar_@medico.IdMedico" title="Eliminar Médico" onclick="return jqGetModalDeleteMedico(@medico.IdMedico)">
+                                <span class="fa fa-circle-xmark"></span>
                             </button>
 
                             @* Boton Mostrar Detalle *@
-                            <button class="btn btn-sm btn-outline-dark js-toggle-detail" data-id="@medico.IdMedico" style="margin-left:5px;" id="btnMostrarDetalle">
+                            <button class="btn btn-sm btn-outline-dark js-toggle-detail" data-id="@medico.IdMedico" style="margin-left:5px;" id="btnMostrarDetalle_@medico.IdMedico" title="Ver Detalles">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -63,12 +63,10 @@
                 </tr>
             }
         }
-
-        @* SI NO HAY RESULTADOS *@
         else
         {
             <tr>
-                <td colspan="7" class="text-center">
+                <td colspan="8" class="text-center">
                     <span class="text-black-50 m-2">(No hay resultados)</span>
                 </td>
             </tr>
@@ -76,68 +74,49 @@
     </tbody>
 </table>
 
-<script>
-    function toggleDetail(id, btn) {
-        const detail = document.getElementById('detail-' + id);
-        // Alterna solo la fila actual
-        detail.style.display = detail.style.display === 'none' ? '' : 'none';
-    }
-</script>
-
-
-        
-
 <style>
-
-
-    th{
-    background-color:darkgrey;
-    
+    th {
+        background-color: darkgrey;
     }
 
     /* Estilos para el detalle */
     .detail-row td {
         background-color: none;
         color: black;
-        border: 1px solid #444 !important; /* marco dark pero visible */
-        border-top: none !important; /* evita doble borde con la fila anterior */
-        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.05); /* sombreado interior sutil */
+        border: 1px solid #444 !important;
+        border-top: none !important;
+        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.05);
         padding: 5px;
         transition: all 0.7s ease;
     }
 
-        /* Estilo para el hover en la fila de detalle */
-        .detail-row td:hover {
-            background-color: deepskyblue !important; /* leve cambio al pasar el ratón */
-        }
+    .detail-row td:hover {
+        background-color: #0d6efd !important;
+    }
 
-    /* Estilo de contenido detallado */
     .detail-content {
         background-color: #3b3f44;
         color: #f8f9fa;
         padding: 12px;
         border-radius: 0 0 6px 6px;
         box-shadow: inset 0 0 6px rgba(255,255,255,0.05);
-        overflow: hidden; /* ocultar contenido al cerrar */
-        transition: max-height 0.3s ease; /* transición suave */
+        overflow: hidden;
+        transition: max-height 0.3s ease;
     }
 
-    /* Estilo de la tabla de pacientes */
-    #tablaPacientes {
+    #tablaMedicos, #tablaPacientes {
         border: 1px solid;
         border-color: deepskyblue;
     }
 
-        /* Estilo contenido y alto de las rows */
-        #tablaPacientes td,
-        #tablaPacientes th {
-            vertical-align: middle !important;
-            padding-top: 0.6rem;
-            padding-bottom: 0.6rem;
-        }
+    #tablaMedicos td,
+    #tablaMedicos th {
+        vertical-align: middle !important;
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+    }
 
-        #tablaPacientes input[type="checkbox"] {
-            cursor: not-allowed; /* icono prohibido */
-        }
-
+    #tablaMedicos input[type="checkbox"] {
+        cursor: not-allowed;
+    }
 </style>
