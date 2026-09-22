@@ -166,11 +166,11 @@
             </div>
             <div class="rad-info-row">
                 <span class="rad-info-label">Nombre</span>
-                <span class="rad-info-value">@Model.NombrePaciente</span>
+                <span class="rad-info-value">Archivo Demo</span>
             </div>
             <div class="rad-info-row mt-2">
                 <span class="rad-info-label">Historial</span>
-                <span class="rad-badge">@Model.NumeroConsultas consultas</span>
+                <span class="rad-badge">Sin historial</span>
             </div>
         </div>
     </div>
@@ -224,7 +224,7 @@
             </div>
 
             <!-- HUD CLÍNICO -->
-            <div class="hud-tag hud-top-left" id="hudPatient">PACIENTE: @Model.NombrePaciente.ToUpper()</div>
+            <div class="hud-tag hud-top-left" id="hudPatient">PACIENTE: DEMO</div>
             <div class="hud-tag hud-top-right" id="hudStudy">ESTUDIO: SIN CARGAR</div>
             <div class="hud-tag hud-bottom-left" id="hudZoom">ZOOM: 100% | MODO: PAN</div>
             <div class="hud-tag hud-bottom-right" id="hudVOI">WC: -- | WW: --</div>
@@ -248,21 +248,21 @@
             </div>
             <div class="rad-info-row">
                 <span class="rad-info-label"><i class="fa-solid fa-user"></i> Nombre</span>
-                <span class="rad-info-value">@Model.NombrePaciente</span>
+                <span class="rad-info-value">Archivo Demo</span>
             </div>
             <div class="rad-info-row mt-2">
                 <span class="rad-info-label"><i class="fa-solid fa-list-ol"></i> Consultas</span>
-                <span class="rad-info-value">@Model.NumeroConsultas</span>
+                <span class="rad-info-value">-</span>
             </div>
             <div class="rad-info-row mt-2">
                 <span class="rad-info-label"><i class="fa-solid fa-notes-medical"></i> Observaciones</span>
                 <span class="rad-info-value text-muted" style="font-size:0.78rem;">
-                    @(string.IsNullOrWhiteSpace(Model.Observaciones) ? "Sin observaciones registradas." : Model.Observaciones)
+                    Gestor documental base.
                 </span>
             </div>
             <div class="rad-info-row mt-2">
                 <span class="rad-info-label"><i class="fa-regular fa-calendar-check"></i> Última Cita</span>
-                <span class="rad-badge">@Model.FechaUltimaCita.ToShortDateString()</span>
+                <span class="rad-badge">22/09/2026</span>
             </div>
         </div>
 

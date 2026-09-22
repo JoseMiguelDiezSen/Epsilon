@@ -123,10 +123,17 @@
                                 </a>
                             </div>
 
-                            @* Item 3: Visor *@
+                                                        @* Item 3: Visor *@
                             <div class="nav-item">
                                 <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Visor") ? "active" : "")" asp-controller="Visor" asp-action="Index">
                                     <i class="fa-regular fa-image"></i> Visor
+                                </a>
+                            </div>
+
+                            @* Item 4: Escaner 3D *@
+                            <div class="nav-item">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Escaner3D") ? "active" : "")" asp-controller="Escaner3D" asp-action="Index">
+                                    <i class="fa-brands fa-unity"></i> Escáner 3D
                                 </a>
                             </div>
                         </div>
@@ -630,6 +637,7 @@
     </script>
 </body>
 </html>
+
 
 
 
