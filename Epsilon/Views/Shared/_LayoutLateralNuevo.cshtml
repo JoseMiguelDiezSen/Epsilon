@@ -116,10 +116,17 @@
                                 </a>
                             </div>
 
-                            @* Item 2: Agenda *@
+                                                        @* Item 2: Agenda *@
                             <div class="nav-item">
                                 <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Agenda") ? "active" : "")" asp-controller="Agenda" asp-action="Index">
                                     <i class="fa-regular fa-calendar-days"></i> Agenda
+                                </a>
+                            </div>
+
+                            @* Item 3: Visor *@
+                            <div class="nav-item">
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Visor") ? "active" : "")" asp-controller="Visor" asp-action="Index">
+                                    <i class="fa-regular fa-image"></i> Visor
                                 </a>
                             </div>
                         </div>
@@ -623,6 +630,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
