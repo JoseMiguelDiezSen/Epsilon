@@ -1,0 +1,13 @@
+﻿@using Epsilon.ViewModels
+@model ViewFormAgregarServicio
+
+<form id="deleteServicio" method="post" onsubmit="return jqPostDeleteServicio(@Model.IdServicio);">
+    <input type="hidden" name="IdServicio" id="IdServicio" value="@Model.IdServicio" />
+    <div class="row p-3 text-center">
+        <label>¿Desea eliminar el servicio @Model.NombreServicio?</label>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-outline-success"><span class="fa fa-check"></span> Aceptar</button>
+            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+        </div>
+    </div>
+</form>

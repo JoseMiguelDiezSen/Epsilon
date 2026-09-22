@@ -1,0 +1,55 @@
+﻿@using Epsilon.Models
+@model ServiciosViewModel
+@{
+    ViewData["Title"] = "Servicios";
+}
+@{
+    ViewBag.LogoHeader = "JMDNegro.png";
+}
+<hr>
+<h4 class="text-center"><span class="fa-solid fa-briefcase"></span> CatÃ¡logo de Servicios <span class="fa-solid fa-briefcase"></span></h4>
+<hr>
+
+<div id="idResultadosFiltro" class="text-center" style="margin-top:10px;">
+    @{
+        await Html.RenderPartialAsync("TablaServicios", Model.Servicios);
+    }
+</div>
+
+@* Paginacion *@
+<div id="idPaginadorPrincipal" class="text-center m-1">
+    <a class="btn btn-sm btn-outline-primary PaginaAnterior" href="#">
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+    </a>
+    <span class="m-2 TextoPaginacion" style="color:white;">@Model.PaginaActual</span>
+    <a class="btn btn-sm btn-outline-primary PaginaSiguiente" href="#">
+        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+    </a>
+</div>
+
+<button id="AddServicio" type="button" class="btn btn-sm btn-outline-primary fa-pull-right mb-3" onclick="return jqGetModalAddServicio()"><span class="fa fa-plus"></span> Nuevo <b>Servicio</b></button>
+
+@section Scripts {
+    <script src="~/js/Servicios.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}
+
+
+@section Modals {
+    <div class="modal fade" id="addServicioModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Agregar Servicio</h5></div><div class="modal-body"></div></div></div>
+    </div>
+    <div class="modal fade" id="updateServicioModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Modificar Servicio</h5></div><div class="modal-body"></div></div></div>
+    </div>
+    <div class="modal fade" id="deleteServicioModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title text-danger">Eliminar Servicio</h5></div><div class="modal-body"></div></div></div>
+    </div>
+}
+
+@section Styles {
+    <link href="~/css/Tratamientos.css" rel="stylesheet" />
+}
+

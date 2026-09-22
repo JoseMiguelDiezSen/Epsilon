@@ -1,0 +1,87 @@
+@using Epsilon.ViewModels
+@model IEnumerable<ViewPersonal>
+
+<table class="table table-dark table-hover table-group-divider table-responsive table-sm" id="tablaMedicos">
+    <thead>
+        <tr>
+            <th scope="col" class="d-none">ID</th>
+            <th scope="col">FOTO</th>
+            <th scope="col">EMPLEADO</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Nº EMPLEADO</th>
+            <th scope="col">PUESTO</th>
+            <th scope="col">TELÉFONO</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">SEDE</th>
+            <th scope="col">ESTADO</th>
+            <th scope="col">OPERACIONES</th>
+        </tr>
+    </thead>
+    <tbody id="idBodyTable">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var persona in Model)
+            {
+                <tr class="text-center align-middle">
+                    <td class="d-none">@persona.IdEmpleado</td>
+                    <td>
+                        @if (persona.Foto != null && persona.Foto.Length > 0)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(persona.Foto)" style="width:35px;height:35px;border-radius:50%;object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <i class="fa fa-user-circle fa-2x text-secondary"></i>
+                        }
+                    </td>
+                    <td>@persona.NombreEmpleado</td>
+                    <td>@persona.DNI</td>
+                    <td>@persona.NumeroEmpleado</td>
+                    <td>@persona.Puesto</td>
+                    <td>@persona.Telefono</td>
+                    <td>@persona.EMail</td>
+                    <td>@(persona.NombreSede ?? "Central")</td>
+                    <td>
+                        @if (persona.Activo)
+                        {
+                            <span class="badge bg-success">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Inactivo</span>
+                        }
+                    </td>
+                    <td>
+                        <div aria-label="Operaciones">
+                            <a class="btn btn-sm btn-outline-primary" onclick="jqGetModalUpdatePersonal(@persona.IdEmpleado)" title="Modificar">
+                                <span class="fa fa-pencil"></span>
+                            </a>
+                            <button class="btn btn-sm btn-outline-danger" style="margin-left:5px;" onclick="jqGetModalDeletePersonal(@persona.IdEmpleado)" title="Eliminar">
+                                <span class="fa fa-circle-xmark"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="10" class="text-center text-black-50 py-3">
+                    (No hay registros de personal)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    #tablaMedicos {
+        border: 1px solid deepskyblue;
+    }
+    #tablaMedicos td, #tablaMedicos th {
+        vertical-align: middle !important;
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+    }
+</style>

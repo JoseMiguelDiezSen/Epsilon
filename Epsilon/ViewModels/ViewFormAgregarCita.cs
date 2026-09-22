@@ -1,25 +1,24 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System;
 
 namespace Epsilon.ViewModels
 {
-    /// <summary>
-    /// Modelo de vista para el formulario modal de creación y edición de citas.
-    /// </summary>
     public class ViewFormAgregarCita
     {
         public int IdCita { get; set; }
 
-        [Required(ErrorMessage = "Debe seleccionar un paciente.")]
-        [Display(Name = "Paciente")]
-        public int IdPaciente { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un cliente.")]
+        [Display(Name = "Cliente")]
+        public int IdCliente { get; set; }
 
-        [Required(ErrorMessage = "Debe seleccionar un médico.")]
-        [Display(Name = "Médico")]
-        public int IdMedico { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un empleado.")]
+        [Display(Name = "Empleado")]
+        public int IdEmpleado { get; set; }
 
-        [Display(Name = "Tratamiento")]
-        public int? IdTratamiento { get; set; }
+        [Display(Name = "Servicio")]
+        public int? IdServicio { get; set; }
 
         [Required(ErrorMessage = "Debe especificar la fecha y hora de inicio.")]
         [Display(Name = "Fecha y Hora de Inicio")]
@@ -32,18 +31,17 @@ namespace Epsilon.ViewModels
         [Display(Name = "Observaciones")]
         public string? Observaciones { get; set; }
 
-        public int IdClinica { get; set; } = 1;
+        public int IdSede { get; set; } = 1;
 
-        // Listas desplegables para el formulario
-        public SelectList? ListaPacientes { get; set; }
-        public SelectList? ListaMedicos { get; set; }
-        public SelectList? ListaTratamientos { get; set; }
-        public SelectList? ListaClinicas { get; set; }
+        public SelectList? ListaClientes { get; set; }
+        public SelectList? ListaPersonal { get; set; }
+        public SelectList? ListaServicios { get; set; }
+        public SelectList? ListaSedes { get; set; }
 
-        public List<Negocio.Persistencia.Modelos.Medico>? MedicosDisponibles { get; set; }
-        public List<Negocio.Persistencia.Modelos.Clinica>? ClinicasDisponibles { get; set; }
+        public List<Negocio.Persistencia.Modelos.Personal>? PersonalDisponible { get; set; }
+        public List<Negocio.Persistencia.Modelos.Sede>? SedesDisponibles { get; set; }
 
-        public string? NombrePaciente { get; set; }
-        public string? NombreMedico { get; set; }
+        public string? NombreCliente { get; set; }
+        public string? NombreEmpleado { get; set; }
     }
 }

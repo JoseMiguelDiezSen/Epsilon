@@ -62,7 +62,7 @@ namespace Epsilon.Controllers
         /// <param name="vmUsuarios"></param>
         /// <returns> Devuelve una lista de los periodos que coincidan con los datos introducidos</returns>
         [HttpPost, AjaxOnly]
-        public async Task<JsonResult> FiltrarUsuariosAsync(UsuariosViewModel vmUsuarios)
+        public async Task<JsonResult> FiltrarUsuarios(UsuariosViewModel vmUsuarios)
         {
             JsonResponse? jsonResponse = null;
 
@@ -130,7 +130,7 @@ namespace Epsilon.Controllers
         /// <param name="vmUsuario"></param>
         /// <returns></returns>
         //[HttpPost, AjaxOnly]
-        //public async Task<JsonResult> AgregarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
+        //public async Task<JsonResult> AgregarUsuario(ViewFormAgregarUsuario vmUsuario)
         //{
         //    JsonResult result = new JsonResult(new { StatusCode = 500, message = "Nao se pudo realizar la operación solicitada" });
         //    JsonResponse jsonResponse = new JsonResponse("400", "Error de servidor al realizar la operacion");
@@ -167,7 +167,7 @@ namespace Epsilon.Controllers
         //}
 
         [HttpPost, AjaxOnly]
-        public async Task<JsonResult> AgregarUsuarioAsync(ViewFormAgregarUsuario vmUsuario)
+        public async Task<JsonResult> AgregarUsuario(ViewFormAgregarUsuario vmUsuario)
         {
             JsonResult result = new JsonResult(new { StatusCode = 500, message = "Nao se pudo realizar la operación solicitada" });
 
@@ -194,7 +194,8 @@ namespace Epsilon.Controllers
                     FechaAlta = DateTime.Now,
                     Telefono = vmUsuario.Telefono,
                     Activo = vmUsuario.Activo,
-                    FotoPerfil = foto
+                    FotoPerfil = foto,
+                    IdEstadoUsuario = 1
                 };
 
                 _gestionUsuarios.AddUser(usuario);
@@ -222,7 +223,7 @@ namespace Epsilon.Controllers
         #region ModificarUsuario
 
         //[HttpGet, AjaxOnly]
-        //public async Task<ActionResult> ModalModificarUsuarioAsync(int idUsuario)
+        //public async Task<ActionResult> ModalModificarUsuario(int idUsuario)
         //{
         //    JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
 
@@ -249,7 +250,7 @@ namespace Epsilon.Controllers
         //}
 
         [HttpGet, AjaxOnly]
-        public async Task<ActionResult> ModalModificarUsuarioAsync(int idUsuario)
+        public async Task<ActionResult> ModalModificarUsuario(int idUsuario)
         {
             JsonResponse jsonResponse = new JsonResponse("400", "Error en el servidor", "");
 
@@ -415,7 +416,7 @@ namespace Epsilon.Controllers
         /// <param name="id"> Identificador del usuario a eliminar </param>
         /// <returns></returns>
         [HttpGet, AjaxOnly]
-        public async Task<JsonResult> EliminarUsuarioAsync(long idUsuario)
+        public async Task<JsonResult> EliminarUsuario(long idUsuario)
         {
             JsonResponse response = new JsonResponse("200", "Ok");
             try
@@ -423,6 +424,7 @@ namespace Epsilon.Controllers
                 Usuario usuario = _gestionUsuarios.Context.Usuarios.Where(u => u.IdUsuario == idUsuario).First();
                 JsonResponse? jsonResponse = new JsonResponse("400", "Error en el servidor", "");
                 ViewFormAgregarUsuario vmAgregarUsuario = new ViewFormAgregarUsuario();
+                vmAgregarUsuario.IdUsuario = usuario.IdUsuario;
                 vmAgregarUsuario.Nombre =  usuario.Nombre;
                 string data = await _razorRenderService.ToStringAsync("FormDeleteUser", vmAgregarUsuario);
                 jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
@@ -432,6 +434,7 @@ namespace Epsilon.Controllers
             {
                 response.Status = "500";
                 response.StatusMessage = "Se ha producido un error al intentar eliminar el Usuario";
+                ;
             }
             return new JsonResult(response);
         }
@@ -442,7 +445,7 @@ namespace Epsilon.Controllers
         /// <param name="idUsuario"> Identificador del usuario a eliminar </param>
         /// <returns></returns>
         [HttpPost, AjaxOnly]
-        public async Task<JsonResult> EliminarUsuarioAsync(int idUsuario)
+        public async Task<JsonResult> EliminarUsuario(int idUsuario)
         {
             JsonResponse response = new JsonResponse("200", "Ok");
             try
@@ -482,7 +485,7 @@ namespace Epsilon.Controllers
         {
             JsonResult jsonResult = new JsonResult(new { StatusCode = 500, message = "No se pudo realizar la operación solicitada" });
 
-            List<Paciente> pacientes = new List<Paciente>();
+            List<Cliente> clientes = new List<Cliente>();
             using (var memoryStream = new MemoryStream())
             {
                 fileExcel.CopyTo(memoryStream);
@@ -504,25 +507,25 @@ namespace Epsilon.Controllers
                     //Row 2 : Omite Cabecera
                     for (int row = 2; row < rowCount; row++)
                     {
-                        var paciente = new Paciente();
-                        paciente.NombrePaciente = hoja1.GetValue(row, 1).ToString();
-                        paciente.DNI = hoja1.GetValue(row, 2).ToString();
-                        paciente.Telefono = Convert.ToInt32(hoja1.GetValue(row, 3));
-                        paciente.EMail = hoja1.GetValue(row, 4).ToString();
-                        paciente.FechaNacimiento = Convert.ToDateTime(hoja1.GetValue(row, 5).ToString());
-                        paciente.Direccion = hoja1.GetValue(row, 6).ToString();
-                        paciente.Ciudad = hoja1.GetValue(row, 7).ToString();
-                        paciente.FechaAlta = Convert.ToDateTime(hoja1.GetValue(row, 8).ToString());
-                        paciente.NumeroConsultas = Convert.ToInt32(hoja1.GetValue(row, 9));
-                        paciente.Asegurado = Convert.ToBoolean(hoja1.GetValue(row, 10));
+                        var Cliente = new Cliente();
+                        Cliente.NombreCliente = hoja1.GetValue(row, 1).ToString();
+                        Cliente.DNI = hoja1.GetValue(row, 2).ToString();
+                        Cliente.Telefono = Convert.ToInt32(hoja1.GetValue(row, 3));
+                        Cliente.EMail = hoja1.GetValue(row, 4).ToString();
+                        Cliente.FechaNacimiento = Convert.ToDateTime(hoja1.GetValue(row, 5).ToString());
+                        Cliente.Direccion = hoja1.GetValue(row, 6).ToString();
+                        Cliente.Ciudad = hoja1.GetValue(row, 7).ToString();
+                        Cliente.FechaAlta = Convert.ToDateTime(hoja1.GetValue(row, 8).ToString());
+                        Cliente.NumeroServicios = Convert.ToInt32(hoja1.GetValue(row, 9));
+                        Cliente.Preferente = Convert.ToBoolean(hoja1.GetValue(row, 10));
 
-                        if (!string.IsNullOrEmpty(paciente.NombrePaciente))
+                        if (!string.IsNullOrEmpty(Cliente.NombreCliente))
                         {
-                            pacientes.Add(paciente);
+                            clientes.Add(Cliente);
                         }
                     }
-                    string pacientesJSON = JsonSerializer.Serialize(pacientes);
-                    pacientesJSON = await _razorRenderService.ToStringAsync("FormImportarUsuarios", pacientesJSON);
+                    string clientesJSON = JsonSerializer.Serialize(clientes);
+                    clientesJSON = await _razorRenderService.ToStringAsync("FormImportarUsuarios", clientesJSON);
                     return jsonResult;
                 }
             }
@@ -620,3 +623,10 @@ namespace Epsilon.Controllers
 
     }
 }
+
+
+
+
+
+
+

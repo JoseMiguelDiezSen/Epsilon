@@ -1,0 +1,89 @@
+﻿@using Epsilon.ViewModels
+@model IEnumerable<ViewServicio>
+
+<table class="table table-light table-hover table-group-divider table-responsive table-sm" id="tablaPacientes">
+    <thead>
+        @* Cabecera *@
+        <tr>
+            <th scope="col" class="text-center d-none" width="1%">#</th>
+            <th scope="col" class="d-none">IDSERVICIO</th>
+            <th scope="col">SERVICIO</th>
+            <th scope="col">DURACIÓN (MIN)</th>
+            <th scope="col">COLOR</th>
+            <th scope="col">PRECIO (€)</th>
+            <th scope="col">ACCIONES</th>
+        </tr>
+    </thead>
+
+    <tbody id="idBodyTable">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var servicio in Model)
+            {
+                <tr id="idFilaServicio_@servicio.IdServicio" class="text-center">
+                    <td class="text-center d-none">
+                        <span class="fa-solid fa-briefcase"></span>
+                    </td>
+                    <td style="text-align:center" class="d-none">@servicio.IdServicio</td>
+                    <td style="text-align:center">@servicio.NombreServicio</td>
+                    <td style="text-align:center">@servicio.Duracion min</td>
+                    <td style="text-align:center">
+                        <div class="color-box" style="background-color:@servicio.Color"></div>
+                    </td>
+                    <td style="text-align:center">@servicio.Precio.ToString("F2") €</td>
+
+                    @* OPERACIONES *@
+                    <td>
+                        <div aria-label="Operaciones">
+                            @* Boton Editar Servicio *@
+                            <a class="btn btn-sm btn-outline-primary" onclick="jqGetModalUpdateServicio(@servicio.IdServicio)" id="btnEditar_@servicio.IdServicio" title="Editar">
+                                <span class="fa fa-pencil"></span>
+                            </a>
+
+                            @* Boton Eliminar Servicio *@
+                            <button class="btn btn-sm btn-outline-danger" style="margin-left:5px;" onclick="jqGetModalDeleteServicio(@servicio.IdServicio)" id="btnEliminar_@servicio.IdServicio" title="Eliminar">
+                                <span class="fa fa-circle-xmark"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">
+                    <span class="text-black-50 m-2">(No hay servicios registrados)</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .color-box {
+        width: 25px;
+        height: 25px;
+        border-radius: 6px;
+        margin: auto;
+        border: 1px solid #555;
+        box-shadow: 0 0 4px rgba(0,0,0,0.3);
+    }
+
+    th {
+        background-color: darkgrey;
+    }
+
+    #tablaPacientes {
+        border: 1px solid;
+        border-color: deepskyblue;
+    }
+
+    #tablaPacientes td,
+    #tablaPacientes th {
+        vertical-align: middle !important;
+        padding-top: 0.6rem;
+        padding-bottom: 0.6rem;
+    }
+</style>
+

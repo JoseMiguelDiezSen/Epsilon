@@ -14,13 +14,13 @@ using Epsilon.Hubs;
 namespace Epsilon.Controllers
 {
     /// <summary>
-    /// Controlador responsable de la gesti√≥n de la Agenda y el calendario FullCalendar.
+    /// Controlador responsable de la gestiÛn de la Agenda y el calendario FullCalendar.
     /// </summary>
     public class AgendaController : AbstractSecurityController
     {
         private readonly IRazorRenderService _renderService;
         private readonly IGestionCitas _gestionCitas;
-        // Permite notificar por SignalR a la p√°gina de Facturaci√≥n cuando cambia una cita
+        // Permite notificar por SignalR a la p·gina de FacturaciÛn cuando cambia una cita
         private readonly IHubContext<FacturacionHub> _hubContext;
 
         // Paleta de colores para diferenciar citas por doctor si el tratamiento no tiene color
@@ -28,11 +28,11 @@ namespace Epsilon.Controllers
         {
             "#2c3e50", // Azul medianoche
             "#27ae60", // Verde esmeralda
-            "#8e44ad", // P√∫rpura
-            "#d35400", // Naranja √≥xido
+            "#8e44ad", // P˙rpura
+            "#d35400", // Naranja Ûxido
             "#16a085", // Verde azulado
             "#c0392b", // Rojo granate
-            "#2980b9"  // Azul oc√©ano
+            "#2980b9"  // Azul ocÈano
         };
 
         public AgendaController(
@@ -57,42 +57,38 @@ namespace Epsilon.Controllers
 
         /// <summary>
         /// Devuelve el listado de citas en formato JSON compatible con FullCalendar.
-        /// Se llama autom√°ticamente al cargar el calendario y al refrescarlo.
+        /// Se llama autom·ticamente al cargar el calendario y al refrescarlo.
         /// </summary>
         [HttpGet]
         public IActionResult GetEventosCalendario()
         {
             try
             {
-                // Obtenemos las citas y los cat√°logos en memoria para armar los t√≠tulos y colores
-                var citas = _gestionCitas.GetCitas().ToList();
-                var pacientes = _gestionCitas.GetPacientes()
-                    .GroupBy(p => p.IdPaciente)
-                    .ToDictionary(g => g.Key, g => g.First().NombrePaciente);
+                // Obtenemos las citas y los cat·logos en memoria para armar los tÌtulos y colores
+                var citas = _gestionCitas.ObtenerTodas().ToList();
+                var clientes = _gestionCitas.GetClientes()
+                    .GroupBy(p => p.IdCliente)
+                    .ToDictionary(g => g.Key, g => g.First().NombreCliente ?? "Cliente");
 
-                var medicos = _gestionCitas.GetMedicos()
-                    .GroupBy(m => m.IdMedico)
-                    .ToDictionary(g => g.Key, g => g.First().NombreMedico);
-
-                var tratamientos = _gestionCitas.GetTratamientos()
-                    .GroupBy(t => t.IdTratamiento)
-                    .ToDictionary(g => g.Key, g => g.First());
+                var personal = _gestionCitas.GetPersonal()
+                    .GroupBy(m => m.IdEmpleado)
+                    .ToDictionary(g => g.Key, g => g.First().NombreEmpleado ?? "Personal");
 
                 var eventos = citas.Select(cita =>
                 {
-                    // Nombre del paciente y m√©dico
-                    string nombrePaciente = pacientes.TryGetValue(cita.IdPaciente, out var pac) ? pac : "Paciente";
-                    string nombreMedico = medicos.TryGetValue(cita.IdMedico, out var med) ? med : "M√©dico";
+                    // Nombre del cliente y empleado
+                    string nombreCliente = clientes.TryGetValue(cita.IdCliente, out var cli) ? cli : (clientes.TryGetValue(cita.IdCliente, out var cli2) ? cli2 : "Cliente");
+                    string nombrePersonal = personal.TryGetValue(cita.IdEmpleado, out var per) ? per : (personal.TryGetValue(cita.IdEmpleado, out var per2) ? per2 : "Personal");
 
-                    // Tratamiento vinculado a la cita
-                    var tratamiento = _gestionCitas.GetTratamientoCita(cita.IdCita);
-                    string nombreTratamiento = tratamiento?.NombreTratamiento ?? "Consulta general";
+                    // Servicio vinculado a la cita
+                    var servicio = _gestionCitas.GetServicioCita(cita.IdCita);
+                    string nombreServicio = servicio?.NombreServicio ?? "Servicio est·ndar";
 
-                    // Determinamos el color: primero el color del tratamiento, o si no el color seg√∫n el m√©dico
-                    string colorFinal = _coloresDoctores[Math.Abs(cita.IdMedico) % _coloresDoctores.Length];
-                    if (!string.IsNullOrWhiteSpace(tratamiento?.Color))
+                    // Determinamos el color: primero el color del servicio, o si no el color seg˙n el empleado
+                    string colorFinal = _coloresDoctores[Math.Abs(cita.IdEmpleado) % _coloresDoctores.Length];
+                    if (!string.IsNullOrWhiteSpace(servicio?.Color))
                     {
-                        string col = tratamiento.Color.Trim();
+                        string col = servicio.Color.Trim();
                         if (col.StartsWith("#") || col.StartsWith("rgb", StringComparison.OrdinalIgnoreCase))
                         {
                             colorFinal = col;
@@ -110,19 +106,19 @@ namespace Epsilon.Controllers
                     return new
                     {
                         id = cita.IdCita,
-                        title = $"{nombrePaciente} ‚Äî {nombreTratamiento}",
+                        title = $"{nombreCliente} ó {nombreServicio}",
                         start = cita.FechaInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
                         end = cita.FechaFin.ToString("yyyy-MM-ddTHH:mm:ss"),
                         backgroundColor = colorFinal,
                         borderColor = colorFinal,
                         textColor = "#ffffff",
-                        display = "block", // Obliga a FullCalendar a pintar un bloque s√≥lido con color de fondo
+                        display = "block", // Obliga a FullCalendar a pintar un bloque sÛlido con color de fondo
                         extendedProps = new
                         {
                             idCita = cita.IdCita,
-                            paciente = nombrePaciente,
-                            medico = nombreMedico,
-                            tratamiento = nombreTratamiento,
+                            paciente = nombreCliente,
+                            medico = nombrePersonal,
+                            tratamiento = nombreServicio,
                             observaciones = cita.Observaciones ?? string.Empty
                         }
                     };
@@ -138,7 +134,7 @@ namespace Epsilon.Controllers
         }
 
         /// <summary>
-        /// Carga la vista parcial modal FormAddCita para agregar una nueva cita.
+        /// Carga la vista parcial modal FormAdd para agregar una nueva cita.
         /// </summary>
         /// <param name="date">Fecha y hora seleccionada en el calendario</param>
         [HttpGet, AjaxOnly]
@@ -155,60 +151,60 @@ namespace Epsilon.Controllers
                     fechaInicio = parsedDate;
                 }
 
-                // Fecha de fin por defecto: 30 minutos despu√©s
+                // Fecha de fin por defecto: 30 minutos despuÈs
                 DateTime fechaFin = fechaInicio.AddMinutes(30);
 
                 // Cargar listas desplegables para el formulario
-                var pacientes = _gestionCitas.GetPacientes()
-                    .Select(p => new { Id = p.IdPaciente, Texto = $"{p.NombrePaciente} (DNI: {p.DNI})" })
+                var clientes = _gestionCitas.GetClientes()
+                    .Select(p => new { Id = p.IdCliente, Texto = $"{p.NombreCliente} (DNI: {p.DNI})" })
                     .ToList();
 
-                var clinicas = _gestionCitas.GetClinicas()
-                    .Select(c => new { Id = c.IdClinica, Texto = c.NombreClinica })
+                var sedes = _gestionCitas.GetSedes()
+                    .Select(c => new { Id = c.IdSede, Texto = c.NombreSede })
                     .ToList();
 
-                var clinicasDict = clinicas.ToDictionary(c => c.Id, c => c.Texto);
-                var gruposClinicas = clinicasDict.ToDictionary(
+                var sedesDict = sedes.ToDictionary(c => c.Id, c => c.Texto);
+                var gruposSedes = sedesDict.ToDictionary(
                     kvp => kvp.Key,
                     kvp => new SelectListGroup { Name = kvp.Value }
                 );
 
-                var medicos = _gestionCitas.GetMedicos()
+                var personal = _gestionCitas.GetPersonal()
                     .Select(m => new SelectListItem
                     {
-                        Value = m.IdMedico.ToString(),
-                        Text = $"{m.NombreMedico} - {m.Especialidad}",
-                        Group = m.IdClinica.HasValue && gruposClinicas.ContainsKey(m.IdClinica.Value)
-                            ? gruposClinicas[m.IdClinica.Value]
+                        Value = m.IdEmpleado.ToString(),
+                        Text = $"{m.NombreEmpleado} - {m.Puesto}",
+                        Group = m.IdSede.HasValue && gruposSedes.ContainsKey(m.IdSede.Value)
+                            ? gruposSedes[m.IdSede.Value]
                             : null
                     })
                     .ToList();
 
-                var tratamientos = _gestionCitas.GetTratamientos()
-                    .Select(t => new { Id = t.IdTratamiento, Texto = $"{t.NombreTratamiento} ({t.Duracion} min)" })
+                var servicios = _gestionCitas.GetServicios()
+                    .Select(t => new { Id = t.IdServicio, Texto = $"{t.NombreServicio} ({t.Duracion} min)" })
                     .ToList();
 
-                var clinicasDb = _gestionCitas.GetClinicas();
-                var medicosDb = _gestionCitas.GetMedicos();
+                var sedesDb = _gestionCitas.GetSedes();
+                var personalDb = _gestionCitas.GetPersonal();
 
-                int idClinicaInicial = clinicas.FirstOrDefault()?.Id ?? 3;
+                int idSedeInicial = sedes.FirstOrDefault()?.Id ?? 3;
 
                 ViewFormAgregarCita vm = new ViewFormAgregarCita
                 {
                     FechaInicio = fechaInicio,
                     FechaFin = fechaFin,
-                    IdClinica = idClinicaInicial,
-                    ListaClinicas = new SelectList(clinicas, "Id", "Texto", idClinicaInicial),
-                    ListaPacientes = new SelectList(pacientes, "Id", "Texto"),
-                    ListaMedicos = new SelectList(medicos, "Value", "Text", null, "Group.Name"),
-                    ListaTratamientos = new SelectList(tratamientos, "Id", "Texto"),
-                    MedicosDisponibles = medicosDb,
-                    ClinicasDisponibles = clinicasDb
+                    IdSede = idSedeInicial,
+                    ListaSedes = new SelectList(sedes, "Id", "Texto", idSedeInicial),
+                    ListaClientes = new SelectList(clientes, "Id", "Texto"),
+                    ListaPersonal = new SelectList(personal, "Value", "Text", null, "Group.Name"),
+                    ListaServicios = new SelectList(servicios, "Id", "Texto"),
+                    PersonalDisponible = personalDb,
+                    SedesDisponibles = sedesDb
                 };
 
                 // Renderizamos la vista parcial a HTML
                 string html = await _renderService.ToStringAsync("FormAddCita", vm);
-                jsonResponse = new JsonResponse("200", "Operaci√≥n realizada correctamente.", html);
+                jsonResponse = new JsonResponse("200", "OperaciÛn realizada correctamente.", html);
             }
             catch (Exception ex)
             {
@@ -220,14 +216,14 @@ namespace Epsilon.Controllers
         }
 
         /// <summary>
-        /// Acci√≥n POST invocada por AJAX para insertar una nueva cita en la base de datos.
+        /// AcciÛn POST invocada por AJAX para insertar una nueva cita en la base de datos.
         /// </summary>
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> AgregarCita(ViewFormAgregarCita vm)
         {
             try
             {
-                // Validaci√≥n b√°sica de coherencia de fechas
+                // ValidaciÛn b·sica de coherencia de fechas
                 if (vm.FechaFin <= vm.FechaInicio)
                 {
                     vm.FechaFin = vm.FechaInicio.AddMinutes(30);
@@ -235,33 +231,33 @@ namespace Epsilon.Controllers
 
                 Citas cita = new Citas
                 {
-                    IdClinica = vm.IdClinica > 0 ? vm.IdClinica : 1,
-                    IdPaciente = vm.IdPaciente,
-                    IdMedico = vm.IdMedico,
+                    IdSede = vm.IdSede > 0 ? vm.IdSede : 1,
+                    IdCliente = vm.IdCliente,
+                    IdEmpleado = vm.IdEmpleado,
                     FechaInicio = vm.FechaInicio,
                     FechaFin = vm.FechaFin,
                     Observaciones = vm.Observaciones
                 };
 
-                _gestionCitas.AddCita(cita, vm.IdTratamiento);
+                cita = _gestionCitas.Add(cita); if(vm.IdServicio.HasValue) { _gestionCitas.AddCitaServicio(new Negocio.Persistencia.Modelos.CitaServicio { IdCita = cita.IdCita, IdServicio = vm.IdServicio.Value }); }
 
-                // Notificar a los clientes conectados que hubo un cambio en facturaci√≥n
+                // Notificar a los clientes conectados que hubo un cambio en facturaciÛn
                 await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
 
-                return new JsonResult(new { StatusCode = 200, message = "Cita creada con √©xito." });
+                return new JsonResult(new { StatusCode = 200, message = "Cita creada con Èxito." });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al insertar cita m√©dica");
+                _logger.LogError(ex, "Error al insertar cita mÈdica");
                 Response.StatusCode = 500;
                 return new JsonResult(new { StatusCode = 500, message = "Error al crear la cita: " + ex.Message });
             }
         }
 
         /// <summary>
-        /// Carga la vista parcial modal FormModificarCita con los datos de una cita existente para su edici√≥n o borrado.
+        /// Carga la vista parcial modal FormModificarCita con los datos de una cita existente para su ediciÛn o borrado.
         /// </summary>
-        /// <param name="idCita">Identificador de la cita m√©dica a modificar</param>
+        /// <param name="idCita">Identificador de la cita mÈdica a modificar</param>
         [HttpGet, AjaxOnly]
         public async Task<ActionResult> ModalModificarCita(int idCita)
         {
@@ -269,89 +265,89 @@ namespace Epsilon.Controllers
 
             try
             {
-                var cita = _gestionCitas.GetCita(idCita);
+                var cita = _gestionCitas.Get(idCita);
                 if (cita == null)
                 {
-                    jsonResponse = new JsonResponse("404", "No se encontr√≥ la cita especificada.", string.Empty);
+                    jsonResponse = new JsonResponse("404", "No se encontrÛ la cita especificada.", string.Empty);
                     return new JsonResult(jsonResponse);
                 }
 
                 // Obtenemos el tratamiento actual asociado a la cita
-                var tratamiento = _gestionCitas.GetTratamientoCita(idCita);
+                var tratamiento = _gestionCitas.GetServicioCita(idCita);
 
                 // Cargar listas desplegables
-                var pacientes = _gestionCitas.GetPacientes()
-                    .Select(p => new { Id = p.IdPaciente, Texto = $"{p.NombrePaciente} (DNI: {p.DNI})" })
+                var clientes = _gestionCitas.GetClientes()
+                    .Select(p => new { Id = p.IdCliente, Texto = $"{p.NombreCliente} (DNI: {p.DNI})" })
                     .ToList();
 
-                var clinicas = _gestionCitas.GetClinicas()
-                    .Select(c => new { Id = c.IdClinica, Texto = c.NombreClinica })
+                var sedes = _gestionCitas.GetSedes()
+                    .Select(c => new { Id = c.IdSede, Texto = c.NombreSede })
                     .ToList();
 
-                var clinicasDict = clinicas.ToDictionary(c => c.Id, c => c.Texto);
-                var gruposClinicas = clinicasDict.ToDictionary(
+                var sedesDict = sedes.ToDictionary(c => c.Id, c => c.Texto);
+                var gruposSedes = sedesDict.ToDictionary(
                     kvp => kvp.Key,
                     kvp => new SelectListGroup { Name = kvp.Value }
                 );
 
-                var medicos = _gestionCitas.GetMedicos()
+                var personal = _gestionCitas.GetPersonal()
                     .Select(m => new SelectListItem
                     {
-                        Value = m.IdMedico.ToString(),
-                        Text = $"{m.NombreMedico} - {m.Especialidad}",
-                        Group = m.IdClinica.HasValue && gruposClinicas.ContainsKey(m.IdClinica.Value)
-                            ? gruposClinicas[m.IdClinica.Value]
+                        Value = m.IdEmpleado.ToString(),
+                        Text = $"{m.NombreEmpleado} - {m.Puesto}",
+                        Group = m.IdSede.HasValue && gruposSedes.ContainsKey(m.IdSede.Value)
+                            ? gruposSedes[m.IdSede.Value]
                             : null
                     })
                     .ToList();
 
-                var tratamientos = _gestionCitas.GetTratamientos()
-                    .Select(t => new { Id = t.IdTratamiento, Texto = $"{t.NombreTratamiento} ({t.Duracion} min)" })
+                var servicios = _gestionCitas.GetServicios()
+                    .Select(t => new { Id = t.IdServicio, Texto = $"{t.NombreServicio} ({t.Duracion} min)" })
                     .ToList();
 
-                // Obtenemos la cl√≠nica del m√©dico asignado si existe
-                int idClinicaActual = cita.IdClinica;
-                var medicoActual = _gestionCitas.GetMedicos().FirstOrDefault(m => m.IdMedico == cita.IdMedico);
-                if (medicoActual?.IdClinica != null && medicoActual.IdClinica.Value > 0)
+                // Obtenemos la clÌnica del mÈdico asignado si existe
+                int idSedeActual = cita.IdSede;
+                var empleadoActual = _gestionCitas.GetPersonal().FirstOrDefault(m => m.IdEmpleado == cita.IdEmpleado);
+                if (empleadoActual?.IdSede != null && empleadoActual.IdSede.Value > 0)
                 {
-                    idClinicaActual = medicoActual.IdClinica.Value;
+                    idSedeActual = empleadoActual.IdSede.Value;
                 }
 
-                var clinicasDb = _gestionCitas.GetClinicas();
-                var medicosDb = _gestionCitas.GetMedicos();
+                var sedesDb = _gestionCitas.GetSedes();
+                var personalDb = _gestionCitas.GetPersonal();
 
                 ViewFormAgregarCita vm = new ViewFormAgregarCita
                 {
                     IdCita = cita.IdCita,
-                    IdClinica = idClinicaActual,
-                    IdPaciente = cita.IdPaciente,
-                    IdMedico = cita.IdMedico,
-                    IdTratamiento = tratamiento?.IdTratamiento,
+                    IdSede = idSedeActual,
+                    IdCliente = cita.IdCliente,
+                    IdEmpleado = cita.IdEmpleado,
+                    IdServicio = tratamiento?.IdServicio,
                     FechaInicio = cita.FechaInicio,
                     FechaFin = cita.FechaFin,
                     Observaciones = cita.Observaciones,
-                    ListaClinicas = new SelectList(clinicas, "Id", "Texto", idClinicaActual),
-                    ListaPacientes = new SelectList(pacientes, "Id", "Texto", cita.IdPaciente),
-                    ListaMedicos = new SelectList(medicos, "Value", "Text", cita.IdMedico.ToString(), "Group.Name"),
-                    ListaTratamientos = new SelectList(tratamientos, "Id", "Texto", tratamiento?.IdTratamiento),
-                    MedicosDisponibles = medicosDb,
-                    ClinicasDisponibles = clinicasDb
+                    ListaSedes = new SelectList(sedes, "Id", "Texto", idSedeActual),
+                    ListaClientes = new SelectList(clientes, "Id", "Texto", cita.IdCliente),
+                    ListaPersonal = new SelectList(personal, "Value", "Text", cita.IdEmpleado.ToString(), "Group.Name"),
+                    ListaServicios = new SelectList(servicios, "Id", "Texto", tratamiento?.IdServicio),
+                    PersonalDisponible = personalDb,
+                    SedesDisponibles = sedesDb
                 };
 
                 string html = await _renderService.ToStringAsync("FormModificarCita", vm);
-                jsonResponse = new JsonResponse("200", "Operaci√≥n realizada correctamente.", html);
+                jsonResponse = new JsonResponse("200", "OperaciÛn realizada correctamente.", html);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al preparar modal de modificar cita con Id {IdCita}", idCita);
-                jsonResponse = new JsonResponse("500", "Error al cargar el formulario de modificaci√≥n: " + ex.Message, string.Empty);
+                jsonResponse = new JsonResponse("500", "Error al cargar el formulario de modificaciÛn: " + ex.Message, string.Empty);
             }
 
             return new JsonResult(jsonResponse);
         }
 
         /// <summary>
-        /// Acci√≥n POST invocada por AJAX para guardar las modificaciones de una cita m√©dica.
+        /// AcciÛn POST invocada por AJAX para guardar las modificaciones de una cita mÈdica.
         /// </summary>
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> ModificarCita(ViewFormAgregarCita vm)
@@ -366,18 +362,18 @@ namespace Epsilon.Controllers
                 Citas cita = new Citas
                 {
                     IdCita = vm.IdCita,
-                    IdClinica = vm.IdClinica > 0 ? vm.IdClinica : 1,
-                    IdPaciente = vm.IdPaciente,
-                    IdMedico = vm.IdMedico,
+                    IdSede = vm.IdSede > 0 ? vm.IdSede : 1,
+                    IdCliente = vm.IdCliente,
+                    IdEmpleado = vm.IdEmpleado,
                     FechaInicio = vm.FechaInicio,
                     FechaFin = vm.FechaFin,
                     Observaciones = vm.Observaciones
                 };
 
-                bool resultado = _gestionCitas.UpdateCita(cita, vm.IdTratamiento);
+                bool resultado = _gestionCitas.Update(cita); if(resultado && vm.IdServicio.HasValue) { _gestionCitas.UpdateCitaServicio(new Negocio.Persistencia.Modelos.CitaServicio { IdCita = cita.IdCita, IdServicio = vm.IdServicio.Value }); }
                 if (resultado)
                 {
-                    // Notificar a los clientes conectados que hubo un cambio en facturaci√≥n
+                    // Notificar a los clientes conectados que hubo un cambio en facturaciÛn
                     await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
                     return new JsonResult(new { StatusCode = 200, message = "Cita modificada correctamente." });
                 }
@@ -386,7 +382,7 @@ namespace Epsilon.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al modificar la cita m√©dica");
+                _logger.LogError(ex, "Error al modificar la cita mÈdica");
                 return new JsonResult(new { StatusCode = 500, message = "Error al modificar la cita: " + ex.Message });
             }
         }
@@ -402,13 +398,13 @@ namespace Epsilon.Controllers
             {
                 DateTime fin = fechaFin ?? fechaInicio.AddMinutes(30);
 
-                bool resultado = _gestionCitas.UpdateFechaCita(idCita, fechaInicio, fin);
+                var cToUpdate = _gestionCitas.Get(idCita); bool resultado = false; if(cToUpdate != null) { cToUpdate.FechaInicio = fechaInicio; cToUpdate.FechaFin = fin; resultado = _gestionCitas.Update(cToUpdate); }
                 if (resultado)
                 {
                     return new JsonResult(new { StatusCode = 200, message = "Fecha de la cita actualizada correctamente." });
                 }
 
-                return new JsonResult(new { StatusCode = 404, message = "No se encontr√≥ la cita especificada." });
+                return new JsonResult(new { StatusCode = 404, message = "No se encontrÛ la cita especificada." });
             }
             catch (Exception ex)
             {
@@ -418,9 +414,9 @@ namespace Epsilon.Controllers
         }
 
         /// <summary>
-        /// Carga la vista parcial modal FormDeleteCita para confirmar la eliminaci√≥n de una cita m√©dica.
+        /// Carga la vista parcial modal FormDelete para confirmar la eliminaciÛn de una cita mÈdica.
         /// </summary>
-        /// <param name="idCita">Identificador de la cita m√©dica a eliminar</param>
+        /// <param name="idCita">Identificador de la cita mÈdica a eliminar</param>
         [HttpGet, AjaxOnly]
         public async Task<ActionResult> ModalEliminarCita(int idCita)
         {
@@ -428,56 +424,56 @@ namespace Epsilon.Controllers
 
             try
             {
-                var cita = _gestionCitas.GetCita(idCita);
+                var cita = _gestionCitas.Get(idCita);
                 if (cita == null)
                 {
-                    jsonResponse = new JsonResponse("404", "No se encontr√≥ la cita especificada.", string.Empty);
+                    jsonResponse = new JsonResponse("404", "No se encontrÛ la cita especificada.", string.Empty);
                     return new JsonResult(jsonResponse);
                 }
 
-                var paciente = _gestionCitas.GetPacientes().FirstOrDefault(p => p.IdPaciente == cita.IdPaciente);
-                var medico = _gestionCitas.GetMedicos().FirstOrDefault(m => m.IdMedico == cita.IdMedico);
+                var paciente = _gestionCitas.GetClientes().FirstOrDefault(p => p.IdCliente == cita.IdCliente);
+                var medico = _gestionCitas.GetPersonal().FirstOrDefault(m => m.IdEmpleado == cita.IdEmpleado);
 
                 ViewFormAgregarCita vm = new ViewFormAgregarCita
                 {
                     IdCita = cita.IdCita,
-                    IdPaciente = cita.IdPaciente,
-                    IdMedico = cita.IdMedico,
+                    IdCliente = cita.IdCliente,
+                    IdEmpleado = cita.IdEmpleado,
                     FechaInicio = cita.FechaInicio,
                     FechaFin = cita.FechaFin,
-                    NombrePaciente = paciente?.NombrePaciente ?? "el paciente",
-                    NombreMedico = medico?.NombreMedico ?? "el m√©dico"
+                    NombreCliente = paciente?.NombreCliente ?? "el paciente",
+                    NombreEmpleado = medico?.NombreEmpleado ?? "el mÈdico"
                 };
 
                 string html = await _renderService.ToStringAsync("FormDeleteCita", vm);
-                jsonResponse = new JsonResponse("200", "Operaci√≥n realizada correctamente.", html);
+                jsonResponse = new JsonResponse("200", "OperaciÛn realizada correctamente.", html);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al preparar modal de eliminar cita con Id {IdCita}", idCita);
-                jsonResponse = new JsonResponse("500", "Error al cargar el formulario de eliminaci√≥n: " + ex.Message, string.Empty);
+                jsonResponse = new JsonResponse("500", "Error al cargar el formulario de eliminaciÛn: " + ex.Message, string.Empty);
             }
 
             return new JsonResult(jsonResponse);
         }
 
         /// <summary>
-        /// Elimina una cita m√©dica por su identificador.
+        /// Elimina una cita mÈdica por su identificador.
         /// </summary>
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> EliminarCita(int idCita)
         {
             try
             {
-                bool resultado = _gestionCitas.DeleteCita(idCita);
+                bool resultado = _gestionCitas.Delete(idCita);
                 if (resultado)
                 {
-                    // Notificar a los clientes conectados que hubo un cambio en facturaci√≥n
+                    // Notificar a los clientes conectados que hubo un cambio en facturaciÛn
                     await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
                     return new JsonResult(new { StatusCode = 200, message = "Cita eliminada correctamente." });
                 }
 
-                return new JsonResult(new { StatusCode = 404, message = "No se encontr√≥ la cita a eliminar." });
+                return new JsonResult(new { StatusCode = 404, message = "No se encontrÛ la cita a eliminar." });
             }
             catch (Exception ex)
             {
@@ -487,3 +483,5 @@ namespace Epsilon.Controllers
         }
     }
 }
+
+

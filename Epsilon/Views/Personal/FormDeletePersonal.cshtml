@@ -1,0 +1,23 @@
+@using Epsilon.ViewModels
+@model ViewFormAgregarPersonal
+
+<form id="deletePersonalModal" method="post" onsubmit="return jqPostDeletePersonal(@Model.IdEmpleado);" style="border:1px solid gainsboro;padding:10px">
+
+    <input type="hidden" name="IdEmpleado" id="IdEmpleado" asp-for="IdEmpleado" value="@Model.IdEmpleado" />
+
+    <div class="row">
+
+        <div class="form-group row md-1">
+            <div class="col-md-12 m-2">
+                <label class="text-center col-md-12 col-form-label">¿Desea eliminar al empleado @Model.NombreEmpleado?</label>
+            </div>
+        </div>
+
+        @* BOTONES *@
+        <div class="text-center">
+            <button id="btnEliminarPersonal" type="submit" class="btn btn-outline-success"><span class="fa fa-check"></span> Aceptar</button>
+            <button id="btnCancelar" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+        </div>
+
+    </div>
+</form>

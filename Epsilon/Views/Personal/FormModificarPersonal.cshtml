@@ -1,0 +1,92 @@
+@using Epsilon.ViewModels
+@model ViewFormAgregarPersonal
+
+<form id="updatePersonal" method="post" enctype="multipart/form-data" onsubmit="return jqPostUpdatePersonal(this);">
+    <input type="hidden" asp-for="IdEmpleado" />
+
+    <div class="row">
+        <h4 class="text-center mb-4">MODIFICAR EMPLEADO</h4>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="label">Nombre y Apellidos</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" asp-for="NombreEmpleado" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="label">DNI / NIE</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-address-card"></i></span>
+                    <input type="text" class="form-control" asp-for="DNI" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="label">Nº Empleado</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-id-badge"></i></span>
+                    <input type="number" class="form-control" asp-for="NumeroEmpleado" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="label">Puesto / Categoría</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                    <input type="text" class="form-control" asp-for="Puesto" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="label">Foto (opcional)</label>
+                <input type="file" class="form-control" asp-for="FotoSubida" accept="image/*">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="label">Teléfono</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    <input type="text" class="form-control" asp-for="Telefono" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="label">Correo Electrónico</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" asp-for="EMail" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="label">Fecha de Contratación</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                    <input type="date" class="form-control" asp-for="FechaContratacion">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="label">Observaciones</label>
+                <textarea class="form-control" asp-for="Observaciones" rows="2"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" asp-for="Activo" id="checkActivoMod">
+                    <label class="form-check-label" for="checkActivoMod">Empleado Activo</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success"><i class="fa fa-check"></i> Actualizar</button>
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+</form>

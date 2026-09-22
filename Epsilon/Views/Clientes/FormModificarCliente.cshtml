@@ -1,0 +1,124 @@
+@using Epsilon.ViewModels
+@model ViewFormAgregarCliente
+
+<form id="updateCliente" method="post" asp-action="ModificarCliente" name="updateCliente" onsubmit="return jqPostUpdateCliente(this);">
+
+    <input type="hidden" name="IdCliente" id="IdCliente" asp-for="IdCliente" value="@Model.IdCliente" />
+
+    <div id="contenedorControles">
+
+        <h3 class="text-center mb-5">DATOS DEL CLIENTE</h3>
+
+        <div class="row">
+            <!-- Primera columna -->
+            @* NOMBRE *@
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="label">Nombre o Razón Social</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" asp-for="NombreCliente" placeholder="Ingrese nombre" id="inputStyle">
+                    </div>
+                </div>
+
+                @* TELEFONO *@
+                <div class="mb-3">
+                    <label class="label">Teléfono</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        <input type="number" class="form-control" asp-for="Telefono" name="Telefono" placeholder="Ingrese teléfono" id="inputStyle">
+                    </div>
+                </div>
+
+                @* FECHA ALTA *@
+                <div class="mb-3">
+                    <label class="label">Fecha de Alta</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                        <input type="date" asp-for="FechaAlta1" class="form-control" id="inputStyle">
+                    </div>
+                </div>
+
+                @* DIRECCION *@ 
+                <div class="mb-3">
+                    <label class="label">Dirección</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fa fa-map-pin" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" asp-for="Direccion" class="form-control" id="inputStyle">
+                    </div>
+                </div>
+
+                @* Nº Servicios *@ 
+                <div class="mb-3 col-md-4">
+                    <label class="label">Nº Servicios</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fa fa-th-list" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" asp-for="NumeroServicios" class="form-control" id="inputStyle">
+                    </div>
+                </div>
+
+                @* PREFERENTE *@
+                <div class="mb-3 col-md-4">
+                    <div>
+                        <input type="checkbox" asp-for="Preferente" id="checkAsegurado">
+                        <label class="form-check-label" style="margin-bottom:10px">Preferente</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segunda columna -->
+            <div class="col-md-6">
+
+                @* DNI / CIF *@
+                <div class="mb-3">
+                    <label class="label">DNI / CIF</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fa fa-address-card" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" class="form-control" asp-for="DNI" placeholder="Ingrese DNI o CIF" id="inputStyle">
+                    </div>
+                </div>
+
+                @* CORREO ELECTRONICO *@
+                <div class="mb-3">
+                    <label class="label">Correo Electrónico</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" asp-for="EMail" name="EMail" placeholder="Ingrese correo" value="@Model.EMail" id="inputStyle">
+                    </div>
+                </div>
+
+                @* OBSERVACIONES *@ 
+                <div class="mb-3">
+                    <label class="label">Observaciones</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                        <textarea class="form-control" rows="1" placeholder="Observaciones" name="Observaciones" id="inputStyle">@Model.Observaciones</textarea>
+                    </div>
+                </div>
+
+                @* CIUDAD *@ 
+                <div class="mb-3">
+                    <label class="label">Ciudad</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" asp-for="Ciudad" class="form-control" id="inputStyle">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* BOTONES *@
+    <div class="fa-pull-left pt-2">
+        <button id="btnAddUser" type="submit" class="btn btn-outline-success"><span class="fa fa-check"></span> Aceptar</button>
+        <button id="btnCancel" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><span class="fa fa-circle-xmark"> </span> Cancelar</button>
+    </div>
+</form>

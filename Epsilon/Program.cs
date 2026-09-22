@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-builder.Services.AddSignalR(); // Activa SignalR en la aplicaciÃ³n
+builder.Services.AddSignalR(); // Activa SignalR en la aplicación
 builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
     options.PageViewLocationFormats.Add("/Pages/Partials/{0}" + RazorViewEngine.ViewExtension);
@@ -47,13 +47,16 @@ builder.Services.AddScoped<IValidadoresProgesfor, ValidadoresProgesfor>();
 // Registro de los servicios de negocio
 builder.Services.AddScoped<IInformes, Informes>();
 builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
-builder.Services.AddScoped<IGestionClinica, GestionClinica>();
-builder.Services.AddScoped<IGestionPacientes, GestionPacientes>();
-builder.Services.AddScoped<IGestionMedicos, GestionMedicos>();
+
+builder.Services.AddScoped<IGestionClientes, GestionClientes>();
+builder.Services.AddScoped<IGestionPersonal, GestionPersonal>();
+builder.Services.AddScoped<IGestionClientes, GestionClientes>();
+builder.Services.AddScoped<IGestionPersonal, GestionPersonal>();
+builder.Services.AddScoped<IGestionServicios, GestionServicios>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
 builder.Services.AddScoped<IGestionEmail, GestionEmail>();
 builder.Services.AddScoped<IGestionCitas, GestionCitas>();
-builder.Services.AddScoped<IGestionFacturacion, GestionFacturacion>(); // Servicio que consulta los registros de facturaciÃ³n
+builder.Services.AddScoped<IGestionFacturacion, GestionFacturacion>(); // Servicio que consulta los registros de facturación
 
 
 
@@ -94,3 +97,5 @@ app.MapControllerRoute(
 app.MapHub<Epsilon.Hubs.FacturacionHub>("/facturacionHub");
 
 app.Run();
+
+

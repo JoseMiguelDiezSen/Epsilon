@@ -1,4 +1,4 @@
-@using Epsilon.ViewModels
+﻿@using Epsilon.ViewModels
 @model ViewFormAgregarCita
 
 <form id="deleteCitaModalForm" method="post" onsubmit="return jqPostDeleteCita(this);" style="border:1px solid gainsboro;padding:10px">
@@ -10,7 +10,7 @@
         <div class="form-group row md-1">
             <div class="col-md-12 m-2">
                 <label class="text-center col-md-12 col-form-label">
-                    ¿Desea eliminar la cita de <strong>@Model.NombrePaciente</strong> con el Dr./Dra. <strong>@Model.NombreMedico</strong> del día <strong>@Model.FechaInicio.ToString("dd/MM/yyyy")</strong> a las <strong>@Model.FechaInicio.ToString("HH:mm")</strong>?
+                    ¿Desea eliminar la cita de <strong>@Model.NombreCliente</strong> con el Dr./Dra. <strong>@Model.NombreEmpleado</strong> del día <strong>@Model.FechaInicio.ToString("dd/MM/yyyy")</strong> a las <strong>@Model.FechaInicio.ToString("HH:mm")</strong>?
                 </label>
             </div>
         </div>
@@ -27,3 +27,4 @@
 
     </div>
 </form>
+

@@ -1,0 +1,96 @@
+@using Negocio.Persistencia.Modelos
+@model DatosClientes
+
+<div style="margin-bottom:10px">
+    <div style="text-decoration:underline">Datos del Cliente</div>
+</div>
+
+<div class="row" style="margin:10px">
+    <div class="col-md-3">
+        <label class="label">Nombre Cliente: </label>
+        <label type="button" class="label">@Model.NombreCliente</label>
+    </div>
+    
+    <div class="col-md-3">
+        <label class="label">DNI / CIF: </label>
+        <label class="label">@Model.DNI</label>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Teléfono: </label>
+        <label class="label">@Model.Telefono</label>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Email: </label>
+        <label class="label">@Model.EMail</label>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Fecha Nac./Constitución: </label>
+        <label class="label">@(Model.FechaNacimiento?.ToShortDateString() ?? "N/D")</label>
+    </div>
+    
+    <div class="col-md-3">
+        <label class="label">Ciudad: </label>
+        <label class="label">@Model.Ciudad</label>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Dirección: </label>
+        <label class="label">@Model.Direccion</label>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Fecha de Alta: </label>
+        <label class="label">@Model.FechaAlta.ToShortDateString()</label>
+    </div>
+</div>
+
+<hr style="color:white">
+
+<div class="row" style="margin:10px">
+    <div style="margin-bottom:10px">
+        <div style="text-decoration:underline">Datos de Actividad y Servicios</div>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Nº de Servicios: </label>
+        <label class="label">@Model.NumeroServicios</label>
+    </div>
+    
+    <div class="col-md-3">
+        <label class="label">F. Primer Servicio: </label>
+        <label class="label">@(Model.FechaPrimeraCita?.ToShortDateString() ?? "N/D")</label>
+    </div>
+        
+    <div class="col-md-3">
+        <label class="label">F. Último Servicio: </label>
+        <label class="label">@(Model.FechaUltimaCita?.ToShortDateString() ?? "N/D")</label>
+    </div>
+
+    <div class="col-md-3">
+        <label class="label">Observaciones: </label>
+        <label class="label">@(Model.Observaciones ?? "Ninguna")</label>
+    </div>
+</div>
+
+<hr style="color:white">
+
+@* Acciones *@
+<div class="row" style="margin:10px">
+    @* Boton para abrir Historial de servicios *@
+    <div class="col-md-4">
+        <button type="button" class="btn btn-outline-light" onclick="return jqAbrirHistorialCliente(@Model.IdCliente);"><i class="fa fa-history" aria-hidden="true"></i> Historial de Servicios</button>
+    </div>
+
+    @* Boton para envio de email *@
+    <div class="col-md-4">
+        <button type="button" class="btn btn-outline-light" onclick="return jqGetModalCorreoElectronico(@Model.IdCliente);"><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar Email</button>
+    </div>
+
+    @* Boton para generar informe del cliente *@
+    <div class="col-md-4">
+        <button type="button" class="btn btn-outline-light" onclick="return jqGenerarInformeCliente(@Model.IdCliente);"><i class="fa fa-file-pdf" aria-hidden="true"></i> Generar Informe</button>
+    </div>
+</div>

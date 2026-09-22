@@ -1,0 +1,197 @@
+@model ClientesViewModel
+
+@{
+    ViewData["Title"] = "Clientes";
+}
+@{
+    ViewBag.LogoHeader = "JMDNegro.png";
+}
+
+<hr>
+<h4 class="text-center" style="color: #000 !important;"><span class="fa-solid fa-users"></span> Clientes <span class="fa-solid fa-users"></span></h4>
+<hr>
+
+<form id="id_Form1" method="post" asp-action="FiltrarClientes" onsubmit="return jqPostFiltrar(event, this)">
+
+    <button type="button" style="background-color:black;margin-top:10px;border:1px solid deepskyblue;" class="accordion"><span class="fa fa-search" style="vertical-align:middle;color:white;margin-top:-5px;margin-right:5px;"></span><span style="color:white">Buscador Clientes</span></button>
+  
+    <div class="panel" style="border-bottom:1px solid deepskyblue;border-left:1px solid skyblue;border-right:1px solid deepskyblue; box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);background-color:darkslategray">
+
+        <div class="form-group row" style="padding:10px;">
+
+            @* Nombre *@
+            <div class="col-md-3">
+                <label class="label" style="color:white">Nombre</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" name="NombreCliente" placeholder="Ingrese nombre">
+                </div>
+            </div>
+
+            @* DNI *@
+            <div class="col-md-3">
+                <label class="label" style="color:white">DNI / CIF</label>
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fa fa-address-card" aria-hidden="true"></i>
+                    </span>
+                    <input type="text" class="form-control" name="DNI" placeholder="Ingrese DNI o CIF">
+                </div>
+            </div>
+
+            @* Telefono *@
+            <div class="col-md-3" style="color:white">
+                <label class="label">Teléfono</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    <input type="text" class="form-control" placeholder="Ingrese teléfono" name="Telefono" style="padding-right:15px;">
+                </div>
+            </div>
+            @* Ciudad *@
+            <div class="col-md-2" style="color:white">
+                <label class="label">Ciudad</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-city"></i></span>
+                    <input type="text" class="form-control" name="Ciudad" placeholder="Ingrese ciudad">
+                </div>
+            </div>
+
+            @* Boton Busqueda *@
+            <div class="col-md-1">
+                <button type="submit" style="float:left;height:32px;width:50px;margin-top:21.5px;" class="btn btn-sm btn-outline-light fa fa-pull-right" onclick="if (window.PaginadorPrincipal){ PaginadorPrincipal.destroy(); delete window.idPaginadorPrincipal;}">
+                    <span class="fa fa-search"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" asp-for="PaginaActual" id="PaginaActual" />
+    <input type="hidden" asp-for="RegistrosPorPagina" id="RegistrosPorPagina" />
+    <input type="hidden" name="RegistrosPaginaActual" id="RegistrosPaginaActual" value="@Model.Clientes?.Count()" />
+</form>
+
+<div style="margin-top:10px;">
+    <button id="AddUser" type="button" style="margin-bottom:10px;" class="btn btn-sm btn-light fa-pull-right" onclick="return jqGetModalAddCliente(this)"><span class="fa fa-plus"></span> Nuevo <b>Cliente</b></button>
+    <button type="button" style="margin-bottom:10px; margin-right:5px;" class="btn btn-sm btn-outline-success fa-pull-right" onclick="return jqGetModalImportarExcel();"><i class="fa fa-file-excel"></i> Importar Excel</button>
+</div>
+
+<div id="idResultadosFiltro" class="text-center" style="margin-top:10px;">
+    @{
+        await Html.RenderPartialAsync("TablaClientes", Model.Clientes);
+    }
+</div>
+
+@* Paginacion *@
+<div id="idPaginadorPrincipal" class="text-center m-1">
+    <a class="btn btn-sm btn-outline-primary PaginaAnterior" onclick="PaginadorPrincipal.paginaAnterior()">
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+    </a>
+    <span class="m-2 TextoPaginacion" style="color:white;">@Model.PaginaActual</span>
+    <a class="btn btn-sm btn-outline-primary PaginaSiguiente" onclick="PaginadorPrincipal.paginaSiguiente()">
+        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+    </a>
+</div>
+
+<br/>
+
+@section Styles {
+    <link href="~/css/Pacientes.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/js/plugins/draggable.js"></script>
+    <script src="~/js/Paginador.js" asp-append-version="true"></script>
+    <script src="~/js/Clientes.js" asp-append-version="true"></script>
+}
+
+@section Modals {
+    @* Modal agregar cliente *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="addClienteModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center"><i class="fa-solid fa-users"></i> Alta Cliente</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal modificar cliente *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="updateClienteModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center"><i class="fa-solid fa-users"></i> Modificar datos del Cliente</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal eliminar cliente *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="deleteClienteModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center"><i class="fa-solid fa-users"></i> Eliminar cliente</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal importar clientes *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="importarExcel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center"><i class="fa fa-file-excel"></i> Importar clientes</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Modal Envio Correo *@
+    <div class="modal fade" tabindex="-1" role="dialog" data-bs-backdrop="static" data-keyboard="false" id="modalEnvioCorreo">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center"><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar Correo a Cliente</h5>
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se insertará el contenido dinámico -->
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    for (var i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+</script>

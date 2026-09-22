@@ -1,4 +1,4 @@
-@using Epsilon.ViewModels
+﻿@using Epsilon.ViewModels
 @model ViewFormAgregarCita
 
 @* Formulario modal para modificación y eliminación de una cita médica existente *@
@@ -13,16 +13,16 @@
         </h4>
 
         <div class="row">
-            <!-- Primera columna: Paciente, Médico y Tratamiento -->
+            <!-- Primera columna: Cliente, Personal y Servicio -->
             <div class="col-md-6">
 
-                @* PACIENTE *@
+                @* Cliente *@
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Paciente</label>
+                    <label class="form-label fw-bold">Cliente</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-                        <select class="form-select" asp-for="IdPaciente" asp-items="Model.ListaPacientes" required>
-                            <option value="">-- Seleccione un paciente --</option>
+                        <select class="form-select" asp-for="IdCliente" asp-items="Model.ListaClientes" required>
+                            <option value="">-- Seleccione un Cliente --</option>
                         </select>
                     </div>
                 </div>
@@ -32,52 +32,52 @@
                     <label class="form-label fw-bold">Clínica</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-hospital"></i></span>
-                        <select class="form-select" id="selectClinicaModificar" asp-for="IdClinica" asp-items="Model.ListaClinicas" required onchange="jqFiltrarMedicosPorClinica('modificarCitaForm', this.value)">
+                        <select class="form-select" id="selectClinicaModificar" asp-for="IdSede" asp-items="Model.ListaSedes" required onchange="jqFiltrarMedicosPorClinica('modificarCitaForm', this.value)">
                             <option value="">-- Seleccione una clínica --</option>
                         </select>
                     </div>
                 </div>
 
-                @* MÉDICO *@
+                @* Personal *@
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Médico / Especialista</label>
+                    <label class="form-label fw-bold">Personal / Especialista</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-user-doctor"></i></span>
-                        <select class="form-select" id="selectMedicoModificar" asp-for="IdMedico" required onchange="jqAutoseleccionarClinica('modificarCitaForm', this)">
-                            <option value="">-- Seleccione un médico --</option>
-                            @if (Model.ClinicasDisponibles != null && Model.MedicosDisponibles != null)
+                        <select class="form-select" id="selectMedicoModificar" asp-for="IdEmpleado" required onchange="jqAutoseleccionarClinica('modificarCitaForm', this)">
+                            <option value="">-- Seleccione un Personal --</option>
+                            @if (Model.SedesDisponibles != null && Model.PersonalDisponible != null)
                             {
-                                foreach (var c in Model.ClinicasDisponibles)
+                                foreach (var c in Model.SedesDisponibles)
                                 {
-                                    var medicosDeClinica = Model.MedicosDisponibles.Where(m => m.IdClinica == c.IdClinica).ToList();
+                                    var medicosDeClinica = Model.PersonalDisponible.Where(m => m.IdSede == c.IdSede).ToList();
                                     if (medicosDeClinica.Any())
                                     {
-                                        <optgroup label="@c.NombreClinica" data-idclinica="@c.IdClinica">
+                                        <optgroup label="@c.NombreSede" data-IdSede="@c.IdSede">
                                             @foreach (var m in medicosDeClinica)
                                             {
-                                                <option value="@m.IdMedico" data-clinica="@m.IdClinica" selected="@(m.IdMedico == Model.IdMedico)">
-                                                    @m.NombreMedico - @m.Especialidad
+                                                <option value="@m.IdEmpleado" data-clinica="@m.IdSede" selected="@(m.IdEmpleado == Model.IdEmpleado)">
+                                                    @m.NombreEmpleado - @m.Puesto
                                                 </option>
                                             }
                                         </optgroup>
                                     }
                                 }
-                                var sinClinica = Model.MedicosDisponibles.Where(m => !m.IdClinica.HasValue).ToList();
+                                var sinClinica = Model.PersonalDisponible.Where(m => !m.IdSede.HasValue).ToList();
                                 if (sinClinica.Any())
                                 {
-                                    <optgroup label="Sin clínica asignada" data-idclinica="0">
+                                    <optgroup label="Sin clínica asignada" data-IdSede="0">
                                         @foreach (var m in sinClinica)
                                         {
-                                            <option value="@m.IdMedico" data-clinica="" selected="@(m.IdMedico == Model.IdMedico)">
-                                                @m.NombreMedico - @m.Especialidad
+                                            <option value="@m.IdEmpleado" data-clinica="" selected="@(m.IdEmpleado == Model.IdEmpleado)">
+                                                @m.NombreEmpleado - @m.Puesto
                                             </option>
                                         }
                                     </optgroup>
                                 }
                             }
-                            else if (Model.ListaMedicos != null)
+                            else if (Model.ListaPersonal != null)
                             {
-                                foreach (var item in Model.ListaMedicos)
+                                foreach (var item in Model.ListaPersonal)
                                 {
                                     <option value="@item.Value" selected="@item.Selected">@item.Text</option>
                                 }
@@ -86,13 +86,13 @@
                     </div>
                 </div>
 
-                @* TRATAMIENTO *@
+                @* Servicio *@
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Tratamiento / Consulta</label>
+                    <label class="form-label fw-bold">Servicio / Consulta</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fa-solid fa-tooth"></i></span>
-                        <select class="form-select" asp-for="IdTratamiento" asp-items="Model.ListaTratamientos" required>
-                            <option value="">-- Seleccione un tratamiento --</option>
+                        <select class="form-select" asp-for="IdServicio" asp-items="Model.ListaServicios" required>
+                            <option value="">-- Seleccione un Servicio --</option>
                         </select>
                     </div>
                 </div>
@@ -159,3 +159,7 @@
         }
     }, 100);
 </script>
+
+
+
+

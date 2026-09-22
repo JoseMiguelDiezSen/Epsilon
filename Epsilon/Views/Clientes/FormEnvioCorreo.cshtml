@@ -1,0 +1,154 @@
+@using Epsilon.ViewModels
+@model ViewFormCorreoElectronico
+
+<form id="idConfiguracionCorreo_Form" method="post">
+
+    <input type="hidden" asp-for="IdCorreo" id="IdCorreo" value="@Model.IdCorreo" />
+
+    <div style="border:1px solid gainsboro;padding:10px;box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
+
+        <div class="row">
+            @* Nombre del Cliente *@
+            <div class="col-md-6">
+                <label for="lblNombrePaciente" class="form-label">Destinatario (Cliente)</label>
+                <input type="text" class="form-control" id="nombrePaciente" name="nombrePaciente" value="@Model.NombrePaciente" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);" readonly>
+            </div>
+
+            @* Correo del Cliente *@
+            <div class="col-md-6">
+                <label for="lblCorreoPaciente" class="form-label">Correo Cliente</label>
+                <input type="text" class="form-control" id="correoPaciente" name="emailPaciente" value="@Model.EmailPaciente" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);" readonly>
+            </div>
+        </div>
+
+        <br />
+
+        @* Modelo de correo *@
+        <div class="row">
+            <div class="col-md-2">
+                <label for="lblModeloCorreo" class="form-label">Plantilla Correo</label>
+            </div>
+
+            @* Selector del modelo del correo *@
+            <div class="col-md-8">
+                <select name="ModeloCorreo" class="form-control form-select" asp-items="Model.ModelosCorreo" title="Listado Modelos de Correo" id="ModeloCorreo" style="margin-bottom:5px;">
+                    <option value="" selected disabled>-- Seleccione una plantilla --</option>
+                </select>
+            </div>
+
+            @* Boton Mostrar / Ocultar Nombre del correo *@
+            <div class="col-md-2">
+                <button type="button" id="botonMostrarNombreCorreo" class="btn btn-sm btn-outline-primary" style="font-size:1em;width:30px;height:30px;margin-top:2px;margin-left:-12px;" aria-hidden="true" title="Nueva plantilla">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+
+                <button type="button" id="botonEliminarCorreo" class="btn btn-sm btn-outline-danger" onclick="return jqPostEliminarModeloCorreo();" style="font-size:1em;width:30px;height:30px;margin-top:2px;margin-left:-0.5px;display: none;" aria-hidden="true" title="Eliminar plantilla">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+
+        @* Nombre *@
+        <div class="row mb-2">
+            <div class="col-md-2">
+                <label for="lblNombre" id="lblCorreo" class="form-label" style="display:none;">Nombre</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" id="NombreCorreoNuevo" name="NombreCorreoNuevo" placeholder="Nombre de la nueva plantilla" style="display:none; box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);" value="@Model.NombreNuevoCorreo" />
+            </div>
+
+            @* Boton Añadir Modelo Correo Nuevo *@
+            <button type="button" id="botonAñadirCorreo" class="btn btn-sm btn-outline-success" onclick="return jqAddModeloCorreo()" style="font-size:1em;width:30px;height:30px;margin-top:2px;margin-left:-0.5px;display:none" aria-hidden="true">
+                <i class="fa fa-save" id="iconoBotton" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        @* Asunto *@
+        <div class="row mb-2">
+            <div class="col-md-2">
+                <label for="subject" class="form-label">Asunto:</label>
+            </div>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Asunto del mensaje" value="@Model.Asunto" style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">
+            </div>
+        </div>
+
+        @* Mensaje *@
+        <div class="row mb-2">
+            <div class="col-md-2">
+                <label for="body" class="form-label">Mensaje:</label>
+            </div>
+            <div class="col-md-10">
+                <textarea class="form-control" id="cuerpoMensaje" name="cuerpoMensaje" rows="6" placeholder="Escribe tu mensaje aquí..." style="box-shadow: inset 0 2px 6px rgba(220,220,220,0.65);">@Model.CuerpoMensaje</textarea>
+            </div>
+        </div>
+
+        @* Checkbox Adjuntos y Respuesta *@
+        <input type="checkbox" id="chkAdjuntos" name="ConAdjuntos" value="true"> AÑADIR ADJUNTOS
+        <input type="checkbox" id="chkRespuesta" name="SolicitarRespuesta" value="true"> SOLICITAR RESPUESTA
+
+        @* Input file de los adjuntos *@
+        <div id="bloqueAdjuntos" style="display:none;">
+            <div class="input-group">
+                <input name="inputAdjuntos" type="file" class="form-control" id="inputAdjuntos">
+                <span class="input-group-text"><i class="fas fa-upload"></i></span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-2">
+        <button id="btnEnviarCorreo" type="button" class="btn btn-primary ml-1" onclick="jqPostEnviarCorreo(this.form)">Enviar Correo</button>
+        <button id="btnCancelar" type="button" class="btn btn-danger ml-1" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+
+</form>
+
+<style>
+    #chkAdjuntos, #chkRespuesta {
+        height: 20px;
+        width: 20px;
+        accent-color: black;
+    }
+</style>
+
+<script>
+    document.getElementById("botonMostrarNombreCorreo").addEventListener("click", function () {
+        const label = document.getElementById("lblCorreo");
+        const input = document.getElementById("NombreCorreoNuevo");
+        const buttonAñadir = document.getElementById("botonAñadirCorreo");
+        const icono = this.querySelector("i");
+        const selector = document.getElementById("ModeloCorreo");
+        const btnEliminar = document.getElementById("botonEliminarCorreo");
+        const asunto = document.getElementById("asunto");
+        const cuerpo = document.getElementById("cuerpoMensaje");
+
+        const visibles = label.style.display === "block";
+
+        if (visibles) {
+            label.style.display = "none";
+            input.style.display = "none";
+            buttonAñadir.style.display = "none";
+            icono.classList.remove("fa-minus");
+            icono.classList.add("fa-plus");
+            selector.disabled = false;
+            selector.value = "";
+        } else {
+            label.style.display = "block";
+            input.style.display = "block";
+            buttonAñadir.style.display = "block";
+            input.focus();
+            icono.classList.remove("fa-plus");
+            icono.classList.add("fa-minus");
+            selector.disabled = true;
+            asunto.value = "";
+            cuerpo.value = "";
+            selector.value = 0;
+            btnEliminar.style.display = "none";
+        }
+    });
+
+    document.getElementById("chkAdjuntos").addEventListener("change", function() {
+        document.getElementById("bloqueAdjuntos").style.display = this.checked ? "block" : "none";
+    });
+</script>

@@ -11,11 +11,6 @@ namespace Negocio.Persistencia
     {
         private readonly ILogger<EpsilonDbContext> _logger;
 
-        /// <summary>
-        /// Constructor del contexto de la BD
-        /// </summary>
-        /// <param name="options"></param>
-        /// <param name="logger"></param>
         public EpsilonDbContext(DbContextOptions<EpsilonDbContext> options, ILogger<EpsilonDbContext> logger) : base(options)
         {
             _logger = logger;
@@ -29,103 +24,24 @@ namespace Negocio.Persistencia
 
             // TABLA USUARIOS
             modelBuilder.Entity<Usuario>().HasKey(u => u.IdUsuario);
-            modelBuilder.Entity<Usuario>().Property(u => u.IdUsuario);
-            modelBuilder.Entity<Usuario>().Property(u => u.Nombre);
-            modelBuilder.Entity<Usuario>().Property(u => u.Password);
-            modelBuilder.Entity<Usuario>().Property(u => u.Email);
-            modelBuilder.Entity<Usuario>().Property(u => u.FechaAlta);
-            modelBuilder.Entity<Usuario>().Property(u => u.Telefono);
-            modelBuilder.Entity<Usuario>().Property(u => u.Activo);
-            modelBuilder.Entity<Usuario>().Property(u => u.FotoPerfil);
-            modelBuilder.Entity<Usuario>().Property(u => u.IdEstadoUsuario);
-
+            
             // TABLA ESTADOS USUARIOS
             modelBuilder.Entity<EstadosUsuario>().HasKey(u => u.IdEstadoUsuario);
-            modelBuilder.Entity<EstadosUsuario>().Property(u => u.IdEstadoUsuario);
-            modelBuilder.Entity<EstadosUsuario>().Property(u => u.EstadoUsuario);
-
-            //TABLA PACIENTES
-            modelBuilder.Entity<Paciente>().HasKey(m => m.IdPaciente);
-            modelBuilder.Entity<Paciente>().Property(m => m.IdPaciente);
-            modelBuilder.Entity<Paciente>().Property(m => m.NombrePaciente);
-            modelBuilder.Entity<Paciente>().Property(m => m.DNI);
-            modelBuilder.Entity<Paciente>().Property(m => m.Telefono);
-            modelBuilder.Entity<Paciente>().Property(m => m.EMail);
-            modelBuilder.Entity<Paciente>().Property(m => m.Direccion);
-            modelBuilder.Entity<Paciente>().Property(m => m.FechaNacimiento);
-            modelBuilder.Entity<Paciente>().Property(m => m.Ciudad);
-            modelBuilder.Entity<Paciente>().Property(m => m.FechaAlta);
-            modelBuilder.Entity<Paciente>().Property(m => m.NumeroConsultas);
-            modelBuilder.Entity<Paciente>().Property(m => m.Asegurado);
-            modelBuilder.Entity<Paciente>().Property(p => p.Observaciones);
-            modelBuilder.Entity<Paciente>().Property(p => p.FechaPrimeraCita);
-            modelBuilder.Entity<Paciente>().Property(p => p.FechaUltimaCita);
-            modelBuilder.Entity<Paciente>().Property(p => p.Alergias);
-            modelBuilder.Entity<Paciente>().Property(p => p.Fumador);
-            modelBuilder.Entity<Paciente>().Property(p => p.CondicionBucal);
-
-            //TABLA MEDICOS
-            modelBuilder.Entity<Medico>().HasKey(m => m.IdMedico);
-            modelBuilder.Entity<Medico>().Property(m => m.IdMedico);
-            modelBuilder.Entity<Medico>().Property(m => m.NombreMedico);
-            modelBuilder.Entity<Medico>().Property(m => m.DNI);
-            modelBuilder.Entity<Medico>().Property(m => m.NumeroColegiado);
-            modelBuilder.Entity<Medico>().Property(m => m.Especialidad);
-            modelBuilder.Entity<Medico>().Property(m => m.Telefono);
-            modelBuilder.Entity<Medico>().Property(m => m.EMail);
-            modelBuilder.Entity<Medico>().Property(m => m.FechaContratacion);
-            modelBuilder.Entity<Medico>().Property(m => m.Activo);
-            modelBuilder.Entity<Medico>().Property(m => m.Observaciones);
-            modelBuilder.Entity<Medico>().Property(m => m.Foto);
-            modelBuilder.Entity<Medico>().Property(m => m.IdClinica);
-
-            //TABLA TRATAMIENTOS
-            modelBuilder.Entity<Tratamiento>().HasKey(m => m.IdTratamiento);
-            modelBuilder.Entity<Tratamiento>().Property(m => m.IdTratamiento);
-            modelBuilder.Entity<Tratamiento>().Property(m => m.NombreTratamiento);
-            modelBuilder.Entity<Tratamiento>().Property(m => m.Duracion);
-            modelBuilder.Entity<Tratamiento>().Property(m => m.Color);
-            modelBuilder.Entity<Tratamiento>().Property(m => m.Precio);
-
-            // TABLA RADIOLOGIA
-            modelBuilder.Entity<Radiografia>().HasKey(p => p.IdRadiografia);
-            modelBuilder.Entity<Radiografia>().Property(p => p.IdRadiografia);
-            modelBuilder.Entity<Radiografia>().Property(p => p.IdPaciente);
-            modelBuilder.Entity<Radiografia>().Property(p => p.Archivo);
-            modelBuilder.Entity<Radiografia>().Property(p => p.Tipo);
-            modelBuilder.Entity<Radiografia>().Property(p => p.FechaArchivo);
-            modelBuilder.Entity<Radiografia>().Property(p => p.Observaciones);
-
-            //TABLA CLINICAS
-            modelBuilder.Entity<Clinica>().HasKey(m => m.IdClinica);
-            modelBuilder.Entity<Clinica>().Property(m => m.IdClinica);
-            modelBuilder.Entity<Clinica>().Property(m => m.NombreClinica);
-            modelBuilder.Entity<Clinica>().Property(m => m.DireccionClinica);
-            modelBuilder.Entity<Clinica>().Property(m => m.LocalidadClinica);
-            modelBuilder.Entity<Clinica>().Property(m => m.TelefonoClinica);
-            modelBuilder.Entity<Clinica>().Property(m => m.EMailClinica);
-            modelBuilder.Entity<Clinica>().Property(m => m.DirectorClinica);
 
             //TABLA CITAS
             modelBuilder.Entity<Citas>().HasKey(e => e.IdCita);
             modelBuilder.Entity<Citas>().Property(e => e.IdCita);
-            modelBuilder.Entity<Citas>().Property(e => e.IdClinica);
+            modelBuilder.Entity<Citas>().Property(e => e.IdSede);
             modelBuilder.Entity<Citas>().Property(e => e.FechaInicio);
             modelBuilder.Entity<Citas>().Property(e => e.FechaFin);
-            modelBuilder.Entity<Citas>().Property(e => e.IdPaciente);
-            modelBuilder.Entity<Citas>().Property(e => e.IdMedico);
+            modelBuilder.Entity<Citas>().Property(e => e.IdCliente);
+            modelBuilder.Entity<Citas>().Property(e => e.IdEmpleado);
             modelBuilder.Entity<Citas>().Property(e => e.Observaciones);
-
-            //TABLA CITA TRATAMIENTOS
-            modelBuilder.Entity<CitaTratamiento>().HasKey(ct => ct.IdCitaTratamiento);
-            modelBuilder.Entity<CitaTratamiento>().Property(ct => ct.IdCitaTratamiento);
-            modelBuilder.Entity<CitaTratamiento>().Property(ct => ct.IdCita);
-            modelBuilder.Entity<CitaTratamiento>().Property(ct => ct.IdTratamiento);
 
             //TABLA AGENDA
             modelBuilder.Entity<Agenda>().HasKey(a => a.IdAgenda);
             modelBuilder.Entity<Agenda>().Property(a => a.IdAgenda);
-            modelBuilder.Entity<Agenda>().Property(a => a.IdMedico);
+            modelBuilder.Entity<Agenda>().Property(a => a.IdEmpleado);
             modelBuilder.Entity<Agenda>().Property(a => a.HoraInicio);
             modelBuilder.Entity<Agenda>().Property(a => a.HoraFin);
             modelBuilder.Entity<Agenda>().Property(a => a.Disponible);
@@ -138,40 +54,15 @@ namespace Negocio.Persistencia
             modelBuilder.Entity<Facturacion>().Property(f => f.FechaFactura);
             modelBuilder.Entity<Facturacion>().Property(f => f.IdCita);
 
-
-
-
-
-
-
-            //modelBuilder.Entity<Tratamiento>().Property(m => m.Precio);
-
-            //TABLA FACTURACION
-            //modelBuilder.Entity<Medicos>().HasKey(m => m.IdMedico);
-            //modelBuilder.Entity<Medicos>().Property(m => m.IdMedico);
-            //modelBuilder.Entity<Medicos>().Property(m => m.NombreMedico);
-            //modelBuilder.Entity<Medicos>().Property(m => m.DNI);
-            //modelBuilder.Entity<Medicos>().Property(m => m.NumeroColegiado);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Especialidad);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Telefono);
-            //modelBuilder.Entity<Medicos>().Property(m => m.EMail);
-            //modelBuilder.Entity<Medicos>().Property(m => m.FechaContratacion);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Activo);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Observaviones);
-            //modelBuilder.Entity<Medicos>().Property(m => m.Foto);
-
-            // TABLA PREFERENCIAS USUARIOS
-            //modelBuilder.Entity<PreferenciasUsuarios>().Property(e => e.IdUsuario);
-            //modelBuilder.Entity<PreferenciasUsuarios>().Property(e => e.IdUsuario);
-
-            //Ejemplo clave compuesta
-            //modelBuilder.Entity<Usuario>().HasKey(x => new { x.IdEdicionPlanificada, x.IdConceptoCoste, x.Anio, x.Mes });
-
+            // CORREOS
             modelBuilder.Entity<CorreosElectronicos>().HasKey(k => k.IdCorreo);
-            modelBuilder.Entity<CorreosElectronicos>().Property(e => e.IdCorreo);
-            modelBuilder.Entity<CorreosElectronicos>().Property(e => e.NombreCorreo);
-            modelBuilder.Entity<CorreosElectronicos>().Property(e => e.Asunto);
-            modelBuilder.Entity<CorreosElectronicos>().Property(e => e.CuerpoMensaje);
+
+            // NUEVAS ENTIDADES ERP / GESTION EMPRESARIAL
+            modelBuilder.Entity<Cliente>().HasKey(c => c.IdCliente);
+            modelBuilder.Entity<Personal>().HasKey(p => p.IdEmpleado);
+            modelBuilder.Entity<Sede>().HasKey(s => s.IdSede);
+            modelBuilder.Entity<Servicio>().HasKey(s => s.IdServicio);
+            modelBuilder.Entity<CitaServicio>().HasKey(cs => cs.IdCitaServicio);
 
             #endregion
 
@@ -179,129 +70,40 @@ namespace Negocio.Persistencia
 
             // Vista [[vDatosUsuarios]]
             modelBuilder.Entity<DatosUsuario>().HasKey(e => e.IdUsuario);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.IdUsuario);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.Nombre);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.Password);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.EMail);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.FechaAlta);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.Telefono);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.FotoPerfil);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.IdEstadoUsuario);
-            modelBuilder.Entity<DatosUsuario>().Property(e => e.EstadoUsuario);
 
-            // Vista [[vDatosPaciente]]
-            modelBuilder.Entity<DatosPacientes>().HasKey(p => p.IdPaciente);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.IdPaciente);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.NombrePaciente);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.DNI);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Telefono);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.EMail);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Direccion);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaAlta);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Ciudad);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.NumeroConsultas);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Asegurado);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaNacimiento);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.Observaciones);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaPrimeraCita);
-            modelBuilder.Entity<DatosPacientes>().Property(p => p.FechaUltimaCita);
-
-            // Vista [[vDatosHistoricoPaciente]]
-            modelBuilder.Entity<DatosHistoricoPaciente>().HasKey(u => new { u.IdPaciente, u.IdCita });
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdPaciente);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombrePaciente);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.DNI);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaAlta);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NumeroConsultas);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaInicio);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.FechaFin);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Observaciones);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombreMedico);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombreClinica);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.IdCita);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.NombreTratamiento);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Precio);
-            modelBuilder.Entity<DatosHistoricoPaciente>().Property(u => u.Duracion);
-
-            // Vista [[vDatosMedicos]]
-            modelBuilder.Entity<DatosMedicos>().HasKey(u => new { u.IdMedico });
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.IdMedico);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.NombreMedico);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.DNI);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.NumeroColegiado);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.IdUsuario);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.IdClinica);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.Titulacion);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.Observaciones);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.Activo);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.FechaContratacion);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.EMail);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.Telefono);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.Especialidad);
-            modelBuilder.Entity<DatosMedicos>().Property(u => u.NombreClinica);
-
-            // Vista [[vDatosTratamientos]]
-            modelBuilder.Entity<DatosTratamientos>().HasKey(t => t.IdTratamiento);
-            modelBuilder.Entity<DatosTratamientos>().Property(t => t.NombreTratamiento);
-            modelBuilder.Entity<DatosTratamientos>().Property(t => t.Duracion);
-            modelBuilder.Entity<DatosTratamientos>().Property(t => t.Color);
-            modelBuilder.Entity<DatosTratamientos>().Property(t => t.Precio);
+            // NUEVAS VISTAS ERP / GESTION EMPRESARIAL
+            modelBuilder.Entity<DatosClientes>().HasKey(c => c.IdCliente);
+            modelBuilder.Entity<DatosPersonal>().HasKey(p => p.IdEmpleado);
+            modelBuilder.Entity<DatosServicios>().HasKey(s => s.IdServicio);
+            modelBuilder.Entity<DatosHistoricoCliente>().HasKey(h => new { h.IdCliente, h.IdCita });
 
             #endregion
         }
 
         #region COLECCIONES
 
-        //Tabla usuarios
         public virtual DbSet<Modelos.Usuario> Usuarios { get; set; }
-
-        //Tabla usuarios
         public virtual DbSet<Modelos.EstadosUsuario> EstadosUsuario { get; set; }
-
-        //Tabla medicos
-        public virtual DbSet<Modelos.Medico> Medicos { get; set; }
-
-        //Tabla pacientes
-        public virtual DbSet<Modelos.Paciente> Pacientes { get; set; }
-
-        // Tabla radiologia
-        public virtual DbSet<Radiografia> Radiografias { get; set; }
-
-        //Tabla clinicas
-        public virtual DbSet<Modelos.Clinica> Clinicas { get; set; }
-
-        //Tabla tratamientos
-        public virtual DbSet<Modelos.Tratamiento> Tratamientos { get; set; }
-
-        //Tabla correos electronicos
         public virtual DbSet<Modelos.CorreosElectronicos> CorreoElectronico { get; set; }
-
-        //Tabla citas
         public virtual DbSet<Modelos.Citas> Citas { get; set; }
-
-        //Tabla cita tratamientos
-        public virtual DbSet<Modelos.CitaTratamiento> CitaTratamientos { get; set; }
-
-        //Tabla agenda médica
         public virtual DbSet<Modelos.Agenda> Agenda { get; set; }
-
-        //Tabla facturación
         public virtual DbSet<Modelos.Facturacion> Facturacion { get; set; }
+
+        public virtual DbSet<Modelos.Cliente> Clientes { get; set; }
+        public virtual DbSet<Modelos.Personal> Personal { get; set; }
+        public virtual DbSet<Modelos.Sede> Sedes { get; set; }
+        public virtual DbSet<Modelos.Servicio> Servicios { get; set; }
+        public virtual DbSet<Modelos.CitaServicio> CitaServicios { get; set; }
 
         #endregion
 
         #region COLECCION_VISTAS
 
-        //Vistas
         public virtual DbSet<Modelos.DatosUsuario> DatosUsuarios { get; set; }
-
-        public virtual DbSet<Modelos.DatosPacientes> DatosPacientes { get; set; }
-
-        public virtual DbSet<Modelos.DatosHistoricoPaciente> DatosHistoricoPaciente { get; set; }
-
-        public virtual DbSet<Modelos.DatosMedicos> DatosMedicos { get; set; }
-
-        public virtual DbSet<Modelos.DatosTratamientos> DatosTratamientos { get; set; }
+        public virtual DbSet<Modelos.DatosClientes> DatosClientes { get; set; }
+        public virtual DbSet<Modelos.DatosPersonal> DatosPersonal { get; set; }
+        public virtual DbSet<Modelos.DatosServicios> DatosServicios { get; set; }
+        public virtual DbSet<Modelos.DatosHistoricoCliente> DatosHistoricoCliente { get; set; }
 
         #endregion
 
@@ -323,15 +125,11 @@ namespace Negocio.Persistencia
         public virtual ExtensionesEpsilon Extensions
         {
             get {
-
                 return _extensiones == null ? new ExtensionesEpsilon(this) : _extensiones;
             }
             set {
                 _extensiones = value;
             }
         }
-
-
     }
 }
- 

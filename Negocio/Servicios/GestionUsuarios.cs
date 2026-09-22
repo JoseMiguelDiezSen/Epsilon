@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Negocio.Persistencia;
@@ -126,12 +126,9 @@ namespace Negocio.Servicios
 
         public bool DeleteUser(int idUsuario)
         {
-            //Opcion 1 con Single
             var usuario = Context.Usuarios.Single(u => u.IdUsuario == idUsuario);
-
-            // Opcion 2 con Where y First()
-            //var usuario1 = Context.Usuarios.Where(u => u.IdUsuario == idUsuario).First();
             Context.Usuarios.Remove(usuario);
+            Context.SaveChanges();
             return true;
         }
 

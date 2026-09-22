@@ -1,0 +1,11 @@
+@using Epsilon.ViewModels
+@model ViewFormAgregarCliente
+
+<div class="modal-body">
+    ¿Está seguro de que desea eliminar al cliente <strong>@Model.NombreCliente</strong>?
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" onclick="jqConfirmarEliminarCliente(@Model.IdCliente)"><i class="fa fa-trash"></i> Eliminar</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+</div>

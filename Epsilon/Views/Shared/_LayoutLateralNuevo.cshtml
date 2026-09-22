@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <!--Icono de la pestaña -->
@@ -66,20 +66,20 @@
                     </div>
 
                     @* GRUPO DE OPCIONES (1) *@
-                    <div class="nav-group @(Context.Request.Path.StartsWithSegments("/Pacientes") || Context.Request.Path.StartsWithSegments("/Escaner3D") || Context.Request.Path.StartsWithSegments("/Informes") ? "expanded" : "")">
+                    <div class="nav-group @(Context.Request.Path.StartsWithSegments("/Clientes") || Context.Request.Path.StartsWithSegments("/Escaner3D") || Context.Request.Path.StartsWithSegments("/Informes") ? "expanded" : "")">
 
                             
                         @* TITULO DE LA SECCION *@
                         <div class="nav-title px-1">
-                            <i class="fa fa-chevron-right me-1"></i>Gestión Pacientes
+                            <i class="fa fa-chevron-right me-1"></i>Gestión Clientes
                         </div>
 
-                        @* PACIENTES *@
+                        @* Clientes *@
                         <div class="nav-items">
-                            @* Item 1: PACIENTES *@
+                            @* Item 1: Clientes *@
                             <div class="nav-item">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Pacientes") ? "active" : "")" asp-controller="Pacientes" asp-action="Index">
-                                    <i class="fa-solid fa-user-injured"></i> Pacientes
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Clientes") ? "active" : "")" asp-controller="Clientes" asp-action="Index">
+                                    <i class="fa-solid fa-user-injured"></i> Clientes
                                 </a>
                             </div>
                             
@@ -100,19 +100,19 @@
                     </div>
 
                     @* GRUPO DE OPCIONES (2) *@
-                    <div class="nav-group @(Context.Request.Path.StartsWithSegments("/Medicos") || Context.Request.Path.StartsWithSegments("/Agenda") ? "expanded" : "")">
+                    <div class="nav-group @(Context.Request.Path.StartsWithSegments("/Personal") || Context.Request.Path.StartsWithSegments("/Agenda") ? "expanded" : "")">
    
                         @* TITULO DE LA SECCION *@
                         <div class="nav-title px-1">
-                            <i class="fa-solid fa fa-chevron-right me-1"></i>Gestión Doctores
+                            <i class="fa-solid fa fa-chevron-right me-1"></i>Gestión Personal
                         </div>
    
                         <div class="nav-items">
 
                             @* Item 1: Doctores *@
                             <div class="nav-item">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Medicos") ? "active" : "")" asp-controller="Medicos" asp-action="Index">
-                                    <i class="fa fa-user-md"></i>Medicos
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Personal") ? "active" : "")" asp-controller="Personal" asp-action="Index">
+                                    <i class="fa fa-user-md"></i>Personal
                                 </a>
                             </div>
 
@@ -151,7 +151,7 @@
                     </div>
 
                     @* GRUPO DE OPCIONES (4) *@
-                    <div class="nav-group @(Context.Request.Path.StartsWithSegments("/Facturacion") || Context.Request.Path.StartsWithSegments("/Tratamientos") || Context.Request.Path.StartsWithSegments("/Estadistica") || Context.Request.Path.StartsWithSegments("/Stock") ? "expanded" : "")">
+                    <div class="nav-group @(Context.Request.Path.StartsWithSegments("/Facturacion") || Context.Request.Path.StartsWithSegments("/Servicios") || Context.Request.Path.StartsWithSegments("/Estadistica") || Context.Request.Path.StartsWithSegments("/Stock") ? "expanded" : "")">
                             
                         @* TITULO DE LA SECCION *@
                         <div class="nav-title px-1">
@@ -167,10 +167,10 @@
                                 </a>
                             </div>
 
-                            @* Item 2: Tratamientos *@
+                            @* Item 2: Servicios *@
                             <div class="nav-item">
-                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Tratamientos") ? "active" : "")" asp-controller="Tratamientos" asp-action="Index">
-                                    <i class="fa-solid fa-file-medical"></i> Tratamientos
+                                <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Servicios") ? "active" : "")" asp-controller="Servicios" asp-action="Index">
+                                    <i class="fa-solid fa-file-medical"></i> Servicios
                                 </a>
                             </div>
 
@@ -623,4 +623,7 @@
     </script>
 </body>
 </html>
+
+
+
 

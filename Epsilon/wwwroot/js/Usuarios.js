@@ -77,13 +77,13 @@
                     rules: {
 
                         Nombre: { required: true },
-                        Email: { required: true, email: true, gmailValido: true },
+                        Email: { required: true, email: true },
                         Password: { required: true, minlength: 6 },
                         Telefono: { required: true, minlength: 9, maxlength: 9, soloNumeros: true }
                     },
                     messages: {
                         Nombre: { required: "(*) Debe introducir un nombre" },
-                        Email: { required: "(*) Debe introducir un email.", gmailValido: "Introduce un correo válido de Gmail" },
+                        Email: { required: "(*) Debe introducir un email." },
                         Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 6 caracteres." },
                         Telefono: { required: "(*) Debe introducir un telefomo.", minlength: "(*) Debe introducir un numero superior (9 cifras)", maxlength: "(*) Debe introducir un numero inferior (9 cifras)", soloNumeros: "(*) Debe introducir solo numeros" },
                     },
@@ -104,9 +104,7 @@
                 });
 
                 // Regla de validacion personalizada pare el Email
-                $.validator.addMethod("gmailValido", function (value, element) {
-                    return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
-                }, "Introduce un correo válido de Gmail");
+                
 
                 // Validacion personalizada telefono
                 $.validator.addMethod("soloNumeros", function (value, element) {
@@ -151,6 +149,7 @@
                             $('#idMsg').html(response.data);
                             OcultarElemento('idDivMsgError');
                             MostrarElemento('idDivMsg');
+                            window.location.reload();
                             //var pagina = $('#PaginaActual').val();
                             //PaginadorPrincipal.irPagina(pagina);
 
@@ -221,13 +220,13 @@
                         ignore: "input[readonly]",
                         rules: {
                             Nombre: { required: true },
-                            Email: { required: true, email: true, gmailValido: true },
+                            Email: { required: true, email: true },
                             Password: { required: true, minlength: 6 },
                             Telefono: { required: true, minlength: 9, maxlength: 9, soloNumeros: true }
                         },
                         messages: {
                             Nombre: { required: "(*) Debe introducir un nombre" },
-                            Email: { required: "(*) Debe introducir un email.", gmailValido: "Introduce un correo válido de Gmail" },
+                            Email: { required: "(*) Debe introducir un email." },
                             Password: { required: "(*) Debe introducir una contraseña.", minlength: "Debe tener al menos 6 caracteres." },
                             Telefono: { required: "(*) Debe introducir un telefomo.", minlength: "(*) Debe introducir un numero superior (9 cifras)", maxlength: "(*) Debe introducir un numero inferior (9 cifras)", soloNumeros: "(*) Debe introducir solo numeros" },
                         },
@@ -254,10 +253,7 @@
                     });
 
                     // Regla de validacion personalizada pare el Email
-                    $.validator.addMethod("gmailValido", function (value, element) {
-                        // Nombre de usuario: 6-20 caracteres, letras, números, . _ -
-                        return this.optional(element) || /^[a-zA-Z0-9._-]{6,20}@gmail\.com$/.test(value);
-                    }, "Introduce un correo válido de Gmail");
+                    
 
                     // Validacion personalizada telefono
                     $.validator.addMethod("soloNumeros", function (value, element) {
@@ -286,16 +282,12 @@
                     processData: false,
                     success: function (response) {
 
-                        // Inserta la vista en el modal como HTML
-                        $('#updateUserModal .modal-body').html(response.data);
-                        // Abre el modal (Bootstrap 4)
-                        //$('#updateUserModal').modal('show');
-
                         // Abre el modal (Bootstrap 5)
-                        let modal = new bootstrap.Modal(document.getElementById('updateUserModal'));
-                        modal.hide();
+                        let modal = bootstrap.Modal.getInstance(document.getElementById('updateUserModal'));
+                        if (modal) { modal.hide(); }
 
                         alert("Usuario modificado correctamente");
+                        window.location.reload();
 
                     },
                     error: function () {
@@ -353,9 +345,10 @@
                     //PaginadorPrincipal.irPagina(pagina);
 
                     // Abre el modal (Bootstrap 5)
-                    let modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
-                    modal.hide();
+                    let modal = bootstrap.Modal.getInstance(document.getElementById('deleteUserModal'));
+                    if (modal) { modal.hide(); }
                     alert("Usuario correctamente eliminado");
+                    window.location.reload();
                 },
 
                 error: function (response) {
@@ -620,3 +613,5 @@
     });
 
 });
+
+

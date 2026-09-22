@@ -1,0 +1,143 @@
+@using Negocio.Persistencia.Modelos
+@model List<DatosHistoricoCliente>
+@{
+    ViewBag.LogoHeader = "JMDNegro.png";
+}
+<hr>
+<h4 class="text-center"><span class="fa-solid fa-users"></span> Historial de Servicios: @(ViewBag.NombreCliente ?? Model.FirstOrDefault()?.NombreCliente ?? "Cliente") <span class="fa-solid fa-users"></span></h4>
+<hr>
+
+@* Tabla Historial de Servicios *@
+<table class="table table-hover table-striped table-info border-1 border-dark" id="tablaHistorial">
+    <thead>
+        <tr>
+            <th class="d-none">IdCita</th>
+            <th class="text-center">Estado</th>
+            <th>Cliente</th>
+            <th>Inicio Servicio</th>
+            <th>Fin Servicio</th>
+            <th>Observaciones</th>
+            <th>Profesional</th>
+            <th>Sede</th>
+            <th>Servicio</th>
+            <th>Precio</th>
+            <th>Duración</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var cita in Model)
+            {
+                <tr>
+                    <td class="d-none">@cita.IdCita</td>
+                    <td class="text-center">
+                        @if (cita.FechaFin <= DateTime.Now)
+                        {
+                            <span class="badge bg-success"><i class="fa fa-check"></i> Realizado</span>
+                        }
+                        else if (cita.FechaInicio > DateTime.Now)
+                        {
+                            <span class="badge bg-warning text-dark"><i class="fa fa-clock"></i> Pendiente</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary"><i class="fa fa-spinner fa-spin"></i> En curso</span>
+                        }
+                    </td>
+                    <td>@cita.NombreCliente</td>
+                    <td>@cita.FechaInicio.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@cita.FechaFin.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@cita.Observaciones</td>
+                    <td>@cita.NombreEmpleado</td>
+                    <td>@cita.NombreSede</td>
+                    <td>@cita.NombreServicio</td>
+                    <td>@cita.Precio €</td>
+                    <td>@((cita.Duracion / 60.0).ToString("0.0")) h</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="11" class="text-center text-muted py-4">
+                    <i class="fa-solid fa-calendar-xmark fa-2x mb-2 d-block"></i> No constan servicios registrados en el historial de este cliente.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div style="margin-bottom:15px;" class="fa-pull-right">
+    <a class="btn btn-secondary" href="/Clientes">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i> Volver a Clientes
+    </a>
+</div>
+
+<div class="row alert alert-secondary d-flex"
+     style="padding:10px; align-items:center; gap:10px;">
+
+    <div class="col-md-auto">
+        <label style="margin:0;">
+            Exportar Historial de @(ViewBag.NombreCliente ?? Model?.FirstOrDefault()?.NombreCliente ?? "Cliente")
+        </label>
+    </div>
+
+    <div class="col-md-auto">
+        <select name="modelosExportacion"
+                class="form-control form-select"
+                title="Listado de Exportaciones" id="modelosExportacion">
+
+            <option value="" selected disabled>(Seleccione una opción)</option>
+            <option value="txt">TXT</option>
+            <option value="pdfListado">PDF (Listado)</option>
+            <option value="pdfTabla">PDF (Tabla)</option>
+            <option value="informe">INFORME</option>
+            <option value="pdfListaZip">ZIP</option>
+        </select>
+    </div>
+
+    <div class="col-md-auto">
+        <button id="ayuda"
+                type="button"
+                class="btn btn-sm btn-outline-dark"
+                title="Exportar Historial"
+                onclick="jqExportarHistorialCliente(@(ViewBag.IdCliente ?? Model?.FirstOrDefault()?.IdCliente ?? 0))">
+
+            <i class="fa fa-download" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <div class="col-md-auto">
+        <strong>Total servicios:</strong>
+        @(Model?.Count ?? 0)
+    </div>
+
+    <div class="col-md-auto">
+        <strong>Realizados:</strong>
+        <span class="text-success fw-bold">@(Model?.Count(x => x.FechaFin <= DateTime.Now) ?? 0)</span>
+    </div>
+
+    <div class="col-md-auto">
+        <strong>Pendientes:</strong>
+        <span class="text-warning text-dark fw-bold">@(Model?.Count(x => x.FechaFin > DateTime.Now) ?? 0)</span>
+    </div>
+
+    <div class="col-md-auto">
+        <strong>Total Importe:</strong>
+        @(Model?.Sum(x => x.Precio) ?? 0) €
+    </div>
+
+    <div class="col-md-auto">
+        <strong>Total Horas:</strong>
+        @((((Model?.Sum(x => x.Duracion) ?? 0)) / 60.0).ToString("0.0")) h
+    </div>
+</div>
+
+@section Styles {
+    <link href="~/css/HistorialPaciente.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/js/Clientes.js" asp-append-version="true"></script>
+}

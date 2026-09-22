@@ -1,0 +1,16 @@
+@using Epsilon.Models
+@model FormImportarExcel
+
+<form id="formImportarExcel" enctype="multipart/form-data" method="post" onsubmit="return jqPostImportarExcel(this);">
+    <div class="mb-3">
+        <label for="fileExcel" class="form-label">Seleccione el archivo Excel (.xlsx)</label>
+        <input class="form-control" type="file" id="fileExcel" name="fileExcel" accept=".xlsx, .xls" required>
+        <div class="form-text">
+            El archivo debe contener columnas: Nombre, DNI/CIF, Teléfono, Email, Dirección, Ciudad.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success"><i class="fa fa-upload"></i> Importar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+    </div>
+</form>
