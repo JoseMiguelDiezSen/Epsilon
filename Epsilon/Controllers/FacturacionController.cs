@@ -30,6 +30,7 @@ namespace Epsilon.Controllers
         [HttpGet, AjaxOnly]
         public IActionResult ObtenerDatosFacturacion()
         {
+            _gestionFacturacion.RecalcularFacturacionGlobal();
             var facturacion = _gestionFacturacion.GetFacturacion().ToList(); 
 
             return Json(new
@@ -42,6 +43,7 @@ namespace Epsilon.Controllers
 
         private FacturacionViewModel CargarViewModel()
         {
+            _gestionFacturacion.RecalcularFacturacionGlobal();
             var facturacion = _gestionFacturacion.GetFacturacion().ToList();
 
             return new FacturacionViewModel
@@ -77,5 +79,20 @@ namespace Epsilon.Controllers
             jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", data);
             return new JsonResult(jsonResponse);
         }
+
+        [HttpPost, AjaxOnly]
+        public JsonResult CalcularFactura()
+        {
+            try
+            {
+                _gestionFacturacion.RecalcularFacturacionGlobal();
+                return new JsonResult(new { StatusCode = 200, message = "Facturación recalculada correctamente." });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { StatusCode = 500, message = "Error al recalcular facturación: " + ex.Message });
+            }
+        }
     }
 }
+

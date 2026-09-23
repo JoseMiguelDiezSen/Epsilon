@@ -14,13 +14,14 @@ using Epsilon.Hubs;
 namespace Epsilon.Controllers
 {
     /// <summary>
-    /// Controlador responsable de la gestión de la Agenda y el calendario FullCalendar.
+    /// Controlador responsable de la gestiÃ³n de la Agenda y el calendario FullCalendar.
     /// </summary>
     public class AgendaController : AbstractSecurityController
     {
         private readonly IRazorRenderService _renderService;
         private readonly IGestionCitas _gestionCitas;
-        // Permite notificar por SignalR a la página de Facturación cuando cambia una cita
+        private readonly IGestionFacturacion _gestionFacturacion;
+        // Permite notificar por SignalR a la pÃ¡gina de FacturaciÃ³n cuando cambia una cita
         private readonly IHubContext<FacturacionHub> _hubContext;
 
         // Paleta de colores para diferenciar citas por doctor si el tratamiento no tiene color
@@ -28,23 +29,25 @@ namespace Epsilon.Controllers
         {
             "#2c3e50", // Azul medianoche
             "#27ae60", // Verde esmeralda
-            "#8e44ad", // Púrpura
-            "#d35400", // Naranja óxido
+            "#8e44ad", // PÃºrpura
+            "#d35400", // Naranja Ã³xido
             "#16a085", // Verde azulado
             "#c0392b", // Rojo granate
-            "#2980b9"  // Azul océano
+            "#2980b9"  // Azul ocÃ©ano
         };
 
         public AgendaController(
             ILogger<AgendaController> logger,
             IGestionCitas gestionCitas,
             IRazorRenderService renderService,
-            IHubContext<FacturacionHub> hubContext)
+            IHubContext<FacturacionHub> hubContext,
+            IGestionFacturacion gestionFacturacion)
 
         {
             _gestionCitas = gestionCitas;
             _renderService = renderService;
             _hubContext = hubContext;
+            _gestionFacturacion = gestionFacturacion;
         }
 
         /// <summary>
@@ -57,14 +60,14 @@ namespace Epsilon.Controllers
 
         /// <summary>
         /// Devuelve el listado de citas en formato JSON compatible con FullCalendar.
-        /// Se llama automáticamente al cargar el calendario y al refrescarlo.
+        /// Se llama automÃ¡ticamente al cargar el calendario y al refrescarlo.
         /// </summary>
         [HttpGet]
         public IActionResult GetEventosCalendario()
         {
             try
             {
-                // Obtenemos las citas y los catálogos en memoria para armar los títulos y colores
+                // Obtenemos las citas y los catÃ¡logos en memoria para armar los tÃ­tulos y colores
                 var citas = _gestionCitas.ObtenerTodas().ToList();
                 var clientes = _gestionCitas.GetClientes()
                     .GroupBy(p => p.IdCliente)
@@ -82,9 +85,9 @@ namespace Epsilon.Controllers
 
                     // Servicio vinculado a la cita
                     var servicio = _gestionCitas.GetServicioCita(cita.IdCita);
-                    string nombreServicio = servicio?.NombreServicio ?? "Servicio estándar";
+                    string nombreServicio = servicio?.NombreServicio ?? "Servicio estÃ¡ndar";
 
-                    // Determinamos el color: primero el color del servicio, o si no el color según el empleado
+                    // Determinamos el color: primero el color del servicio, o si no el color segÃºn el empleado
                     string colorFinal = _coloresDoctores[Math.Abs(cita.IdEmpleado) % _coloresDoctores.Length];
                     if (!string.IsNullOrWhiteSpace(servicio?.Color))
                     {
@@ -106,13 +109,13 @@ namespace Epsilon.Controllers
                     return new
                     {
                         id = cita.IdCita,
-                        title = $"{nombreCliente} — {nombreServicio}",
+                        title = $"{nombreCliente} â€” {nombreServicio}",
                         start = cita.FechaInicio.ToString("yyyy-MM-ddTHH:mm:ss"),
                         end = cita.FechaFin.ToString("yyyy-MM-ddTHH:mm:ss"),
                         backgroundColor = colorFinal,
                         borderColor = colorFinal,
                         textColor = "#ffffff",
-                        display = "block", // Obliga a FullCalendar a pintar un bloque sólido con color de fondo
+                        display = "block", // Obliga a FullCalendar a pintar un bloque sÃ³lido con color de fondo
                         extendedProps = new
                         {
                             idCita = cita.IdCita,
@@ -151,7 +154,7 @@ namespace Epsilon.Controllers
                     fechaInicio = parsedDate;
                 }
 
-                // Fecha de fin por defecto: 30 minutos después
+                // Fecha de fin por defecto: 30 minutos despuÃ©s
                 DateTime fechaFin = fechaInicio.AddMinutes(30);
 
                 // Cargar listas desplegables para el formulario
@@ -204,7 +207,7 @@ namespace Epsilon.Controllers
 
                 // Renderizamos la vista parcial a HTML
                 string html = await _renderService.ToStringAsync("FormAddCita", vm);
-                jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", html);
+                jsonResponse = new JsonResponse("200", "OperaciÃ³n realizada correctamente.", html);
             }
             catch (Exception ex)
             {
@@ -216,14 +219,14 @@ namespace Epsilon.Controllers
         }
 
         /// <summary>
-        /// Acción POST invocada por AJAX para insertar una nueva cita en la base de datos.
+        /// AcciÃ³n POST invocada por AJAX para insertar una nueva cita en la base de datos.
         /// </summary>
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> AgregarCita(ViewFormAgregarCita vm)
         {
             try
             {
-                // Validación básica de coherencia de fechas
+                // ValidaciÃ³n bÃ¡sica de coherencia de fechas
                 if (vm.FechaFin <= vm.FechaInicio)
                 {
                     vm.FechaFin = vm.FechaInicio.AddMinutes(30);
@@ -241,23 +244,24 @@ namespace Epsilon.Controllers
 
                 cita = _gestionCitas.Add(cita); if(vm.IdServicio.HasValue) { _gestionCitas.AddCitaServicio(new Negocio.Persistencia.Modelos.CitaServicio { IdCita = cita.IdCita, IdServicio = vm.IdServicio.Value }); }
 
-                // Notificar a los clientes conectados que hubo un cambio en facturación
+                // Notificar a los clientes conectados que hubo un cambio en facturaciÃ³n
+                _gestionFacturacion.SincronizarFacturaCita(cita.IdCita);
                 await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
 
-                return new JsonResult(new { StatusCode = 200, message = "Cita creada con éxito." });
+                return new JsonResult(new { StatusCode = 200, message = "Cita creada con Ã©xito." });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al insertar cita médica");
+                _logger.LogError(ex, "Error al insertar cita mÃ©dica");
                 Response.StatusCode = 500;
                 return new JsonResult(new { StatusCode = 500, message = "Error al crear la cita: " + ex.Message });
             }
         }
 
         /// <summary>
-        /// Carga la vista parcial modal FormModificarCita con los datos de una cita existente para su edición o borrado.
+        /// Carga la vista parcial modal FormModificarCita con los datos de una cita existente para su ediciÃ³n o borrado.
         /// </summary>
-        /// <param name="idCita">Identificador de la cita médica a modificar</param>
+        /// <param name="idCita">Identificador de la cita mÃ©dica a modificar</param>
         [HttpGet, AjaxOnly]
         public async Task<ActionResult> ModalModificarCita(int idCita)
         {
@@ -268,7 +272,7 @@ namespace Epsilon.Controllers
                 var cita = _gestionCitas.Get(idCita);
                 if (cita == null)
                 {
-                    jsonResponse = new JsonResponse("404", "No se encontró la cita especificada.", string.Empty);
+                    jsonResponse = new JsonResponse("404", "No se encontrÃ³ la cita especificada.", string.Empty);
                     return new JsonResult(jsonResponse);
                 }
 
@@ -305,7 +309,7 @@ namespace Epsilon.Controllers
                     .Select(t => new { Id = t.IdServicio, Texto = $"{t.NombreServicio} ({t.Duracion} min)" })
                     .ToList();
 
-                // Obtenemos la clínica del médico asignado si existe
+                // Obtenemos la clÃ­nica del mÃ©dico asignado si existe
                 int idSedeActual = cita.IdSede;
                 var empleadoActual = _gestionCitas.GetPersonal().FirstOrDefault(m => m.IdEmpleado == cita.IdEmpleado);
                 if (empleadoActual?.IdSede != null && empleadoActual.IdSede.Value > 0)
@@ -335,19 +339,19 @@ namespace Epsilon.Controllers
                 };
 
                 string html = await _renderService.ToStringAsync("FormModificarCita", vm);
-                jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", html);
+                jsonResponse = new JsonResponse("200", "OperaciÃ³n realizada correctamente.", html);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al preparar modal de modificar cita con Id {IdCita}", idCita);
-                jsonResponse = new JsonResponse("500", "Error al cargar el formulario de modificación: " + ex.Message, string.Empty);
+                jsonResponse = new JsonResponse("500", "Error al cargar el formulario de modificaciÃ³n: " + ex.Message, string.Empty);
             }
 
             return new JsonResult(jsonResponse);
         }
 
         /// <summary>
-        /// Acción POST invocada por AJAX para guardar las modificaciones de una cita médica.
+        /// AcciÃ³n POST invocada por AJAX para guardar las modificaciones de una cita mÃ©dica.
         /// </summary>
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> ModificarCita(ViewFormAgregarCita vm)
@@ -373,8 +377,9 @@ namespace Epsilon.Controllers
                 bool resultado = _gestionCitas.Update(cita); if(resultado && vm.IdServicio.HasValue) { _gestionCitas.UpdateCitaServicio(new Negocio.Persistencia.Modelos.CitaServicio { IdCita = cita.IdCita, IdServicio = vm.IdServicio.Value }); }
                 if (resultado)
                 {
-                    // Notificar a los clientes conectados que hubo un cambio en facturación
-                    await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
+                    // Notificar a los clientes conectados que hubo un cambio en facturaciÃ³n
+                    _gestionFacturacion.SincronizarFacturaCita(cita.IdCita);
+                await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
                     return new JsonResult(new { StatusCode = 200, message = "Cita modificada correctamente." });
                 }
 
@@ -382,7 +387,7 @@ namespace Epsilon.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al modificar la cita médica");
+                _logger.LogError(ex, "Error al modificar la cita mÃ©dica");
                 return new JsonResult(new { StatusCode = 500, message = "Error al modificar la cita: " + ex.Message });
             }
         }
@@ -404,7 +409,7 @@ namespace Epsilon.Controllers
                     return new JsonResult(new { StatusCode = 200, message = "Fecha de la cita actualizada correctamente." });
                 }
 
-                return new JsonResult(new { StatusCode = 404, message = "No se encontró la cita especificada." });
+                return new JsonResult(new { StatusCode = 404, message = "No se encontrÃ³ la cita especificada." });
             }
             catch (Exception ex)
             {
@@ -414,9 +419,9 @@ namespace Epsilon.Controllers
         }
 
         /// <summary>
-        /// Carga la vista parcial modal FormDelete para confirmar la eliminación de una cita médica.
+        /// Carga la vista parcial modal FormDelete para confirmar la eliminaciÃ³n de una cita mÃ©dica.
         /// </summary>
-        /// <param name="idCita">Identificador de la cita médica a eliminar</param>
+        /// <param name="idCita">Identificador de la cita mÃ©dica a eliminar</param>
         [HttpGet, AjaxOnly]
         public async Task<ActionResult> ModalEliminarCita(int idCita)
         {
@@ -427,7 +432,7 @@ namespace Epsilon.Controllers
                 var cita = _gestionCitas.Get(idCita);
                 if (cita == null)
                 {
-                    jsonResponse = new JsonResponse("404", "No se encontró la cita especificada.", string.Empty);
+                    jsonResponse = new JsonResponse("404", "No se encontrÃ³ la cita especificada.", string.Empty);
                     return new JsonResult(jsonResponse);
                 }
 
@@ -442,23 +447,23 @@ namespace Epsilon.Controllers
                     FechaInicio = cita.FechaInicio,
                     FechaFin = cita.FechaFin,
                     NombreCliente = paciente?.NombreCliente ?? "el paciente",
-                    NombreEmpleado = medico?.NombreEmpleado ?? "el médico"
+                    NombreEmpleado = medico?.NombreEmpleado ?? "el mÃ©dico"
                 };
 
                 string html = await _renderService.ToStringAsync("FormDeleteCita", vm);
-                jsonResponse = new JsonResponse("200", "Operación realizada correctamente.", html);
+                jsonResponse = new JsonResponse("200", "OperaciÃ³n realizada correctamente.", html);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al preparar modal de eliminar cita con Id {IdCita}", idCita);
-                jsonResponse = new JsonResponse("500", "Error al cargar el formulario de eliminación: " + ex.Message, string.Empty);
+                jsonResponse = new JsonResponse("500", "Error al cargar el formulario de eliminaciÃ³n: " + ex.Message, string.Empty);
             }
 
             return new JsonResult(jsonResponse);
         }
 
         /// <summary>
-        /// Elimina una cita médica por su identificador.
+        /// Elimina una cita mÃ©dica por su identificador.
         /// </summary>
         [HttpPost, AjaxOnly]
         public async Task<JsonResult> EliminarCita(int idCita)
@@ -468,12 +473,13 @@ namespace Epsilon.Controllers
                 bool resultado = _gestionCitas.Delete(idCita);
                 if (resultado)
                 {
-                    // Notificar a los clientes conectados que hubo un cambio en facturación
+                    _gestionFacturacion.EliminarFacturaCita(idCita);
+                    // Notificar a los clientes conectados que hubo un cambio en facturaciÃ³n
                     await _hubContext.Clients.All.SendAsync("ActualizacionFacturacion");
                     return new JsonResult(new { StatusCode = 200, message = "Cita eliminada correctamente." });
                 }
 
-                return new JsonResult(new { StatusCode = 404, message = "No se encontró la cita a eliminar." });
+                return new JsonResult(new { StatusCode = 404, message = "No se encontrÃ³ la cita a eliminar." });
             }
             catch (Exception ex)
             {
@@ -483,5 +489,8 @@ namespace Epsilon.Controllers
         }
     }
 }
+
+
+
 
 
