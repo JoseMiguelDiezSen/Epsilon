@@ -61,3 +61,9 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+###############################################################################
+# Excluir librerías de terceros de las estadísticas de lenguajes de GitHub
+###############################################################################
+Epsilon/wwwroot/lib/** linguist-vendored
+Epsilon/wwwroot/dicom/** linguist-vendored
