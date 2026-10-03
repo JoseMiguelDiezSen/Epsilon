@@ -1,4 +1,4 @@
-﻿using Epsilon.Renders;
+using Epsilon.Renders;
 using Epsilon.Services;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -13,6 +13,9 @@ using System.Net;
 using System.Security.Principal;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Claves locales (API keys, secretos). Archivo en .gitignore: nunca se sube a GitHub.
+builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
