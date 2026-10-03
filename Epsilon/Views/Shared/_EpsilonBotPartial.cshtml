@@ -1,0 +1,60 @@
+﻿@* Epsilon AI - Floating Chat Widget Partial View *@
+<link rel="stylesheet" href="~/css/epsilon-bot.css" asp-append-version="true" />
+
+<div id="epsilon-bot-wrapper">
+    <!-- Chat Window -->
+    <div id="epsilon-bot-window" class="epsilon-bot-window">
+        <!-- Header / Drag Handle -->
+        <div id="epsilon-bot-header" class="epsilon-bot-header" title="Arrastra para mover la ventana">
+            <div class="epsilon-bot-header-info">
+                <div id="epsilon-bot-avatar" class="epsilon-bot-avatar">
+                    <i class="fa fa-user-circle-o"></i>
+                </div>
+                <div>
+                    <h6 class="epsilon-bot-title">Epsilon AI</h6>
+                    <p class="epsilon-bot-subtitle"><i class="fa fa-circle text-success" style="font-size: 8px;"></i> Asistente Corporativo</p>
+                </div>
+            </div>
+            <button id="epsilon-bot-close-btn" class="epsilon-bot-close-btn" title="Cerrar chat">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Messages Area -->
+        <div id="epsilon-bot-messages" class="epsilon-bot-messages">
+            <!-- Dynamic Messages -->
+        </div>
+
+        <!-- Quick Suggestion Chips -->
+        <div class="epsilon-bot-chips">
+            <button type="button" class="epsilon-bot-chip" data-query="¿Cómo consulto la Facturación y cobros?">
+                <i class="fa fa-eur"></i> Facturación
+            </button>
+            <button type="button" class="epsilon-bot-chip" data-query="¿Cómo agendar una Cita?">
+                <i class="fa fa-calendar"></i> Agenda
+            </button>
+            <button type="button" class="epsilon-bot-chip" data-query="¿Cómo buscar un Cliente o Paciente?">
+                <i class="fa fa-users"></i> Clientes
+            </button>
+            <button type="button" class="epsilon-bot-chip" data-query="¿Cómo generar un Informe PDF?">
+                <i class="fa fa-file-pdf-o"></i> Informes
+            </button>
+        </div>
+
+        <!-- Input Footer -->
+        <div class="epsilon-bot-footer">
+            <input type="text" id="epsilon-bot-input" class="epsilon-bot-input" placeholder="Escriba su consulta..." autocomplete="off" />
+            <button id="epsilon-bot-send-btn" class="epsilon-bot-send-btn" title="Enviar mensaje">
+                <i class="fa fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Toggle Button -->
+    <button id="epsilon-bot-toggle-btn" class="epsilon-bot-toggle-btn" title="Abrir Asistente Epsilon AI">
+        <i class="fa fa-comments"></i>
+        <span class="badge-online"></span>
+    </button>
+</div>
+
+<script src="~/js/epsilon-bot.js" asp-append-version="true"></script>

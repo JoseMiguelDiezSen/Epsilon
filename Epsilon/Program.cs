@@ -1,4 +1,5 @@
-using Epsilon.Renders;
+ï»¿using Epsilon.Renders;
+using Epsilon.Services;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
-builder.Services.AddSignalR(); // Activa SignalR en la aplicación
+builder.Services.AddSignalR(); // Activa SignalR en la aplicaciÃ³n
 builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
     options.PageViewLocationFormats.Add("/Pages/Partials/{0}" + RazorViewEngine.ViewExtension);
@@ -40,38 +41,26 @@ builder.Services.AddScoped<IRazorRenderService, RazorRenderService>();
 // Registro del servicio de validadores
 builder.Services.AddScoped<IValidadoresProgesfor, ValidadoresProgesfor>();
 
-// Registro del servicio de acceso al contexto HTTP y al usuario actual
-//builder.Services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
-//builder.Services.AddTransient<IPrincipal>(p => p.GetService<IHttpContextAccessor>()?.HttpContext?.User ?? WindowsPrincipal.Current);
-
 // Registro de los servicios de negocio
 builder.Services.AddScoped<IInformes, Informes>();
 builder.Services.AddScoped<IGestionUsuarios, GestionUsuarios>();
 
 builder.Services.AddScoped<IGestionClientes, GestionClientes>();
 builder.Services.AddScoped<IGestionPersonal, GestionPersonal>();
-builder.Services.AddScoped<IGestionClientes, GestionClientes>();
-builder.Services.AddScoped<IGestionPersonal, GestionPersonal>();
 builder.Services.AddScoped<IGestionServicios, GestionServicios>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
 builder.Services.AddScoped<IGestionEmail, GestionEmail>();
 builder.Services.AddScoped<IGestionCitas, GestionCitas>();
-builder.Services.AddScoped<IGestionFacturacion, GestionFacturacion>(); // Servicio que consulta los registros de facturación
+builder.Services.AddScoped<IGestionFacturacion, GestionFacturacion>(); // Servicio que consulta los registros de facturaciÃ³n
 
+// Registro del servicio de IA Gemini
+builder.Services.AddHttpClient<IGeminiService, GeminiService>();
 
-
-//builder.Services.AddScoped<IGestionFinanciera, GestionFinanciera>();
-//builder.Services.AddScoped<IGestion, GestionClinica>();
 builder.Services.AddSession();
 
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
-
-
-
-//
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -80,13 +69,14 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-//app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
@@ -97,5 +87,3 @@ app.MapControllerRoute(
 app.MapHub<Epsilon.Hubs.FacturacionHub>("/facturacionHub");
 
 app.Run();
-
-

@@ -12,7 +12,6 @@
 - 👨‍⚕️ Gestion de pacientes
     - Administracion de citas
     - Historial Clinico
-    - Pruebas Radiologicas
     - 🦷 Historial clínico dental digital  
 
 - 💳 Facturación y control de pagos

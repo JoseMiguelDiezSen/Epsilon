@@ -368,24 +368,47 @@ main {
         visibility: hidden;
     }
 
+    /* Layout tipo "app": el body mide exactamente la pantalla (sin scroll de ventana).
+       Header y footer mantienen su altura y .page ocupa el hueco restante. */
+    body.layout-nuevo {
+        height: 100vh;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    body.layout-nuevo > header,
+    body.layout-nuevo > .footer {
+        flex-shrink: 0;
+    }
+
     .page {
         flex-direction: row;
+    }
+
+    .layout-nuevo .page {
+        flex: 1 1 auto;
+        min-height: 0; /* permite que .page se encoja y sus hijos hagan scroll interno */
     }
 
     .sidebar {
         width: 250px;
     }
 
-    /* El sidebar ocupa toda la altura de la pantalla y el menú hace scroll interno */
+    /* El sidebar se estira a la altura de .page y el menú hace scroll interno */
     .layout-nuevo .sidebar {
-        height: 100vh;
-        position: sticky;
-        top: 0;
+        flex-shrink: 0;
         overflow: hidden;
     }
 
     .layout-nuevo .sidebar .container {
         flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    /* El contenido de cada página hace scroll dentro de main */
+    .layout-nuevo main {
+        min-width: 0;
         min-height: 0;
         overflow-y: auto;
     }

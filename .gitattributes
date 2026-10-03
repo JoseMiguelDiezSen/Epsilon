@@ -66,4 +66,3 @@
 # Excluir librerías de terceros de las estadísticas de lenguajes de GitHub
 ###############################################################################
 Epsilon/wwwroot/lib/** linguist-vendored
-Epsilon/wwwroot/dicom/** linguist-vendored

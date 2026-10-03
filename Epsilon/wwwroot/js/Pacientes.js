@@ -1,4 +1,4 @@
-﻿jQuery(function () {
+jQuery(function () {
 
     // Paginador tabla
     if (window.PaginadorPrincipal == undefined) {
@@ -305,11 +305,6 @@
     // Funcion para la apertura del historial de un paciente
     jqAbrirHistorialPaciente = (idPaciente) => {
         window.location.href = '/Pacientes/HistorialPaciente?idPaciente=' + idPaciente;
-    }
-
-    // Funcion para la apertura de las radiografias de un paciente
-    jqAbrirRadiografiasPaciente = (idPaciente) => {
-        window.location.href = '/Pacientes/RadiologiaPaciente?idPaciente=' + idPaciente;
     }
 
     // Funcion para generar el informe de un paciente

@@ -1,4 +1,4 @@
-﻿@model Epsilon.Models.FacturacionViewModel
+@model Epsilon.Models.FacturacionViewModel
 
 <hr style="color:black;">
 <h4 class="text-center"><span class="fa-solid fa-sack-dollar"></span> Facturación - Consultas Planificadas <span class="fa-solid fa-sack-dollar"></span></h4>
@@ -69,11 +69,10 @@
     <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
     @* Librerías de Chart.js para dibujar el gráfico *@
     <script src="~/js/charts/chart.umd.min.js"></script>
-    <script src="~/js/charts/chart.min.js"></script>
     <script>
         // Datos iniciales del modelo: se serializan en camelCase para que coincidan con lo que usa Facturacion.js
         const datosChartIniciales = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.DatosChart, new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase }));
-        const totalFacturacionInicial = @Model.TotalFacturacion;
+        const totalFacturacionInicial = @Model.TotalFacturacion.ToString(System.Globalization.CultureInfo.InvariantCulture);
         const totalCitasInicial = @Model.TotalCitas;
     </script>
     <script src="~/js/Facturacion.js" asp-append-version="true"></script>

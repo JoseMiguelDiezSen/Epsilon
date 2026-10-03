@@ -9,9 +9,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "cornerstone-core": "^2.6.1",
-    "cornerstone-wado-image-loader": "^4.13.2",
-    "dicom-parser": "^1.8.21"
-  }
+  "dependencies": {}
 }
